@@ -1,5 +1,10 @@
+"use client"
 import './globals.css'
 import localFont from '@next/font/local'
+import { Provider } from "react-redux"
+import { store } from './state/store'
+import { toast, ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css'
 
 const sahel = localFont({
   src: [{
@@ -29,8 +34,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" dir='rtl'>
-      <body className={`${sahel.variable} font-sans bg-[#bcacc0]`}>
-        <div className='pr-6 pt-6 '>{children}</div>
+      <body className={`${sahel.variable} font-sans bg-[#d6c7da]`}>
+        <Provider store={store}>
+        <ToastContainer style={{zIndex:9999}} />
+          <div className='pr-6 pt-6 '>
+            {children}
+          </div>
+        </Provider>
       </body>
     </html>
   )
