@@ -12,7 +12,8 @@ export interface User {
   }
 
 export interface GlobalState {
-    currentUser: User | null
+    currentUser: User | null,
+    mobileMenu: Boolean
   }
 
 export interface menuItemsObj {

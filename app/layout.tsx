@@ -5,6 +5,7 @@ import { Provider } from "react-redux"
 import { store } from './state/store'
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
+import { ThemeProvider } from "next-themes"
 
 const sahel = localFont({
   src: [{
@@ -30,14 +31,16 @@ export const metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" dir='rtl'>
-      <body className={`${sahel.variable} font-sans bg-white`}>
-        <Provider store={store}>
-        <ToastContainer style={{zIndex:9999}} />
-          <div>
-            {children}
-          </div>
-        </Provider>
-      </body>
+      <ThemeProvider attribute="class">
+        <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800`}>
+          <Provider store={store}>
+          <ToastContainer style={{zIndex:9999}} />
+            <div>
+              {children}
+            </div>
+          </Provider>
+        </body>
+      </ThemeProvider>
     </html>
   )
 }

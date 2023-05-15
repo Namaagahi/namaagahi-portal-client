@@ -5,12 +5,12 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 
 const Menu = ({menuItems} : {menuItems: menuItemsObj[]}) => {
-  const [mobileMenu, setMobileMenu] = useState(false)
+  const [mobileMenu, setMobileMenu] = useState(true)
   const path = usePathname()
   const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
-  
+
   return (
-    <div className="w-full xl:w-[260px] bg-[#E6E6E6] p-4 rounded-2xl">
+    <div className={`${mobileMenu ? 'block' : 'hidden'} w-full xl:w-[260px] bg-[#E6E6E6] dark:bg-black p-4 rounded-2xl`}>
       <ul className="flex flex-col gap-4">
           {menuItems.map((item: menuItemsObj) => (
             <Link href={item.path} key={item.name}>

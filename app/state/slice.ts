@@ -5,6 +5,7 @@ import { GlobalState } from "../lib/interfaces";
 
 const initialState: GlobalState = {
   currentUser: null,
+  mobileMenu: false
 };
 
 export const thisSlice = createSlice({
@@ -17,10 +18,13 @@ export const thisSlice = createSlice({
     removeCurrentUser: (state) => {
       state.currentUser = null
       new Cookies().remove("ut", {path: "/"})
+    },
+    setMobileMenu: (state) => {
+      state.mobileMenu = !state.mobileMenu
     }
   }
 })
 
-export const { setCurrentUser, removeCurrentUser } = thisSlice.actions
+export const { setCurrentUser, removeCurrentUser, setMobileMenu } = thisSlice.actions
 export const selectUser = (state: RootState) => state.thisReducer.currentUser
 export default thisSlice.reducer
