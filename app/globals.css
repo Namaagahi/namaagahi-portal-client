@@ -4,7 +4,13 @@
 
 @layer components {
   .input-primary {
-    @apply 
+    @apply bg-[#E6E6E6] outline-none p-5 rounded-2xl md:w-[70%] w-full text-[#737373]
+  }
+  .btn-primary {
+    @apply mt-12 w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white text-2xl font-bold hover:bg-[#741f12] transition-all
+  }
+  .error-container {
+    @apply bg-pink-200 font-bold text-fuchsia-600 p-1 rounded-xl transform -translate-x-1/2 md:w-[40%] w-full  animate-fade-in-down
   }
 }
 
