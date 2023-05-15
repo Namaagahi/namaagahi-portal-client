@@ -6,10 +6,11 @@ import { selectUser, setCurrentUser } from "./state/slice"
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Logo from "./components/main/LogoSmall"
+import { AxiosError } from "axios"
 
 export default function Home() {
-  const userRef = useRef<any>()
-  const errRef = useRef<any>()
+  const userRef = useRef<HTMLInputElement>(null)
+  const errRef = useRef<HTMLInputElement>()
   const thisAdmin = useSelector(selectUser);
   const dispatch = useDispatch();
 
@@ -29,28 +30,24 @@ export default function Home() {
 
   },[loginInfo.username, loginInfo.password])
 
-  useEffect(() => {
-    setTimeout(() => setLoginInfo({...loginInfo, errMsg:''}), 5000)
-  },[loginInfo.errMsg])
-
   const login = async() => {
     try {
       const res = await userLogin(loginInfo.username, loginInfo.password)
+      toast.success("با موفقیت وارد شدید")
       const accessToken = res?.data.accessToken
       const roles = res?.data?.roles
-      toast.success("با موفقیت وارد شدید");
       console.log(accessToken , roles)
-    } catch (error : any) {
+    } catch (error : Error | AxiosError | any) {
+      console.log(error)
         if(!error.response) setLoginInfo({...loginInfo, errMsg:'خطای اتصال به سرور'})
         else if(error.response?.status == 400) setLoginInfo({...loginInfo, errMsg:'نام کاربری و رمز عبور را وارد کنید.'})
         else if(error.response?.status == 401) setLoginInfo({...loginInfo, errMsg:'نام کاربری یا رمز عبور اشتباه است.'})
         else setLoginInfo({...loginInfo, errMsg:'ورود ناموفق. با پشتیبانی تماس بگیرید.'})
-        errRef.current.focus()
+        errRef.current?.focus()
     }
   }
-
   return (
-    <div>
+    <div className='pr-6 pt-6 '>
       <Logo />
       <div className="grid xl:grid-cols-2 grid-cols-1 py-12 xl:py-48 px-10 xl:px-40 gap-24 place-items-center">
         <div className="order-last opacity-60 ">
@@ -59,7 +56,8 @@ export default function Home() {
             alt="hero"
             width={740}
             height={290}
-        />
+            priority
+          />
         </div>
         <div className="flex flex-col w-full text-center">
           <p className="md:text-5xl text-3xl font-bold text-primary ">{process.env.TITLE}</p> 
@@ -71,7 +69,7 @@ export default function Home() {
             {loginInfo.errMsg? loginInfo.errMsg : ''}
           </p>
           </div>
-          <div className="flex flex-col items-center gap-4 ">
+          <form className="flex flex-col items-center gap-4 ">
             <input
               className="input-primary"
               type="text" 
@@ -91,7 +89,7 @@ export default function Home() {
               required
               onChange={(e) => setLoginInfo({...loginInfo, password: e.target.value}) }
               />
-          </div>
+          </form>
           <button 
             className="btn-primary"
             onClick={login}

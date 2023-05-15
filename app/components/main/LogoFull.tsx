@@ -9,6 +9,7 @@ const LogoFull = () => {
         alt="profile-image"
         width={170}
         height={50}
+        priority
     />
     </>
   )

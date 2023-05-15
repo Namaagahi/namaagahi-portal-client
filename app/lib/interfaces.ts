@@ -14,3 +14,9 @@ export interface User {
 export interface GlobalState {
     currentUser: User | null
   }
+
+export interface menuItemsObj {
+  name: string
+  path: string
+  icon: JSX.Element
+}

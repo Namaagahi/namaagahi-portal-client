@@ -1,7 +1,7 @@
-
+console.log('JH')
 const Dashboard = () => {
   return (
-    <main>Dashboard</main>
+    <main className="ml-[330px] md:ml-0">Dashboard</main>
   )
 }
 
