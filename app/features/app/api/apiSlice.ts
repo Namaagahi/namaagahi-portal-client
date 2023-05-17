@@ -1,3 +1,4 @@
+"use client"
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { setCredentials, logOut } from '../../auth/authSlice'
 
@@ -13,7 +14,7 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
     let result = await baseQuery(args, api, extraOptions)
-    if(result?.error?.originalStatus === 403) { 
+    if(result?.error?.status === 403) { 
         console.log('sending refresh token')
         // send the refresh token to get new access token
         const refreshResult = await baseQuery('/refresh', api, extraOptions)
@@ -25,7 +26,7 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
             //retry the original query with new access token
             result = await baseQuery(args, api, extraOptions)
         } else {
-            api.dispatch(logOut())
+            api.dispatch(logOut(""))
         }
     }
     return result
