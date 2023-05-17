@@ -1,51 +1,50 @@
 "use client"
 import Image from "next/image"
-import { userLogin } from "./apis"
 import { useEffect, useRef, useState } from "react"
-import { selectUser, setCurrentUser } from "./state/slice"
-import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Logo from "./components/main/LogoSmall"
 import { AxiosError } from "axios"
+import { useRouter } from "next/navigation"
+import { useDispatch } from "react-redux"
+import { setCredentials } from "./features/auth/authSlice"
+import { useLoginMutation } from "./features/auth/authApiSlice"
 
 export default function Home() {
   const userRef = useRef<HTMLInputElement>(null)
   const errRef = useRef<HTMLInputElement>()
-  const thisAdmin = useSelector(selectUser);
-  const dispatch = useDispatch();
-
-
-
+  const router = useRouter()
+  const dispatch = useDispatch()
   const [loginInfo, setLoginInfo] = useState({
     username: '',
     password: '',
     errMsg:''
   })
+  const { username, password } = loginInfo
+  const [login, { isLoading }] = useLoginMutation()
 
-  useEffect(() => {
-    userRef.current?.focus()
-  },[])
+  useEffect(() => {userRef.current?.focus()},[])
 
-  useEffect(() => {
+  useEffect(() => {setLoginInfo({...loginInfo, errMsg:''})},[username, password])
 
-  },[loginInfo.username, loginInfo.password])
-
-  const login = async() => {
+  const handleLogin = async () => {
     try {
-      const res = await userLogin(loginInfo.username, loginInfo.password)
+      const userData = await login({username, password}).unwrap()
+      console.log(userData)
+      dispatch(setCredentials(userData))
+      setLoginInfo({...loginInfo, username:'', password:''})
       toast.success("با موفقیت وارد شدید")
-      const accessToken = res?.data.accessToken
-      const roles = res?.data?.roles
-      console.log(accessToken , roles)
+      router.push('/dashboard')
     } catch (error : Error | AxiosError | any) {
       console.log(error)
-        if(!error.response) setLoginInfo({...loginInfo, errMsg:'خطای اتصال به سرور'})
-        else if(error.response?.status == 400) setLoginInfo({...loginInfo, errMsg:'نام کاربری و رمز عبور را وارد کنید.'})
-        else if(error.response?.status == 401) setLoginInfo({...loginInfo, errMsg:'نام کاربری یا رمز عبور اشتباه است.'})
-        else setLoginInfo({...loginInfo, errMsg:'ورود ناموفق. با پشتیبانی تماس بگیرید.'})
-        errRef.current?.focus()
+      if(!error.data) setLoginInfo({...loginInfo, errMsg:'خطای اتصال به سرور'})
+      else if(error.status == 400) setLoginInfo({...loginInfo, errMsg:'نام کاربری و رمز عبور را وارد کنید.'})
+      else if(error.status == 401) setLoginInfo({...loginInfo, errMsg:'نام کاربری یا رمز عبور اشتباه است.'})
+      else setLoginInfo({...loginInfo, errMsg:'ورود ناموفق. با پشتیبانی تماس بگیرید.'})
+      errRef.current?.focus()
     }
   }
+
+  if(isLoading) return <>Loading ...</>
   return (
     <div className='pr-6 pt-6 '>
       <Logo />
@@ -69,7 +68,7 @@ export default function Home() {
             {loginInfo.errMsg? loginInfo.errMsg : ''}
           </p>
           </div>
-          <form className="flex flex-col items-center gap-4 ">
+          <form className="flex flex-col items-center gap-4">
             <input
               className="input-primary"
               type="text" 
@@ -92,7 +91,7 @@ export default function Home() {
           </form>
           <button 
             className="btn-primary"
-            onClick={login}
+            onClick={handleLogin}
           >
             ورود
           </button>

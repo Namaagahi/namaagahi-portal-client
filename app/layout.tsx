@@ -2,7 +2,7 @@
 import './globals.css'
 import localFont from '@next/font/local'
 import { Provider } from "react-redux"
-import { store } from './state/store'
+import { store } from './features/app/store'
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { ThemeProvider } from "next-themes"
@@ -31,16 +31,16 @@ export const metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" dir='rtl'>
-      <ThemeProvider attribute="class">
-        <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800`}>
+      <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800`}>
+        <ThemeProvider attribute="class">
           <Provider store={store}>
           <ToastContainer style={{zIndex:9999}} />
             <div>
               {children}
             </div>
           </Provider>
-        </body>
-      </ThemeProvider>
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

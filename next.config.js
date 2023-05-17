@@ -9,7 +9,7 @@ const nextConfig = {
       remotePatterns: [
         {
           protocol: 'https',
-          hostname: 'drive.google.com',
+          hostname: 's8.uupload.ir',
           port: '',
           // pathname: '/account123/**',
         },

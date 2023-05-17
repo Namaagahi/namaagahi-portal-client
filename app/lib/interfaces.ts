@@ -1,6 +1,7 @@
 export interface User {
     _id: string,
-    username: string
+    avatar: string,
+    username: string,
     roles : {
         Admin?: number
         MediaManager?: number
@@ -12,8 +13,8 @@ export interface User {
   }
 
 export interface GlobalState {
-    currentUser: User | null,
-    mobileMenu: Boolean
+    user: User | null,
+    token: string | null
   }
 
 export interface menuItemsObj {
