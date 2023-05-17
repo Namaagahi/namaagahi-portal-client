@@ -6,6 +6,7 @@ import { TbPackages } from 'react-icons/tb'
 import { FaFileContract } from 'react-icons/fa'
 import { MdDashboardCustomize, MdBusinessCenter } from 'react-icons/md'
 import { menuItemsObj } from "../lib/interfaces"
+import Footer from "../components/footer/Footer"
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
   const menuItems: menuItemsObj[] = [{
@@ -41,12 +42,13 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
   return (
     <div className="p-4 md:p-8 ">
        <Header/> 
-       <div className="flex flex-col xl:flex-row gap-8">
-         <Menu
-          menuItems = {menuItems}
-         />
-          {children}
-       </div>
+        <div className=" flex flex-col xl:flex-row gap-8">
+          <Menu menuItems = {menuItems} />
+          <div className="w-full flex flex-col justify-between">
+            {children}
+            <Footer />
+          </div>
+        </div>
     </div>
   )
 }
