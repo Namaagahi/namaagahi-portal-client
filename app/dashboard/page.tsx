@@ -10,7 +10,7 @@ const Dashboard = () => {
   const { push } = useRouter()
   console.log(token)
 
-  useEffect(() => {!token && push('/')}, [token])
+  useEffect(() => {!token && push('/')}, [])
 
   return (
     <main className="min-h-screen">

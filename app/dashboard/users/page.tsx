@@ -3,8 +3,6 @@ import FiltersContainer from "@/app/components/main/FiltersContainer"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
 import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
-import { User } from "@/app/lib/interfaces"
-import Link from "next/link"
 
 const Users = () => {
   const {
@@ -13,9 +11,13 @@ const Users = () => {
     isSuccess,
     isError,
     error
-  } = useGetUsersQuery('') 
+  } = useGetUsersQuery(undefined, {
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true
+  }
 
-  console.log(users)
+  ) 
 
   let content
 

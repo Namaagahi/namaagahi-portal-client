@@ -40,7 +40,7 @@ const Table = ({users}:{users: User[]}) => {
                                 height={35}
                             />
                         </th>
-                        <td className="px-6 py-4">{user.username}</td>
+                        <td className="px-6 py-4">{user.name}</td>
                         <td className="px-6 py-4">{user.username}</td>
                         <td className="px-6 py-4">{user?.roles.Admin? 
                             <p>ادمین</p> :

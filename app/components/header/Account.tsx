@@ -7,8 +7,8 @@ import { User } from '../../lib/interfaces'
 const Account = () => {
   const user: null | User = useSelector(selectCurrentUser)
   const token = useSelector(selectCurrentToken)
-  console.log(user)
-  console.log(token)
+  // console.log(user)
+  // console.log(token)
   return (
     <div className="bg-black dark:bg-white p-3 rounded-[44px] flex justify-center items-center gap-3">
         <Image 
@@ -18,7 +18,7 @@ const Account = () => {
             width={35}
             height={35}
         />
-        <p className="text-white dark:text-black font-bold">{user?.username}</p>
+        <p className="text-white dark:text-black font-bold">{user?.name}</p>
         {
         user?.roles.Admin? 
           <p className="text-white dark:text-black">ادمین</p> :

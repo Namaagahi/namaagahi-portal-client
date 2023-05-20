@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { RootState } from "../app/store"
+import { RootState } from "../../state & api/store"
 import { GlobalState } from "@/app/lib/interfaces"
 
 const initialState: GlobalState = { 
