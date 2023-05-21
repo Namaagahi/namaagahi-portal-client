@@ -1,5 +1,6 @@
 "use client"
 import FiltersContainer from "@/app/components/main/FiltersContainer"
+import Loading from "@/app/components/main/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
 import User from "@/app/components/users/User"
@@ -18,7 +19,7 @@ const Users = () => {
 
   const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
 
-  if(isLoading) return <>Loading ...</>
+  if(isLoading) return <Loading />
   if(isError) return <p>{error?.data?.message}</p>
   if(isSuccess){
     const { ids } = users

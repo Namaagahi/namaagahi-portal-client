@@ -1,4 +1,5 @@
 "use client"
+import Loading from "@/app/components/main/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
 import Note from "@/app/components/note/Note"
@@ -16,7 +17,7 @@ const Tasks = () => {
 
   const notesTableHeadings = ['کاربر', 'عنوان', 'شرح', 'وضعیت','عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
   
-  if(isLoading) return <>Loading ...</>
+  if(!isLoading) return <Loading/>
   if(isError) return <p>{error?.data?.message}</p>
   if(isSuccess){
     const { ids } = notes

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./features/auth/authSlice"
 import { useLoginMutation } from "./features/auth/authApiSlice"
+import Loading from "./components/main/Loading"
 
 export default function Home() {
   const userRef = useRef<HTMLInputElement>(null)
@@ -44,7 +45,7 @@ export default function Home() {
     }
   }
 
-  if(isLoading) return <>Loading ...</>
+  if(isLoading) return <Loading/>
   return (
     <div className='pr-6 pt-6 '>
       <Logo />
