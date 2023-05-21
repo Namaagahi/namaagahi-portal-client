@@ -1,4 +1,5 @@
 const Table = ({ tableContent, tableHeadings }: {tableContent:any, tableHeadings:string[]}) => {
+
   return (
     <div className="relative overflow-x-auto mt-5">
           <table className="w-full text-sm text-right text-gray-500 dark:text-gray-400 ">

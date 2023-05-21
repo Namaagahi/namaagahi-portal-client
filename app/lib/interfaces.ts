@@ -11,11 +11,16 @@ export interface UserObject {
     refreshToken?: string
   }
 
-export interface Note {
+export interface NoteObject {
+  id? : string,
+  _id: string,
   user: string,
   title: string,
   text: string,
   completed?: boolean
+  createdAt: string,
+  updatedAt: string,
+  username: string
 }
 
 export interface GlobalState {

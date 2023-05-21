@@ -9,8 +9,8 @@ import Status from "../main/Status"
 
 const User = ({ userId }: { userId: string }) => {
     const user: UserObject | any = useSelector(state => selectUserById(state, userId))
-    console.log(user)
     const { push } = useRouter()
+    
     if(user) {
         const handleEdit = () => <EditModal />
         const userRolesString = user.roles.toString().replaceAll(',',', ')

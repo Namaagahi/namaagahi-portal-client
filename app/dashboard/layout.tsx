@@ -34,8 +34,8 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     path: '/dashboard/contracts',
     icon: <FaFileContract size={20} />
   }, {
-    name: 'صفحه شش',
-    path: '/dashboard/custom',
+    name: 'وظایف',
+    path: '/dashboard/tasks',
     icon: <MdDashboardCustomize size={20} />
 }]
 

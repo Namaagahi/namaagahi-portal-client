@@ -15,19 +15,21 @@ const Users = () => {
     error
   } = useGetUsersQuery(undefined) 
 
-  const userTableProps = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
+
+  const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
 
   if(isLoading) return <>Loading ...</>
   if(isError) return <p>{error?.data?.message}</p>
   if(isSuccess){
     const { ids } = users
-    const tableContent = ids?.length && ids.map((userId: string) => <User key={userId} userId={userId} />)
+    const userTableContent = ids?.length && ids.map((userId: string) => <User key={userId} userId={userId} />)
+
     return (
       <>
         <PageTitle name={'مدیریت کاربران'}/>
         <Table 
-          tableContent = {tableContent}
-          tableHeadings = {userTableProps}
+          tableContent = {userTableContent}
+          tableHeadings = {usersTableHeadings}
         />
       </>
     )
