@@ -2,7 +2,9 @@
 import FiltersContainer from "@/app/components/main/FiltersContainer"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
-import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
+import User from "@/app/components/users/User"
+import { useGetUsersQuery } from "@/app/state & api/usersApiSlice"
+
 
 const Users = () => {
   const {
@@ -11,30 +13,26 @@ const Users = () => {
     isSuccess,
     isError,
     error
-  } = useGetUsersQuery(undefined, {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
-  }
+  } = useGetUsersQuery(undefined) 
 
-  ) 
+  const userTableProps = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
 
-  let content
-
-  if(isLoading) {
-    content = <p>Loading ...</p>
-  } else if (isSuccess) {
-    content = (
-      <section className="min-h-screen">
-        <PageTitle name={'مدیریت کاربران'} />
-        <FiltersContainer/>
-        <Table users={users} />
-      </section>
+  if(isLoading) return <>Loading ...</>
+  if(isError) return <p>{error?.data?.message}</p>
+  if(isSuccess){
+    const { ids } = users
+    const tableContent = ids?.length && ids.map((userId: string) => <User key={userId} userId={userId} />)
+    return (
+      <>
+        <PageTitle name={'مدیریت کاربران'}/>
+        <Table 
+          tableContent = {tableContent}
+          tableHeadings = {userTableProps}
+        />
+      </>
     )
-  } else if (isError) {
-    content = <p>{ JSON.stringify(error) }</p>
   }
-  return content
+
 }
 
 export default Users

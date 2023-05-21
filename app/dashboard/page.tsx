@@ -6,11 +6,11 @@ import { useEffect } from "react"
 import PageTitle from "../components/main/PageTitle"
 
 const Dashboard = () => {
-  const token = useSelector(selectCurrentToken)
-  const { push } = useRouter()
-  console.log(token)
+  // const token = useSelector(selectCurrentToken)
+  // const { push } = useRouter()
+  // console.log(token)
 
-  useEffect(() => {!token && push('/')}, [])
+  // useEffect(() => {!token && push('/')}, [])
 
   return (
     <main className="min-h-screen">

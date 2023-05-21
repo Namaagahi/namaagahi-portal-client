@@ -1,20 +1,25 @@
-export interface User {
+export interface UserObject {
+    id? : string,
     _id: string,
     name:string,
     avatar: string,
     username: string,
-    roles : {
-        Admin?: number
-        MediaManager?: number
-        Planner?: number
-    }
-    password: string
+    roles : string[]
+    password: string,
+    active: boolean,
     __v: number,
     refreshToken?: string
   }
 
+export interface Note {
+  user: string,
+  title: string,
+  text: string,
+  completed?: boolean
+}
+
 export interface GlobalState {
-    user: User | null,
+    user: UserObject | null,
     token: string | null
   }
 
