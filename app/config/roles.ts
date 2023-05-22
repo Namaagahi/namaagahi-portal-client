@@ -1,5 +1,5 @@
 export const ROLES = {
-    Planner : 'Planner',
-    MediaManager : 'MediaManager',
-    Admin : 'Admin'
+    پذیرشگر : 'پذیرشگر',
+    مدیررسانه : 'مدیررسانه',
+    ادمین : 'ادمین'
 }

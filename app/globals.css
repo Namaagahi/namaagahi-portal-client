@@ -6,6 +6,9 @@
   .input-primary {
     @apply bg-[#E6E6E6] outline-none p-5 rounded-2xl md:w-[70%] w-full text-[#737373]
   }
+  .form-input {
+    @apply p-3 text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080]
+  }
   .btn-primary {
     @apply mt-12 w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
   }

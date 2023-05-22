@@ -17,7 +17,7 @@ const User = ({ userId }: { userId: string }) => {
         const handleEditUser = () => setIsEditUser(!isEditUser)
         const userRolesString = user.roles.toString().replaceAll(',',', ')
         const cellStatus = user.active ? '' : 'bg-red-500'
-
+        console.log(user)
         return (
         <>
             <tr 
@@ -35,9 +35,9 @@ const User = ({ userId }: { userId: string }) => {
                 <td className="px-6 py-4">{user.name}</td>
                 <td className="px-6 py-4">{user.username}</td>
                 <td className="px-6 py-4">
-                    {user?.roles.includes("Admin") ? 
+                    {user?.roles.includes("ادمین") ? 
                         <p>ادمین</p> : 
-                        user?.roles.includes("MediaManager") ? 
+                        user?.roles.includes("مدیررسانه") ? 
                         <p>مدیر رسانه</p> : 
                         <p>پذیرشگر</p> 
                     }
