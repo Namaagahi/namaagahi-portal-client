@@ -1,10 +1,13 @@
 "use client"
+import Button from "@/app/components/main/Button"
 import FiltersContainer from "@/app/components/main/FiltersContainer"
 import Loading from "@/app/components/main/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
+import Modal from "@/app/components/modals/Modal"
 import User from "@/app/components/users/User"
 import { useGetUsersQuery } from "@/app/state & api/usersApiSlice"
+import { useState } from "react"
 
 
 const Users = () => {
@@ -16,6 +19,9 @@ const Users = () => {
     error
   } = useGetUsersQuery(undefined) 
 
+  const [isNewUser, setIsNewUser] = useState(false)
+
+  const handleNewUserModal = () => setIsNewUser(!isNewUser)
 
   const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
 
@@ -32,6 +38,17 @@ const Users = () => {
           tableContent = {userTableContent}
           tableHeadings = {usersTableHeadings}
         />
+        <Button 
+          onClickHandler={handleNewUserModal}
+          title="کاربر جدید"
+        />
+        {
+          isNewUser && 
+            <Modal
+              type={'newUser'}
+              handleModal={handleNewUserModal}
+            />
+        }
       </>
     )
   }

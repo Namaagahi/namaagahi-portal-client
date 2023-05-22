@@ -1,9 +1,12 @@
 "use client"
+import Button from "@/app/components/main/Button"
 import Loading from "@/app/components/main/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
+import Modal from "@/app/components/modals/Modal"
 import Note from "@/app/components/note/Note"
 import { useGetNotesQuery } from "@/app/state & api/notesApiSlice"
+import { useState } from "react"
 
 
 const Tasks = () => {
@@ -15,9 +18,13 @@ const Tasks = () => {
     error
   } = useGetNotesQuery(undefined)
 
+  const [isNewTask, setIsNewTask] = useState(false)
+
+  const handleNewTaskModal = () => setIsNewTask(!isNewTask)
+
   const notesTableHeadings = ['کاربر', 'عنوان', 'شرح', 'وضعیت','عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
   
-  if(!isLoading) return <Loading/>
+  if(isLoading) return <Loading/>
   if(isError) return <p>{error?.data?.message}</p>
   if(isSuccess){
     const { ids } = notes
@@ -30,6 +37,17 @@ const Tasks = () => {
           tableContent = {noteTableContent}
           tableHeadings = {notesTableHeadings}
         />
+        <Button 
+          title="وظیفه جدید"
+          onClickHandler={handleNewTaskModal}
+        />
+         {
+          isNewTask && 
+            <Modal
+              type={'newTask'}
+              handleModal={handleNewTaskModal}
+            />
+        }
       </>
     )
   }

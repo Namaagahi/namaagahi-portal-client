@@ -44,7 +44,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
        <Header/> 
         <div className=" flex flex-col xl:flex-row gap-8 ">
           <Menu menuItems = {menuItems} />
-          <div className="w-full flex flex-col  min-h-screen ">
+          <div className="w-full flex flex-col min-h-screen ">
             {children}
             <Footer />
           </div>

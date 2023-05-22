@@ -31,7 +31,7 @@ export const metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en" dir='rtl'>
-      <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800`}>
+      <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800 pb-20`}>
         <ThemeProvider attribute="class">
           <Provider store={store}>
           <ToastContainer style={{zIndex:9999}} />
