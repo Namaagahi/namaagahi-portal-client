@@ -1,7 +1,7 @@
 "use client"
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { UserObject } from "@/app/lib/interfaces"
-import { apiSlice } from "./apiSlice"
+import { apiSlice } from "../../config/api-config/apiSlice"
 
 const usersAdapter = createEntityAdapter({})
 

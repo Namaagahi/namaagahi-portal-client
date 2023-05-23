@@ -2,7 +2,7 @@
 import { selectCurrentToken, selectCurrentUser } from "@/app/features/auth/authSlice"
 import { useSelector } from "react-redux"
 import Image from "next/image"
-import { UserObject } from '../../lib/interfaces'
+import { UserObject } from '../../../lib/interfaces'
 
 const Account = () => {
   // const user: null | User = useSelector(selectCurrentUser)

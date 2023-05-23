@@ -2,7 +2,7 @@
 import './globals.css'
 import localFont from '@next/font/local'
 import { Provider } from "react-redux"
-import { store } from './state & api/store'
+import { store } from './config/state-config/store'
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { ThemeProvider } from "next-themes"

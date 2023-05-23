@@ -1,12 +1,12 @@
-import Header from "../components/header/Header"
-import Menu from "../components/menu/Menu"
+import Menu from "../features/sidemenu/Menu"
 import { IoGrid } from 'react-icons/io5'
 import { HiUsers } from 'react-icons/hi2'
 import { TbPackages } from 'react-icons/tb'
 import { FaFileContract } from 'react-icons/fa'
 import { MdDashboardCustomize, MdBusinessCenter } from 'react-icons/md'
 import { menuItemsObj } from "../lib/interfaces"
-import Footer from "../components/footer/Footer"
+import Footer from "../features/footer/Footer"
+import Header from "../features/header/Header"
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
   const menuItems: menuItemsObj[] = [{

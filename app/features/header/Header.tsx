@@ -1,6 +1,6 @@
-import LogoFull from "../main/LogoFull"
-import LogoSmall from "../main/LogoSmall"
-import ToggleButton from "../main/ToggleButton"
+import LogoFull from "../../components/main/LogoFull"
+import LogoSmall from "../../components/main/LogoSmall"
+import ToggleButton from "../../components/main/ToggleButton"
 import Account from "./Account"
 import { GiHamburgerMenu } from 'react-icons/gi'
 

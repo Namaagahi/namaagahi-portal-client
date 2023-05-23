@@ -1,10 +1,10 @@
-import { selectNoteById } from "@/app/state & api/notesApiSlice"
+import { selectNoteById } from "@/app/features/note/notesApiSlice"
 import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
-import Modal from "../modals/Modal"
+import Modal from "../../components/modals/Modal"
 import { NoteObject } from "@/app/lib/interfaces"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
-import Status from "../main/Status"
+import Status from "../../components/main/Status"
 import moment from "moment"
 import { useState } from "react"
 

@@ -1,11 +1,11 @@
-import { selectUserById } from "@/app/state & api/usersApiSlice"
+import { selectUserById } from "@/app/features/users/usersApiSlice"
 import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
-import Modal from "../modals/Modal"
+import Modal from "../../components/modals/Modal"
 import { UserObject } from "@/app/lib/interfaces"
 import Image from "next/image"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
-import Status from "../main/Status"
+import Status from "../../components/main/Status"
 import { useState } from "react"
 
 const User = ({ userId }: { userId: string }) => {

@@ -1,12 +1,12 @@
 "use client"
 import Button from "@/app/components/main/Button"
 import FiltersContainer from "@/app/components/main/FiltersContainer"
-import Loading from "@/app/components/main/Loading"
+import Loading from "@/app/features/loading/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
 import Modal from "@/app/components/modals/Modal"
-import User from "@/app/components/users/User"
-import { useGetUsersQuery } from "@/app/state & api/usersApiSlice"
+import User from "@/app/features/users/User"
+import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
 import { useState } from "react"
 
 

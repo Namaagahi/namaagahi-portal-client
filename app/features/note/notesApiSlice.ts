@@ -1,7 +1,7 @@
 "use client"
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { NoteObject } from "@/app/lib/interfaces"
-import { apiSlice } from "./apiSlice"
+import { apiSlice } from "../../config/api-config/apiSlice"
 
 const notesAdapter = createEntityAdapter({
     sortComparer: (a: NoteObject, b: NoteObject) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1

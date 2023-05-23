@@ -1,11 +1,11 @@
 "use client"
 import Button from "@/app/components/main/Button"
-import Loading from "@/app/components/main/Loading"
+import Loading from "@/app/features/loading/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
 import Modal from "@/app/components/modals/Modal"
-import Note from "@/app/components/note/Note"
-import { useGetNotesQuery } from "@/app/state & api/notesApiSlice"
+import Note from "@/app/features/note/Note"
+import { useGetNotesQuery } from "@/app/features/note/notesApiSlice"
 import { useState } from "react"
 
 

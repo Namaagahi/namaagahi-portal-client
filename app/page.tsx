@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { setCredentials } from "./features/auth/authSlice"
 import { useLoginMutation } from "./features/auth/authApiSlice"
-import Loading from "./components/main/Loading"
+import Loading from "./features/loading/Loading"
 
 export default function Home() {
   const userRef = useRef<HTMLInputElement>(null)
