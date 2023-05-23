@@ -1,23 +1,29 @@
 import { selectUserById } from "@/app/features/users/usersApiSlice"
 import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
-import Modal from "../../components/modals/Modal"
+import CreateUpdateModal from "../../components/modals/CreateUpdateModal"
 import { UserObject } from "@/app/lib/interfaces"
 import Image from "next/image"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import Status from "../../components/main/Status"
 import { useState } from "react"
+import ConfirmModal from "@/app/components/modals/ConfirmModal"
 
 const User = ({ userId }: { userId: string }) => {
     const user: UserObject | any = useSelector(state => selectUserById(state, userId))
     const { push } = useRouter()
     const [isEditUser, setIsEditUser] = useState(false)
+    const [isDeleteUser, setIsDeleteUser] = useState(false)
     
     if(user) {
         const handleEditUser = () => setIsEditUser(!isEditUser)
+        const handleDeleteUser = () => {
+            setIsDeleteUser(!isDeleteUser)
+            console.log(isDeleteUser)
+        }
         const userRolesString = user.roles.toString().replaceAll(',',', ')
         const cellStatus = user.active ? '' : 'bg-red-500'
-        console.log(user)
+
         return (
         <>
             <tr 
@@ -45,12 +51,15 @@ const User = ({ userId }: { userId: string }) => {
                 <td className="px-6 py-4 flex items-center gap-5">
                     <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit 
-                         className="text-black dark:text-white hover:scale-125 transition-all" size={20}
-                         onClick={handleEditUser}
+                            className="text-black dark:text-white hover:scale-125 transition-all" size={20}
+                            onClick={handleEditUser}
                          />
                     </div>
                     <div className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
-                        <AiFillDelete className="text-orange-600 dark:text-white hover:scale-125 transition-all" size={20}/>
+                        <AiFillDelete 
+                            className="text-orange-600 dark:text-white hover:scale-125 transition-all" size={20}
+                            onClick={handleDeleteUser}    
+                        />
                     </div>
                 </td>
                 <td className="px-6 py-4">
@@ -70,12 +79,22 @@ const User = ({ userId }: { userId: string }) => {
                 </td>
             </tr>
             {
-                isEditUser && 
-                    <Modal 
-                        type={'editUser'}
-                        handleModal={handleEditUser} 
+                isDeleteUser && 
+                    <ConfirmModal 
+                        prop={user} 
+                        handleModal={handleDeleteUser}
+                        type={'delete'}
                     />
             }
+            {
+                isEditUser && 
+                    <CreateUpdateModal 
+                        type={'editUser'}
+                        handleModal={handleEditUser} 
+                        prop={user}
+                    />
+            }
+     
         </>
         )
     } else return null

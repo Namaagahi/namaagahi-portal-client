@@ -1,6 +1,8 @@
-import NewUserForm from "@/app/dashboard/users/NewUserForm"
+import EditUser from "@/app/features/users/EditUser"
+import NewUserForm from "@/app/features/users/NewUserForm"
+import { UserObject } from "@/app/lib/interfaces"
 
-const Modal = ({handleModal, type} : {handleModal: () => void, type: string}) => {
+const CreateUpdateModal = ({handleModal, type, prop} : {handleModal: () => void, type: string, prop?: UserObject | undefined}) => {
   return (
     <div className="fixed top-[50%] left-[50%] flex flex-col justify-center items-center">
       <div onClick={handleModal} className="fixed top-0 left-0 bottom-0 right-0 bg-black bg-opacity-70 z-[1000]"></div>
@@ -9,7 +11,7 @@ const Modal = ({handleModal, type} : {handleModal: () => void, type: string}) =>
           type === 'newUser' ? 
             <NewUserForm handleModal={handleModal}/>
               : type === 'editUser'? 
-                <p>Edit user</p>
+                <EditUser  handleModal={handleModal} user={prop}/>
                 : type === 'newTask'? 
                 <p>New Task</p>
                 : type === 'editTask'? 
@@ -21,4 +23,4 @@ const Modal = ({handleModal, type} : {handleModal: () => void, type: string}) =>
   )
 }
 
-export default Modal
+export default CreateUpdateModal

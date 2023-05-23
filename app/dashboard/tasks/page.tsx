@@ -3,7 +3,7 @@ import Button from "@/app/components/main/Button"
 import Loading from "@/app/features/loading/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
-import Modal from "@/app/components/modals/Modal"
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import Note from "@/app/features/note/Note"
 import { useGetNotesQuery } from "@/app/features/note/notesApiSlice"
 import { useState } from "react"
@@ -43,7 +43,7 @@ const Tasks = () => {
         />
          {
           isNewTask && 
-            <Modal
+            <CreateUpdateModal
               type={'newTask'}
               handleModal={handleNewTaskModal}
             />

@@ -4,7 +4,7 @@ import FiltersContainer from "@/app/components/main/FiltersContainer"
 import Loading from "@/app/features/loading/Loading"
 import PageTitle from "@/app/components/main/PageTitle"
 import Table from "@/app/components/main/Table"
-import Modal from "@/app/components/modals/Modal"
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import User from "@/app/features/users/User"
 import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
 import { useState } from "react"
@@ -29,8 +29,8 @@ const Users = () => {
   if(isError) return <p>{error?.data?.message}</p>
   if(isSuccess){
     const { ids } = users
+    console.log("USERS",users)
     const userTableContent = ids?.length && ids.map((userId: string) => <User key={userId} userId={userId} />)
-
     return (
       <>
         <PageTitle name={'مدیریت کاربران'}/>
@@ -44,7 +44,7 @@ const Users = () => {
         />
         {
           isNewUser && 
-            <Modal
+            <CreateUpdateModal
               type={'newUser'}
               handleModal={handleNewUserModal}
             />

@@ -1,7 +1,7 @@
 import { selectNoteById } from "@/app/features/note/notesApiSlice"
 import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
-import Modal from "../../components/modals/Modal"
+import CreateUpdateModal from "../../components/modals/CreateUpdateModal"
 import { NoteObject } from "@/app/lib/interfaces"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import Status from "../../components/main/Status"
@@ -59,7 +59,7 @@ const Note = ({ noteId }: { noteId: string }) => {
             </tr>
             {
                 isEditTask && 
-                    <Modal 
+                    <CreateUpdateModal 
                         type={'editTask'}
                         handleModal={handleEditTask} 
                     />

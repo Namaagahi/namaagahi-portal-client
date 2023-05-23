@@ -1,85 +1,98 @@
-import { ROLES } from "@/app/config/roles"
-import { useAddNewUserMutation } from "@/app/features/users/usersApiSlice"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import { ImUserPlus } from 'react-icons/im'
+import { useEffect, useState } from 'react';
+import { ROLES } from '@/app/config/roles';
+import { PASSWORD_REGEX, USER_REGEX } from "@/app/lib/constants"
+import { useUpdateUserMutation } from './usersApiSlice'
 import { AiOutlineClose } from 'react-icons/ai'
-import { toast } from "react-toastify"
+import { UserObject } from '@/app/lib/interfaces';
+import { useRouter } from 'next/navigation';
+import Loading from '../loading/Loading';
+import { toast } from 'react-toastify';
 
-const USER_REGEX = /^[A-z]{3,20}$/
-const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 
-const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
-
-    const [addNewUser, {
+const EditUserForm = ({user, handleModal}: {user: UserObject, handleModal: () => void }) => {
+    const [updateUser, {
         isLoading,
         isSuccess,
         isError,
         error
-    }] = useAddNewUserMutation()
+    }] = useUpdateUserMutation()
 
     const { push } = useRouter()
-    const [newUserData, setNewUserData] = useState({
-        name:'',
-        username: '',
+    const [userData, setUserData] = useState({
+        name:user.name,
+        username: user.username,
         validUserName: false,
         password: '',
         validPassWord: false,
-        roles: ['Planner']
+        roles: user.roles,
+        active: user.active
     })
-    const { name, username, password, validUserName, validPassWord, roles } = newUserData
+
+    const { name, username, password, validUserName, validPassWord, roles, active } = userData
 
     useEffect(() => {
-        setNewUserData({...newUserData, validUserName:USER_REGEX.test(username)})
+        setUserData({...userData, validUserName:USER_REGEX.test(username)})
     }, [username])
 
     useEffect(() => {
-        setNewUserData({...newUserData, validPassWord:PASSWORD_REGEX.test(password)})
+        setUserData({...userData, validPassWord:PASSWORD_REGEX.test(password)})
     }, [password])
 
     useEffect(() => {
         if(isSuccess) {
-            setNewUserData({...newUserData, name:'', username:'', password:'', roles:[]})
+            setUserData({...userData, name:'', username:'', password:'', roles:[]})
             push('/dashboard/users')
         }
     }, [isSuccess, push])
+
+    const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setUserData({...userData, name: e.target.value})
+    const onUserameChange = (e: React.ChangeEvent<HTMLInputElement>) => setUserData({...userData, username: e.target.value})
+    const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => setUserData({...userData, password: e.target.value})
+    const onActiveChange = () => setUserData({...userData, active:!active})
 
     const onRolesChange = (e: any) => {
         const values = Array.from(
             e.target.selectedOptions,
             (option: any) => option.value
         )
-        setNewUserData({...newUserData, roles: values})
+        setUserData({...userData, roles: values})
     }
 
-    const canSave = [roles.length, validUserName, validPassWord].every(Boolean) && !isLoading
-
-    const onSaveUserClick = async(e: any) => {
-        e.preventDefault()
-        if(canSave) await addNewUser({ name, username, password, roles })
+    const onSaveUserClick = async (e: any) => {
+        console.log(name)
+        if (password) {
+            await updateUser({ id: user.id, name, username, password, roles, active, avatar: user.avatar })
+        } else {
+            await updateUser({ id: user.id, name, username, roles, active, avatar: user.avatar })
+        }
         handleModal()
-        toast.success('کاربر جدید با موفقیت ساخته شد')
+        toast.success(`کاربر ${user.name} با موفقیت ویرایش شد`)
     }
 
-    const options = Object.values(ROLES).map((role: string) => {
+    const options = Object.values(ROLES).map(role => {
         return (
             <option
                 key={role}
                 value={role}
-            >
-                {role}
-            </option>
+
+            > {role}</option >
         )
     })
-    console.log(newUserData)
+
+    let canSave
+    if (password) canSave = [roles.length, validUserName, validPassWord].every(Boolean) && !isLoading
+    else canSave = [roles.length, validUserName].every(Boolean) && !isLoading
+    
+   if(isLoading) return <Loading/> 
+   console.log(userData)
   return (
     <div className="py-5 px-8 w-full text-black dark:text-white">
-        <form
+         <form
             className="flex flex-col"
             onSubmit={onSaveUserClick}
         >
             <div className="flex justify-between items-center">
-                <p className="md:text-2xl text-xl font-bold">کاربر جدید</p>
+                <p className="md:text-2xl text-xl font-bold">ویرایش کاربر</p>
                 <AiOutlineClose className="cursor-pointer text-xl hover:text-2xl transition-all" onClick={handleModal}/>
             </div>
             <div className="flex flex-col pt-12 pb-7">
@@ -93,7 +106,7 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                     id="name"
                     value={name}
                     autoComplete="off"
-                    onChange={(e) => setNewUserData({...newUserData, name: e.target.value})}
+                    onChange={onNameChange}
                     className={`${isError && 'border-rose-700'} form-input`}
                  />
                 <label className="mt-7" htmlFor="username">نام کاربری</label>
@@ -103,7 +116,7 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                     id="name"
                     value={username}
                     autoComplete="off"
-                    onChange={(e) => setNewUserData({...newUserData, username: e.target.value})}
+                    onChange={onUserameChange}
                     className={`${!validUserName && 'border-rose-700'} form-input`}
                  />
                 <label className="mt-7" htmlFor="password">رمز عبور</label>
@@ -113,12 +126,11 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                     id="password"
                     value={password}
                     autoComplete="off"
-                    onChange={(e) => setNewUserData({...newUserData, password: e.target.value})}
+                    onChange={onPasswordChange}
                     className={`${!validPassWord && 'border-rose-700'} form-input`}
                  />
                 <label className="mt-7" htmlFor="roles">سطح دسترسی</label>
                 <select 
-                
                     className="outline-none text-sm text-center rounded-xl p-3 mt-1 text-gray-700 bg-gray-200"
                     name="roles"
                     id="roles"
@@ -127,8 +139,20 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                     value={roles}
                     onChange={onRolesChange}
                 >{options}</select>
-            </div>
-            <div className="flex items-center gap-6">
+                <label className="mt-7" htmlFor="status">وضعیت</label>
+                <div className='flex items-center gap-3'>
+                    <input
+                        id='status'
+                        name='status'
+                        type='checkbox'
+                        checked={active}
+                        onChange={onActiveChange}
+                        className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                    />
+                    <p>فعال</p>
+                </div>
+                </div>
+                <div className="flex items-center gap-6">
                 <button
                     disabled={!canSave}
                     className={`${!canSave && 'bg-[#afafd2] text-gray-500 border-[#afafd2]'} bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
@@ -143,4 +167,4 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
   )
 }
 
-export default NewUserForm
+export default EditUserForm
