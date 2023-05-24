@@ -30,7 +30,6 @@ export default function Home() {
   const handleLogin = async () => {
     try {
       const userData = await login({username, password}).unwrap()
-      console.log(userData)
       dispatch(setCredentials(userData))
       setLoginInfo({...loginInfo, username:'', password:''})
       toast.success("با موفقیت وارد شدید")

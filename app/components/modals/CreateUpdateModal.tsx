@@ -1,21 +1,26 @@
-import EditUser from "@/app/features/users/EditUser"
+import { CreateUpdateModalProps } from "@/app/lib/interfaces"
 import NewUserForm from "@/app/features/users/NewUserForm"
-import { UserObject } from "@/app/lib/interfaces"
+import EditUser from "@/app/features/users/EditUser"
+import EditNote from "@/app/features/note/EditNote"
+import NewNote from "@/app/features/note/NewNote"
 
-const CreateUpdateModal = ({handleModal, type, prop} : {handleModal: () => void, type: string, prop?: UserObject | undefined}) => {
+const CreateUpdateModal = (props: CreateUpdateModalProps) => {
+
+  const { handleModal, type, prop } = props
+  
   return (
-    <div className="fixed top-[50%] left-[50%] flex flex-col justify-center items-center">
-      <div onClick={handleModal} className="fixed top-0 left-0 bottom-0 right-0 bg-black bg-opacity-70 z-[1000]"></div>
-      <div className="fixed flex flex-col justify-center items-center w-[80%] xl:w-[33%] md:w-[66%] min-h-[50%] bg-white dark:bg-gray-800 rounded-3xl z-[1000]">
+    <div className="modal-container">
+      <div onClick={handleModal} className="backdrop-container"></div>
+      <div className="create-update-modal-content-container">
         { 
           type === 'newUser' ? 
-            <NewUserForm handleModal={handleModal}/>
+            <NewUserForm handleModal={handleModal} />
               : type === 'editUser'? 
-                <EditUser  handleModal={handleModal} user={prop}/>
+                <EditUser  handleModal={handleModal} user={prop} />
                 : type === 'newTask'? 
-                <p>New Task</p>
+                <NewNote handleModal={handleModal} />
                 : type === 'editTask'? 
-                <p>Edit Task</p>
+                <EditNote handleModal={handleModal} note={prop} />
                 : <p>felan hichi lol</p>
         }
       </div>     

@@ -1,5 +1,6 @@
+import { setupListeners } from "@reduxjs/toolkit/dist/query"
 import { configureStore } from "@reduxjs/toolkit"
-import { apiSlice } from "../api-config/apiSlice";
+import { apiSlice } from "../api-config/apiSlice"
 
 export const store = configureStore({
     reducer: {
@@ -11,3 +12,5 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+setupListeners(store.dispatch)
