@@ -59,6 +59,7 @@ export interface CustomError {
       message: string
       stack: string
   }
+  status?: number
 }
 
 export interface UserFormProps {
@@ -118,7 +119,7 @@ export interface ConfirmModalProps {
   type: string
   prop?: UserObject | NoteObject | undefined | any
   handleModal: () => void
-  deleteType: string
+  deleteType0: string
 }
 
 export interface CreateUpdateModalProps {

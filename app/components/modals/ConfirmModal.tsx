@@ -1,5 +1,6 @@
 import DeleteModalContent from "../main/DeleteModalContent"
 import { ConfirmModalProps } from "@/app/lib/interfaces"
+import LogoutModalContent from "../main/LogoutModalContent"
 
 const ConfirmModal = (props: ConfirmModalProps) => {
 
@@ -17,11 +18,13 @@ const ConfirmModal = (props: ConfirmModalProps) => {
             deleteType={deleteType}
           />
           : 
-          <p>logout</p>
+          <LogoutModalContent 
+            handleModal={handleModal}
+          />
         }
       </div>     
     </div>
   )
 }
 
-export default ConfirmModal
+export default ConfirmModal 

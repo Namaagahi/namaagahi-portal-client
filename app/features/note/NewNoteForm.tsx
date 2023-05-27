@@ -1,10 +1,10 @@
 import { useAddNewNoteMutation } from './notesApiSlice'
 import { NoteData, UserObject } from '@/app/lib/interfaces'
+import NoteFormContent from './NoteFormContent'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import NoteFormContent from './NoteFormContent'
 
 const NewNoteForm = ({users, handleModal}: {users: UserObject[], handleModal: () => void}) => {
 

@@ -8,9 +8,11 @@ const NewNote = ({handleModal}: {handleModal: () => void}) => {
 
     const users: UserObject[] | any = useSelector(selectAllUsers)
 
-  return (
-    users ? <NewNoteForm users={users!} handleModal={handleModal} /> : <Loading />
-  )
+    if(!users.length) return <p>در حال حاضر در دسترس نیست.</p>
+
+    return (
+      users ? <NewNoteForm users={users!} handleModal={handleModal} /> : <Loading />
+    )
 }
 
 export default NewNote 
