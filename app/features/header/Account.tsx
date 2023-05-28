@@ -10,51 +10,47 @@ import { AiOutlineSetting } from 'react-icons/ai'
 import { BiUser } from 'react-icons/bi'
 import { useSendLogoutMutation } from "../auth/authApiSlice"
 import ConfirmModal from "@/app/components/modals/ConfirmModal"
+import useAuth from "@/app/hooks/useAuth"
 
 const Account = () => {
   const [showAccountMenu, setShowAccountMenu] = useState(false)
 
   const [isLogout, setIsLogout] = useState(false)
 
-  const handleLogout = () => setIsLogout(!isLogout)
+  const { name, status, avatar } = useAuth()
 
-  const accessToken: string | null = useSelector(selectCurrentToken)
+  const handleLogout = () => setIsLogout(!isLogout)
 
   return (
    <>
     <div 
-      className="relative bg-black dark:bg-white p-3 rounded-[44px] flex justify-center items-center gap-3 text-white dark:text-black"
+      className="account-container"
       onClick={() => setShowAccountMenu(!showAccountMenu)}
     >
-        {/* <Image 
+        <Image 
             className="rounded-full cursor-pointer hover:scale-110 transition-all"
-            src={user?.avatar!}
+            src={avatar!}
             alt="profile-image"
             width={35}
             height={35}
         />
-        <p className="text-white dark:text-black font-bold">{user?.name}</p>
-        {
-        user?.roles.Admin? 
-          <p className="text-white dark:text-black">ادمین</p> :
-           user?.roles.MediaManager?
-            <p className="text-white dark:text-black">مدیر رسانه</p> : 
-            <p className="text-white dark:text-black">پذیرشگر</p>
-        } */}
-        {/* x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" className="absolute w-60 px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5" */}
+        <p className="text-white dark:text-black font-bold">{name}</p>
+        <p className="text-white dark:text-black">{status}</p>
+        
         {showAccountMenu &&
-          <div className="absolute bg-black dark:bg-white top-2 right-2  w-32 px-5 py-3 rounded-xl">
+          <div className="account-menu-container">
           <ul className="space-y-3">
             <li className="font-medium">
-              <Link href="#" className="flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 cursor-pointer">
+              <div
+                className="account-menu-item">
                 <div className="text-2xl">
                   <BiUser/>
                 </div>
                 پروفایل
-              </Link>
+              </div>
             </li>
             <li className="font-medium">
-              <Link href="#" className="flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 cursor-pointer">
+              <Link href="#" className="account-menu-item">
                 <div className="text-2xl">
                   <AiOutlineSetting />
                 </div>
@@ -63,7 +59,7 @@ const Account = () => {
             </li>
             <hr className="dark:border-gray-700"/>
             <li
-              className="font-medium flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4  cursor-pointer"
+              className="account-menu-logout-item"
               onClick={handleLogout}
             >
                 <div className="text-red-600 text-2xl">

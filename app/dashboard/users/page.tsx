@@ -7,9 +7,13 @@ import Loading from "@/app/features/loading/Loading"
 import Button from "@/app/components/main/Button"
 import Table from "@/app/components/main/Table"
 import User from "@/app/features/users/User"
+import useAuth from "@/app/hooks/useAuth"
 import { useState } from "react"
+import AccessDenied from "@/app/components/main/AccessDenied"
 
 const Users = () => {
+
+  const { isAdmin, isMediaManager } = useAuth()
 
   const {
     data: users, 
@@ -40,15 +44,22 @@ const Users = () => {
     return (
       <>
         <PageTitle name={'مدیریت کاربران'}/>
-        <Table 
-          tableContent = {userTableContent}
-          tableHeadings = {usersTableHeadings}
-        />
+        {
+          isAdmin ?
+          <>
+            <Table 
+              tableContent = {userTableContent}
+              tableHeadings = {usersTableHeadings}
+            />
 
-        <Button 
-          onClickHandler={handleNewUserModal}
-          title="کاربر جدید"
-        />
+            <Button 
+              onClickHandler={handleNewUserModal}
+              title="کاربر جدید"
+            />
+          </>
+        :
+        <AccessDenied />
+        }
         
         {
           isNewUser && 

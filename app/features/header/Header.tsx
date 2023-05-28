@@ -7,8 +7,8 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 const Header = () => {
   return (
     <section className="pb-8 flex justify-between items-center">
-      <Account/>
       <LogoFull />
+      <Account/>
       <div className="flex items-center gap-3">
         <ToggleButton />
         <div className="hidden xl:block">

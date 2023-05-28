@@ -12,12 +12,13 @@ import { TbPackages } from 'react-icons/tb'
 import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRefreshMutation } from '../features/auth/authApiSlice'
 import Loading from '../features/loading/Loading'
 import { selectCurrentToken } from '../features/auth/authSlice'
 import usePersist from '../hooks/usePersist'
+import { useRouter } from 'next/navigation'
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
 
@@ -37,6 +38,10 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       isError,
       error
   }] = useRefreshMutation()
+
+  const { push } = useRouter()
+
+  useLayoutEffect(() => {if(!token) push('/')}, [])
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -60,7 +65,6 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       users.unsubscribe()
     }
   }, [])
-
 
   const menuItems: MenuItemsObj[] = [{
     name: 'داشبورد',

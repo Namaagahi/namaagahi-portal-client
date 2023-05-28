@@ -1,9 +1,9 @@
 import { useLoginMutation } from "../auth/authApiSlice"
 import LogoSmall from "@/app/components/main/LogoSmall"
 import { useEffect, useRef, useState } from "react"
-import { setCredentials } from "../auth/authSlice"
+import { selectCurrentToken, setCredentials } from "../auth/authSlice"
 import { useRouter } from "next/navigation"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Loading from "../loading/Loading"
 import { toast } from 'react-toastify'
 import Image from "next/image"
@@ -30,6 +30,10 @@ const Login = () => {
     const [persist, setPersist] = usePersist()
 
     const [login, { isLoading }] = useLoginMutation()
+
+    const token = useSelector(selectCurrentToken)
+  
+    useEffect(() => {if(token) push('/dashboard')}, [])
 
     useEffect(() => {userRef.current?.focus()}, [])
 
@@ -67,12 +71,22 @@ const Login = () => {
         <div className='pr-6 pt-6 '>
             <LogoSmall />
             <div className="grid xl:grid-cols-2 grid-cols-1 py-12 xl:py-48 px-10 xl:px-40 gap-24 place-items-center">
-                <div className="order-last opacity-60 ">
+                <div className="order-last opacity-60 block dark:hidden ">
                     <Image
                     src={'/images/Logo-Black-text.png'}
                     alt="hero"
                     width={740}
-                    height={290}
+                    height={290} 
+                    priority
+                    />
+                </div>
+
+                <div className="order-last opacity-60 ">
+                    <Image
+                    src={'/images/Logo-White-text.png'}
+                    alt="hero"
+                    width={740}
+                    height={290} 
                     priority
                     />
                 </div>
