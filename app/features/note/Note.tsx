@@ -72,7 +72,7 @@ const Note = ({ noteId }: { noteId: string }) => {
                         type={'delete'}
                         deleteType="note"
                     />
-            }
+            } 
 
             {
                 isEditTask && 

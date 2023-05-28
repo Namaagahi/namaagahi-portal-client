@@ -1,6 +1,5 @@
 import { apiSlice } from "@/app/config/api-config/apiSlice"
-import { logOut } from "./authSlice"
-import { QueryLifecycleApi } from "@reduxjs/toolkit/dist/query/endpointDefinitions"
+import { logOut, setCredentials } from "./authSlice"
 
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
@@ -20,14 +19,10 @@ export const authApiSlice = apiSlice.injectEndpoints({
 
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
-                    const {data}=
                     await queryFulfilled
-                    console.log(data)
                     dispatch(logOut(undefined))
                     dispatch(apiSlice.util.resetApiState())
-                } catch (error) {
-                    console.log(error)
-                }
+                } catch (error) { console.log(error) }
             }
         }),
 
@@ -37,15 +32,16 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 method: 'GET'
             }),
 
-            async onQueryStart(arg: any, { dispath, quertFulfilled }: any) {
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
-                    await quertFulfilled
-                    dispath(logOut(undefined))
-                    dispath(apiSlice.util.resetApiState())
-                } catch (error) {
-                    console.log(error)
+                    const { data } = await queryFulfilled
+                    console.log(data)
+                    const { accessToken } = data
+                    dispatch(setCredentials({ accessToken }))
+                } catch (err) {
+                    console.log(err)
                 }
-            } 
+            }
         })
 
     })

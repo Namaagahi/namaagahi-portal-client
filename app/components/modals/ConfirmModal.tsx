@@ -15,7 +15,7 @@ const ConfirmModal = (props: ConfirmModalProps) => {
           <DeleteModalContent
             handleModal={handleModal}
             prop={prop}
-            deleteType={deleteType}
+            deleteType={deleteType!}
           />
           : 
           <LogoutModalContent 

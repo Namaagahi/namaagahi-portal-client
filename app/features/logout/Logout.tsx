@@ -1,37 +1,38 @@
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useSendLogoutMutation } from '../auth/authApiSlice'
+import Loading from '../loading/Loading'
 
 const Logout = ({ handleModal }: { handleModal: () => void }) => {
     const { push } = useRouter()
 
     const [sendLogout, {
-      isLoading,
-      isSuccess,
-      isError,
-      error
+      isLoading
     }] = useSendLogoutMutation()
   
-    useEffect(() => { if(isSuccess) push('/') },[isSuccess, push])
   
-    const onLogoutHandler = () => sendLogout(undefined)
-  
-    if(isError) return <p>Error: {'message' in error && error?.message}</p>
-  return (
-    <div className="flex items-center gap-6">
-            <button
-                onClick={onLogoutHandler}
-                className="btn-confirm"
-            >
-                تایید
-            </button>
+    const onLogoutHandler = () => {
+      sendLogout(undefined)
+      handleModal()
+      push('/')
+    }
 
-            <button 
-                onClick={handleModal}
-                className="btn-cancel"
-            >لغو</button>
-        </div>
-  )
+    if(isLoading) return <Loading />
+    return (
+      <div className="flex items-center gap-6">
+              <button
+                  onClick={onLogoutHandler}
+                  className="btn-confirm"
+              >
+                  تایید
+              </button>
+
+              <button 
+                  onClick={handleModal}
+                  className="btn-cancel"
+              >لغو</button>
+          </div>
+    )
 }
 
 export default Logout

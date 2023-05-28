@@ -26,7 +26,7 @@
     @apply p-3 text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080]
   }
   .btn-primary {
-    @apply mt-12 w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
+    @apply mt-6 w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
   }
   .btn-create {
     @apply w-[150px] m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r

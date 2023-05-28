@@ -18,7 +18,7 @@ const Account = () => {
 
   const handleLogout = () => setIsLogout(!isLogout)
 
-  const accessToken: any = useSelector(selectCurrentToken)
+  const accessToken: string | null = useSelector(selectCurrentToken)
 
   return (
    <>
@@ -78,8 +78,8 @@ const Account = () => {
     {
       isLogout &&
        <ConfirmModal 
-        type={'delete'}
-        
+        type={'logout'}
+        handleModal={handleLogout}
        />
     }
    </>

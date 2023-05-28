@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import Loading from "../loading/Loading"
 import { toast } from 'react-toastify'
-import { AxiosError } from "axios"
 import Image from "next/image"
+import usePersist from "@/app/hooks/usePersist"
 
 const Login = () => {
 
@@ -27,6 +27,8 @@ const Login = () => {
 
     const { username, password } = loginInfo
 
+    const [persist, setPersist] = usePersist()
+
     const [login, { isLoading }] = useLoginMutation()
 
     useEffect(() => {userRef.current?.focus()}, [])
@@ -37,7 +39,9 @@ const Login = () => {
 
     const handlePasswordInput = ((e: React.ChangeEvent<HTMLInputElement>) => setLoginInfo({...loginInfo, password: e.target.value}))
 
-    const handleSubmit = async (e: any) => {
+    const handleToggle = () => setPersist((prev: any) => !prev)
+
+    const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         try {
 
@@ -47,7 +51,7 @@ const Login = () => {
             setLoginInfo({...loginInfo, username:'', password:''})
             push('/dashboard')
 
-        } catch (error:any) {
+        } catch (error: any) {
 
             if(!error.status) setLoginInfo({...loginInfo, errMsg: 'خطای اتصال به سرور'})
             else if(error.status === 400) setLoginInfo({...loginInfo, errMsg: 'نام کاربری و رمز عبور را وارد کنید.'})
@@ -79,7 +83,7 @@ const Login = () => {
                         <p className="text-4xl font-bold mb-2">ورود</p>
                         <hr className="w-48 h-0.5 bg-[#FA9E93] border-0 rounded mb-2  "></hr>
                         <p className="text-xl text-[#C91416] dark:text-pink-300 mb-2">وارد پنل کاربری خود شوید</p>
-                        <p className={`${loginInfo.errMsg.length? 'error-container absolute top-28 left-1/2': 'invisible '}  `}>
+                        <p className={`${loginInfo.errMsg?.length? 'error-container absolute top-28 left-1/2': 'invisible '}  `}>
                         {loginInfo.errMsg? loginInfo.errMsg : ''}
                         </p>
                     </div>
@@ -108,6 +112,17 @@ const Login = () => {
                             required
                             onChange={handlePasswordInput}
                             />
+
+                        <label htmlFor="persist">
+                            <input 
+                                type="checkbox"
+                                id="persist"
+                                checked={persist}
+                                onChange={handleToggle}
+                                className="ml-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            مرا به خاطر بسپار
+                        </label>
 
                         <button className="btn-primary">
                         ورود

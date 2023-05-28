@@ -119,7 +119,7 @@ export interface ConfirmModalProps {
   type: string
   prop?: UserObject | NoteObject | undefined | any
   handleModal: () => void
-  deleteType0: string
+  deleteType?: string
 }
 
 export interface CreateUpdateModalProps {

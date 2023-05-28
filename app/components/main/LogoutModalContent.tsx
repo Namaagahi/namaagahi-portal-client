@@ -11,7 +11,7 @@ const LogoutModalContent = ({ handleModal }: { handleModal: () => void }) => {
 
     <div className="flex flex-col py-12">
         <div className="py-7 border-[1px] border-x-transparent border-y-[#FA9E93]">
-            <p className="text-xl">آیا از انجام این کار مطمئن هستید؟ این عمل برگشت پذیر نخواهد بود.</p>
+            <p className="text-xl">آیا میخواهید خارج شوید؟</p>
         </div>
     </div>
     <Logout 
