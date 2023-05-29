@@ -34,7 +34,7 @@ import Link from "next/link";
                 height: 0,
               }
         }
-        className="flex flex-col gap-1 mt-2 w-full overflow-hidden"
+        className="flex flex-col gap-1 mt-2 pr-4 w-full overflow-hidden"
       >
         {data.menus?.map((menu: any) => (
             <Link 
