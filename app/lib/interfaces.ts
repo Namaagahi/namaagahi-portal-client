@@ -148,3 +148,31 @@ export interface DeleteNoteProps {
   note: NoteObject | undefined
   handleModal: () => void
 }
+
+export interface BoxTypes {
+  boxName: string
+  startDate: Date
+  endDate: Date
+  path: string
+  address: string
+  addressId: string
+  direction: string
+  structureType: string
+  district: string
+  size : {
+    dimensions: string
+    printSize: number
+    documentSize: number
+  }
+  feePersquare: number
+  initialCost: number
+  maintenanceCosts: {
+    maintenance: number
+    paintings: number
+    power: number
+    insurance: number
+    other: number
+  },
+  totalCost: number
+    
+}

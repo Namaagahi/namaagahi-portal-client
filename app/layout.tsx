@@ -1,7 +1,7 @@
 "use client"
 import './globals.css'
 import localFont from '@next/font/local'
-import { Provider, useSelector } from "react-redux"
+import { Provider } from "react-redux"
 import { store } from './config/state-config/store'
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'

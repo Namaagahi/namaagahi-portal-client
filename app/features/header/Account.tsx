@@ -3,23 +3,34 @@ import { selectCurrentToken } from "@/app/features/auth/authSlice"
 import { useSelector } from "react-redux"
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import { usePathname, useRouter } from "next/navigation"
 import Link from "next/link"
 import { IoMdExit } from 'react-icons/io'
 import { AiOutlineSetting } from 'react-icons/ai'
 import { BiUser } from 'react-icons/bi'
-import { useSendLogoutMutation } from "../auth/authApiSlice"
 import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import useAuth from "@/app/hooks/useAuth"
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
+import { UserObject } from "@/app/lib/interfaces"
+import { selectUserById } from "../users/usersApiSlice"
 
 const Account = () => {
+
+  const { id } = useAuth()  
+
+  const user: UserObject | any = useSelector(state => selectUserById(state, id))
+
   const [showAccountMenu, setShowAccountMenu] = useState(false)
 
   const [isLogout, setIsLogout] = useState(false)
 
+  const [isEditProfile, setIsEditProfile] = useState(false)
+
   const { name, status, avatar } = useAuth()
 
   const handleLogout = () => setIsLogout(!isLogout)
+
+  const handleEditProfile = () => setIsEditProfile(!isEditProfile)
+  console.log("USER",user)
 
   return (
    <>
@@ -42,11 +53,11 @@ const Account = () => {
           <ul className="space-y-3">
             <li className="font-medium">
               <div
-                className="account-menu-item">
-                <div className="text-2xl">
-                  <BiUser/>
-                </div>
-                پروفایل
+                className="account-menu-item"
+                onClick={handleEditProfile}
+                >
+                <BiUser className="text-2xl"/>
+                <p>پروفایل</p>
               </div>
             </li>
             <li className="font-medium">
@@ -77,6 +88,15 @@ const Account = () => {
         type={'logout'}
         handleModal={handleLogout}
        />
+    }
+
+    {
+      isEditProfile && 
+      <CreateUpdateModal
+        type={'editUser'}
+        handleModal={handleEditProfile} 
+        prop={user}
+      />
     }
    </>
   )

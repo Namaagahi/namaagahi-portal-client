@@ -16,12 +16,12 @@ const CreateUpdateModal = (props: CreateUpdateModalProps) => {
           type === 'newUser' ? 
             <NewUserForm handleModal={handleModal} />
               : type === 'editUser'? 
-                <EditUser  handleModal={handleModal} user={prop} />
+                <EditUser handleModal={handleModal} user={prop} />
                 : type === 'newTask'? 
                 <NewNote handleModal={handleModal} />
                 : type === 'editTask'? 
                 <EditNote handleModal={handleModal} note={prop} />
-                : <p>felan hichi lol</p>
+                : null
         }
       </div>     
     </div>

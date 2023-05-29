@@ -5,7 +5,7 @@
 @layer components {
   /* CONTAINERS */
   .modal-container {
-    @apply fixed top-[50%] left-[50%] flex flex-col justify-center items-center
+    @apply fixed top-[50%] left-[50%] flex flex-col justify-center items-center z-[9999]
   }
   .confirm-modal-content {
     @apply py-5 px-8 w-full text-black dark:text-white

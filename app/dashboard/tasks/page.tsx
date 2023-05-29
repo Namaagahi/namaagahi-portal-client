@@ -7,8 +7,11 @@ import Button from "@/app/components/main/Button"
 import Table from "@/app/components/main/Table"
 import Note from "@/app/features/note/Note"
 import { useState } from "react"
+import useAuth from "@/app/hooks/useAuth"
 
 const Tasks = () => {
+
+  const { username, isAdmin, isMediaManager } = useAuth()
 
   const {
     data: notes,
@@ -32,9 +35,15 @@ const Tasks = () => {
   if(isError) return <p>{'data' in error && error?.data?.message}</p>
   if(isSuccess){
 
-    const { ids } = notes
+    const { ids, entities } = notes
 
-    const noteTableContent = ids?.length && ids.map((noteId: string) => <Note key={noteId} noteId={noteId} />)
+    let filteredIds
+    isAdmin || isMediaManager ? 
+      filteredIds= [...ids] 
+      : 
+      filteredIds= ids.filter((noteId : string) => entities[noteId].username === username)
+
+    const noteTableContent = ids?.length && filteredIds.map((noteId: string) => <Note key={noteId} noteId={noteId} />)
 
     return (
       <>

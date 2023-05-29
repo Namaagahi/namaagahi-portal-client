@@ -2,6 +2,7 @@
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import FiltersContainer from "@/app/components/main/FiltersContainer"
 import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
+import AccessDenied from "@/app/components/main/AccessDenied"
 import PageTitle from "@/app/components/main/PageTitle"
 import Loading from "@/app/features/loading/Loading"
 import Button from "@/app/components/main/Button"
@@ -9,11 +10,10 @@ import Table from "@/app/components/main/Table"
 import User from "@/app/features/users/User"
 import useAuth from "@/app/hooks/useAuth"
 import { useState } from "react"
-import AccessDenied from "@/app/components/main/AccessDenied"
 
 const Users = () => {
 
-  const { isAdmin, isMediaManager } = useAuth()
+  const { isAdmin } = useAuth()
 
   const {
     data: users, 
@@ -21,7 +21,7 @@ const Users = () => {
     isSuccess,
     isError,
     error
-  } = useGetUsersQuery(undefined, {
+  } = useGetUsersQuery(undefined, { 
     pollingInterval: 60000,
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true

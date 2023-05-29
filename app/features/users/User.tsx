@@ -16,7 +16,7 @@ const User = ({ userId }: { userId: string }) => {
 
     const [isDeleteUser, setIsDeleteUser] = useState(false)
     
-    if(user) {
+    if(user) { 
 
         const handleEditUser = () => setIsEditUser(!isEditUser)
 
@@ -39,6 +39,7 @@ const User = ({ userId }: { userId: string }) => {
                         height={35}
                     />
                 </th>
+                
                 <td className="px-6 py-4">{user.name}</td>
                 <td className="px-6 py-4">{user.username}</td>
                 <td className="px-6 py-4">

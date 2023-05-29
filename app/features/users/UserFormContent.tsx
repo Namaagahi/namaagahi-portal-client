@@ -1,7 +1,10 @@
 import { UserFormProps } from '@/app/lib/interfaces';
 import { ROLES } from '@/app/config/roles';
+import useAuth from '@/app/hooks/useAuth';
 
 const UserFormContent = (props: UserFormProps) => {
+
+    const { isAdmin } = useAuth()
 
     const {
             isError,
@@ -65,29 +68,34 @@ const UserFormContent = (props: UserFormProps) => {
             className={`${!validPassWord && 'border-rose-700'} form-input`}
         />
 
-        <label className="mt-7" htmlFor="roles">سطح دسترسی</label>
-        <select 
-            className="outline-none text-sm text-center rounded-xl p-3 mt-1 text-gray-700 bg-gray-200"
-            name="roles"
-            id="roles"
-            multiple
-            size={3}
-            value={roles}
-            onChange={onRolesChange}
-        >{options}</select>
+        {
+            isAdmin &&
+            <>
+                <label className="mt-7" htmlFor="roles">سطح دسترسی</label>
+                <select 
+                    className="outline-none text-sm text-center rounded-xl p-3 mt-1 text-gray-700 bg-gray-200"
+                    name="roles"
+                    id="roles"
+                    multiple
+                    size={3}
+                    value={roles}
+                    onChange={onRolesChange}
+                >{options}</select>
 
-        <label className="mt-7" htmlFor="status">وضعیت</label>
-        <div className='flex items-center gap-3'>
-            <input
-                id='status'
-                name='status'
-                type='checkbox'
-                checked={active}
-                onChange={onActiveChange}
-                className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-            />
-            <p>فعال</p>
-        </div>
+                <label className="mt-7" htmlFor="status">وضعیت</label>
+                <div className='flex items-center gap-3'>
+                    <input
+                        id='status'
+                        name='status'
+                        type='checkbox'
+                        checked={active}
+                        onChange={onActiveChange}
+                        className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                    />
+                    <p>فعال</p>
+                </div>
+            </>
+        }
     </div>
   )
 }

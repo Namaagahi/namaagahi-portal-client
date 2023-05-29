@@ -1,31 +1,35 @@
 "use client"
-import { MdDashboardCustomize, MdBusinessCenter } from 'react-icons/md'
+import { MdDashboardCustomize, MdWorkspacesFilled, MdPermMedia } from 'react-icons/md'
 import { usersApiSlice } from "../features/users/usersApiSlice"
 import { notesApiSlice } from "../features/note/notesApiSlice"
 import { store } from "../config/state-config/store"
 import { MenuItemsObj } from "../lib/interfaces"
-import { FaFileContract } from "react-icons/fa"
+import { FaBus, FaSubway, FaBroadcastTower } from "react-icons/fa"
 import Header from "../features/header/Header"
 import Footer from "../features/footer/Footer"
 import Menu from "../features/sidemenu/Menu"
-import { TbPackages } from 'react-icons/tb'
+import { SiBillboard } from 'react-icons/si'
 import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRefreshMutation } from '../features/auth/authApiSlice'
 import Loading from '../features/loading/Loading'
 import { selectCurrentToken } from '../features/auth/authSlice'
 import usePersist from '../hooks/usePersist'
 import { useRouter } from 'next/navigation'
+import useAuth from '../hooks/useAuth'
+import { ROLES } from '../config/roles'
+
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
+
+  const { roles } = useAuth()
 
   const [persist] = usePersist()
 
   const token = useSelector(selectCurrentToken)
-  console.log('TOKEN', token)
 
   const effectRan = useRef(false)
 
@@ -41,11 +45,8 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
 
   const { push } = useRouter()
 
-  useLayoutEffect(() => {if(!token) push('/')}, [])
-
   useEffect(() => {
     const verifyRefreshToken = async () => {
-    console.log('verifying refresh token')
     try {
         await refresh(undefined)
         setTrueSuccess(true)
@@ -70,55 +71,80 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     name: 'داشبورد',
     path: '/dashboard',
     icon: <IoGrid size={20} />
-  },
+  }, 
   {
     name: 'کاربران',
     path: '/dashboard/users',
     icon: <HiUsers size={20} />
   },
   {
-    name: 'پکیج ها',
-    path: '/dashboard/packages',
-    icon: <TbPackages size={20} />
-  },
-  {
-    name: 'پلن ها',
-    path: '/dashboard/plans',
-    icon: <MdBusinessCenter size={20} />
-  },
-  {
-    name: 'قراردادها',
-    path: '/dashboard/contracts',
-    icon: <FaFileContract size={20} />
-  }, {
     name: 'وظایف',
     path: '/dashboard/tasks',
     icon: <MdDashboardCustomize size={20} />
-}]
+  }
+  ]
+
+  const subMenusList = [
+    {
+      name: "رسانه",
+      icon: <MdPermMedia size={20} />,
+      menus: [
+        {
+          name: 'بیلبورد',
+          icon: <SiBillboard size={20} />,
+          path: '/dashboard/billboard'
+        },
+        {
+          name: 'اتوبوس',
+          icon: <FaBus size={20} />,
+          path: '/dashboard/bus'
+        },
+        {
+          name: 'مترو',
+          icon: <FaSubway size={20} />,
+          path: '/dashboard/subway'
+        },
+        {
+          name: 'صدا و سیما',
+          icon: <FaBroadcastTower size={20} />,
+          path: '/dashboard/irib'
+        },
+        {
+          name: 'نماوا',
+          icon: <MdWorkspacesFilled size={20} />,
+          path: '/dashboard/namava'
+        },
+      ]
+    },
+  ];
 
 let content
-if (!persist) {
-  content = children
-} else if (isLoading) {
-  content = <Loading />
-} else if (isError) { 
-  content = (
-      <p>
-          {`${error?.data?.message} - `}
-          <Link href={"/"}>Please login again</Link>.
-      </p>
-  )
-} else if (isSuccess && trueSuccess) {
-  content = children
-} else if (token && isUninitialized) {
-  content = children
+if(roles.some((role: string) => Object.values(ROLES).includes(role))) {
+  if (!persist) {
+    content = children
+  } else if (isLoading) {
+    content = <Loading />
+  } else if (isError) { 
+    content = (
+        <p>
+            {`${error?.data?.message} - `}
+            <Link href={"/"}>Please login again</Link>.
+        </p>
+    )
+  } else if (isSuccess && trueSuccess) {
+    content = children
+  } else if (token && isUninitialized) {
+    content = children
+  }
+} else {
+  push('/')
 }
 
   return (
     <div className="p-4 md:p-8">
       <Header/> 
       <div className=" flex flex-col xl:flex-row gap-8 ">
-        <Menu menuItems = {menuItems} />
+        <Menu menuItems = {menuItems} subMenusList={subMenusList} />
         <div className="w-full flex flex-col min-h-screen ">
           {content}
           <Footer />
