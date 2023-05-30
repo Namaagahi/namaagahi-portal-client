@@ -1,10 +1,12 @@
+
 import PageTitle from '@/app/components/main/PageTitle'
-import BoxSection from '@/app/components/media/billboard/BoxSection'
-import ContractorSection from '@/app/components/media/billboard/ContractorSection'
-import ExecutionSection from '@/app/components/media/billboard/ExecutionSection'
-import PlanSection from '@/app/components/media/billboard/PlanSection'
-import SalesSection from '@/app/components/media/billboard/SalesSection'
-import SummarySection from '@/app/components/media/billboard/SummarySection'
+import BoxSection from '@/app/components/media/billboard/cards/BoxSection'
+import ContractorSection from '@/app/components/media/billboard/cards/ContractorSection'
+import ExecutionSection from '@/app/components/media/billboard/cards/ExecutionSection'
+import PlanSection from '@/app/components/media/billboard/cards/PlanSection'
+import ReportsSection from '@/app/components/media/billboard/cards/ReportsSection'
+import SalesSection from '@/app/components/media/billboard/cards/SalesSection'
+import SummarySection from '@/app/components/media/billboard/cards/SummarySection'
 
 const Billboard = () => {
   return (
@@ -18,6 +20,7 @@ const Billboard = () => {
           <ExecutionSection />
           <ContractorSection />
           <SalesSection />
+          <ReportsSection />
         </div>
       </div>
     </main>

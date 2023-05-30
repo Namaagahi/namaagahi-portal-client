@@ -14,5 +14,5 @@ const NewNote = ({handleModal}: {handleModal: () => void}) => {
       users ? <NewNoteForm users={users!} handleModal={handleModal} /> : <Loading />
     )
 }
-
+ 
 export default NewNote 

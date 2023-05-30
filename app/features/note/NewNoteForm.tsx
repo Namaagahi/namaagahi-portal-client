@@ -8,7 +8,7 @@ import { toast } from "react-toastify"
 
 const NewNoteForm = ({users, handleModal}: {users: UserObject[], handleModal: () => void}) => {
 
-  const [addNewNote, {
+  const [addNewNote, { 
     isLoading,
     isSuccess,
     isError,

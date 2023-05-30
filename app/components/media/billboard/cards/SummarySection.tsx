@@ -1,5 +1,5 @@
 import React from 'react'
-import Title from '../../main/Title'
+import Title from '../../../main/Title'
 
 const SummarySection = () => {
   return (
