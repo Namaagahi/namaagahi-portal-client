@@ -1,64 +1,130 @@
-import React from 'react'
+import { DevTool } from "@hookform/devtools"
+import { useFieldArray, useForm } from "react-hook-form"
+import BasicInfoFormSection from "./BasicInfoFormSection"
+// import { structures } from '../../lib/dummyData'
+import { AiOutlinePlusCircle, AiOutlineCheckCircle, AiOutlineMinusCircle } from 'react-icons/ai'
+import StructureFormSection from "./StructureFormSection"
+import { useEffect } from "react"
+
+export interface Structure {
+    sysCode: number,
+    kind: string,
+    district: number,
+    path: string,
+    address: string,
+    style: string,
+    face: string,
+    dimensions: string,
+    printSize: number,
+    docSize: number,
+    squareFee: number
+}
+
+export interface AddBoxForm {
+    boxName: string,
+    projectNumber? : number
+    brand?: string,
+    startDate: string,
+    endDate: string,
+    structures: Structure[]
+}
+
+
+
+/*dynamically assign default values from an api example
+async () =>{
+    const res = await fetch("https://jsonplaceholder.typicode.com/users/1")
+    const data = await res.json()
+    return {
+        boxName: '',
+        email: data.email
+    }
+*/
 
 const NewBox = ({type}: {type: string}) => {
-    console.log(type)
+    const createBoxForm = useForm<AddBoxForm>({
+        defaultValues:  {
+            boxName: '',
+            startDate:'',
+            endDate: '',
+            projectNumber: 0,
+            brand:'',
+            structures: [{
+                sysCode: 0,
+                kind: '',
+                district: 0,
+                path: '',
+                address: '',
+                style:'',
+                face:'',
+                dimensions:'',
+                printSize: 0,
+                docSize: 0,
+                squareFee: 0
+            }]
+        },
+        mode: 'onSubmit'
+    })
+    console.log(createBoxForm)
+    const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
+    const { fields: structures, append, update, remove } = useFieldArray({
+        control,
+        name: "structures",
+      });
+
+      useEffect(() => {
+        const clone = getValues("structures");
+        setValue('structures', clone)
+      }, []);
+    console.log(structures)
+
+    const onSubmit = (data: AddBoxForm) => {
+        console.log('Form Submitted', data)
+    }
+
   return (
-    <form
-        className='w-full flex flex-col gap-9 justify-center'
-        // onSubmit={onSaveNoteClick}
-    >
-        <div className='flex flex-col gap-8 items-start w-full p-8 bg-[#FFF1F1] rounded-[30px] text-black'>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
-                <div className='flex flex-col gap-3'>
-                    <label htmlFor="boxName" className='text-[#767676] font-bold'>نام باکس</label>
-                    <input
-                        type="text"
-                        id='boxName'
-                        className='px-6 py-5 rounded-[50px] bg-white outline-none'
-                    />
-                </div>
-            {
-                type === 'buyShort' &&
-                <>
-                    <div className='flex flex-col gap-3'>
-                        <label htmlFor="projectNumber" className='text-[#767676] font-bold'>کد پروژه</label>
-                        <input
-                            type="number"
-                            id='projectNumber'
-                            className='px-6 py-5 rounded-[50px] bg-white outline-none'
-                        />
-                    </div>
-                    <div className='flex flex-col gap-3'>
-                        <label htmlFor="brand" className='text-[#767676] font-bold'>برند</label>
-                        <input
-                            type="text"
-                            id='brand'
-                            className='px-6 py-5 rounded-[50px] bg-white outline-none'
-                        />
-                    </div>
-                </>
-            }
-                <div className='flex flex-col gap-3'>
-                    <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
-                    <input
-                        type="date"
-                        id='startDate'
-                        className='px-6 py-5 rounded-[50px] bg-white outline-none'
-                    />
-                </div>
-                <div className='flex flex-col gap-3'>
-                    <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
-                    <input
-                        type="date"
-                        id='endDate'
-                        className='px-6 py-5 rounded-[50px] bg-white outline-none'
-                    />
-                </div>
+   <>
+        <form
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+            className='w-full flex flex-col gap-9 justify-center'
+        >
+            <BasicInfoFormSection 
+                type={type}
+                register={register}
+                errors={errors}
+            />
+            <div className='flex flex-col gap-8 items-start w-full p-8 bg-[#FFF1F1] rounded-[30px] text-black'>
+                <small className="pr-3 text-slate-500 inline-block font-bold">تعریف سازه</small>
+                {
+                    structures.map((structure, index) => {
+                        return(                             
+                            <div className="w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 bg-violet-100  rounded-3xl p-5">
+                                <StructureFormSection
+                                    key={structure.sysCode}
+                                    index={index} 
+                                    structure={structure}
+                                    register={register}
+                                    errors={errors}
+                                    update={update}
+                                />
+                            </div>
+                        )
+                    })
+                }
+                <AiOutlinePlusCircle
+                    className="text-5xl text-rose-800 cursor-pointer transition-all hover:text-rose-500"
+                    onClick={() => append(structures)}
+                />
+                <AiOutlineMinusCircle
+                    className={`${structures.length === 1 ? 'hidden':'block'} text-5xl text-rose-800 cursor-pointer transition-all hover:text-rose-500`}
+                    onClick={() => remove(structures[structures.length - 1])}
+                />
             </div>
-        </div>
-        <div className='flex flex-col gap-8 items-start w-full p-8 bg-[#FFF1F1] rounded-[30px] text-black'>آثغ
-        </div>
-    </form>
+            <button className="btn-primary">افزودن باکس</button>
+        </form>
+        <DevTool control={control}/>
+   </>
   )
 }
 
