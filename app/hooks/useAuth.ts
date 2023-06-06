@@ -17,7 +17,7 @@ const useAuth = () => {
         const decoded: any = jwtDecode(token)
 
         const { id, username, name, avatar, roles, active } : {id: string, username:string, name:string, avatar: string, roles: string[], active: boolean} = decoded.UserInfo
-        console.log(decoded.UserInfo)
+        // console.log(decoded.UserInfo)
 
         isMediaManager = roles.includes('مدیررسانه')
         isAdmin = roles.includes('ادمین')

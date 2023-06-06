@@ -1,3 +1,4 @@
+"use client"
 import { DevTool } from "@hookform/devtools"
 import { useFieldArray, useForm } from "react-hook-form"
 import BasicInfoFormSection from "./BasicInfoFormSection"
@@ -21,6 +22,7 @@ export interface Structure {
 }
 
 export interface AddBoxForm {
+    boxType: string
     boxName: string,
     projectNumber? : number
     brand?: string,
@@ -44,6 +46,7 @@ async () =>{
 const NewBox = ({type}: {type: string}) => {
     const createBoxForm = useForm<AddBoxForm>({
         defaultValues:  {
+            boxType: type,
             boxName: '',
             startDate:'',
             endDate: '',
@@ -65,7 +68,7 @@ const NewBox = ({type}: {type: string}) => {
         },
         mode: 'onSubmit'
     })
-    console.log(createBoxForm)
+    // console.log(createBoxForm)
     const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
     const { fields: structures, append, update, remove } = useFieldArray({
         control,
@@ -76,10 +79,10 @@ const NewBox = ({type}: {type: string}) => {
         const clone = getValues("structures");
         setValue('structures', clone)
       }, []);
-    console.log(structures)
+    // console.log(structures)
 
     const onSubmit = (data: AddBoxForm) => {
-        console.log('Form Submitted', data)
+        // console.log('Form Submitted', data)
     }
 
   return (
@@ -107,6 +110,7 @@ const NewBox = ({type}: {type: string}) => {
                                     register={register}
                                     errors={errors}
                                     update={update}
+                                    getValues={getValues}
                                 />
                             </div>
                         )
@@ -118,7 +122,7 @@ const NewBox = ({type}: {type: string}) => {
                 />
                 <AiOutlineMinusCircle
                     className={`${structures.length === 1 ? 'hidden':'block'} text-5xl text-rose-800 cursor-pointer transition-all hover:text-rose-500`}
-                    onClick={() => remove(structures[structures.length - 1])}
+                    onClick={() => remove(structures.length - 1)}
                 />
             </div>
             <button className="btn-primary">افزودن باکس</button>

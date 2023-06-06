@@ -6,6 +6,7 @@ import ExecutionSection from '@/app/components/media/billboard/cards/ExecutionSe
 import PlanSection from '@/app/components/media/billboard/cards/PlanSection'
 import ReportsSection from '@/app/components/media/billboard/cards/ReportsSection'
 import SalesSection from '@/app/components/media/billboard/cards/SalesSection'
+import StructureSection from '@/app/components/media/billboard/cards/StructureSection'
 import SummarySection from '@/app/components/media/billboard/cards/SummarySection'
 
 const Billboard = () => {
@@ -16,6 +17,7 @@ const Billboard = () => {
         <SummarySection />
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2'>
           <BoxSection />
+          <StructureSection/>
           <PlanSection />
           <ExecutionSection />
           <ContractorSection />

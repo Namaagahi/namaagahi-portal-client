@@ -1,6 +1,12 @@
 import { SerializedError } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
 
+// USER ===========================================================================
+export interface GlobalState {
+  user: UserObject | null,
+  token: string | null
+}
+
 export interface UserObject {
     id? : string,
     _id: string,
@@ -24,6 +30,34 @@ export interface UserObject {
     active?: boolean
 }
 
+export interface UserFormProps {
+  error: FetchBaseQueryError | SerializedError | undefined | CustomError
+  isError: boolean
+  name: string
+  username: string
+  password: string
+  validUserName: boolean
+  validPassWord: boolean
+  roles: string[]
+  active?: boolean
+  onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onUserameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onActiveChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onRolesChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+}
+
+export interface EditUserProps {
+  user: UserObject | undefined
+  handleModal: () => void
+}
+
+export interface DeleteUserProps {
+  user: UserObject | undefined
+  handleModal: () => void
+}
+
+// NOTE ===========================================================================
 export interface NoteObject {
   id? : string,
   _id: string,
@@ -43,42 +77,6 @@ export interface NoteData {
   userId?:string
 }
 
-export interface GlobalState {
-    user: UserObject | null,
-    token: string | null
-  }
-
-export interface MenuItemsObj {
-  name: string
-  path: string
-  icon: JSX.Element
-}
-
-export interface CustomError {
-  data: {
-      message: string
-      stack: string
-  }
-  status?: number
-}
-
-export interface UserFormProps {
-  error: FetchBaseQueryError | SerializedError | undefined | CustomError
-  isError: boolean
-  name: string
-  username: string
-  password: string
-  validUserName: boolean
-  validPassWord: boolean
-  roles: string[]
-  active?: boolean
-  onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onUserameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onActiveChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onRolesChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-}
-
 export interface NoteFormProps {
   title: string 
   text: string
@@ -93,6 +91,70 @@ export interface NoteFormProps {
   onUserIdChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
+export interface EditNoteProps {
+  note: NoteObject | undefined
+  users?: UserObject[] | undefined
+  handleModal: () => void
+}
+
+export interface DeleteNoteProps {
+  note: NoteObject | undefined
+  handleModal: () => void
+}
+
+
+// STRUCTURE ===========================================================================
+export interface StructureObject {
+  id? : string
+  _id: string
+  user: string
+  sysCode : number
+  kind : string
+  district : string
+  path : string
+  address : string
+  style : string
+  face : string
+  dimensions : string
+  printSize : number
+  docSize : number
+  isAvailable : boolean
+}
+
+export interface DeleteStructureProps {
+  structure: StructureObject | undefined
+  handleModal: () => void
+}
+
+export interface StructureData {
+  sysCode? : number
+  kind? : string
+  district? : string
+  path? : string
+  address? : string
+  style? : string
+  face? : string
+  dimensions? : string
+  printSize? : number
+  docSize? : number
+  isAvailable? : boolean
+  userId?:string
+}
+// OTHER ===========================================================================
+export interface MenuItemsObj {
+  name: string
+  path: string
+  icon: JSX.Element
+}
+
+export interface CustomError {
+  data: {
+      message: string
+      stack: string
+  }
+  status?: number
+}
+
 export interface CreateButtonProps {
   onClickHandler: () => void
   title: string
@@ -100,7 +162,7 @@ export interface CreateButtonProps {
 
 export interface DeleteModalContentProps {
   handleModal: () => void
-  prop?: UserObject | NoteObject | undefined | any
+  prop?: UserObject | NoteObject | StructureObject | undefined | any
   deleteType: string
 }
 
@@ -117,7 +179,7 @@ export interface TableProps {
 
 export interface ConfirmModalProps {
   type: string
-  prop?: UserObject | NoteObject | undefined | any
+  prop?: UserObject | NoteObject | StructureObject | undefined | any
   handleModal: () => void
   deleteType?: string
 }
@@ -125,28 +187,7 @@ export interface ConfirmModalProps {
 export interface CreateUpdateModalProps {
   handleModal: () => void
   type: string
-  prop?: UserObject | NoteObject | undefined | any
-}
-
-export interface EditUserProps {
-  user: UserObject | undefined
-  handleModal: () => void
-}
-
-export interface EditNoteProps {
-  note: NoteObject | undefined
-  users?: UserObject[] | undefined
-  handleModal: () => void
-}
-
-export interface DeleteUserProps {
-  user: UserObject | undefined
-  handleModal: () => void
-}
-
-export interface DeleteNoteProps {
-  note: NoteObject | undefined
-  handleModal: () => void
+  prop?: UserObject | NoteObject | StructureObject | undefined | any
 }
 
 export interface BoxTypes {

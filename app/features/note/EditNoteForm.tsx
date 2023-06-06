@@ -1,4 +1,4 @@
-import { EditNoteProps, NoteData, UserObject } from '@/app/lib/interfaces'
+import { EditNoteProps, StructureData, UserObject } from '@/app/lib/interfaces'
 import React, { useEffect, useState } from 'react'
 import { useUpdateNoteMutation } from './notesApiSlice'
 import { useRouter } from 'next/navigation'
@@ -20,7 +20,7 @@ const EditNoteForm = (props: EditNoteProps) => {
 
     const { push } = useRouter()
 
-    const [noteData, setNoteData] = useState<NoteData>({
+    const [noteData, setNoteData] = useState<StructureData>({
         title: note?.title,
         text: note?.text,
         completed: note?.completed,

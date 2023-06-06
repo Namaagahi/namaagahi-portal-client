@@ -18,7 +18,6 @@ const Tasks = () => {
     isLoading,
     isSuccess, 
     isError,
-    error
   } = useGetNotesQuery(undefined, {
     pollingInterval: 60000,
     refetchOnFocus: true,
@@ -32,7 +31,11 @@ const Tasks = () => {
   const notesTableHeadings = ['کاربر', 'عنوان', 'شرح', 'وضعیت','عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
   
   if(isLoading) return <Loading/>
-  if(isError) return <p>{'data' in error && error?.data?.message}</p>
+  if(isError) return (
+    <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
+      <p className='text-xl'>هیچ وظیفه ای وجود ندارد</p>
+    </div>
+  )
   if(isSuccess){
 
     const { ids, entities } = notes

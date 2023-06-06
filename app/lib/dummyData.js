@@ -40,3 +40,13 @@ export const structures = [
     },
 
 ]
+
+const box = {
+    boxName,
+    projectNum,
+    brand,
+    startDate,
+    endDate,
+    structures
+    
+}

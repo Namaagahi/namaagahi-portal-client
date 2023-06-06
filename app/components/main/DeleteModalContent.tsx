@@ -1,4 +1,5 @@
 import DeleteNote from "@/app/features/note/DeleteNote"
+import DeleteStructure from "@/app/features/structures/DeleteStructure"
 import DeleteUser from "@/app/features/users/DeleteUser"
 import { DeleteModalContentProps } from "@/app/lib/interfaces"
 import { AiOutlineClose } from 'react-icons/ai'
@@ -26,8 +27,14 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                     handleModal={handleModal}
                 />
                 :
+                deleteType === 'user'?
                 <DeleteNote
                     note={prop}
+                    handleModal={handleModal}
+                />
+                :
+                <DeleteStructure
+                    structure={prop}
                     handleModal={handleModal}
                 />
             }

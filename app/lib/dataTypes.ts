@@ -46,12 +46,37 @@ interface Service {
 // SELL
 interface Plan {
     planId: string
+    status: string
+    projectNum?: string
+    suggestedPrice?: number
     customerInfo: Customer 
     brand: string
-    startDate: Date
-    endDate: Date
+    startDate?: Date
+    endDate?: Date
     duration: number
-    structures: Structure[]
+    isCultural: boolean
+    marketing?: {
+        name: string
+        percentage: number
+        fee: number
+    } 
+    structuresWithPrices: {
+        structure: Structure
+        suggestedPrices: {
+            monthlySale: number
+            discountPercentage: number
+            monthlySaleAfterDiscount: number
+            dayCount: number
+            coursePrice: number
+        }
+        finalPrices?: {
+            monthlySale: number
+            discountPercentage: number
+            monthlySaleAfterDiscount: number
+            dayCount: number
+            coursePrice: number
+        }
+    }[]
 }
 
 interface Customer {

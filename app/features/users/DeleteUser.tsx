@@ -1,5 +1,5 @@
 import { useDeleteUserMutation } from "@/app/features/users/usersApiSlice"
-import { DeleteUserProps } from "@/app/lib/interfaces"
+import {  DeleteUserProps } from "@/app/lib/interfaces"
 import Loading from "@/app/features/loading/Loading"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"

@@ -8,7 +8,7 @@ import Link from "next/link";
  const SubMenu = ({ data } :any) => {
   const path = usePathname()
   const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
-    console.log(data.name)
+    // console.log(data.name)
   const [subMenuOpen, setSubMenuOpen] = useState(false);
   return (
     <>

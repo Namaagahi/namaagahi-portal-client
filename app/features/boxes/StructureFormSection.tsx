@@ -1,14 +1,15 @@
-import React from 'react'
-import { FieldErrors, UseFieldArrayUpdate, UseFormRegister } from 'react-hook-form'
+import { FieldErrors, UseFieldArrayUpdate, UseFormGetValues, UseFormRegister } from 'react-hook-form'
 import { AiOutlineCheckCircle } from 'react-icons/ai'
 import { AddBoxForm, Structure } from './NewBox'
+import Badge from '@/app/components/main/Badge'
 
-const StructureFormSection = ({register, errors, index, update, structure}:
+const StructureFormSection = ({register, errors, index, update, structure, getValues}:
      {register: UseFormRegister<AddBoxForm>,
          errors: FieldErrors<AddBoxForm>,
           index: number,
            update:UseFieldArrayUpdate<AddBoxForm, "structures">,
            structure: Structure
+           getValues: UseFormGetValues<AddBoxForm>
         }) => {
   return (
     <>
@@ -179,9 +180,14 @@ const StructureFormSection = ({register, errors, index, update, structure}:
         <small className="text-xs text-rose-600 ">{errors.structures && errors.structures![index]?.squareFee?.message}</small>
     </div>
     <div className="flex justify-center items-center">
+    <Badge index={index}/>
         <AiOutlineCheckCircle 
             className="text-5xl text-lime-800 cursor-pointer transition-all hover:text-lime-500"
-            onClick={() => update(index, structure)}
+            onClick={() => {
+                const thisStructure = getValues(`structures.${index}`);
+                update(index, thisStructure)
+                // console.log(thisStructure)
+            }}
         />
     </div>
 </>
