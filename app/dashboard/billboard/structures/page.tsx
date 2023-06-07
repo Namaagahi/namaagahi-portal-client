@@ -33,7 +33,6 @@ const Structures = () => {
     const { ids, entities } = structures
 
     const structureTableContent = ids?.length && ids.map((structureId: string) => <Structure key={structureId} structureId={structureId} />)
-
   
     return (
       <main className="min-h-screen"> 

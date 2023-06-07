@@ -47,7 +47,7 @@
     @apply bg-rose-200 rounded-[40px] py-2 hover:bg-[#833841] hover:text-white transition-all
   }
   .table-heading {
-    @apply font-bold py-2 text-gray-700 dark:text-gray-400 border-y-2 border-y-[#FA9E93]
+    @apply font-bold py-2 text-gray-700 dark:text-gray-500 border-y-2 border-y-[#FA9E93]
   }
   .error-container {
     @apply bg-pink-200 font-bold text-fuchsia-600 p-1 rounded-xl transform -translate-x-1/2 md:w-[40%] w-full  animate-fade-in-down

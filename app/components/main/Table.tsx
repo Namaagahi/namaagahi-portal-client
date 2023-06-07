@@ -6,7 +6,7 @@ const Table = (props: TableProps) => {
 
   return (
     <div className="relative overflow-x-auto mt-5">
-      <table className="w-full text-sm text-right text-gray-500 dark:text-gray-400">
+      <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
         <thead className="table-heading">
           <tr>
             {tableHeadings && tableHeadings.map((prop:string, i:number) => (
