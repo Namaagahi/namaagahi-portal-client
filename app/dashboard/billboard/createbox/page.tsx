@@ -12,7 +12,7 @@ const CreateBox = () => {
       <main className="min-h-screen">
         <PageTitle name={'ایجاد باکس جدید'} />
         <div className='flex flex-col gap-9 justify-center'>
-          <div className='flex flex-col gap-8 items-start w-full p-8 bg-[#FFF1F1] rounded-[30px] text-black'>
+          <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">نوع باکس</small>
             <p className='font-bold text-lg'>نوع باکس را انتخاب کنید</p>
             <div className='w-full grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-12 '>

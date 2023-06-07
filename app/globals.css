@@ -25,6 +25,9 @@
   .form-input {
     @apply p-3 text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080]
   }
+  .input-create-page {
+    @apply px-6 py-3 rounded-[50px] bg-white outline-none
+  }
   .btn-primary {
     @apply mt-6 w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
   }
@@ -48,6 +51,9 @@
   }
   .error-container {
     @apply bg-pink-200 font-bold text-fuchsia-600 p-1 rounded-xl transform -translate-x-1/2 md:w-[40%] w-full  animate-fade-in-down
+  }
+  .error-page-forms {
+    @apply text-xs text-rose-600
   }
   .account-container {
     @apply relative bg-black dark:bg-white p-3 rounded-[44px] flex justify-center items-center gap-3 text-white dark:text-black

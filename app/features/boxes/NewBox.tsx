@@ -2,9 +2,7 @@
 import { DevTool } from "@hookform/devtools"
 import { useFieldArray, useForm } from "react-hook-form"
 import BasicInfoFormSection from "./BasicInfoFormSection"
-// import { structures } from '../../lib/dummyData'
-import { AiOutlinePlusCircle, AiOutlineCheckCircle, AiOutlineMinusCircle } from 'react-icons/ai'
-import StructureFormSection from "./StructureFormSection"
+
 import { useEffect } from "react"
 
 export interface Structure {
@@ -97,34 +95,7 @@ const NewBox = ({type}: {type: string}) => {
                 register={register}
                 errors={errors}
             />
-            <div className='flex flex-col gap-8 items-start w-full p-8 bg-[#FFF1F1] rounded-[30px] text-black'>
-                <small className="pr-3 text-slate-500 inline-block font-bold">تعریف سازه</small>
-                {
-                    structures.map((structure, index) => {
-                        return(                             
-                            <div className="w-full grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8 bg-violet-100  rounded-3xl p-5">
-                                <StructureFormSection
-                                    key={structure.sysCode}
-                                    index={index} 
-                                    structure={structure}
-                                    register={register}
-                                    errors={errors}
-                                    update={update}
-                                    getValues={getValues}
-                                />
-                            </div>
-                        )
-                    })
-                }
-                <AiOutlinePlusCircle
-                    className="text-5xl text-rose-800 cursor-pointer transition-all hover:text-rose-500"
-                    onClick={() => append(structures)}
-                />
-                <AiOutlineMinusCircle
-                    className={`${structures.length === 1 ? 'hidden':'block'} text-5xl text-rose-800 cursor-pointer transition-all hover:text-rose-500`}
-                    onClick={() => remove(structures.length - 1)}
-                />
-            </div>
+
             <button className="btn-primary">افزودن باکس</button>
         </form>
         <DevTool control={control}/>

@@ -106,11 +106,11 @@ export interface DeleteNoteProps {
 // STRUCTURE ===========================================================================
 export interface StructureObject {
   id? : string
-  _id: string
+  _id?: string
   user: string
-  sysCode : number
+  sysCode : string
   kind : string
-  district : string
+  district : number
   path : string
   address : string
   style : string

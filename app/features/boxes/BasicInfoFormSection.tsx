@@ -5,7 +5,7 @@ import { AddBoxForm } from './NewBox'
 const BasicInfoFormSection = ({register, errors, type}:
      {register: UseFormRegister<AddBoxForm>, errors: FieldErrors<AddBoxForm>, type: string}) => {
   return (
-    <div className='flex flex-col gap-8 items-start w-full p-8 bg-[#FFF1F1] rounded-[30px] text-black'>
+    <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
         <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
             <div className='flex flex-col gap-3'>

@@ -65,6 +65,7 @@ module.exports = {
       colors: {
         primary: "#5f286e",
         secondary: '#b9a8d1',
+        bgform: '#d1c6d2', 
         red: colors.red,
         blue: colors.blue,
         black: colors.black,

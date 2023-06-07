@@ -35,12 +35,12 @@ const Menu = ({menuItems, subMenusList} : {menuItems: MenuItemsObj[], subMenusLi
       <small className="pr-3 text-slate-500 inline-block mb-2">محتوا</small>
       <ul className="flex flex-col gap-4">
           {subMenusList.map((item: any) => (
-              <li
+              <div
                 key={item.name}
                 style={path === item.path ? activeStyle : {}}
               >
                 <SubMenu data={item} />
-              </li>
+              </div>
           ))}
       </ul>
       </div>

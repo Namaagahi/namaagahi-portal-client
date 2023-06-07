@@ -30,7 +30,7 @@ const Account = () => {
   const handleLogout = () => setIsLogout(!isLogout)
 
   const handleEditProfile = () => setIsEditProfile(!isEditProfile)
-  console.log("USER",user)
+  // console.log("USER",user)
 
   return (
    <>
@@ -40,7 +40,7 @@ const Account = () => {
     >
         <Image 
             className="rounded-full cursor-pointer hover:scale-110 transition-all"
-            src={avatar!}
+            src={avatar}
             alt="profile-image"
             width={35}
             height={35}

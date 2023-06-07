@@ -55,18 +55,18 @@ const Structure = ({ structureId }: { structureId: string }) => {
                 }
                 </td>
                 <td className="px-6 py-4 flex items-center gap-5">
-                    <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
+                    <td className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit 
                             className="text-black dark:text-white hover:scale-125 transition-all" size={20}
                             onClick={handleEditStructure}
                         />
-                    </div>
-                    <div className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
+                    </td>
+                    <td className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillDelete 
                             className="text-orange-600 dark:text-white hover:scale-125 transition-all" size={20}
                             onClick={handleDeleteStructure}    
                         />
-                    </div>
+                    </td>
                 </td>
                 <td className="px-6 py-4">{moment(structure.createdAt).format("MMM Do YYYY")}</td>
                 <td className="px-6 py-4">{moment(structure.updatedAt).format("MMM Do YYYY")}</td>
@@ -84,11 +84,7 @@ const Structure = ({ structureId }: { structureId: string }) => {
 
             {
                 isEditStructure && 
-                    <CreateUpdateModal 
-                        type={'editTask'}
-                        handleModal={handleEditStructure} 
-                        prop={structure} 
-                    />
+                    <p>در حال ساخت</p>
             }
         </>
         )

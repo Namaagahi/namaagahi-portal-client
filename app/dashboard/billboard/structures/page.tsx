@@ -29,7 +29,7 @@ const Structures = () => {
     </div>
   )
   if(isSuccess) {
-    console.log("STRUCTURES",structures)
+    // console.log("STRUCTURES",structures)
     const { ids, entities } = structures
 
     const structureTableContent = ids?.length && ids.map((structureId: string) => <Structure key={structureId} structureId={structureId} />)

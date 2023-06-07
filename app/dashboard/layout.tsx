@@ -21,6 +21,7 @@ import usePersist from '../hooks/usePersist'
 import { useRouter } from 'next/navigation'
 import useAuth from '../hooks/useAuth'
 import { ROLES } from '../config/roles'
+import { structuresApiSlice } from '../features/structures/structuresApiSlice'
 
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
@@ -55,15 +56,17 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     if(!token && persist) verifyRefreshToken()
     return () => { effectRan.current = true }
       // eslint-disable-next-line
-  }, [])
+  }, [trueSuccess])
 
   useEffect(()=> {
     const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate(undefined))
     const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate(undefined))
+    const structures = store.dispatch(structuresApiSlice.endpoints.getStructures.initiate(undefined))
 
     return () => {
       notes.unsubscribe()
       users.unsubscribe()
+      structures.unsubscribe()
     }
   }, [])
 
@@ -127,7 +130,7 @@ if(roles.some((role: string) => Object.values(ROLES).includes(role))) {
   } else if (isError) { 
     content = (
         <p>
-            {`${error?.data?.message} - `}
+            {/* {`${error?.data?.message} - `} */}
             <Link href={"/"}>Please login again</Link>.
         </p>
     )

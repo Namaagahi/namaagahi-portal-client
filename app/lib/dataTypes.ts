@@ -6,19 +6,17 @@ interface Box {
     endDate: Date
     projectId?: string
     brand?: string
-    structuresWithExpenses: {
+    structuresWithFigures: {
         structure: Structure,
-        buyExpenses: {
-            squareFee: number
-            monthlyFee: number 
-            yearlyFee: number // (monthlyFee / 30) * ((box.endDate - box.startDate) + 1)
-        }
-        maintenanceExpenses: MaintenanceExpense[]
+        expenses: [{
+            type: 
+        }]
     }[]
     plans: Plan[] | null
 }
 
 interface Structure {
+    id: string
     sysCode: number
     kind: string
     district: number

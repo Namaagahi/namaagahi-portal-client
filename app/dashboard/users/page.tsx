@@ -34,7 +34,7 @@ const Users = () => {
   const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
 
   if(isLoading) return <Loading />
-  if(isError) return <p>{'data' in error && error?.data?.message}</p>
+  if(isError) return <p>{'data' in error! && error?.data?.message}</p>
   if(isSuccess){
 
     const { ids } = users
