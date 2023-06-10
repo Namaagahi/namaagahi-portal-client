@@ -15,20 +15,39 @@
 //     plans: Plan[] | null
 // }
 
-// interface Structure {
-//     id: string
-//     sysCode: number
-//     kind: string
-//     district: number
-//     path: string
-//     address: string
-//     style: string
-//     face: string
-//     dimensions: string
-//     printSize: number
-//     docSize: number
-//     isAvailable: boolean
-// }
+interface Structure {
+    id: string
+    sysCode: number
+    kind: string
+    district: number
+    path: string
+    address: string
+    style: string
+    face: string
+    length: number
+    width: number
+    printSize: number
+    docSize: number
+    isAvailable: boolean
+    history: {
+        buyPlans: [{
+            financialYear: number
+            startDate: Date
+            endDate: Date
+            squareCost: number
+            monthlyCost: number
+            maintenanceCosts: [{
+                contractor: string
+                unit: string
+                serviceCost: number
+            }] 
+            totalCosts: number
+        }]
+        sellPlans: []
+    }
+}
+
+
 
 // interface MaintenanceExpense {
 //     contractorName: string

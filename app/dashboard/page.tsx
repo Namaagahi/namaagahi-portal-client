@@ -29,9 +29,9 @@ const Dashboard = () => {
       const differenceInTime = date2.diff(date1, 'days')
       setDifferenceInDays(differenceInTime + 1)
     }
+    console.log(date1, date2)
   };
 
-  // console.log(startDate, endDate)
   return (
     <main className="min-h-screen">
       <PageTitle name={'داشبورد'} />
