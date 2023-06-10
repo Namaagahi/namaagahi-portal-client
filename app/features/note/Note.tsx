@@ -1,12 +1,22 @@
-import CreateUpdateModal from "../../components/modals/CreateUpdateModal"
 import { selectNoteById } from "@/app/features/note/notesApiSlice"
-import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { NoteObject } from "@/app/lib/interfaces"
-import Status from "../../components/main/Status"
 import { useSelector } from "react-redux"
 import { useState } from "react"
 import moment from "moment"
+import dynamic from 'next/dynamic'
+const CreateUpdateModal = dynamic(
+  () => import('../../components/modals/CreateUpdateModal'),
+  { ssr: false }
+)
+const ConfirmModal = dynamic(
+  () => import('@/app/components/modals/ConfirmModal'),
+  { ssr: false }
+)
+const Status = dynamic(
+  () => import('../../components/main/Status'),
+  { ssr: false }
+)
 
 const Note = ({ noteId }: { noteId: string }) => {
 

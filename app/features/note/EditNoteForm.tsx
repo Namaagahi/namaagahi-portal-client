@@ -1,11 +1,18 @@
-import { EditNoteProps, StructureData, UserObject } from '@/app/lib/interfaces'
+import { EditNoteProps, NoteData, UserObject } from '@/app/lib/interfaces'
 import React, { useEffect, useState } from 'react'
 import { useUpdateNoteMutation } from './notesApiSlice'
 import { useRouter } from 'next/navigation'
-import Loading from '../loading/Loading'
 import { AiOutlineClose } from 'react-icons/ai'
-import NoteFormContent from './NoteFormContent'
 import { toast } from 'react-toastify'
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const NoteFormContent = dynamic(
+  () => import('./NoteFormContent'),
+  { ssr: false }
+)
 
 const EditNoteForm = (props: EditNoteProps) => {
 
@@ -20,7 +27,7 @@ const EditNoteForm = (props: EditNoteProps) => {
 
     const { push } = useRouter()
 
-    const [noteData, setNoteData] = useState<StructureData>({
+    const [noteData, setNoteData] = useState<NoteData>({
         title: note?.title,
         text: note?.text,
         completed: note?.completed,
@@ -76,15 +83,15 @@ const EditNoteForm = (props: EditNoteProps) => {
                 
                 <NoteFormContent
                     error={error}
-                    title={title}
-                    text={text}
-                    completed={completed}
+                    title={title!}
+                    text={text!}
+                    completed={completed!}
                     onTitleChange={onTitleChange}
                     onTextChange={onTextChange}
                     onCompletedChange={onCompletedChange}
-                    options={options}
+                    options={options!}
                     isError={isError}
-                    userId={userId}
+                    userId={userId!}
                     onUserIdChange={onUserIdChange}
                 />
 

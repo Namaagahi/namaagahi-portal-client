@@ -1,5 +1,9 @@
-import Table from "@/app/components/main/Table"
-import { AiFillDelete, AiFillEdit } from "react-icons/ai"
+import { AiFillEdit } from "react-icons/ai"
+import dynamic from 'next/dynamic'
+const Table = dynamic(
+  () => import('@/app/components/main/Table'),
+  { ssr: false }
+)
 
 const BoxCard = ({ boxType = 'buyLong' }:{ boxType: string }) => {
 

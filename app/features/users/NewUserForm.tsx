@@ -1,3 +1,4 @@
+"use client"
 import { useAddNewUserMutation } from "@/app/features/users/usersApiSlice"
 import { PASSWORD_REGEX, USER_REGEX } from "@/app/lib/constants"
 import UserFormContent from "./UserFormContent"

@@ -1,13 +1,41 @@
-
-import PageTitle from '@/app/components/main/PageTitle'
-import BoxSection from '@/app/components/media/billboard/cards/BoxSection'
-import ContractorSection from '@/app/components/media/billboard/cards/ContractorSection'
-import ExecutionSection from '@/app/components/media/billboard/cards/ExecutionSection'
-import PlanSection from '@/app/components/media/billboard/cards/PlanSection'
-import ReportsSection from '@/app/components/media/billboard/cards/ReportsSection'
-import SalesSection from '@/app/components/media/billboard/cards/SalesSection'
-import StructureSection from '@/app/components/media/billboard/cards/StructureSection'
-import SummarySection from '@/app/components/media/billboard/cards/SummarySection'
+"use client"
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const BoxSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/BoxSection'),
+  { ssr: false }
+)
+const ContractorSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/ContractorSection'),
+  { ssr: false }
+)
+const ExecutionSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/ExecutionSection'),
+  { ssr: false }
+)
+const PlanSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/PlanSection'),
+  { ssr: false }
+)
+const ReportsSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/ReportsSection'),
+  { ssr: false }
+)
+const SalesSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/SalesSection'),
+  { ssr: false }
+)
+const StructureSection = dynamic(
+  () => import('@/app/components/media/billboard/cards/StructureSection'),
+  { ssr: false }
+)
+const SummarySection = dynamic(
+  () => import('@/app/components/media/billboard/cards/SummarySection'),
+  { ssr: false }
+)
 
 const Billboard = () => {
   return (

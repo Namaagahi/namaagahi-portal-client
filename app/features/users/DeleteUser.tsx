@@ -1,10 +1,14 @@
+"use client"
 import { useDeleteUserMutation } from "@/app/features/users/usersApiSlice"
 import {  DeleteUserProps } from "@/app/lib/interfaces"
-import Loading from "@/app/features/loading/Loading"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
 
 const DeleteUser = (props: DeleteUserProps) => {
 

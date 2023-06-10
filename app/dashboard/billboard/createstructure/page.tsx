@@ -1,7 +1,13 @@
 "use client"
-import PageTitle from '@/app/components/main/PageTitle'
-import NewStructureForm from '@/app/features/structures/NewStructureForm'
-
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const NewStructureForm = dynamic(
+  () => import('@/app/features/structures/NewStructureForm'),
+  { ssr: false }
+)
 
 const CreateStructure = () => {
 

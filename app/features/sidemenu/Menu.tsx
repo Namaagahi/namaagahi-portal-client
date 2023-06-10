@@ -3,7 +3,11 @@ import { MenuItemsObj } from "@/app/lib/interfaces"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import Link from "next/link"
-import SubMenu from "./SubMenu"
+import dynamic from 'next/dynamic'
+const SubMenu = dynamic(
+  () => import('./SubMenu'),
+  { ssr: false }
+)
 
 const Menu = ({menuItems, subMenusList} : {menuItems: MenuItemsObj[], subMenusList:any}) => {
 

@@ -1,12 +1,20 @@
+"use client"
 import { PASSWORD_REGEX, USER_REGEX } from "@/app/lib/constants"
 import { EditUserProps, UserData } from '@/app/lib/interfaces'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { useUpdateUserMutation } from './usersApiSlice'
-import UserFormContent from './UserFormContent'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useRouter } from 'next/navigation'
-import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const UserFormContent = dynamic(
+  () => import('./UserFormContent'),
+  { ssr: false }
+)
 
 const EditUserForm = (props: EditUserProps) => {
 

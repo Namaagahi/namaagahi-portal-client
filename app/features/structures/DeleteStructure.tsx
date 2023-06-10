@@ -1,9 +1,14 @@
+"use client"
 import { DeleteStructureProps, StructureData } from '@/app/lib/interfaces'
 import { useDeleteStructureMutation } from './structuresApiSlice'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
-import Loading from '../loading/Loading'
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
 
 const DeleteStructure = (props: DeleteStructureProps) => {
 
@@ -33,9 +38,10 @@ const DeleteStructure = (props: DeleteStructureProps) => {
 
     useEffect(() => {
         if(isSuccess) {
-            setStructureData({...structureData, sysCode:0,
+            setStructureData({...structureData, 
+                sysCode:'',
                 kind:'',
-                district:'',
+                district:0,
                 path:'',
                 address:'',
                 style:'',

@@ -1,6 +1,13 @@
 import { EditUserProps } from '@/app/lib/interfaces'
-import EditUserForm from './EditUserForm'
-import Loading from '../loading/Loading'
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const EditUserForm = dynamic(
+  () => import('./EditUserForm'),
+  { ssr: false }
+)
 
 const EditUser = (props: EditUserProps) => {
 

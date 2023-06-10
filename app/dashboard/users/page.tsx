@@ -1,15 +1,36 @@
 "use client"
-import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
-import FiltersContainer from "@/app/components/main/FiltersContainer"
 import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
-import AccessDenied from "@/app/components/main/AccessDenied"
-import PageTitle from "@/app/components/main/PageTitle"
-import Loading from "@/app/features/loading/Loading"
-import Button from "@/app/components/main/Button"
-import Table from "@/app/components/main/Table"
-import User from "@/app/features/users/User"
 import useAuth from "@/app/hooks/useAuth"
 import { useState } from "react"
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const AccessDenied = dynamic(
+  () => import('@/app/components/main/AccessDenied'),
+  { ssr: false }
+)
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const Button = dynamic(
+  () => import('@/app/components/main/Button'),
+  { ssr: false }
+)
+const Table = dynamic(
+  () => import('@/app/components/main/Table'),
+  { ssr: false }
+)
+const User = dynamic(
+  () => import('@/app/features/users/User'),
+  { ssr: false }
+)
+const CreateUpdateModal = dynamic(
+  () => import('@/app/components/modals/CreateUpdateModal'),
+  { ssr: false }
+)
 
 const Users = () => {
 
@@ -34,7 +55,7 @@ const Users = () => {
   const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
 
   if(isLoading) return <Loading />
-  if(isError) return <p>{'data' in error! && error?.data?.message}</p>
+  if(isError) return <p>ERROR</p>
   if(isSuccess){
 
     const { ids } = users

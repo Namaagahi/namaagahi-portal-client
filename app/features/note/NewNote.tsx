@@ -1,8 +1,15 @@
 import { selectAllUsers } from "../users/usersApiSlice"
 import { useSelector } from "react-redux"
-import Loading from "../loading/Loading"
-import NewNoteForm from "./NewNoteForm"
 import { UserObject } from "@/app/lib/interfaces"
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const NewNoteForm = dynamic(
+  () => import('./NewNoteForm'),
+  { ssr: false }
+)
 
 const NewNote = ({handleModal}: {handleModal: () => void}) => {
 

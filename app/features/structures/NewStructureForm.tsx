@@ -1,3 +1,4 @@
+"use client"
 import { useAddNewStructureMutation } from '@/app/features/structures/structuresApiSlice'
 import useAuth from '@/app/hooks/useAuth'
 import { StructureObject } from '@/app/lib/interfaces'

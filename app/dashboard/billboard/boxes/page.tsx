@@ -1,6 +1,13 @@
-import PageTitle from '@/app/components/main/PageTitle'
-import BoxCard from '@/app/features/boxes/BoxCard'
-import React from 'react'
+"use client"
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const BoxCard = dynamic(
+  () => import('@/app/features/boxes/BoxCard'),
+  { ssr: false }
+)
 
 const Boxes = () => {
   return (

@@ -1,6 +1,10 @@
 "use client"
+import dynamic from 'next/dynamic'
 
-import Login from "./features/login/Login"
+const Login = dynamic(
+  () => import('./features/login/Login'),
+  { ssr: false }
+)
 
 export default function Home() {
 

@@ -1,13 +1,23 @@
 import { selectUserById } from "@/app/features/users/usersApiSlice"
-import CreateUpdateModal from "../../components/modals/CreateUpdateModal"
-import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { UserObject } from "@/app/lib/interfaces"
-import Status from "../../components/main/Status"
 import { useSelector } from "react-redux"
 import { useState } from "react"
 import Image from "next/image"
- 
+import dynamic from 'next/dynamic'
+const CreateUpdateModal = dynamic(
+  () => import('../../components/modals/CreateUpdateModal'),
+  { ssr: false }
+)
+const ConfirmModal = dynamic(
+  () => import('@/app/components/modals/ConfirmModal'),
+  { ssr: false }
+)
+const Status = dynamic(
+  () => import('../../components/main/Status'),
+  { ssr: false }
+)
+
 const User = ({ userId }: { userId: string }) => {
 
     const user: UserObject | any = useSelector(state => selectUserById(state, userId))

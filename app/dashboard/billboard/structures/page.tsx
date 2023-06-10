@@ -1,10 +1,23 @@
 "use client"
-import PageTitle from '@/app/components/main/PageTitle'
-import Table from '@/app/components/main/Table'
-import Loading from '@/app/features/loading/Loading'
-import Structure from '@/app/features/structures/Structure'
 import { useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const Table = dynamic(
+  () => import('@/app/components/main/Table'),
+  { ssr: false }
+)
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const Structure = dynamic(
+  () => import('@/app/features/structures/Structure'),
+  { ssr: false }
+)
 
 const Structures = () => {
 

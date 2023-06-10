@@ -2,11 +2,17 @@ import { StructureObject } from '@/app/lib/interfaces'
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectStructureById } from './structuresApiSlice'
-import Status from '@/app/components/main/Status'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import moment from 'jalali-moment'
-import ConfirmModal from '@/app/components/modals/ConfirmModal'
-import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
+import dynamic from 'next/dynamic'
+const Status = dynamic(
+  () => import('@/app/components/main/Status'),
+  { ssr: false }
+)
+const ConfirmModal = dynamic(
+  () => import('@/app/components/modals/ConfirmModal'),
+  { ssr: false }
+)
 
 const Structure = ({ structureId }: { structureId: string }) => {
 

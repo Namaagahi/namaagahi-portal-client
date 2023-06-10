@@ -1,3 +1,4 @@
+"use client"
 import { useAddNewNoteMutation } from './notesApiSlice'
 import { NoteData, UserObject } from '@/app/lib/interfaces'
 import NoteFormContent from './NoteFormContent'
@@ -35,9 +36,9 @@ const NewNoteForm = ({users, handleModal}: {users: UserObject[], handleModal: ()
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => setNewNoteData({...newNoteData, title: e.target.value})
 
-  const onTextChanged = (e: React.ChangeEventHandler<HTMLTextAreaElement> | any) => setNewNoteData({...newNoteData, text: e.target.value})
+  const onTextChanged = (e: React.ChangeEvent<HTMLInputElement> | any) => setNewNoteData({...newNoteData, text: e.target.value})
 
-  const onUserIdChanged = (e: React.ChangeEvent<HTMLSelectElement>) => setNewNoteData({...newNoteData, userId: e.target.value})
+  const onUserIdChanged = (e: React.ChangeEvent<HTMLInputElement>) => setNewNoteData({...newNoteData, userId: e.target.value})
 
   const canSave = [title, text, userId].every(Boolean) && !isLoading
   const onSaveNoteClick = async (e: any) => {

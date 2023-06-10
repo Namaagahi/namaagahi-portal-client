@@ -1,14 +1,21 @@
+"use client"
 import { useLoginMutation } from "../auth/authApiSlice"
-import LogoSmall from "@/app/components/main/LogoSmall"
 import { useEffect, useRef, useState } from "react"
 import { selectCurrentToken, setCredentials } from "../auth/authSlice"
 import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
-import Loading from "../loading/Loading"
 import { toast } from 'react-toastify'
 import Image from "next/image"
-import usePersist from "@/app/hooks/usePersist"
-
+// import usePersist from "@/app/hooks/usePersist"
+import dynamic from 'next/dynamic'
+const LogoSmall = dynamic(
+  () => import('@/app/components/main/LogoSmall'),
+  { ssr: false }
+)
+const Loading = dynamic(
+  () => import('../loading/Loading'),
+  { ssr: false }
+)
 const Login = () => {
 
     const userRef = useRef<HTMLInputElement>(null)
@@ -27,7 +34,7 @@ const Login = () => {
 
     const { username, password } = loginInfo
 
-    const [persist, setPersist] = usePersist()
+    // const [persist, setPersist] = usePersist()
 
     const [login, { isLoading }] = useLoginMutation()
 
@@ -43,7 +50,7 @@ const Login = () => {
 
     const handlePasswordInput = ((e: React.ChangeEvent<HTMLInputElement>) => setLoginInfo({...loginInfo, password: e.target.value}))
 
-    const handleToggle = () => setPersist((prev: any) => !prev)
+    // const handleToggle = () => setPersist((prev: any) => !prev)
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
@@ -73,21 +80,19 @@ const Login = () => {
             <div className="grid xl:grid-cols-2 grid-cols-1 py-12 xl:py-48 px-10 xl:px-40 gap-24 place-items-center">
                 <div className="order-last opacity-60 block dark:hidden ">
                     <Image
-                    src={'/images/Logo-Black-text.png'}
+                    src={'/images/Logo-Black-text.webp'}
                     alt="hero"
                     width={740}
                     height={290} 
-                    priority
                     />
                 </div>
 
                 <div className="order-last opacity-60 ">
                     <Image
-                    src={'/images/Logo-White-text.png'}
+                    src={'/images/Logo-White-Text.webp'}
                     alt="hero"
                     width={740}
                     height={290} 
-                    priority
                     />
                 </div>
 
@@ -127,7 +132,7 @@ const Login = () => {
                             onChange={handlePasswordInput}
                             />
 
-                        <label htmlFor="persist">
+                        {/* <label htmlFor="persist">
                             <input 
                                 type="checkbox"
                                 id="persist"
@@ -136,7 +141,7 @@ const Login = () => {
                                 className="ml-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             />
                             مرا به خاطر بسپار
-                        </label>
+                        </label> */}
 
                         <button className="btn-primary">
                         ورود

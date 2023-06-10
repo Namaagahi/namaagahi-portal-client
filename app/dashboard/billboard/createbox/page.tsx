@@ -1,7 +1,14 @@
 "use client"
-import PageTitle from '@/app/components/main/PageTitle'
-import NewBox from '@/app/features/boxes/NewBox'
 import React, { useState } from 'react'
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const NewBox = dynamic(
+  () => import('@/app/features/boxes/NewBox'),
+  { ssr: false }
+)
 
 const CreateBox = () => {
 

@@ -1,9 +1,14 @@
+"use client"
 import { DeleteNoteProps, NoteData } from "@/app/lib/interfaces"
 import { useDeleteNoteMutation } from "./notesApiSlice"
-import Loading from "@/app/features/loading/Loading"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
 
 const DeleteNote = (props: DeleteNoteProps) => {
 

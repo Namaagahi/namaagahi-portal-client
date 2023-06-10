@@ -5,9 +5,6 @@ import { notesApiSlice } from "../features/note/notesApiSlice"
 import { store } from "../config/state-config/store"
 import { MenuItemsObj } from "../lib/interfaces"
 import { FaBus, FaSubway, FaBroadcastTower } from "react-icons/fa"
-import Header from "../features/header/Header"
-import Footer from "../features/footer/Footer"
-import Menu from "../features/sidemenu/Menu"
 import { SiBillboard } from 'react-icons/si'
 import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
@@ -15,20 +12,35 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRefreshMutation } from '../features/auth/authApiSlice'
-import Loading from '../features/loading/Loading'
 import { selectCurrentToken } from '../features/auth/authSlice'
-import usePersist from '../hooks/usePersist'
+// import usePersist from '../hooks/usePersist'
 import { useRouter } from 'next/navigation'
 import useAuth from '../hooks/useAuth'
 import { ROLES } from '../config/roles'
 import { structuresApiSlice } from '../features/structures/structuresApiSlice'
-
+import dynamic from 'next/dynamic'
+const Header = dynamic(
+  () => import('../features/header/Header'),
+  { ssr: false }
+)
+const Footer = dynamic(
+  () => import('../features/footer/Footer'),
+  { ssr: false }
+)
+const Menu = dynamic(
+  () => import('../features/sidemenu/Menu'),
+  { ssr: false }
+)
+const Loading = dynamic(
+  () => import('../features/loading/Loading'),
+  { ssr: false }
+)
 
 const MainLayout = ({children}: {children: React.ReactNode}) => {
 
   const { roles } = useAuth()
 
-  const [persist] = usePersist()
+  // const [persist] = usePersist()
 
   const token = useSelector(selectCurrentToken)
 
@@ -41,7 +53,6 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       isLoading,
       isSuccess,
       isError,
-      error
   }] = useRefreshMutation()
 
   const { push } = useRouter()
@@ -53,7 +64,9 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
         setTrueSuccess(true)
       } catch (error) { console.log(error) }
     }
-    if(!token && persist) verifyRefreshToken()
+    if(!token 
+      // && persist
+      ) verifyRefreshToken()
     return () => { effectRan.current = true }
       // eslint-disable-next-line
   }, [trueSuccess])
@@ -121,28 +134,32 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     },
   ];
 
-let content
-if(roles.some((role: string) => Object.values(ROLES).includes(role))) {
-  if (!persist) {
-    content = children
-  } else if (isLoading) {
-    content = <Loading />
-  } else if (isError) { 
-    content = (
-        <p>
-            {/* {`${error?.data?.message} - `} */}
-            <Link href={"/"}>Please login again</Link>.
-        </p>
-    )
-  } else if (isSuccess && trueSuccess) {
-    content = children
-  } else if (token && isUninitialized) {
-    content = children
-  }
-} else {
-  push('/')
-}
+  let content
 
+  if(roles.some((role: string) => Object.values(ROLES).includes(role))) {
+    // if (!persist) {
+    //   content = children
+    // } else 
+    if (isLoading) {
+      content = <Loading />
+    } else if (isError) { 
+      content = (
+          <p>
+              {/* {`${error?.data?.message} - `} */}
+              <Link href={"/"}>دوباره وارد شوید</Link>.
+          </p>
+      )
+    } else if (isSuccess && trueSuccess) {
+      content = children
+    } else if (token && isUninitialized) {
+      content = children
+    }
+  } 
+  // else {
+  //   push('/')
+  // }
+
+console.log(content)
   return (
     <div className="p-4 md:p-8">
       <Header/> 

@@ -1,5 +1,4 @@
-import React from 'react'
-
+"use client"
 const Irib = () => {
   return (
     <div>Irib</div>

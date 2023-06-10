@@ -86,9 +86,9 @@ export interface NoteFormProps {
   error: FetchBaseQueryError | SerializedError | undefined | CustomError
   isError: boolean
   onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onTextChange: (e: React.ChangeEventHandler<HTMLTextAreaElement>) => void
+  onTextChange: ((e: React.ChangeEvent<HTMLInputElement>) => void) | ((e: React.ChangeEventHandler<HTMLTextAreaElement>) => void) | any
   onCompletedChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onUserIdChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  onUserIdChange: ((e: React.ChangeEvent<HTMLInputElement>) => void) | ((e: React.ChangeEventHandler<HTMLSelectElement>) => void) | any
 }
 
 export interface EditNoteProps {
@@ -127,9 +127,9 @@ export interface DeleteStructureProps {
 }
 
 export interface StructureData {
-  sysCode? : number
+  sysCode? : string
   kind? : string
-  district? : string
+  district? : number
   path? : string
   address? : string
   style? : string

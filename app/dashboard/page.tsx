@@ -1,15 +1,16 @@
 "use client"
-import { useSelector } from "react-redux"
-import { selectCurrentToken } from "../features/auth/authSlice"
-import { useRouter } from "next/navigation"
-import { useEffect } from "react"
-import PageTitle from "../components/main/PageTitle"
+
 import React, { useState } from 'react';
 import moment from 'jalali-moment'
 // import DatePicker from 'react-datepicker2';
 import DatePicker from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
 
 const Dashboard = () => {
   const [startDate, setStartDate] = useState('')

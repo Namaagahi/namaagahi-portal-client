@@ -1,8 +1,11 @@
+"use client"
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
 import { useSendLogoutMutation } from '../auth/authApiSlice'
-import Loading from '../loading/Loading'
-
+import dynamic from 'next/dynamic'
+const Loading = dynamic(
+  () => import('../loading/Loading'),
+  { ssr: false }
+)
 const Logout = ({ handleModal }: { handleModal: () => void }) => {
     const { push } = useRouter()
 

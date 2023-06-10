@@ -1,9 +1,12 @@
 "use client"
 import { DevTool } from "@hookform/devtools"
 import { useFieldArray, useForm } from "react-hook-form"
-import BasicInfoFormSection from "./BasicInfoFormSection"
-
 import { useEffect } from "react"
+import dynamic from 'next/dynamic'
+const BasicInfoFormSection = dynamic(
+  () => import('./BasicInfoFormSection'),
+  { ssr: false }
+)
 
 export interface Structure {
     sysCode: number,

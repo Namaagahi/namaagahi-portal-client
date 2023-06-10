@@ -1,8 +1,21 @@
-import LogoFull from "../../components/main/LogoFull"
-import LogoSmall from "../../components/main/LogoSmall"
-import ToggleButton from "../../components/main/ToggleButton"
-import Account from "./Account"
 import { GiHamburgerMenu } from 'react-icons/gi'
+import dynamic from 'next/dynamic'
+const LogoFull = dynamic(
+  () => import('../../components/main/LogoFull'),
+  { ssr: false }
+)
+const LogoSmall = dynamic(
+  () => import('../../components/main/LogoSmall'),
+  { ssr: false }
+)
+const ToggleButton = dynamic(
+  () => import('../../components/main/ToggleButton'),
+  { ssr: false }
+)
+const Account = dynamic(
+  () => import('./Account'),
+  { ssr: false }
+)
 
 const Header = () => {
   return (

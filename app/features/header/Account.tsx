@@ -7,11 +7,18 @@ import Link from "next/link"
 import { IoMdExit } from 'react-icons/io'
 import { AiOutlineSetting } from 'react-icons/ai'
 import { BiUser } from 'react-icons/bi'
-import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import useAuth from "@/app/hooks/useAuth"
-import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import { UserObject } from "@/app/lib/interfaces"
 import { selectUserById } from "../users/usersApiSlice"
+import dynamic from 'next/dynamic'
+const ConfirmModal = dynamic(
+  () => import('@/app/components/modals/ConfirmModal'),
+  { ssr: false }
+)
+const CreateUpdateModal = dynamic(
+  () => import('@/app/components/modals/CreateUpdateModal'),
+  { ssr: false }
+)
 
 const Account = () => {
 

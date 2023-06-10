@@ -4,7 +4,7 @@ const LogoSmall = () => {
   
   return (
     <Image
-        src={'/images/Logo.png'}
+        src={'/images/Logo.webp'}
         alt="logo"
         width={50}
         height={50}

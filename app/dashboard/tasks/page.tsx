@@ -1,13 +1,32 @@
 "use client"
-import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import { useGetNotesQuery } from "@/app/features/note/notesApiSlice"
-import PageTitle from "@/app/components/main/PageTitle"
-import Loading from "@/app/features/loading/Loading"
-import Button from "@/app/components/main/Button"
-import Table from "@/app/components/main/Table"
-import Note from "@/app/features/note/Note"
 import { useState } from "react"
 import useAuth from "@/app/hooks/useAuth"
+import dynamic from 'next/dynamic'
+const PageTitle = dynamic(
+  () => import('@/app/components/main/PageTitle'),
+  { ssr: false }
+)
+const Loading = dynamic(
+  () => import('@/app/features/loading/Loading'),
+  { ssr: false }
+)
+const Button = dynamic(
+  () => import('@/app/components/main/Button'),
+  { ssr: false }
+)
+const Table = dynamic(
+  () => import('@/app/components/main/Table'),
+  { ssr: false }
+)
+const Note = dynamic(
+  () => import('@/app/features/note/Note'),
+  { ssr: false }
+)
+const CreateUpdateModal = dynamic(
+  () => import('@/app/components/modals/CreateUpdateModal'),
+  { ssr: false }
+)
 
 const Tasks = () => {
 

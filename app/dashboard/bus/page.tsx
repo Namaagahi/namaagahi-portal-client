@@ -1,5 +1,4 @@
-import React from 'react'
-
+"use client"
 const Bus = () => {
   return (
     <div>Bus</div>
