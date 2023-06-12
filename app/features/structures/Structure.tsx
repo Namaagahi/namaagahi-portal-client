@@ -3,11 +3,10 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { selectStructureById } from './structuresApiSlice'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
-import moment from 'jalali-moment'
 import dynamic from 'next/dynamic'
 const Status = dynamic(
   () => import('@/app/components/main/Status'),
-  { ssr: false }
+  { ssr: false } 
 )
 const ConfirmModal = dynamic(
   () => import('@/app/components/modals/ConfirmModal'),
@@ -74,8 +73,8 @@ const Structure = ({ structureId }: { structureId: string }) => {
                         />
                     </td>
                 </td>
-                <td className="px-6 py-4">{moment(structure.createdAt).format("MMM Do YYYY")}</td>
-                <td className="px-6 py-4">{moment(structure.updatedAt).format("MMM Do YYYY")}</td>
+                {/* <td className="px-6 py-4">{moment(structure.createdAt).format("MMM Do YYYY")}</td>
+                <td className="px-6 py-4">{moment(structure.updatedAt).format("MMM Do YYYY")}</td> */}
             </tr>
 
             {

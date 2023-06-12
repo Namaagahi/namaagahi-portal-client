@@ -2,12 +2,13 @@
 import { useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
 import useAuth from '@/app/hooks/useAuth'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 const PageTitle = dynamic(
   () => import('@/app/components/main/PageTitle'),
   { ssr: false }
 )
-const BoxCard = dynamic(
-  () => import('@/app/features/boxes/BoxCard'),
+const BoxItem = dynamic(
+  () => import('@/app/features/boxes/BoxItem'),
   { ssr: false }
 )
 const Loading = dynamic(
@@ -30,31 +31,29 @@ const Boxes = () => {
     refetchOnMountOrArgChange: true
   })
   
-
   if(isLoading) return <Loading/>
   if(isError) return (
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>هیچ باکسی ای وجود ندارد</p>
+      <p className='text-xl'>هیچ باکسی وجود ندارد</p>
+      <p>برای ایجاد باکس جدید 
+        <Link href={'/dashboard/billboard/createbox'}>
+          <span className='text-cyan-300'>کلیک کنید</span>
+        </Link>
+      </p>
     </div>
   )
 
   if(isSuccess){
-    console.log("BOXES", boxes)
-    const { ids, entities } = boxes
 
-    const boxCardsContent = ids?.length && ids.map((boxId: string) => <BoxCard key={boxId} boxId={boxId} />)
+    const { ids } = boxes
+
+    const boxItemsContent = ids?.length && ids.map((boxId: string, index: number) => <BoxItem key={boxId} boxId={boxId} index={index} />)
 
     return (
       <main className="min-h-screen">
         <PageTitle name={'باکس ها'} />
         <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-          {boxCardsContent}
-          {/* <BoxCard boxType='buyLong'/>
-          <BoxCard boxType='buyShort'/>
-          <BoxCard boxType='owner'/>
-          <BoxCard boxType='owner'/>
-          <BoxCard boxType='buyShort'/>
-          <BoxCard boxType='owner'/> */}
+          {boxItemsContent}
         </div>
       </main>
     )

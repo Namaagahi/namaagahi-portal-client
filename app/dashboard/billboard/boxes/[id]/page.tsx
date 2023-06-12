@@ -1,48 +1,31 @@
-import { AiFillEdit } from "react-icons/ai"
-import dynamic from 'next/dynamic'
-import { BoxObject } from "@/app/lib/interfaces"
-import { useSelector } from "react-redux"
-import { selectBoxById } from "./boxesApiSlice"
-import moment from 'moment-jalaali'
-const Table = dynamic(
-  () => import('@/app/components/main/Table'),
-  { ssr: false }
-)
+import React from 'react'
 
-const BoxCard = ({boxId }: { boxId: string }) => {
-
-    const box: BoxObject | any = useSelector(state => selectBoxById(state, boxId))
-    const startDate = moment(moment(box.duration.startDate).format('jYYYY-jMM-jDD'), 'jYYYY-jMM-jDD')  
-    const endDate = moment(moment(box.duration.endDate).format('jYYYY-jMM-jDD'), 'jYYYY-jMM-jDD') 
-    const diff = endDate.diff(startDate, 'day') + 1
-
-    const boxStructureHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده دوره', 'تاریخ شروع', 'تاریخ پایان', 'ویرایش تاریخ']
-    const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
-    const structureRevenueHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده', 'مجموع فروش دوره', 'سود / زیان' ]
-    const boxRevenueHeadings = ['بهای تمام شده باکس', 'مجموع فروش باکس', 'سود / زیان تجمیعی' ]
+const SingleBox = () => {
   return (
-    <div className="flex flex-col rounded-lg w-full h-[750px] bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
-        <div className="h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-[#2563EB]/80 flex items-center justify-between px-2 text-white font-bold">
-            <div className="flex flex-col gap-2">
-                {box.type.name === 'buyShort'? <p>خرید کوتاه مدت</p> : box.type.name === 'buyLong'? <p>خرید بلند مدت</p>: <p>مزایده ای</p>}
-                <p>{box.name}</p>
-            </div>
-            {
-            box.type.name === 'buyShort' && 
-            <div className="flex flex-col gap-2">
-                <p>{box.type.typeOptions.projectNumber}</p>
-                <p>{box.type.typeOptions.brand}</p>
-            </div>
-            }
-            <div className="flex flex-col gap-2 text-sm">
-                <p>{moment(box.duration.startDate).format('jYYYY-jMM-jDD')}</p>
-                <p>{moment(box.duration.endDate).format('jYYYY-jMM-jDD')}</p>
-                <p>مدت قرارداد: {diff} روز</p>
-            </div>
+    <div className="flex flex-col rounded-lg w-full h-[750px] bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md cursor-pointer group perspective">
+<div className="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
+    <div className="absolute my-rotate-y-180 backface-hidden w-full h-full bg-gray-100 overflow-hidden">
+        {/* <div className="h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-[#2563EB]/80 flex items-center justify-between px-2 text-white font-bold">
+        <div className="flex flex-col gap-2">
+            {box.type.name === 'buyShort'? <p>خرید کوتاه مدت</p> : box.type.name === 'buyLong'? <p>خرید بلند مدت</p>: <p>مزایده ای</p>}
+            <p>{box.name}</p>
         </div>
         {
-            box.structureIds?.length ? <p>باکس سازه دارد</p> : <p>باکس سازه ندارد</p>
+        box.type.name === 'buyShort' && 
+        <div className="flex flex-col gap-2">
+            <p>{box.type.typeOptions.projectNumber}</p>
+            <p>{box.type.typeOptions.brand}</p>
+        </div>
         }
+        <div className="flex flex-col gap-2 text-sm">
+            <p>{moment(box.duration.startDate).format('jYYYY-jMM-jDD')}</p>
+            <p>{moment(box.duration.endDate).format('jYYYY-jMM-jDD')}</p>
+            <p>مدت قرارداد: {diff} روز</p>
+        </div>
+    </div>
+        {
+            box.structureIds?.length ? <p>باکس سازه دارد</p> : <p>باکس سازه ندارد</p>
+        }  */}
         {/* <small className=" mt-2 text-black px-2">خرید</small>
         <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black">
             <Table 
@@ -107,7 +90,9 @@ const BoxCard = ({boxId }: { boxId: string }) => {
             />
         </div> */}
     </div>
+ </div>
+ </div>
   )
-} 
+}
 
-export default BoxCard
+export default SingleBox

@@ -1,3 +1,4 @@
+import DeleteBox from "@/app/features/boxes/DeleteBox"
 import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteStructure from "@/app/features/structures/DeleteStructure"
 import DeleteUser from "@/app/features/users/DeleteUser"
@@ -33,10 +34,18 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                     handleModal={handleModal}
                 />
                 :
+                deleteType === 'structure'?
                 <DeleteStructure
                     structure={prop}
                     handleModal={handleModal}
                 />
+                :
+                deleteType === 'box'?
+                <DeleteBox 
+                    box={prop}
+                    handleModal={handleModal}
+                />
+                : null
             }
         </div>
     )

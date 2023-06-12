@@ -58,20 +58,20 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
             invalidatesTags: (result, error, arg) => [{ type: 'Note', id: arg.id }]
         }),
 
-        deleteNote: builder.mutation({
+        deleteBox: builder.mutation({
 
             query:({ id }) => ({
-                url: '/notes',
+                url: '/boxes',
                 method: 'DELETE',
                 body: { id }
             }),
 
-            invalidatesTags: (result, error, arg) => [{ type: 'Note', id: arg.id }]
+            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id }]
         })
     }),
 })
  
-export const { useGetAllBoxesQuery, useAddNewNoteMutation, useUpdateNoteMutation, useDeleteNoteMutation } = boxesApiSlice
+export const { useGetAllBoxesQuery, useAddNewNoteMutation, useUpdateNoteMutation, useDeleteBoxMutation } = boxesApiSlice
 
 export const selectBoxesResult = boxesApiSlice.endpoints.getAllBoxes.select(undefined)
 

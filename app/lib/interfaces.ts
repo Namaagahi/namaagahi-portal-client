@@ -124,6 +124,11 @@ export interface BoxObject {
   username: string
 }
 
+export interface DeleteBoxProps {
+  box: BoxObject | undefined
+  handleModal: () => void
+}
+
 
 // STRUCTURE ===========================================================================
 export interface StructureObject {
