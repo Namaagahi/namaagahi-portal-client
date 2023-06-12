@@ -11,7 +11,7 @@ const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
 )
-const Button = dynamic(
+const Button = dynamic( 
   () => import('@/app/components/main/Button'),
   { ssr: false }
 )

@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState } from 'react';
-import moment from 'jalali-moment'
 // import DatePicker from 'react-datepicker2';
 import DatePicker from "react-multi-date-picker"
 import persian from "react-date-object/calendars/persian"
@@ -21,16 +20,16 @@ const Dashboard = () => {
   const handleEndDateChange = (value: any) => setEndDate(value);
   
 
-  const calculateDateDifference = () => {
-    const date1 = moment(startDate, 'jYYYY/jMM/jDD')
-    const date2 = moment(endDate, 'jYYYY/jMM/jDD')
+  // const calculateDateDifference = () => {
+  //   // const date1 = moment(startDate, 'jYYYY/jMM/jDD')
+  //   // const date2 = moment(endDate, 'jYYYY/jMM/jDD')
 
-    if (date1.isValid() && date2.isValid()) {
-      const differenceInTime = date2.diff(date1, 'days')
-      setDifferenceInDays(differenceInTime + 1)
-    }
-    console.log(date1, date2)
-  };
+  //   if (date1.isValid() && date2.isValid()) {
+  //     const differenceInTime = date2.diff(date1, 'days')
+  //     setDifferenceInDays(differenceInTime + 1)
+  //   }
+  //   console.log(date1, date2)
+  // };
 
   return (
     <main className="min-h-screen">
@@ -63,7 +62,7 @@ const Dashboard = () => {
         value={endDate}
         onChange={handleEndDateChange}
       /> */}
-      <input
+      {/* <input
         type="text"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
@@ -76,7 +75,7 @@ const Dashboard = () => {
         placeholder="تاریخ پایان (YYYY/MM/DD)"
       />
       <button className="btn-primary" onClick={calculateDateDifference}>محاسبه</button>
-      <p>فاصله زمانی در روزها: {differenceInDays}</p>
+      <p>فاصله زمانی در روزها: {differenceInDays}</p> */}
     </div>
     </main>
   )

@@ -55,7 +55,7 @@ export interface EditUserProps {
 export interface DeleteUserProps {
   user: UserObject | undefined
   handleModal: () => void
-}
+} 
 
 // NOTE ===========================================================================
 export interface NoteObject {
@@ -100,6 +100,28 @@ export interface EditNoteProps {
 export interface DeleteNoteProps {
   note: NoteObject | undefined
   handleModal: () => void
+}
+
+// BOX ===========================================================================
+export interface BoxObject {
+  id? : string
+  _id: string
+  userId: string
+  name: string
+  type: {
+    name: string
+    typeOptions: {
+      projectNumber?: string
+      brand?: string
+    }
+  }
+  duration: {
+    startDate: Date
+    endDate: Date
+  }
+  structureIds: string[]
+  updatedAt: string
+  username: string
 }
 
 
