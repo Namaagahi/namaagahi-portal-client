@@ -56,7 +56,7 @@ const Account = () => {
         <p className="text-white dark:text-black">{status}</p>
         
         {showAccountMenu &&
-          <div className="account-menu-container">
+          <div className="account-menu-container z-[1000]">
           <ul className="space-y-3">
             <li className="font-medium">
               <div

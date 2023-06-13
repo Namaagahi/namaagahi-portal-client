@@ -36,23 +36,23 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
             }
         }),
 
-        addNewNote: builder.mutation({
+        createNewBox: builder.mutation({
 
-            query: initialNote => ({
-                url: '/notes',
+            query: initialBox => ({
+                url: '/boxes',
                 method: 'POST',
-                body: { ...initialNote }
+                body: { ...initialBox }
             }),
 
-            invalidatesTags: [{ type: 'Note', id:'LIST' }]
+            invalidatesTags: [{ type: 'Box', id:'LIST' }]
         }),
 
-        updateNote: builder.mutation({
+        updateBox: builder.mutation({
 
-            query: initialNote => ({
-                url: 'notes',
+            query: initialBox => ({
+                url: 'boxes',
                 method: 'PATCH',
-                body: { ...initialNote }
+                body: { ...initialBox }
             }),
 
             invalidatesTags: (result, error, arg) => [{ type: 'Note', id: arg.id }]
@@ -71,7 +71,7 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
     }),
 })
  
-export const { useGetAllBoxesQuery, useAddNewNoteMutation, useUpdateNoteMutation, useDeleteBoxMutation } = boxesApiSlice
+export const { useGetAllBoxesQuery, useCreateNewBoxMutation, useUpdateBoxMutation, useDeleteBoxMutation } = boxesApiSlice
 
 export const selectBoxesResult = boxesApiSlice.endpoints.getAllBoxes.select(undefined)
 

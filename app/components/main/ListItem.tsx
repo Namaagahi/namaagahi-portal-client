@@ -48,7 +48,7 @@ const ListItem = ({number, param, prop, startDate, endDate, titles}: any) => {
             </div>
             <div className='lg:w-2/3 w-full dark:bg-slate-300 bg-white rounded-lg p-3 my-10'>
                 {Object.entries(titles).map(([key, val]:any) => (
-                    <div className=' flex justify-between '>
+                    <div key={key} className=' flex justify-between '>
                         <p>{val && key}</p>
                         {
                             key === 'نوع باکس' ? 

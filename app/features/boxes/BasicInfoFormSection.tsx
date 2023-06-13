@@ -8,19 +8,23 @@ const BasicInfoFormSection = ({register, errors, type}:
         <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
             <div className='flex flex-col gap-3'>
-                <label htmlFor="boxName" className='text-[#767676] font-bold'>نام باکس</label>
+                <label htmlFor="name" className='text-[#767676] font-bold'>نام باکس</label>
                 <input
-                    {...register("boxName", {
+                    {...register("name", {
                         required: {
                             value: true,
                             message:  'نام باکس را وارد کنید'
+                        },
+                        pattern: {
+                            value: /^[B][X][0-9]{4}$/,
+                            message: 'فرمت کد پروژه باید به صورت BX و چهار عدد بعد از آن باشد'
                         }
                     })}
                     type="text"
-                    id='boxName'
+                    id='name'
                     className='px-6 py-5 rounded-[50px] bg-white outline-none'
                 />
-                <small className="text-xs text-rose-600 ">{errors.boxName?.message}</small>
+                <small className="text-xs text-rose-600 ">{errors.name?.message}</small>
             </div>
         {
             type === 'buyShort' &&
@@ -28,26 +32,26 @@ const BasicInfoFormSection = ({register, errors, type}:
                 <div className='flex flex-col gap-3'>
                     <label htmlFor="projectNumber" className='text-[#767676] font-bold'>کد پروژه</label>
                     <input
-                        {...register("projectNumber", {
+                        {...register("type.typeOptions.projectNumber", {
                             required: {
                                 value: true,
                                 message: 'شماره پروژه را وارد کنید'
                             },
                             pattern: {
-                                value: /^[p][0-9]{4}$/,
-                                message: 'فرمت کد پروژه باید به صورت p و چهار عدد بعد از آن باشد'
+                                value: /^[P][R][0-9]{4}$/,
+                                message: 'فرمت کد پروژه باید به صورت PR و چهار عدد بعد از آن باشد'
                             }
                         })}
                         type="text"
                         id='projectNumber'
                         className='px-6 py-5 rounded-[50px] bg-white outline-none'
                     />
-                <small className="text-xs text-rose-600 ">{errors.projectNumber?.message}</small>
+                <small className="text-xs text-rose-600 ">{errors.type?.typeOptions?.projectNumber?.message}</small>
                 </div>
                 <div className='flex flex-col gap-3'>
                     <label htmlFor="brand" className='text-[#767676] font-bold'>برند</label>
                     <input
-                        {...register("brand", {
+                        {...register("type.typeOptions.brand", {
                             required: {
                                 value: true,
                                 message: 'نام برند را وارد کنید'
@@ -60,14 +64,14 @@ const BasicInfoFormSection = ({register, errors, type}:
                         id='brand'
                         className='px-6 py-5 rounded-[50px] bg-white outline-none'
                     />
-                <small className="text-xs text-rose-600 ">{errors.brand?.message}</small>
+                <small className="text-xs text-rose-600 ">{errors.type?.typeOptions?.brand?.message}</small>
                 </div>
             </>
         }
             <div className='flex flex-col gap-3'>
                 <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
                 <input
-                    {...register("startDate", {
+                    {...register("duration.startDate", {
                         required: {
                             value: true,
                             message:  'تاریخ شروع را وارد کنید'
@@ -77,12 +81,12 @@ const BasicInfoFormSection = ({register, errors, type}:
                     id='startDate'
                     className='px-6 py-5 rounded-[50px] bg-white outline-none'
                 />
-                <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
+                <small className="text-xs text-rose-600 ">{errors.duration?.startDate?.message}</small>
             </div>
             <div className='flex flex-col gap-3'>
                 <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
                 <input
-                    {...register("endDate", {
+                    {...register("duration.endDate", {
                         required: {
                             value: true, 
                             message: 'تاریخ پایان را وارد کنید'
@@ -92,7 +96,7 @@ const BasicInfoFormSection = ({register, errors, type}:
                     id='endDate'
                     className='px-6 py-5 rounded-[50px] bg-white outline-none'
                 />
-                <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
+                <small className="text-xs text-rose-600 ">{errors.duration?.endDate?.message}</small>
             </div>
         </div>
     </div>

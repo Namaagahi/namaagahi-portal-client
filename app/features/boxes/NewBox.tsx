@@ -3,6 +3,10 @@ import { DevTool } from "@hookform/devtools"
 import { useFieldArray, useForm } from "react-hook-form"
 import { useEffect } from "react"
 import dynamic from 'next/dynamic'
+import { useCreateNewBoxMutation } from "./boxesApiSlice"
+import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
+import useAuth from "@/app/hooks/useAuth"
 const BasicInfoFormSection = dynamic(
   () => import('./BasicInfoFormSection'),
   { ssr: false }
@@ -23,13 +27,19 @@ export interface Structure {
 }
 
 export interface AddBoxForm {
-    boxType: string
-    boxName: string,
-    projectNumber? : number
-    brand?: string,
-    startDate: string,
-    endDate: string,
-    structures: Structure[]
+    name: string,
+    type: {
+        name:string
+        typeOptions: {
+            projectNumber: string | null
+            brand: string | null
+        }
+    }
+    duration: {
+        startDate: Date
+        endDate: Date
+    }
+    structureIds: string[]
 }
 
 
@@ -45,45 +55,67 @@ async () =>{
 */
 
 const NewBox = ({type}: {type: string}) => {
+
+    const { id } = useAuth()  
+
+    const [createNewBox, {
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    }] = useCreateNewBoxMutation()
+
+    const { push } = useRouter()
+    
     const createBoxForm = useForm<AddBoxForm>({
         defaultValues:  {
-            boxType: type,
-            boxName: '',
-            startDate:'',
-            endDate: '',
-            projectNumber: 0,
-            brand:'',
-            structures: [{
-                sysCode: 0,
-                kind: '',
-                district: 0,
-                path: '',
-                address: '',
-                style:'',
-                face:'',
-                dimensions:'',
-                printSize: 0,
-                docSize: 0,
-                squareFee: 0
-            }]
+            name: '',
+            type: {
+                name: type,
+                typeOptions: {
+                    projectNumber:null,
+                    brand: null
+                }
+            },
+            duration: {
+                startDate: new Date(),
+                endDate: new Date()
+            },
+            structureIds: []
         },
         mode: 'onSubmit'
     })
-    // console.log(createBoxForm)
     const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
-    const { fields: structures, append, update, remove } = useFieldArray({
-        control,
-        name: "structures",
-      });
 
       useEffect(() => {
-        const clone = getValues("structures");
-        setValue('structures', clone)
+        const clone = getValues("structureIds");
+        setValue('structureIds', clone)
       }, []);
-    // console.log(structures)
 
-    const onSubmit = (data: AddBoxForm) => {
-        // console.log('Form Submitted', data)
+    const onSubmit = async(data: AddBoxForm) => {
+        if(isError) {
+            'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')
+            'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
+        }
+        await createNewBox({
+            userId: id,
+            name: data.name,
+            duration: {
+                startDate: data.duration.startDate,
+                endDate: data.duration.endDate,
+            },
+            type: {
+                name: data.type.name,
+                typeOptions: {
+                    projectNumber: data.type.typeOptions.projectNumber,
+                    brand: data.type.typeOptions.brand
+                }
+            },
+        })
+        if(isSuccess) {
+            toast.success('باکس جدید با موفقیت ساخته شد')
+            push('/dashboard/billboard/boxes')
+        }
     }
 
   return (

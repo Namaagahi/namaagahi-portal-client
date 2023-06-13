@@ -19,6 +19,7 @@ import useAuth from '../hooks/useAuth'
 import { ROLES } from '../config/roles'
 import { structuresApiSlice } from '../features/structures/structuresApiSlice'
 import dynamic from 'next/dynamic'
+import { boxesApiSlice } from '../features/boxes/boxesApiSlice'
 const Header = dynamic(
   () => import('../features/header/Header'),
   { ssr: false }
@@ -72,13 +73,15 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
   }, [trueSuccess])
 
   useEffect(()=> {
-    const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate(undefined))
     const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate(undefined))
+    const boxes = store.dispatch(boxesApiSlice.endpoints.getAllBoxes.initiate(undefined))
+    const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate(undefined))
     const structures = store.dispatch(structuresApiSlice.endpoints.getStructures.initiate(undefined))
 
     return () => {
-      notes.unsubscribe()
       users.unsubscribe()
+      boxes.unsubscribe()
+      notes.unsubscribe()
       structures.unsubscribe()
     }
   }, [])
