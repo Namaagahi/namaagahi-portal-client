@@ -1,81 +1,60 @@
 "use client"
-
-import React, { useState } from 'react';
-// import DatePicker from 'react-datepicker2';
-import DatePicker from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian"
-import persian_fa from "react-date-object/locales/persian_fa"
+import React, { useState } from 'react'
 import dynamic from 'next/dynamic'
+import { DatePicker } from "react-advance-jalaali-datepicker"
+import 'react-persian-calendar-date-picker/lib/DatePicker.css'
 const PageTitle = dynamic(
   () => import('@/app/components/main/PageTitle'),
   { ssr: false }
 )
-
 const Dashboard = () => {
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
-  const [differenceInDays, setDifferenceInDays] = useState(0)
+  function change(unix:string, formatted: string) {
+    console.log(unix); // returns timestamp of the selected value, for example.
+    console.log(formatted); // returns the selected value in the format you've entered, forexample, "تاریخ: 1396/02/24 ساعت: 18:30".
+  }
 
-  const handleStartDateChange = (value: any) => {console.log(value) ,setStartDate(value);}
-  const handleEndDateChange = (value: any) => setEndDate(value);
+  function DatePickerInput(props: {}) {
+    return <input className="input-primary" {...props} />
+  }
+
+  const variableCosts= [
+    {
+      name: "برق",
+      figures: {
+        periodCost: 4000,
+        monthlyCost: 334,
+        dailyCost: 11
+      },
+    },
+    {
+      name: "بیمه",
+      figures: {
+        periodCost: 3000,
+        monthlyCost: 250,
+        dailyCost: 9
+      }
+    }
+  ]
+
+  const totalDailyCost = variableCosts.reduce((acc, curr) => {
+    return acc + curr.figures.dailyCost;
+  }, 0);
   
-
-  // const calculateDateDifference = () => {
-  //   // const date1 = moment(startDate, 'jYYYY/jMM/jDD')
-  //   // const date2 = moment(endDate, 'jYYYY/jMM/jDD')
-
-  //   if (date1.isValid() && date2.isValid()) {
-  //     const differenceInTime = date2.diff(date1, 'days')
-  //     setDifferenceInDays(differenceInTime + 1)
-  //   }
-  //   console.log(date1, date2)
-  // };
+  console.log("totalDaily ", totalDailyCost);
 
   return (
     <main className="min-h-screen">
       <PageTitle name={'داشبورد'} />
-      <p className="text5xl">اختلاف بین دو تاریخ:</p>
-      <div>
-      {/* <DatePicker
-      value={startDate}
-      onChange={handleStartDateChange}
-      isGregorian={false} // تاریخ شمسی فعال شود
-      placeholder="انتخاب تاریخ"
-    />
+      <div className="w-full">
       <DatePicker
-      value={endDate}
-      onChange={handleEndDateChange}
-      isGregorian={false} // تاریخ شمسی فعال شود
-      placeholder="انتخاب تاریخ"
-    /> */}
-      {/* <DatePicker
-        calendar={persian}
-        locale={persian_fa}
-        calendarPosition="bottom-right"
-        value={startDate}
-        onChange={handleStartDateChange}
-      />
-      <DatePicker
-        calendar={persian}
-        locale={persian_fa}
-        calendarPosition="bottom-right"
-        value={endDate}
-        onChange={handleEndDateChange}
-      /> */}
-      {/* <input
-        type="text"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-        placeholder="تاریخ شروع (YYYY/MM/DD)"
-      />
-      <input
-        type="text"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-        placeholder="تاریخ پایان (YYYY/MM/DD)"
-      />
-      <button className="btn-primary" onClick={calculateDateDifference}>محاسبه</button>
-      <p>فاصله زمانی در روزها: {differenceInDays}</p> */}
+          inputComponent={DatePickerInput}
+          placeholder="انتخاب تاریخ"
+          format="jYYYY-jMM-jDD"
+          onChange={change}
+          id="datePicker"
+          preSelected="1396/05/15"
+          customClass='my-datepicker'
+        />
     </div>
     </main>
   )

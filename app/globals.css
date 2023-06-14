@@ -67,6 +67,9 @@
   .account-menu-logout-item {
     @apply font-medium flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4 cursor-pointer
   }
+  .my-datepicker {
+    @apply text-red-500 bg-blue-500 rounded-lg p-2
+  }
 }
 
 :root {
@@ -81,4 +84,8 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
+}
+
+.my-datepicker {
+  color: black;
 }
