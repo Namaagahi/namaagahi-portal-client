@@ -32,7 +32,7 @@ const Structures = () => {
     refetchOnMountOrArgChange: true
   })
 
-  const structuresTableHeadings = ['کاربر', 'کد سامانه', 'نوع سازه', 'منطقه', 'مسیر', 'نشانی', 'تیپ', 'وجه', 'ابعاد', 'متراژ چاپ', 'متراژ واقعی', 'وضعیت', 'عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
+  const structuresTableHeadings = ['کاربر', 'کد سامانه', 'منطقه', 'مسیر', 'نشانی', 'وضعیت', 'عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
 
   if(isLoading) return <Loading/>
   if(isError) return (

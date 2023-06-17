@@ -1,123 +1,92 @@
 "use client"
 import { DevTool } from "@hookform/devtools"
-import { useFieldArray, useForm } from "react-hook-form"
-import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import { useEffect, useState } from "react"
 import dynamic from 'next/dynamic'
 import { useCreateNewBoxMutation } from "./boxesApiSlice"
 import { toast } from "react-toastify"
 import { useRouter } from "next/navigation"
 import useAuth from "@/app/hooks/useAuth"
+import { AddBoxForm } from "@/app/lib/interfaces"
+import moment from 'moment-jalaali'
+import type { Value } from "react-multi-date-picker"
+import { DateObject } from "react-multi-date-picker"
+import persian from "react-date-object/calendars/persian"
+import persian_fa from "react-date-object/locales/persian_fa"
 const BasicInfoFormSection = dynamic(
   () => import('./BasicInfoFormSection'),
   { ssr: false }
 )
-
-export interface Structure {
-    sysCode: number,
-    kind: string,
-    district: number,
-    path: string,
-    address: string,
-    style: string,
-    face: string,
-    dimensions: string,
-    printSize: number,
-    docSize: number,
-    squareFee: number
-}
-
-export interface AddBoxForm {
-    name: string,
-    type: {
-        name:string
-        typeOptions: {
-            projectNumber: string | null
-            brand: string | null
-        }
-    }
-    duration: {
-        startDate: Date
-        endDate: Date
-    }
-    structureIds: string[]
-}
-
-
-
-/*dynamically assign default values from an api example
-async () =>{
-    const res = await fetch("https://jsonplaceholder.typicode.com/users/1")
-    const data = await res.json()
-    return {
-        boxName: '',
-        email: data.email
-    }
-*/
 
 const NewBox = ({type}: {type: string}) => {
 
     const { id } = useAuth()  
 
     const [createNewBox, {
-        isLoading,
         isSuccess,
         isError,
         error
     }] = useCreateNewBoxMutation()
+
+    const [startDate, setStartDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
+    const [endDate, setEndDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
 
     const { push } = useRouter()
     
     const createBoxForm = useForm<AddBoxForm>({
         defaultValues:  {
             name: '',
-            type: {
-                name: type,
-                typeOptions: {
-                    projectNumber:null,
-                    brand: null
-                }
-            },
-            duration: {
-                startDate: new Date(),
-                endDate: new Date()
-            },
-            structureIds: []
+            type: '',
+            projectNumber: '',
+            brand: '',
+            startDate:'',
+            endDate:'',
+            structures: []
         },
         mode: 'onSubmit'
     })
+
     const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
 
       useEffect(() => {
-        const clone = getValues("structureIds");
-        setValue('structureIds', clone)
-      }, []);
+        getValues("startDate")
+        getValues("endDate")
+        setValue('startDate', startDate!!.toLocaleString())
+        setValue('endDate', endDate!!.toLocaleString())
+      }, [startDate, endDate]);
 
     const onSubmit = async(data: AddBoxForm) => {
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')
             'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
+            console.log(error)
         }
+
         await createNewBox({
             userId: id,
             name: data.name,
-            duration: {
-                startDate: data.duration.startDate,
-                endDate: data.duration.endDate,
-            },
-            type: {
-                name: data.type.name,
+            type: { 
+                name: data.type,
                 typeOptions: {
-                    projectNumber: data.type.typeOptions.projectNumber,
-                    brand: data.type.typeOptions.brand
-                }
+                    projectNumber: data.projectNumber,
+                    brand: data.brand
+                },
             },
+            duration: {
+                startDate: data.startDate,
+                endDate: data.endDate,
+            },
+            structures: data.structures
         })
+
         if(isSuccess) {
             toast.success('باکس جدید با موفقیت ساخته شد')
-            push('/dashboard/billboard/boxes')
+            // push('/dashboard/billboard/boxes')
         }
+        console.log(data)
     }
 
+console.log(startDate!!.toLocaleString())
   return (
    <>
         <form
@@ -129,6 +98,8 @@ const NewBox = ({type}: {type: string}) => {
                 type={type}
                 register={register}
                 errors={errors}
+                handleStartDate={(val) => setStartDate(val)}
+                handleEndDate={(val) => setEndDate(val)}
             />
 
             <button className="btn-primary">افزودن باکس</button>

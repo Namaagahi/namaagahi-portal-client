@@ -19,14 +19,16 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
             query: () => '/boxes',
 
             transformResponse: (responseData: BoxObject[]) => {
+                console.log("RES DATA",responseData)
                 const loadedBoxes = responseData.map((box: BoxObject) => {
+                    console.log("BOX",box)
                     box.id = box._id
                     return box
                 })
                 return boxesAdapter.setAll(initialState, loadedBoxes)
             },
 
-            providesTags: (result: any, error, arg) => {
+            providesTags: (result: any, error, arg) => { 
                 if (result?.ids) {
                     return [
                         { type: 'Box', id: 'LIST' },

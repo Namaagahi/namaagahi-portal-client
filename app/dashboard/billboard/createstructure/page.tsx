@@ -10,9 +10,7 @@ const NewStructureForm = dynamic(
 )
 
 const CreateStructure = () => {
-
- 
-
+  
   return ( 
     <main className="min-h-screen">
       <PageTitle name={'ایجاد سازه جدید'} />

@@ -124,6 +124,17 @@ export interface BoxObject {
   username: string
 }
 
+export interface AddBoxForm {
+  name: string
+  type: string
+  projectNumber: string
+  brand: string
+  startDate: Date | string
+  endDate: Date | string
+  structures: string[]
+}
+
+
 export interface DeleteBoxProps {
   box: BoxObject | undefined
   handleModal: () => void
@@ -134,17 +145,21 @@ export interface DeleteBoxProps {
 export interface StructureObject {
   id? : string
   _id?: string
-  user: string
-  sysCode : string
-  kind : string
-  district : number
-  path : string
-  address : string
-  style : string
-  face : string
-  dimensions : string
-  printSize : number
-  docSize : number
+  userId: string
+  name : string
+  location: {
+    district: number
+    path: string
+    address: string
+  }
+  isAvailable : boolean
+}
+
+export interface StructureObjectForm {
+  name : string
+  district: number
+  path: string
+  address: string
   isAvailable : boolean
 }
 

@@ -9,7 +9,9 @@ const structuresAdapter = createEntityAdapter({
 
 const initialState = structuresAdapter.getInitialState() 
 
-export const structuresApiSlice = apiSlice.injectEndpoints({
+const structuresApiSliceTag = apiSlice.enhanceEndpoints({addTagTypes: ['Structure']})
+
+export const structuresApiSlice = structuresApiSliceTag.injectEndpoints({
 
     overrideExisting: module.hot?.status() === "apply",
 

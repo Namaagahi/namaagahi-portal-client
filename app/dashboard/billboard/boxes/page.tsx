@@ -48,7 +48,7 @@ const Boxes = () => {
     const { ids } = boxes
 
     const boxItemsContent = ids?.length && ids.map((boxId: string, index: number) => <BoxItem key={boxId} boxId={boxId} index={index} />)
-
+    console.log(boxes)
     return (
       <main className="min-h-screen">
         <PageTitle name={'باکس ها'} />
