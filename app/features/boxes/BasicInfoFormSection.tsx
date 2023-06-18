@@ -79,12 +79,12 @@ const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleE
             <div className='flex flex-col gap-3'>
                 <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
                 <DatePicker
+                    inputClass='input-primary'
                     format='YYYY-MM-DD'
                     calendar={persian}
                     locale={persian_fa}
                     calendarPosition="bottom-right"
                     onChange={(val) => handleStartDate(val)}
-
                 />
                 <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
             </div>
@@ -92,6 +92,7 @@ const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleE
             <div className='flex flex-col gap-3'>
                 <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
                 <DatePicker
+                    inputClass='input-primary'
                     format='YYYY-MM-DD'
                     calendar={persian}
                     locale={persian_fa}
@@ -107,59 +108,3 @@ const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleE
 }
 
 export default BasicInfoFormSection
-
-// import { Container } from "@mui/system"
-// import NextButton from "../common/NextButton"
-// import type { Value } from "react-multi-date-picker"
-// import { DateObject } from "react-multi-date-picker"
-// import { useEffect, useState } from "react"
-// import { Answer } from "@/components/quiz"
-// import { Calendar } from "react-multi-date-picker"
-// import persian from "react-date-object/calendars/persian"
-// import gregorian from "react-date-object/calendars/gregorian"
-// import persian_fa from "react-date-object/locales/persian_fa"
-// import gregorian_en from "react-date-object/locales/gregorian_en"
-// import { Typography } from "@mui/material"
-
-// const CalendarContainer = ({answer, error}: {answer: Answer, error: string}) => {
-
-//   const thisCalendar = process.env.DEFAULT_LOCALE === 'fa_IR' ? persian : gregorian
-//   const thisLocale = process.env.DEFAULT_LOCALE === 'fa_IR' ? persian_fa : gregorian_en
-  
-//   const [value, setValue] = useState<Value>(new DateObject({ calendar: thisCalendar, locale: thisLocale }))
-//   const [calendarError, setCalendarError] = useState(error ?? '')
-
-//   useEffect(() => {
-//     if(error) setCalendarError(error)
-//   }, [error])
-  
-//   return (
-//     <Container>
-//       <Container maxWidth={false} disableGutters sx={{ width: 'min-content', my: '20px' }}>
-//       <Typography
-//           variant='subtitle2'
-//           sx={{
-//             color: 'error.main',
-//             mb:'20px'
-//           }}>
-//           {calendarError}
-//         </Typography>
-//         <Calendar
-//           calendar={thisCalendar}
-//           locale={thisLocale}
-//           value={value}
-//           onChange={(thisValue) => {
-//             setCalendarError('')
-//             setValue(thisValue)
-//           }}
-//         />
-//       </Container>
-//       <NextButton
-//         inputs={answer}
-//         nextParams={{calendar: value!!.toLocaleString(), aid:answer.aid}}
-//       />
-//     </Container>
-//   )
-// }
-
-// export default CalendarContainer

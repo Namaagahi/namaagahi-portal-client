@@ -37,7 +37,6 @@ const Account = () => {
   const handleLogout = () => setIsLogout(!isLogout)
 
   const handleEditProfile = () => setIsEditProfile(!isEditProfile)
-  // console.log("USER",user)
 
   return (
    <>

@@ -18,6 +18,7 @@ const Account = dynamic(
 )
 
 const Header = () => {
+  
   return (
     <section className="pb-8 flex justify-between items-center">
       <LogoFull />

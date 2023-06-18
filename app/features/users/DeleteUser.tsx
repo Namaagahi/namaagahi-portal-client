@@ -16,32 +16,23 @@ const DeleteUser = (props: DeleteUserProps) => {
     
     const [deleteUser, {
         isLoading,
+        isError,
         isSuccess,
+        error
     }] = useDeleteUserMutation()
 
-    const { push } = useRouter()
-
-    const [userData, setUserData] = useState({
-        name: user?.name,
-        username: user?.username,
-        validUserName: false,
-        password: '',
-        validPassWord: false,
-        roles: user?.roles,
-        active: user?.active
-    })
-
-    useEffect(() => {
-        if(isSuccess) {
-            setUserData({...userData, name:'', username:'', password:'', roles:[]})
-            push('/dashboard/users')
-        }
-    }, [isSuccess, push])
-
     const onDeleteUserClick = async () => {
-        await deleteUser({ id: user?.id })
+
+        const deleted = await deleteUser({ id: user?.id })
+        if(deleted.error) {
+            deleted.error.data.message === "BAD REQUEST : User has assigned notes"  && toast.error('این کاربر وظایف انجام نشده دارد!')
+            handleModal()
+        }
+        
         handleModal()
-        toast.success(`کاربر ${user?.name} با موفقیت حذف شد`)
+        if(isSuccess) {
+            toast.success(`کاربر ${user?.name} با موفقیت حذف شد`)
+        }
     }
 
     if(isLoading) return <Loading/>

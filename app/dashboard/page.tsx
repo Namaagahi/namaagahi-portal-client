@@ -14,7 +14,6 @@ const Dashboard = () => {
 
   const [value, setValue] = useState<Value>(new DateObject({ calendar: persian, locale: persian_fa })) 
 
-  // console.log(value.day)
   return (
     <main className="min-h-screen">
       <PageTitle name={'داشبورد'} />

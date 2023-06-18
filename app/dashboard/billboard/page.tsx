@@ -30,6 +30,7 @@ const Billboard = () => {
       subTitleLink:'/dashboard/billboard/createstructure'
     },
   ]
+  
   return (
     <main className="min-h-screen">
       <PageTitle name={'بیلبورد'} />

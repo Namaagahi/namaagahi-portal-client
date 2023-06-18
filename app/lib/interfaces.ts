@@ -31,7 +31,7 @@ export interface UserObject {
 }
 
 export interface UserFormProps {
-  error: FetchBaseQueryError | SerializedError | undefined | CustomError
+  error: FetchBaseQueryError | SerializedError | undefined | CustomError | any
   isError: boolean
   name: string
   username: string
@@ -83,7 +83,7 @@ export interface NoteFormProps {
   userId: string
   completed: boolean
   options: JSX.Element[]
-  error: FetchBaseQueryError | SerializedError | undefined | CustomError
+  error: FetchBaseQueryError | SerializedError | undefined | CustomError | any
   isError: boolean
   onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onTextChange: ((e: React.ChangeEvent<HTMLInputElement>) => void) | ((e: React.ChangeEventHandler<HTMLTextAreaElement>) => void) | any
@@ -131,7 +131,25 @@ export interface AddBoxForm {
   brand: string
   startDate:  string
   endDate:  string
-  structures: string[]
+  structures: {
+    structureId:string
+    types: {
+      name: string
+      typeOptions: {
+        style: string
+        face: string
+        length: number
+        width: number
+        printSize: number
+        docSize: number
+      }
+    },
+    costs: {
+      fixedCosts: {
+        squareFee: number
+      }
+    }
+  }[]
 }
 
 
@@ -193,6 +211,7 @@ export interface CustomError {
   data: {
       message: string
       stack: string
+      error?: any
   }
   status?: number
 }

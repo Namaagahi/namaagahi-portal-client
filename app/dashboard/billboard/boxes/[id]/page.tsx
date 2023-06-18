@@ -23,12 +23,14 @@ const SingleBox = () => {
     const { id } = useParams()
 
     const box: BoxObject | any = useSelector(state => selectBoxById(state, id))
+    
     const boxStructureHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده دوره', 'تاریخ شروع', 'تاریخ پایان', 'ویرایش تاریخ']
     const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
     const structureRevenueHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده', 'مجموع فروش دوره', 'سود / زیان' ]
     const boxRevenueHeadings = ['بهای تمام شده باکس', 'مجموع فروش باکس', 'سود / زیان تجمیعی' ]
 
     if(!box) return <Loading />
+
     return ( 
         <main className='min-h-screen'>
             <PageTitle name={`باکس ${box.name}`} />

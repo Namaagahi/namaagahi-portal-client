@@ -7,10 +7,11 @@ import type { Value } from "react-multi-date-picker"
 import { AddBoxForm } from "@/app/lib/interfaces"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, useFieldArray, Controller } from "react-hook-form";
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
 import dynamic from 'next/dynamic'
+import StructuresFormSection from "./StructuresFormSection"
 const BasicInfoFormSection = dynamic(
   () => import('./BasicInfoFormSection'),
   { ssr: false }
@@ -38,12 +39,33 @@ const NewBox = ({type}: {type: string}) => {
             brand: '',
             startDate:'',
             endDate:'',
-            structures: []
+            structures: [{
+                types: {
+                    name: '',
+                    typeOptions: {
+                        style: '',
+                        face: '',
+                        length: NaN,
+                        width: NaN,
+                        printSize: NaN,
+                        docSize: NaN,
+                    }
+                },
+                costs: {
+                    fixedCosts: {
+                        squareFee: NaN
+                    }
+                }
+            }]
         },
         mode: 'onSubmit'
     })
 
     const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
+    const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
+        control,
+        name: "structures"
+      });
 
       useEffect(() => {
         getValues("startDate")
@@ -107,6 +129,14 @@ const NewBox = ({type}: {type: string}) => {
                 errors={errors}
                 handleStartDate={(val) => setStartDate(val)}
                 handleEndDate={(val) => setEndDate(val)}
+            />
+
+            <StructuresFormSection 
+                register={register}
+                errors={errors}
+                structuresField={structuresField}
+                appendStructure={appendStructure}
+                removeStructure={removeStructure}
             />
 
             <button className="btn-primary">افزودن باکس</button>
