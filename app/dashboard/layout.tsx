@@ -162,7 +162,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
   //   push('/')
   // }
 
-console.log(content)
+// console.log(content)
   return (
     <div className="p-4 md:p-8">
       <Header/> 

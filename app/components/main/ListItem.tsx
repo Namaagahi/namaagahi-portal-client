@@ -3,10 +3,8 @@ import { useState } from 'react'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import ConfirmModal from '../modals/ConfirmModal'
 import useAuth from '@/app/hooks/useAuth'
-import moment from 'moment-jalaali'
 
-
-const ListItem = ({number, param, prop, startDate, endDate, titles}: any) => {
+const ListItem = ({number, param, prop, startDate, endDate, diff, titles}: any) => {
 
     const { isAdmin } = useAuth()
 
@@ -15,11 +13,7 @@ const ListItem = ({number, param, prop, startDate, endDate, titles}: any) => {
 
     const handleDeleteModal = () => setIsDelete(!isDelete)
 
-    const startDateJalali = moment(moment(startDate).format('jYYYY-jMM-jDD'), 'jYYYY-jMM-jDD')  
-    const endDateJalali = moment(moment(endDate).format('jYYYY-jMM-jDD'), 'jYYYY-jMM-jDD') 
-    const diff = endDateJalali.diff(startDateJalali, 'day') + 1
-
-  return (
+    return (
     <>
         <div className="relative p-7 pt-14 w-full min-h-[232px] flex flex-col justify-center items-center gap-2 rounded-3xl shadow-md bg-gray-300 dark:bg-white text-gray-800 overflow-hidden">
             <div className="absolute right-7 top-0 min-h-[48px] w-10 rounded-b-[20px] bg-[#18A661] flex justify-center items-center font-bold text-xl">
@@ -37,10 +31,10 @@ const ListItem = ({number, param, prop, startDate, endDate, titles}: any) => {
             }
             <div className='flex justify-between items-center gap-2 w-full font-bold mt-2 text-xs sm:text-sm md:text-base'>
                 <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
-                    {moment(startDate).format('jYYYY-jMM-jDD')}
+                    {startDate}
                 </div>
                 <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
-                    {moment(endDate).format('jYYYY-jMM-jDD')}
+                    {endDate}
                 </div>
                 <div className='w-[30%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
                     {diff} روز

@@ -1,18 +1,16 @@
 "use client"
-import { DevTool } from "@hookform/devtools"
-import { useForm } from "react-hook-form"
-import { useEffect, useState } from "react"
-import dynamic from 'next/dynamic'
-import { useCreateNewBoxMutation } from "./boxesApiSlice"
-import { toast } from "react-toastify"
-import { useRouter } from "next/navigation"
-import useAuth from "@/app/hooks/useAuth"
-import { AddBoxForm } from "@/app/lib/interfaces"
-import moment from 'moment-jalaali'
-import type { Value } from "react-multi-date-picker"
-import { DateObject } from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
+import persian from "react-date-object/calendars/persian"
+import { useCreateNewBoxMutation } from "./boxesApiSlice"
+import { DateObject } from "react-multi-date-picker"
+import type { Value } from "react-multi-date-picker"
+import { AddBoxForm } from "@/app/lib/interfaces"
+import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import useAuth from "@/app/hooks/useAuth"
+import { toast } from "react-toastify"
+import dynamic from 'next/dynamic'
 const BasicInfoFormSection = dynamic(
   () => import('./BasicInfoFormSection'),
   { ssr: false }
@@ -36,7 +34,6 @@ const NewBox = ({type}: {type: string}) => {
     const createBoxForm = useForm<AddBoxForm>({
         defaultValues:  {
             name: '',
-            type: '',
             projectNumber: '',
             brand: '',
             startDate:'',
@@ -51,9 +48,20 @@ const NewBox = ({type}: {type: string}) => {
       useEffect(() => {
         getValues("startDate")
         getValues("endDate")
-        setValue('startDate', startDate!!.toLocaleString())
-        setValue('endDate', endDate!!.toLocaleString())
-      }, [startDate, endDate]);
+        setValue('startDate', startDate!!.toString())
+        setValue('endDate', endDate!!.toString())
+      }, [startDate, endDate])
+
+      function convertToEnglishDate(dateStr: any) {
+        const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+        const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+        let englishDate = "";
+        [...dateStr].forEach(char => {
+          let index = persianDigits.indexOf(char);
+          englishDate += (index !== -1) ? englishDigits[index] : char
+        })
+        return englishDate
+      }
 
     const onSubmit = async(data: AddBoxForm) => {
         if(isError) {
@@ -66,27 +74,26 @@ const NewBox = ({type}: {type: string}) => {
             userId: id,
             name: data.name,
             type: { 
-                name: data.type,
+                name: type,
                 typeOptions: {
                     projectNumber: data.projectNumber,
                     brand: data.brand
                 },
             },
             duration: {
-                startDate: data.startDate,
-                endDate: data.endDate,
+                startDate: convertToEnglishDate(data.startDate),
+                endDate: convertToEnglishDate(data.endDate),
             },
             structures: data.structures
         })
 
         if(isSuccess) {
-            toast.success('باکس جدید با موفقیت ساخته شد')
-            // push('/dashboard/billboard/boxes')
+            toast.success(`باکس ${data.name} با موفقیت ساخته شد.`)
+            push('/dashboard/billboard/boxes')
         }
-        console.log(data)
+        console.log("DATA",data)
     }
 
-console.log(startDate!!.toLocaleString())
   return (
    <>
         <form
@@ -104,7 +111,6 @@ console.log(startDate!!.toLocaleString())
 
             <button className="btn-primary">افزودن باکس</button>
         </form>
-        <DevTool control={control}/>
    </>
   )
 }

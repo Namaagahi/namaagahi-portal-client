@@ -1,35 +1,8 @@
 "use client"
+import Card from '@/app/components/main/Card'
 import dynamic from 'next/dynamic'
 const PageTitle = dynamic(
   () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
-const BoxSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/BoxSection'),
-  { ssr: false }
-)
-const ContractorSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/ContractorSection'),
-  { ssr: false }
-)
-const ExecutionSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/ExecutionSection'),
-  { ssr: false }
-)
-const PlanSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/PlanSection'),
-  { ssr: false }
-)
-const ReportsSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/ReportsSection'),
-  { ssr: false }
-)
-const SalesSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/SalesSection'),
-  { ssr: false }
-)
-const StructureSection = dynamic(
-  () => import('@/app/components/media/billboard/cards/StructureSection'),
   { ssr: false }
 )
 const SummarySection = dynamic(
@@ -38,19 +11,50 @@ const SummarySection = dynamic(
 )
 
 const Billboard = () => {
+
+  const pageProps = [
+    {
+      id:1,
+      title: 'باکس',
+      main:'مشاهده باکس ها',
+      mainLink:'/dashboard/billboard/boxes', 
+      subTitle:'ایجاد باکس جدید', 
+      subTitleLink:'/dashboard/billboard/createbox'
+    },
+    {
+      id:2,
+      title: 'سازه',
+      main:'مشاهده سازه ها',
+      mainLink:'/dashboard/billboard/structures', 
+      subTitle:'ایجاد سازه جدید', 
+      subTitleLink:'/dashboard/billboard/createstructure'
+    },
+  ]
   return (
     <main className="min-h-screen">
       <PageTitle name={'بیلبورد'} />
       <div className='flex flex-col gap-2'>
         <SummarySection />
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2'>
-          <BoxSection />
+          {
+            pageProps.map((prop) => (
+              <Card
+                key={prop.id}
+                title={prop.title}
+                main={prop.main}
+                mainLink={prop.mainLink}
+                subTitle={prop.subTitle}
+                subTitleLink={prop.subTitleLink}
+              />
+            ))
+          }
+          {/* <BoxSection />
           <StructureSection/>
           <PlanSection />
           <ExecutionSection />
           <ContractorSection />
           <SalesSection />
-          <ReportsSection />
+          <ReportsSection /> */}
         </div>
       </div>
     </main>

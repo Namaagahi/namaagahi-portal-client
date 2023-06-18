@@ -129,8 +129,8 @@ export interface AddBoxForm {
   type: string
   projectNumber: string
   brand: string
-  startDate: Date | string
-  endDate: Date | string
+  startDate:  string
+  endDate:  string
   structures: string[]
 }
 

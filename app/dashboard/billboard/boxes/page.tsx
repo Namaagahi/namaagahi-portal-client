@@ -1,6 +1,5 @@
 "use client"
 import { useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
-import useAuth from '@/app/hooks/useAuth'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 const PageTitle = dynamic(
@@ -17,8 +16,6 @@ const Loading = dynamic(
 )
 
 const Boxes = () => {
-
-  const { username, isAdmin, isMediaManager } = useAuth()
 
   const {
     data: boxes,

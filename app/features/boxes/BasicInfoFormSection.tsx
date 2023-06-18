@@ -79,6 +79,7 @@ const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleE
             <div className='flex flex-col gap-3'>
                 <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
                 <DatePicker
+                    format='YYYY-MM-DD'
                     calendar={persian}
                     locale={persian_fa}
                     calendarPosition="bottom-right"
@@ -91,6 +92,7 @@ const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleE
             <div className='flex flex-col gap-3'>
                 <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
                 <DatePicker
+                    format='YYYY-MM-DD'
                     calendar={persian}
                     locale={persian_fa}
                     calendarPosition="bottom-right"

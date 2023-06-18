@@ -19,6 +19,7 @@ const BoxItem = ({boxId, index}: { boxId: string, index: number }) => {
             prop={box}
             startDate={box.duration.startDate}
             endDate={box.duration.endDate}
+            diff={box.duration.diff}
             titles={{
                 'نام باکس': box.name,
                 'نوع باکس': box.type.name,
