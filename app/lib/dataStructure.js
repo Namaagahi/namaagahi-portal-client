@@ -140,7 +140,7 @@ const plan = {
 //             endDate: Date
 //             squareCost: number
 //             monthlyCost: number
-//             maintenanceCosts: [{
+//             mainteceCosts: [{
 //                 contractor: string
 //                 unit: string
 //                 serviceCost: number

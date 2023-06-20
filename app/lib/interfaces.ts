@@ -138,16 +138,22 @@ export interface AddBoxForm {
       typeOptions: {
         style: string
         face: string
-        length: number
-        width: number
-        printSize: number
-        docSize: number
+        length: string
+        width: string
+        printSize: string
+        docSize: string
       }
     },
     costs: {
       fixedCosts: {
-        squareFee: number
-      }
+        squareCost: string
+      }, 
+      variableCosts: {
+        name: string
+        figures: {
+          periodCost: string
+        }
+      }[]
     }
   }[]
 }

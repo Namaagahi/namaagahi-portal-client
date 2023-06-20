@@ -12,6 +12,7 @@ import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
 import dynamic from 'next/dynamic'
 import StructuresFormSection from "./StructuresFormSection"
+import { DevTool } from "@hookform/devtools"
 const BasicInfoFormSection = dynamic(
   () => import('./BasicInfoFormSection'),
   { ssr: false }
@@ -45,16 +46,22 @@ const NewBox = ({type}: {type: string}) => {
                     typeOptions: {
                         style: '',
                         face: '',
-                        length: NaN,
-                        width: NaN,
-                        printSize: NaN,
-                        docSize: NaN,
+                        length: '',
+                        width: '',
+                        printSize: '',
+                        docSize: '',
                     }
                 },
                 costs: {
                     fixedCosts: {
-                        squareFee: NaN
-                    }
+                        squareCost: ''
+                    },
+                    variableCosts: [{
+                        name: '',
+                        figures: {
+                            periodCost: ''
+                        }
+                    }]
                 }
             }]
         },
@@ -64,8 +71,8 @@ const NewBox = ({type}: {type: string}) => {
     const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
     const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
         control,
-        name: "structures"
-      });
+        name: "structures",
+      })
 
       useEffect(() => {
         getValues("startDate")
@@ -86,36 +93,61 @@ const NewBox = ({type}: {type: string}) => {
       }
 
     const onSubmit = async(data: AddBoxForm) => {
+
+        const newData = {
+            ...data,
+            structures: data.structures.map((structure) => ({
+              ...structure,
+              types: {
+                ...structure.types,
+                typeOptions: {
+                  ...structure.types.typeOptions,
+                  length: parseInt(structure.types.typeOptions.length),
+                  width: parseInt(structure.types.typeOptions.width),
+                  printSize: parseInt(structure.types.typeOptions.printSize),
+                  docSize: parseInt(structure.types.typeOptions.docSize),
+                },
+              },
+              costs: {
+                ...structure.costs,
+                fixedCosts: {
+                  ...structure.costs.fixedCosts,
+                  squareCost: parseInt(structure.costs.fixedCosts.squareCost),
+                },
+              },
+            })),
+          }
+
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')
             'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
-            console.log(error)
         }
 
-        await createNewBox({
+        const newBox = await createNewBox({
             userId: id,
-            name: data.name,
+            name: newData.name,
             type: { 
                 name: type,
                 typeOptions: {
-                    projectNumber: data.projectNumber,
-                    brand: data.brand
+                    projectNumber: newData.projectNumber,
+                    brand: newData.brand
                 },
             },
             duration: {
-                startDate: convertToEnglishDate(data.startDate),
-                endDate: convertToEnglishDate(data.endDate),
+                startDate: convertToEnglishDate(newData.startDate),
+                endDate: convertToEnglishDate(newData.endDate),
             },
-            structures: data.structures
+            structures: newData.structures
         })
+        console.log("NEW BOW", newBox)
 
         if(isSuccess) {
-            toast.success(`باکس ${data.name} با موفقیت ساخته شد.`)
+            toast.success(`باکس ${newData.name} با موفقیت ساخته شد.`)
             push('/dashboard/billboard/boxes')
         }
-        console.log("DATA",data)
+        console.log("DATA",newData.structures)
     }
-
+console.log("structuresField", structuresField)
   return (
    <>
         <form
@@ -137,10 +169,13 @@ const NewBox = ({type}: {type: string}) => {
                 structuresField={structuresField}
                 appendStructure={appendStructure}
                 removeStructure={removeStructure}
+                control={control}
             />
 
             <button className="btn-primary">افزودن باکس</button>
         </form>
+    <DevTool control={control}/>
+
    </>
   )
 }

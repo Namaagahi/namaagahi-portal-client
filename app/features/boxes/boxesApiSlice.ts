@@ -38,7 +38,9 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
 
         createNewBox: builder.mutation({
 
-            query: initialBox => ({
+            query: initialBox => (
+                console.log("INITIAL BOX", initialBox),
+                {
                 url: '/boxes',
                 method: 'POST',
                 body: { ...initialBox }
