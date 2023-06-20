@@ -7,7 +7,7 @@ import type { Value } from "react-multi-date-picker"
 import { AddBoxForm } from "@/app/lib/interfaces"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { useForm, useFieldArray, Controller } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
 import dynamic from 'next/dynamic'
@@ -18,7 +18,7 @@ const BasicInfoFormSection = dynamic(
   { ssr: false }
 )
 
-const NewBox = ({type}: {type: string}) => {
+const NewBox = ({mark}: {mark: string}) => {
 
     const { id } = useAuth()  
 
@@ -41,28 +41,29 @@ const NewBox = ({type}: {type: string}) => {
             startDate:'',
             endDate:'',
             structures: [{
-                types: {
-                    name: '',
-                    typeOptions: {
-                        style: '',
-                        face: '',
-                        length: '',
-                        width: '',
-                        printSize: '',
-                        docSize: '',
-                    }
-                },
-                costs: {
-                    fixedCosts: {
-                        squareCost: ''
-                    },
-                    variableCosts: [{
-                        name: '',
-                        figures: {
-                            periodCost: ''
-                        }
-                    }]
+              structureId:'',
+              marks: {
+                name: '',
+                markOptions: {
+                  style: '',
+                  face: '',
+                  length: '',
+                  width: '',
+                  printSize: '',
+                  docSize: '',
                 }
+              },
+              costs: {
+                fixedCosts: {
+                    squareCost: ''
+                },
+                variableCosts: [{
+                  name: '',
+                  figures: {
+                      periodCost: ''
+                  }
+                }]
+              }
             }]
         },
         mode: 'onSubmit'
@@ -98,14 +99,14 @@ const NewBox = ({type}: {type: string}) => {
             ...data,
             structures: data.structures.map((structure) => ({
               ...structure,
-              types: {
-                ...structure.types,
-                typeOptions: {
-                  ...structure.types.typeOptions,
-                  length: parseInt(structure.types.typeOptions.length),
-                  width: parseInt(structure.types.typeOptions.width),
-                  printSize: parseInt(structure.types.typeOptions.printSize),
-                  docSize: parseInt(structure.types.typeOptions.docSize),
+              marks: {
+                ...structure.marks,
+                markOptions: {
+                  ...structure.marks.markOptions,
+                  length: parseInt(structure.marks.markOptions.length),
+                  width: parseInt(structure.marks.markOptions.width),
+                  printSize: parseInt(structure.marks.markOptions.printSize),
+                  docSize: parseInt(structure.marks.markOptions.docSize),
                 },
               },
               costs: {
@@ -126,9 +127,9 @@ const NewBox = ({type}: {type: string}) => {
         const newBox = await createNewBox({
             userId: id,
             name: newData.name,
-            type: { 
-                name: type,
-                typeOptions: {
+            mark: { 
+                name: mark,
+                markOptions: {
                     projectNumber: newData.projectNumber,
                     brand: newData.brand
                 },
@@ -151,25 +152,25 @@ console.log("structuresField", structuresField)
   return (
    <>
         <form
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            className='w-full flex flex-col gap-9 justify-center'
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className='w-full flex flex-col gap-9 justify-center'
         >
             <BasicInfoFormSection 
-                type={type}
-                register={register}
-                errors={errors}
-                handleStartDate={(val) => setStartDate(val)}
-                handleEndDate={(val) => setEndDate(val)}
+              mark={mark}
+              register={register}
+              errors={errors}
+              handleStartDate={(val) => setStartDate(val)}
+              handleEndDate={(val) => setEndDate(val)}
             />
 
             <StructuresFormSection 
-                register={register}
-                errors={errors}
-                structuresField={structuresField}
-                appendStructure={appendStructure}
-                removeStructure={removeStructure}
-                control={control}
+              register={register}
+              errors={errors}
+              structuresField={structuresField}
+              appendStructure={appendStructure}
+              removeStructure={removeStructure}
+              control={control}
             />
 
             <button className="btn-primary">افزودن باکس</button>

@@ -108,9 +108,9 @@ export interface BoxObject {
   _id: string
   userId: string
   name: string
-  type: {
+  mark: {
     name: string
-    typeOptions: {
+    markOptions: {
       projectNumber?: string
       brand?: string
     }
@@ -126,16 +126,16 @@ export interface BoxObject {
 
 export interface AddBoxForm {
   name: string
-  type: string
+  mark: string
   projectNumber: string
   brand: string
   startDate:  string
   endDate:  string
   structures: {
     structureId:string
-    types: {
+    marks: {
       name: string
-      typeOptions: {
+      markOptions: {
         style: string
         face: string
         length: string
@@ -255,32 +255,4 @@ export interface CreateUpdateModalProps {
   handleModal: () => void
   type: string
   prop?: UserObject | NoteObject | StructureObject | undefined | any
-}
-
-export interface BoxTypes {
-  boxName: string
-  startDate: Date
-  endDate: Date
-  path: string
-  address: string
-  addressId: string
-  direction: string
-  structureType: string
-  district: string
-  size : {
-    dimensions: string
-    printSize: number
-    documentSize: number
-  }
-  feePersquare: number
-  initialCost: number
-  maintenanceCosts: {
-    maintenance: number
-    paintings: number
-    power: number
-    insurance: number
-    other: number
-  },
-  totalCost: number
-    
 }

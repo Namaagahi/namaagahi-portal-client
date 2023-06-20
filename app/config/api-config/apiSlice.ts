@@ -14,10 +14,9 @@ const baseQuery = fetchBaseQuery({
     }
 }) as BaseQueryFn<string | FetchArgs, unknown, CustomError | undefined, {}>
 
-const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError | CustomError | undefined | any>= async (args, api, extraOptions) => {
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError | CustomError | undefined >= async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions) 
     if(result?.error?.status === 403) {
-        console.log('sending refresh token')
         const refreshResult = await baseQuery('/auth/refresh', api, extraOptions)
 
         if(refreshResult?.data) {

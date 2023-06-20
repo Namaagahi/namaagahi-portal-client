@@ -22,10 +22,10 @@ const BoxItem = ({boxId, index}: { boxId: string, index: number }) => {
             diff={box.duration.diff}
             titles={{
                 'نام باکس': box.name,
-                'نوع باکس': box.type.name,
+                'نوع باکس': box.mark.name,
                 'کاربر ایجاد کننده': box.username,
-                'کد پروژه': box.type.typeOptions?.projectNumber,
-                'برند': box.type.typeOptions?.brand
+                'کد پروژه': box.mark.markOptions?.projectNumber,
+                'برند': box.mark.markOptions?.brand
             }}
         />
   )

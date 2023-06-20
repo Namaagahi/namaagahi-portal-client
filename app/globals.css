@@ -70,6 +70,9 @@
   .my-datepicker {
     @apply text-red-500 bg-blue-500 rounded-lg p-2
   }
+  .badge {
+    @apply absolute inline-flex items-center justify-center w-8 h-8 text-lg font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900
+  }
 }
 
 :root {

@@ -1,6 +1,6 @@
 import { selectAllStructures } from "../structures/structuresApiSlice"
 import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, useFieldArray } from "react-hook-form"
+import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { AiFillPlusSquare, AiFillMinusSquare } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
@@ -14,23 +14,24 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
       control: Control<AddBoxForm, any>
      }) => {
 
-      const { fields: variableCostFields, append: appendVariableCost, remove: removeVariableCost } = useFieldArray({
-        control,
-        name: 'structures',
-        })
-
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
   const typeNames = ['عرشه پل سواره رو', 'پل عابر پیاده', 'بیلبورد']
   const styles = ['افقی', 'عمودی']
   const faces = ['شمالی', 'جنوبی', 'غربی', 'شرقی']
+
+  function isFieldError(error: any): error is FieldError {
+    return error && typeof error === 'object' && 'message' in error;
+  }
+
+  console.log("ERRORS", errors)
   
   return (
-<>
-<div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
+    
+    <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
         <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
-        {structuresField.map((item, fieldIndex) => (
-          <>
+        {structuresField.map((item, fieldIndex) =>{
+          return (
             <div
               className=" border-[1px] rounded-2xl flex flex-col items-end overflow-hidden border-primary bg-secondary w-full"
               key={item.id}
@@ -53,7 +54,6 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                     >
                       {
                         structures.map((structure) => (
-                          <>
                             <option
                               value={structure.id}
                               key={structure.id}
@@ -61,17 +61,18 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                           >
                             {structure.name}
                           </option>
-                        </>
                         ))
                       }
                     </select>
-                    <small className="text-xs text-rose-600 "> {errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}</small>
+                    <small className="text-xs text-rose-600 "> 
+                      {errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}
+                    </small>
                   </div>
         
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="typeName" className='text-[#767676] font-bold'>نوع سازه</label>
                     <select 
-                      {...register(`structures.${fieldIndex}.types.name`, {
+                      {...register(`structures.${fieldIndex}.marks.name`, {
                         required: {
                           value: true,
                           message:  'نوع سازه را انتخاب کنید'
@@ -80,7 +81,7 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                       className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none"
                     >
                       {
-                        typeNames.map((type, index) => (
+                        typeNames.map((type: string, index: number) => (
                           <option
                             value={type}
                             key={index}
@@ -91,37 +92,43 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                         ))
                       }
                     </select>
+                    <small className="text-xs text-rose-600 ">
+                      {(errors?.structures?.[fieldIndex]?.marks?.name as FieldError)?.message}
+                    </small>
                   </div>
         
                   <div className='flex flex-col gap-3'>
-                    <label htmlFor="style" className='text-[#767676] font-bold'>استایل</label>
+                    <label htmlFor="styleName" className='text-[#767676] font-bold'>استایل</label>
                     <select 
-                      {...register(`structures.${fieldIndex}.types.typeOptions.style`, {
+                      {...register(`structures.${fieldIndex}.marks.markOptions.style`, {
                         required: {
                           value: true,
-                          message:  'نوع سازه را انتخاب کنید'
+                          message:  'استایل سازه را انتخاب کنید'
                         }
                       })}
                       className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none"
                     >
                       {
-                        styles.map((style, index) => (
+                        styles.map((style: string, index: number) => (
                           <option 
                             value={style}
                             key={index}
-                            id="style"
+                            id="styleName"
                           >
                             {style}
                           </option>
                         ))
                       }
                     </select>
+                    <small className="text-xs text-rose-600 ">
+                    {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.style as FieldError)?.message}
+                    </small>
                   </div>
                   
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="face" className='text-[#767676] font-bold'>تیپ</label>
                     <select 
-                      {...register(`structures.${fieldIndex}.types.typeOptions.face`, {
+                      {...register(`structures.${fieldIndex}.marks.markOptions.face`, {
                         required: {
                           value: true,
                           message:  'تیپ سازه را انتخاب کنید'
@@ -140,12 +147,15 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                         ))
                       }
                     </select>
+                    <small className="text-xs text-rose-600 ">
+                    {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.face as FieldError)?.message}
+                    </small>
                   </div>
                   
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="length" className='text-[#767676] font-bold'>طول</label>
                     <input
-                      {...register(`structures.${fieldIndex}.types.typeOptions.length`, {
+                      {...register(`structures.${fieldIndex}.marks.markOptions.length`, {
                         valueAsNumber: true,
                         required: {
                           value: true,
@@ -158,14 +168,14 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                       data-error
                     />
                     <small className="text-xs text-rose-600 ">
-                      {/* {errors?.['structures']?.[fieldIndex]?.['types']?.['typeOptions']?.['length']?.['message']} */}
+                      {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.length as FieldError)?.message}
                     </small>
                   </div>
                       
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="width" className='text-[#767676] font-bold'>عرض</label>
                     <input
-                      {...register(`structures.${fieldIndex}.types.typeOptions.width`, {
+                      {...register(`structures.${fieldIndex}.marks.markOptions.width`, {
                         valueAsNumber: true,
                         required: {
                           value: true,
@@ -176,12 +186,15 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                       id='width'
                       className='p-4 rounded-[50px] bg-white outline-none'
                     />
+                    <small className="text-xs text-rose-600 ">
+                      {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.width as FieldError)?.message}
+                    </small>
                   </div>
                               
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="printSize" className='text-[#767676] font-bold'>متراژ چاپ</label>
                     <input
-                      {...register(`structures.${fieldIndex}.types.typeOptions.printSize`, {
+                      {...register(`structures.${fieldIndex}.marks.markOptions.printSize`, {
                         valueAsNumber: true,
                         required: {
                           value: true,
@@ -192,12 +205,15 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                       id='printSize'
                       className='p-4 rounded-[50px] bg-white outline-none'
                     />
+                    <small className="text-xs text-rose-600 ">
+                      {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.printSize as FieldError)?.message}
+                    </small>
                   </div>
                   
                   <div className='flex flex-col gap-3'>
                     <label htmlFor="docSize" className='text-[#767676] font-bold'>متراژ واقعی</label>
                     <input
-                      {...register(`structures.${fieldIndex}.types.typeOptions.docSize`, {
+                      {...register(`structures.${fieldIndex}.marks.markOptions.docSize`, {
                         valueAsNumber: true,
                         required: {
                           value: true,
@@ -208,6 +224,9 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                       id='docSize'
                       className='p-4 rounded-[50px] bg-white outline-none'
                     />
+                    <small className="text-xs text-rose-600 ">
+                      {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.docSize as FieldError)?.message}
+                    </small>
                   </div>
                   
                   <div className='flex flex-col gap-3'>
@@ -224,6 +243,9 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                       id='squareCost'
                       className='p-4 rounded-[50px] bg-white outline-none'
                     />
+                    <small className="text-xs text-rose-600 ">
+                      {(errors?.structures?.[fieldIndex]?.costs?.fixedCosts?.squareCost as FieldError)?.message}
+                    </small>
                   </div>
 
                   <AiFillMinusSquare
@@ -232,22 +254,25 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
                   />
 
                 </div>
-                    <VariableCostsFormSection 
-                      register={register}
-                      control={control}
-                      fieldIndex={fieldIndex}
-                    />
+
+                <VariableCostsFormSection 
+                  errors={errors}
+                  register={register}
+                  control={control}
+                  fieldIndex={fieldIndex}
+                />
             </div>
-            
-          </>
-        ))}
+          )
+        } 
+        )}
+
         <AiFillPlusSquare 
         className="cursor-pointer text-2xl hover:text-green-700 transition-all"
           onClick={() => appendStructure({
             structureId: '',
-            types: {
+            marks: {
               name: '',
-              typeOptions: {
+              markOptions: {
                   style: '',
                   face: '',
                   length: '',
@@ -270,8 +295,8 @@ const StructuresFormSection = ({ register, errors, structuresField, appendStruct
           })}
         />
     </div>
-</>
-  )
+
+  ) 
 }
 
 export default StructuresFormSection

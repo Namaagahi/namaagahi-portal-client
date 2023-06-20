@@ -5,8 +5,8 @@ import persian from "react-date-object/calendars/persian"
 import persian_fa from "react-date-object/locales/persian_fa"
 import type { Value } from "react-multi-date-picker"
 
-const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleEndDate }:
-     { handleStartDate: (val: Value) => void, handleEndDate: (val: Value) =>void, register: UseFormRegister<AddBoxForm>, errors: FieldErrors<AddBoxForm>, type: string }) => {
+const BasicInfoFormSection = ({ register, errors, mark, handleStartDate, handleEndDate }:
+     { handleStartDate: (val: Value) => void, handleEndDate: (val: Value) =>void, register: UseFormRegister<AddBoxForm>, errors: FieldErrors<AddBoxForm>, mark: string }) => {
 
   return (
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
@@ -33,7 +33,7 @@ const BasicInfoFormSection = ({ register, errors, type, handleStartDate, handleE
                 <small className="text-xs text-rose-600 ">{errors.name?.message}</small>
             </div>
         {
-            type === 'buyShort' &&
+            mark === 'buyShort' &&
             <>
                 <div className='flex flex-col gap-3'>
                     <label htmlFor="projectNumber" className='text-[#767676] font-bold'>کد پروژه</label>

@@ -12,7 +12,7 @@ const NewBox = dynamic(
 
 const CreateBox = () => {
 
-  const [boxType, setBoxType] = useState('')
+  const [boxMark, setBoxMark] = useState('')
 
   return (
     <>
@@ -24,41 +24,41 @@ const CreateBox = () => {
             <p className='font-bold text-lg'>نوع باکس را انتخاب کنید</p>
             <div className='w-full grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-12 '>
               <button
-                onClick={() => setBoxType('owner')} 
-                className={`${boxType === 'owner' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
+                onClick={() => setBoxMark('owner')} 
+                className={`${boxMark === 'owner' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
               >
                 باکس owner
               </button>
               <button
-                onClick={() => setBoxType('buyShort')} 
-                className={`${boxType === 'buyShort' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
+                onClick={() => setBoxMark('buyShort')} 
+                className={`${boxMark === 'buyShort' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
               >
                 باکس buy کوتاه مدت
               </button>
               <button
-                onClick={() => setBoxType('buyLong')}
-                className={`${boxType === 'buyLong' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
+                onClick={() => setBoxMark('buyLong')}
+                className={`${boxMark === 'buyLong' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
               >
                 باکس buy بلند مدت
               </button>
             </div>
           </div>
       {
-        boxType === 'owner' &&
+        boxMark === 'owner' &&
             <NewBox 
-              type={boxType}
+              mark={boxMark}
             />
       }
       {
-        boxType === 'buyShort' &&
+        boxMark === 'buyShort' &&
             <NewBox 
-              type={boxType}
+              mark={boxMark}
             />
       }
       {
-        boxType === 'buyLong' &&
+        boxMark === 'buyLong' &&
             <NewBox 
-              type={boxType}
+              mark={boxMark}
             />
       }
         </div>
