@@ -1,13 +1,15 @@
 "use client"
+import { NewNoteFormProps, NoteData, UserObject } from '@/app/lib/interfaces'
 import { useAddNewNoteMutation } from './notesApiSlice'
-import { NoteData, UserObject } from '@/app/lib/interfaces'
 import NoteFormContent from './NoteFormContent'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
-const NewNoteForm = ({users, handleModal}: {users: UserObject[], handleModal: () => void}) => {
+const NewNoteForm = (props: NewNoteFormProps) => {
+
+  const { users, handleModal } = props
 
   const [addNewNote, { 
     isLoading,
@@ -24,7 +26,6 @@ const NewNoteForm = ({users, handleModal}: {users: UserObject[], handleModal: ()
     completed: false,
     userId: users[0].id
   })
-
   const { title, text, completed, userId } = newNoteData
 
   useEffect(() => {
@@ -35,9 +36,7 @@ const NewNoteForm = ({users, handleModal}: {users: UserObject[], handleModal: ()
   }, [isSuccess, push])
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => setNewNoteData({...newNoteData, title: e.target.value})
-
   const onTextChanged = (e: React.ChangeEvent<HTMLInputElement> | any) => setNewNoteData({...newNoteData, text: e.target.value})
-
   const onUserIdChanged = (e: React.ChangeEvent<HTMLInputElement>) => setNewNoteData({...newNoteData, userId: e.target.value})
 
   const canSave = [title, text, userId].every(Boolean) && !isLoading

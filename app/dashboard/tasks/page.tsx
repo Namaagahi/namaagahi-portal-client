@@ -1,18 +1,14 @@
 "use client"
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import { useGetNotesQuery } from "@/app/features/note/notesApiSlice"
-import { useState } from "react"
+import { notesTableHeadings } from "@/app/lib/constants"
+import PageTitle from "@/app/components/main/PageTitle"
+import Button from "@/app/components/main/Button"
 import useAuth from "@/app/hooks/useAuth"
+import { useState } from "react"
 import dynamic from 'next/dynamic'
-const PageTitle = dynamic(
-  () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
-  { ssr: false }
-)
-const Button = dynamic( 
-  () => import('@/app/components/main/Button'),
   { ssr: false }
 )
 const Table = dynamic(
@@ -21,10 +17,6 @@ const Table = dynamic(
 )
 const Note = dynamic(
   () => import('@/app/features/note/Note'),
-  { ssr: false }
-)
-const CreateUpdateModal = dynamic(
-  () => import('@/app/components/modals/CreateUpdateModal'),
   { ssr: false }
 )
 
@@ -47,14 +39,15 @@ const Tasks = () => {
 
   const handleNewTaskModal = () => setIsNewTask(!isNewTask)
 
-  const notesTableHeadings = ['کاربر', 'عنوان', 'شرح', 'وضعیت','عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
-  
   if(isLoading) return <Loading/>
+
   if(isError) return (
+
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
       <p className='text-xl'>هیچ وظیفه ای وجود ندارد</p>
     </div>
   )
+  
   if(isSuccess){
 
     const { ids, entities } = notes

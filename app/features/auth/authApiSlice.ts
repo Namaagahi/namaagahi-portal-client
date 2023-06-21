@@ -1,8 +1,15 @@
 import { apiSlice } from "@/app/config/api-config/apiSlice"
 import { logOut, setCredentials } from "./authSlice"
 
+/* This API Slice is for:
+    * User Login
+    * User Logout
+    * Updating Refresh Token
+*/
+
 export const authApiSlice = apiSlice.injectEndpoints({
     endpoints: builder => ({
+        
         login: builder.mutation({
             query: credentials => ({
                 url: '/auth',

@@ -1,22 +1,15 @@
 "use client"
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
+import AccessDenied from "@/app/components/main/AccessDenied"
+import { usersTableHeadings } from "@/app/lib/constants"
+import PageTitle from "@/app/components/main/PageTitle"
+import Button from "@/app/components/main/Button"
 import useAuth from "@/app/hooks/useAuth"
 import { useState } from "react"
 import dynamic from 'next/dynamic'
-const PageTitle = dynamic(
-  () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
-const AccessDenied = dynamic(
-  () => import('@/app/components/main/AccessDenied'),
-  { ssr: false }
-)
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
-  { ssr: false }
-)
-const Button = dynamic(
-  () => import('@/app/components/main/Button'),
   { ssr: false }
 )
 const Table = dynamic(
@@ -25,10 +18,6 @@ const Table = dynamic(
 )
 const User = dynamic(
   () => import('@/app/features/users/User'),
-  { ssr: false }
-)
-const CreateUpdateModal = dynamic(
-  () => import('@/app/components/modals/CreateUpdateModal'),
   { ssr: false }
 )
 
@@ -41,7 +30,6 @@ const Users = () => {
     isLoading,
     isSuccess,
     isError,
-    error
   } = useGetUsersQuery(undefined, { 
     pollingInterval: 60000,
     refetchOnFocus: true,
@@ -52,10 +40,10 @@ const Users = () => {
 
   const handleNewUserModal = () => setIsNewUser(!isNewUser)
 
-  const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
-
   if(isLoading) return <Loading />
+
   if(isError) return <p>ERROR</p>
+  
   if(isSuccess){
 
     const { ids } = users

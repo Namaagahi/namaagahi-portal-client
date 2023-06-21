@@ -1,11 +1,9 @@
 "use client"
 import { useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
+import { structuresTableHeadings } from '@/app/lib/constants'
+import PageTitle from '@/app/components/main/PageTitle'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-const PageTitle = dynamic(
-  () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
 const Table = dynamic(
   () => import('@/app/components/main/Table'),
   { ssr: false }
@@ -32,7 +30,7 @@ const Structures = () => {
     refetchOnMountOrArgChange: true
   })
 
-  const structuresTableHeadings = ['کاربر', 'کد سامانه', 'منطقه', 'مسیر', 'نشانی', 'وضعیت', 'عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
+
 
   if(isLoading) return <Loading/>
 
@@ -54,8 +52,8 @@ const Structures = () => {
       <main className="min-h-screen"> 
         <PageTitle name={'سازه ها'} />
         <Table
-            tableContent = {structureTableContent}
-            tableHeadings = {structuresTableHeadings}
+          tableContent = {structureTableContent}
+          tableHeadings = {structuresTableHeadings}
         />
       </main>
     )

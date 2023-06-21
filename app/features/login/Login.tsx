@@ -6,12 +6,9 @@ import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from 'react-toastify'
 import Image from "next/image"
-// import usePersist from "@/app/hooks/usePersist"
+import LogoSmall from "@/app/components/main/LogoSmall"
 import dynamic from 'next/dynamic'
-const LogoSmall = dynamic(
-  () => import('@/app/components/main/LogoSmall'),
-  { ssr: false }
-)
+
 const Loading = dynamic(
   () => import('../loading/Loading'),
   { ssr: false }
@@ -19,11 +16,8 @@ const Loading = dynamic(
 const Login = () => {
 
     const userRef = useRef<HTMLInputElement>(null)
-
     const errRef = useRef<HTMLInputElement>()
-
     const { push } = useRouter()
-
     const dispatch = useDispatch()
 
     const [loginInfo, setLoginInfo] = useState({
@@ -31,26 +25,17 @@ const Login = () => {
         password: '', 
         errMsg:''
     })
-
     const { username, password } = loginInfo
 
-    // const [persist, setPersist] = usePersist()
-
     const [login, { isLoading }] = useLoginMutation()
-
     const token = useSelector(selectCurrentToken)
   
     useEffect(() => {if(token) push('/dashboard')}, [])
-
     useEffect(() => {userRef.current?.focus()}, [])
-
     useEffect(() => {setLoginInfo({...loginInfo, errMsg:''})}, [username, password])
 
     const handleUsernameInput = (e: React.ChangeEvent<HTMLInputElement>) => setLoginInfo({...loginInfo, username: e.target.value})
-
     const handlePasswordInput = ((e: React.ChangeEvent<HTMLInputElement>) => setLoginInfo({...loginInfo, password: e.target.value}))
-
-    // const handleToggle = () => setPersist((prev: any) => !prev)
 
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
@@ -74,6 +59,7 @@ const Login = () => {
     }
 
     if(isLoading) return <Loading/>
+    
     return (
         <div className='pr-6 pt-6 '>
             <LogoSmall />
@@ -131,17 +117,6 @@ const Login = () => {
                             required
                             onChange={handlePasswordInput}
                             />
-
-                        {/* <label htmlFor="persist">
-                            <input 
-                                type="checkbox"
-                                id="persist"
-                                checked={persist}
-                                onChange={handleToggle}
-                                className="ml-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                            />
-                            مرا به خاطر بسپار
-                        </label> */}
 
                         <button className="btn-primary">
                         ورود

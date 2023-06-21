@@ -1,12 +1,13 @@
 "use client"
-import { selectBoxById } from '@/app/features/boxes/boxesApiSlice'
-import { BoxObject, StructureObject } from '@/app/lib/interfaces'
-import { useParams } from 'next/navigation'
-import { useSelector } from 'react-redux'
-import { AiFillEdit } from 'react-icons/ai'
-import dynamic from 'next/dynamic'
 import { selectAllStructures } from '@/app/features/structures/structuresApiSlice'
 import UnderConstruction from '@/app/components/main/UnderConstruction'
+import { selectBoxById } from '@/app/features/boxes/boxesApiSlice'
+import { BoxObject, StructureObject } from '@/app/lib/interfaces'
+import { boxStructureHeadings } from '@/app/lib/constants'
+import PageTitle from '@/app/components/main/PageTitle'
+import { useParams } from 'next/navigation'
+import { useSelector } from 'react-redux'
+import dynamic from 'next/dynamic'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -15,10 +16,6 @@ const Table = dynamic(
     () => import('@/app/components/main/Table'),
     { ssr: false }
   )
-const PageTitle = dynamic(
-    () => import('@/app/components/main/PageTitle'),
-    { ssr: false }
-)
 
 const SingleBox = () => {
     
@@ -26,35 +23,12 @@ const SingleBox = () => {
 
     const box: BoxObject | any = useSelector(state => selectBoxById(state, id))
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
-    console.log("allStructures", allStructures)
-
-    console.log("BOX", box)
-    const boxStructureHeadings = [
-        'کد سامانه',
-        'نوع سازه',
-        'مسیر',
-        'آدرس',
-        'تاریخ شروع',
-        'تاریخ پایان',
-        'طول دوره',
-        'تیپ', 
-        'وجه', 
-        'طول',
-        'عرض',
-        'متراژ چاپ',
-        'متراژ واقعی',
-        'تمام شده متر مربع', 
-        'تمام شده ماهیانه'
-    ]
-    const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
-    const structureRevenueHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده', 'مجموع فروش دوره', 'سود / زیان' ]
-    const boxRevenueHeadings = ['بهای تمام شده باکس', 'مجموع فروش باکس', 'سود / زیان تجمیعی' ]
 
     function formatNumber(number: number, separator: string): string {
         const options = {
           useGrouping: true,
           minimumFractionDigits: 0,
-        };
+        }
         return number.toLocaleString(undefined, options).replace(/,/g, separator);
       }
     
@@ -76,6 +50,7 @@ const SingleBox = () => {
 
                                 <p>{box.name}</p>
                             </div>
+
                             {
                             box.mark.name === 'buyShort' && 
                                 <div className="flex flex-col gap-2">
@@ -83,6 +58,7 @@ const SingleBox = () => {
                                     <p>{box.mark.markOptions.brand}</p>
                                 </div>
                             }
+
                             <div className="flex flex-col gap-2 text-sm">
                                 <p>{box.duration.startDate}</p>
                                 <p>{box.duration.endDate}</p>
@@ -119,12 +95,14 @@ const SingleBox = () => {
                                             </tr>
                                         )
                                     })
-             }
+                                }
                             />
                         </div>
 
                         <small className=" mt-2 text-black px-2">فروش</small>
-                            <UnderConstruction />  
+                            <UnderConstruction 
+                                desc='این بخش از پنل مربوط به جدول فروش به تفکیک سازه ها و جداول تجمیعی سود و زیان است و به زودی اضافه خواهد شد.'
+                            />  
                         {/* <div className="max-h-[30%] bg-lime-200 overflow-y-auto text-black">
                             <Table 
                                 tableHeadings={plannedStructureHeadings}

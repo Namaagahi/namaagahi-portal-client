@@ -1,8 +1,8 @@
 "use client"
-import { CustomError } from '@/app/lib/interfaces'
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { RootState } from '../state-config/store'
 import { setCredentials } from '@/app/features/auth/authSlice'
+import { CustomError } from '@/app/lib/interfaces'
+import { RootState } from '../state-config/store'
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:3500',

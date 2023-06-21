@@ -1,6 +1,8 @@
-import React from 'react'
+import { TitleProps } from '@/app/lib/interfaces'
 
-const Title = ({title, fontSize, bulletSize}: {title: string, fontSize: string, bulletSize: number}) => {
+const Title = (props: TitleProps) => {
+
+  const { title, fontSize, bulletSize } = props
   
   return (
     <div className='flex justify-center items-center gap-3'>

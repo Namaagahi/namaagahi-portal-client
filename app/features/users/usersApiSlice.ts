@@ -3,8 +3,14 @@ import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { apiSlice } from "../../config/api-config/apiSlice"
 import { UserObject } from "@/app/lib/interfaces"
 
-const usersAdapter = createEntityAdapter({})
+/* This API Slice is for:
+    * Getting All Users from databse
+    * Creating a new user
+    * Updating an existing user
+    * Deleting an existing user
+*/
 
+const usersAdapter = createEntityAdapter({})
 const initialState = usersAdapter.getInitialState() 
 
 export const usersApiSlice = apiSlice.injectEndpoints({

@@ -1,5 +1,7 @@
 "use client"
+
 const Irib = () => {
+
   return (
     <div>Irib</div>
   )

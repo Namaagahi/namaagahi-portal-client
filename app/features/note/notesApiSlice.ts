@@ -6,7 +6,6 @@ import { NoteObject } from "@/app/lib/interfaces"
 const notesAdapter = createEntityAdapter({
     sortComparer: (a: NoteObject, b: NoteObject) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
 })
-
 const initialState = notesAdapter.getInitialState()
 
 export const notesApiSlice = apiSlice.injectEndpoints({

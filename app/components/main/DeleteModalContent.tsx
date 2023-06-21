@@ -1,8 +1,8 @@
-import DeleteBox from "@/app/features/boxes/DeleteBox"
-import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteStructure from "@/app/features/structures/DeleteStructure"
-import DeleteUser from "@/app/features/users/DeleteUser"
 import { DeleteModalContentProps } from "@/app/lib/interfaces"
+import DeleteUser from "@/app/features/users/DeleteUser"
+import DeleteNote from "@/app/features/note/DeleteNote"
+import DeleteBox from "@/app/features/boxes/DeleteBox"
 import { AiOutlineClose } from 'react-icons/ai'
 
 const DeleteModalContent = (props: DeleteModalContentProps) => {
@@ -21,6 +21,7 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                     <p className="text-xl">آیا از انجام این کار مطمئن هستید؟ این عمل برگشت پذیر نخواهد بود.</p>
                 </div>
             </div>
+
             {
                 deleteType === 'user'?
                 <DeleteUser
@@ -47,6 +48,7 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                 />
                 : null
             }
+            
         </div>
     )
 }

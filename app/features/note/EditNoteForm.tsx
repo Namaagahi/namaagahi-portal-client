@@ -1,16 +1,13 @@
 import { EditNoteProps, NoteData, UserObject } from '@/app/lib/interfaces'
-import React, { useEffect, useState } from 'react'
 import { useUpdateNoteMutation } from './notesApiSlice'
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
+import NoteFormContent from './NoteFormContent'
+import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
-  { ssr: false }
-)
-const NoteFormContent = dynamic(
-  () => import('./NoteFormContent'),
   { ssr: false }
 )
 
@@ -44,11 +41,8 @@ const EditNoteForm = (props: EditNoteProps) => {
     }, [isSuccess, push]) 
 
     const onTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => setNoteData({...noteData, title: e.target.value})
-
     const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => setNoteData({...noteData, text: e.target.value})
-
     const onCompletedChange = () => setNoteData({...noteData, completed: !completed})
-
     const onUserIdChange = (e: React.ChangeEvent<HTMLInputElement>) => setNoteData({...noteData, userId: e.target.value})
 
     const canSave = [title, text, userId].every(Boolean) && !isLoading
@@ -68,6 +62,7 @@ const EditNoteForm = (props: EditNoteProps) => {
     })
     
     if(isLoading) return <Loading /> 
+    
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">
             <form

@@ -1,35 +1,23 @@
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import { selectUserById } from "@/app/features/users/usersApiSlice"
+import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { UserObject } from "@/app/lib/interfaces"
+import Status from "@/app/components/main/Status"
 import { useSelector } from "react-redux"
 import { useState } from "react"
 import Image from "next/image"
-import dynamic from 'next/dynamic'
-const CreateUpdateModal = dynamic(
-  () => import('../../components/modals/CreateUpdateModal'),
-  { ssr: false }
-)
-const ConfirmModal = dynamic(
-  () => import('@/app/components/modals/ConfirmModal'),
-  { ssr: false }
-)
-const Status = dynamic(
-  () => import('../../components/main/Status'),
-  { ssr: false }
-)
 
 const User = ({ userId }: { userId: string }) => {
 
     const user: UserObject | any = useSelector(state => selectUserById(state, userId))
 
     const [isEditUser, setIsEditUser] = useState(false)
-
     const [isDeleteUser, setIsDeleteUser] = useState(false)
     
     if(user) { 
 
         const handleEditUser = () => setIsEditUser(!isEditUser)
-
         const handleDeleteUser = () => setIsDeleteUser(!isDeleteUser)
 
         return (

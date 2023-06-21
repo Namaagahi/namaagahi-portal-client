@@ -1,7 +1,10 @@
+import { LogoutModalContentProps } from "@/app/lib/interfaces"
 import Logout from "@/app/features/logout/Logout"
 import { AiOutlineClose } from "react-icons/ai"
 
-const LogoutModalContent = ({ handleModal }: { handleModal: () => void }) => {
+const LogoutModalContent = (props: LogoutModalContentProps) => {
+
+  const { handleModal } = props
 
   return (
     <div className="confirm-modal-content">

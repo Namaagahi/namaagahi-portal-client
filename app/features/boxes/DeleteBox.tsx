@@ -22,21 +22,24 @@ const DeleteBox = (props: DeleteBoxProps) => {
     }
     
     if(isLoading) return <Loading/>
-  return (
-    <div className="flex items-center gap-6">
-    <button
-        onClick={onDeleteStructureClick}
-        className="btn-confirm"
-    >
-         حذف باکس
-    </button>
 
-    <button 
-        onClick={handleModal}
-        className="btn-cancel"
-    >لغو</button>
-</div>
-  )
+    return (
+      <div className="flex items-center gap-6">
+        <button
+            onClick={onDeleteStructureClick}
+            className="btn-confirm"
+        >
+            حذف باکس
+        </button>
+
+        <button 
+            onClick={handleModal}
+            className="btn-cancel"
+        >
+          لغو
+        </button>
+  </div>
+    )
 }
 
 export default DeleteBox

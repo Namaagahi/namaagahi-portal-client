@@ -1,9 +1,12 @@
 import { SerializedError } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
+import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister } from "react-hook-form"
+import { Value } from "react-multi-date-picker"
 
 // USER ===========================================================================
 export interface GlobalState {
-  user: UserObject | null,
+  user: UserObject | null
+
   token: string | null
 }
 
@@ -206,6 +209,88 @@ export interface StructureData {
   isAvailable? : boolean
   userId?:string
 }
+// COMPONENT PROPS ===========================================================================
+export interface CreateButtonProps {
+  onClickHandler: () => void
+  title: string
+}
+
+export interface BadgeProps {
+  index: number
+}
+
+export interface CardProps {
+  title: string 
+  main: string
+  mainLink: string
+  subTitle: string
+  subTitleLink: string
+}
+
+export interface DeleteModalContentProps {
+  handleModal: () => void
+  prop?: UserObject | NoteObject | StructureObject | undefined | any
+  deleteType: string
+}
+
+export interface ListItemProps {
+  number: number
+  param: string
+  prop: BoxObject
+  startDate: string
+  endDate: string
+  diff: number
+  titles: Object
+}
+
+export interface LogoutModalContentProps {
+  handleModal: () => void
+}
+
+export interface PageTitleProps {
+  name: string
+}
+
+export interface TitleProps {
+  title: string
+  fontSize: string
+  bulletSize: number
+}
+
+export interface BasicInfoFormSectionProps {
+  handleStartDate: (val: Value) => void
+  handleEndDate: (val: Value) =>void
+  register: UseFormRegister<AddBoxForm>
+  errors: FieldErrors<AddBoxForm>
+  mark: string 
+}
+
+export interface BoxItemProps {
+  boxId: string
+  index: number 
+}
+
+export interface StructuresFormSectionProps { 
+  register: UseFormRegister<AddBoxForm>
+  errors: FieldErrors<AddBoxForm>
+  structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[]
+  appendStructure: UseFieldArrayAppend<AddBoxForm, "structures">
+  removeStructure:  UseFieldArrayRemove
+  control: Control<AddBoxForm, any>
+}
+
+export interface VariableCostsFormSectionProps { 
+  register: UseFormRegister<AddBoxForm>
+  fieldIndex: number
+  control: Control<AddBoxForm, any>
+  errors: FieldErrors<AddBoxForm>
+}
+
+export interface NewNoteFormProps {
+  users: UserObject[]
+  handleModal: () => void
+}
+
 // OTHER ===========================================================================
 export interface MenuItemsObj {
   name: string
@@ -222,16 +307,9 @@ export interface CustomError {
   status?: number
 }
 
-export interface CreateButtonProps {
-  onClickHandler: () => void
-  title: string
-}
 
-export interface DeleteModalContentProps {
-  handleModal: () => void
-  prop?: UserObject | NoteObject | StructureObject | undefined | any
-  deleteType: string
-}
+
+
 
 export interface StatusProps { 
   status: string

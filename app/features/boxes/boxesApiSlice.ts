@@ -3,10 +3,15 @@ import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { apiSlice } from "../../config/api-config/apiSlice"
 import { BoxObject } from "@/app/lib/interfaces"
 
+/* This API Slice is for:
+    * Getting All Boxes from databse
+    * Creating a new box
+    * Updating an existing box
+    * Deleting an existing box
+*/
+
 const boxesAdapter = createEntityAdapter({})
-
 const initialState = boxesAdapter.getInitialState()
-
 const boxesApiSliceTag = apiSlice.enhanceEndpoints({addTagTypes: ['Box']})
 
 export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({ 

@@ -1,11 +1,8 @@
 "use client"
 import { useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import PageTitle from '@/app/components/main/PageTitle'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
-const PageTitle = dynamic(
-  () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
 const BoxItem = dynamic(
   () => import('@/app/features/boxes/BoxItem'),
   { ssr: false }
@@ -29,6 +26,7 @@ const Boxes = () => {
   })
   
   if(isLoading) return <Loading/>
+  
   if(isError) return (
 
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>

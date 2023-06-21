@@ -3,7 +3,7 @@ const nextConfig = {
     reactStrictMode: false,
     env: {
         SERVER:"http://localhost:3500",
-        TITLE:"پورتال دیتابیس نماآگهی"
+        TITLE:"پلتفرم اختصاصی مالی نماآگهی"
       },
     images: {
       remotePatterns: [

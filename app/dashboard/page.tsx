@@ -1,30 +1,17 @@
 "use client"
-import React, { useState } from 'react'
-import dynamic from 'next/dynamic'
-import type { Value } from "react-multi-date-picker"
-import { DateObject } from "react-multi-date-picker"
-import { Calendar } from "react-multi-date-picker"
-import persian from "react-date-object/calendars/persian"
-import persian_fa from "react-date-object/locales/persian_fa"
-const PageTitle = dynamic(
-  () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
-const Dashboard = () => {
+import UnderConstruction from '../components/main/UnderConstruction'
+import PageTitle from '../components/main/PageTitle'
 
-  const [value, setValue] = useState<Value>(new DateObject({ calendar: persian, locale: persian_fa })) 
+const Dashboard = () => {
 
   return (
     <main className="min-h-screen">
       <PageTitle name={'داشبورد'} />
       <div className="w-full">
-      <Calendar
-          calendar={persian}
-          locale={persian_fa}
-          value={value}
-          onChange={setValue}
+        <UnderConstruction 
+          desc='در این داشبورد تمامی چارت ها و گزارشات آماری بر اساس اطلاعات موجود در پلتفرم نمایش داده خواهد شد.'
         />
-    </div>
+      </div>
     </main>
   )
 }

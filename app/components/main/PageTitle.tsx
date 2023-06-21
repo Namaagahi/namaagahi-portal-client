@@ -1,4 +1,8 @@
-const PageTitle = ({name}:{name: string}) => {
+import { PageTitleProps } from "@/app/lib/interfaces"
+
+const PageTitle = (props: PageTitleProps) => {
+
+  const { name } = props
 
   return (
     <div>

@@ -1,6 +1,5 @@
 import { RootState } from "@/app/config/state-config/store"
 import { createSlice } from "@reduxjs/toolkit"
-// import { GlobalState } from "@/app/lib/interfaces"
 
 const authSlice = createSlice({
     name: 'auth',

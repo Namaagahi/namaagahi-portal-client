@@ -1,13 +1,10 @@
 import { selectAllUsers } from "../users/usersApiSlice"
-import { useSelector } from "react-redux"
 import { UserObject } from "@/app/lib/interfaces"
+import { useSelector } from "react-redux"
+import NewNoteForm from "./NewNoteForm"
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
-  { ssr: false }
-)
-const NewNoteForm = dynamic(
-  () => import('./NewNoteForm'),
   { ssr: false }
 )
 

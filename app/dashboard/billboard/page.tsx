@@ -1,4 +1,5 @@
 "use client"
+import { billboardPagePropsObject } from '@/app/lib/constants'
 import Card from '@/app/components/main/Card'
 import dynamic from 'next/dynamic'
 const PageTitle = dynamic(
@@ -12,25 +13,6 @@ const SummarySection = dynamic(
 
 const Billboard = () => {
 
-  const pageProps = [
-    {
-      id:1,
-      title: 'باکس',
-      main:'مشاهده باکس ها',
-      mainLink:'/dashboard/billboard/boxes', 
-      subTitle:'ایجاد باکس جدید', 
-      subTitleLink:'/dashboard/billboard/createbox'
-    },
-    {
-      id:2,
-      title: 'سازه',
-      main:'مشاهده سازه ها',
-      mainLink:'/dashboard/billboard/structures', 
-      subTitle:'ایجاد سازه جدید', 
-      subTitleLink:'/dashboard/billboard/createstructure'
-    },
-  ]
-  
   return (
     <main className="min-h-screen">
       <PageTitle name={'بیلبورد'} />
@@ -38,7 +20,7 @@ const Billboard = () => {
         <SummarySection />
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2'>
           {
-            pageProps.map((prop) => (
+            billboardPagePropsObject.map((prop) => (
               <Card
                 key={prop.id}
                 title={prop.title}
@@ -49,13 +31,6 @@ const Billboard = () => {
               />
             ))
           }
-          {/* <BoxSection />
-          <StructureSection/>
-          <PlanSection />
-          <ExecutionSection />
-          <ContractorSection />
-          <SalesSection />
-          <ReportsSection /> */}
         </div>
       </div>
     </main>
