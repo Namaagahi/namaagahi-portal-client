@@ -67,7 +67,7 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                             {(errors?.structures?.[fieldIndex]?.costs?.variableCosts?.[variableCostIndex]?.figures?.periodCost as FieldError)?.message}
                         </small>
                     </div>
-
+                    
                 </div> 
 
             <AiFillMinusSquare

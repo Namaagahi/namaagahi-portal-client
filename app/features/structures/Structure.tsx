@@ -1,20 +1,17 @@
+import AccessDeniedModeal from '@/app/components/modals/AccessDeniedModeal'
+import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { selectStructureById } from './structuresApiSlice'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { StructureObject } from '@/app/lib/interfaces'
+import Status from '@/app/components/main/Status'
+import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import moment from 'jalali-moment'
 import { useState } from 'react'
-import dynamic from 'next/dynamic'
-const Status = dynamic(
-  () => import('@/app/components/main/Status'),
-  { ssr: false } 
-)
-const ConfirmModal = dynamic(
-  () => import('@/app/components/modals/ConfirmModal'),
-  { ssr: false }
-)
 
 const Structure = ({ structureId }: { structureId: string }) => {
+
+    const { isAdmin } = useAuth()
 
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId))
 
@@ -24,7 +21,6 @@ const Structure = ({ structureId }: { structureId: string }) => {
     if(structure) {
 
         const handleEditStructure = () => setIsEditStructure(!isEditStructure)
-
         const handleDeleteStructure = () => setIsDeleteStructure(!isDeleteStructure)
 
         return (
@@ -53,7 +49,7 @@ const Structure = ({ structureId }: { structureId: string }) => {
                     />    
                 }
                 </td>
-                <div className="px-6 py-4 flex items-center gap-5">
+                <td className="px-6 py-4 flex items-center gap-5">
                     <td className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit 
                             className="text-black dark:text-white hover:scale-125 transition-all" size={20}
@@ -66,25 +62,36 @@ const Structure = ({ structureId }: { structureId: string }) => {
                             onClick={handleDeleteStructure}    
                         />
                     </td>
-                </div>
+                </td>
                 <td className="px-6 py-4">{moment(structure.createdAt).format('jYYYY/jM/jD')}</td>
                 <td className="px-6 py-4">{moment(structure.updatedAt).format('jYYYY/jM/jD')}</td>
             </tr>
-
-            {
-                isDeleteStructure && 
+                {
+                    isAdmin && isDeleteStructure && 
                     <ConfirmModal 
                         prop={structure} 
                         handleModal={handleDeleteStructure}
                         type={'delete'} 
                         deleteType="structure"
+                    /> 
+                }
+                {
+                    !isAdmin && isDeleteStructure && 
+                    <AccessDeniedModeal 
+                        handleModal={handleDeleteStructure}
                     />
-            } 
-
-            {
-                isEditStructure && 
+                }
+                {
+                    isAdmin && isEditStructure && 
                     <p>در حال ساخت</p>
-            }
+            
+                }
+                {
+                    !isAdmin && isEditStructure && 
+                    <AccessDeniedModeal 
+                        handleModal={handleEditStructure}
+                    />
+                }
         </>
         )
     } else return null

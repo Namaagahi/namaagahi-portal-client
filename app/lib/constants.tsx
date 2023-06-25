@@ -1,9 +1,9 @@
-import { MenuItemsObj } from "./interfaces"
+import { MdDashboardCustomize, MdWorkspacesFilled, MdPermMedia } from 'react-icons/md'
 import { FaBus, FaSubway, FaBroadcastTower } from "react-icons/fa"
 import { SiBillboard } from 'react-icons/si'
+import { MenuItemsObj } from "./interfaces"
 import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
-import { MdDashboardCustomize, MdWorkspacesFilled, MdPermMedia } from 'react-icons/md'
 
 // REGEXES =======================================================
 export const USER_REGEX = /^[A-z]{3,20}$/

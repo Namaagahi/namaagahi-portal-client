@@ -24,10 +24,10 @@ const DeleteUser = (props: DeleteUserProps) => {
     const onDeleteUserClick = async () => {
 
         const deleted = await deleteUser({ id: user?.id })
-        if(deleted.error) {
-            deleted.error.data.message === "BAD REQUEST : User has assigned notes"  && toast.error('این کاربر وظایف انجام نشده دارد!')
-            handleModal()
-        }
+        // if(deleted.error) {
+        //     deleted.error.data.message === "BAD REQUEST : User has assigned notes"  && toast.error('این کاربر وظایف انجام نشده دارد!')
+        //     handleModal()
+        // }
         
         handleModal()
         if(isSuccess) {

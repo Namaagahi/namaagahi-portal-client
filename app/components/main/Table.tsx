@@ -10,7 +10,8 @@ const Table = (props: TableProps) => {
         <thead className="table-heading">
           <tr>
             {tableHeadings && tableHeadings.map((prop:string, i:number) => (
-              <th 
+              <th
+                 
                 key={`${prop}${i}`} 
                 scope="col" 
                 className="px-6 py-3"

@@ -307,6 +307,10 @@ export interface CustomError {
   status?: number
 }
 
+export interface AccessDeniedModalProps {
+  handleModal: () => void
+}
+
 
 
 
