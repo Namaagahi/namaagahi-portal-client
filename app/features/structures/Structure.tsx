@@ -49,19 +49,15 @@ const Structure = ({ structureId }: { structureId: string }) => {
                     />    
                 }
                 </td>
-                <td className="px-6 py-4 flex items-center gap-5">
-                    <td className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
-                        <AiFillEdit 
-                            className="text-black dark:text-white hover:scale-125 transition-all" size={20}
-                            onClick={handleEditStructure}
-                        />
-                    </td>
-                    <td className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
-                        <AiFillDelete 
-                            className="text-orange-600 dark:text-white hover:scale-125 transition-all" size={20}
-                            onClick={handleDeleteStructure}    
-                        />
-                    </td>
+                <td className="px-6 py-4 flex items-center gap-5 cursor-pointer">
+                    <AiFillEdit 
+                        className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
+                        onClick={handleEditStructure}
+                    />
+                    <AiFillDelete 
+                        className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
+                        onClick={handleDeleteStructure}    
+                    />
                 </td>
                 <td className="px-6 py-4">{moment(structure.createdAt).format('jYYYY/jM/jD')}</td>
                 <td className="px-6 py-4">{moment(structure.updatedAt).format('jYYYY/jM/jD')}</td>
