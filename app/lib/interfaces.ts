@@ -122,7 +122,31 @@ export interface BoxObject {
     startDate: Date
     endDate: Date
   }
-  structureIds: string[]
+  structures: {
+    structureId:string
+    marks: {
+      name: string
+      markOptions: {
+        style: string
+        face: string
+        length: string
+        width: string
+        printSize: string
+        docSize: string
+      }
+    },
+    costs: {
+      fixedCosts: {
+        squareCost: string
+      }, 
+      variableCosts: {
+        name: string
+        figures: {
+          periodCost: string
+        }
+      }[]
+    }
+  }[]
   updatedAt: string
   username: string
 }
@@ -180,6 +204,7 @@ export interface StructureObject {
     address: string
   }
   isAvailable : boolean
+  isChosen: boolean
 }
 
 export interface StructureObjectForm {
@@ -188,6 +213,7 @@ export interface StructureObjectForm {
   path: string
   address: string
   isAvailable : boolean
+  isChosen: boolean
 }
 
 export interface DeleteStructureProps {

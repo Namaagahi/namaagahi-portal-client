@@ -5,6 +5,7 @@ import { CustomError } from '@/app/lib/interfaces'
 import { RootState } from '../state-config/store'
 
 const baseQuery = fetchBaseQuery({
+    // baseUrl: 'http://it-pc1.namagahi.co:3500',
     baseUrl: 'http://localhost:3500',
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {

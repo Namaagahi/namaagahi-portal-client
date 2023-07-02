@@ -1,20 +1,32 @@
 "use client"
 import persian_fa from "react-date-object/locales/persian_fa"
-import StructuresFormSection from "./StructuresFormSection"
 import persian from "react-date-object/calendars/persian"
-import { useCreateNewBoxMutation } from "./boxesApiSlice"
+import { selectAllBoxes, useCreateNewBoxMutation } from "./boxesApiSlice"
 import { newBoxDefaultValues } from "@/app/lib/constants"
-import BasicInfoFormSection from "./BasicInfoFormSection"
 import { useForm, useFieldArray } from "react-hook-form"
 import { DateObject } from "react-multi-date-picker"
 import type { Value } from "react-multi-date-picker"
-import { AddBoxForm } from "@/app/lib/interfaces"
+import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
+import dynamic from "next/dynamic"
+import { useSelector } from "react-redux"
+import { selectAllStructures, useUpdateStructureMutation } from "../structures/structuresApiSlice"
+const BasicInfoFormSection = dynamic(
+  () => import('./BasicInfoFormSection'),
+  { ssr: false }
+)
+const StructuresFormSection = dynamic(
+  () => import('./StructuresFormSection'),
+  { ssr: false }
+)
 
-const NewBox = ({mark}: {mark: string}) => {
+const NewBox = ({ mark }: { mark: string }) => {
+
+  const boxes = useSelector(state => selectAllBoxes(state))
+  const structures = useSelector(state => selectAllStructures(state))
 
   const { id } = useAuth()  
 
@@ -23,6 +35,8 @@ const NewBox = ({mark}: {mark: string}) => {
       isError,
       error
   }] = useCreateNewBoxMutation()
+
+  const [updateStructure, { isLoading, isError:iserror, error: Error }] = useUpdateStructureMutation()
 
   const [startDate, setStartDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
   const [endDate, setEndDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
@@ -34,7 +48,7 @@ const NewBox = ({mark}: {mark: string}) => {
     mode: 'onSubmit'
   })
 
-  const { register, control, handleSubmit, formState: {errors}, getValues, setValue, watch } = createBoxForm
+  const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
 
   const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
     control,
@@ -59,7 +73,33 @@ const NewBox = ({mark}: {mark: string}) => {
     return englishDate
   }
 
+  console.log("structures", structures)
+
   const onSubmit = async(data: AddBoxForm) => {
+  
+    let found = {} as StructureObject | undefined
+    if(boxes) {
+      boxes.forEach((box: any) => {
+        console.log(box)
+        box.structures.forEach((str: any) => {
+          found = structures.find((structure:any) => structure.id === str.structureId)
+          
+        })
+        console.log("FOUND", found)
+      })
+    }
+
+    if(iserror) console.log("ERROR", Error)
+
+    await updateStructure({
+      userId: found?.userId,
+      id: found?.id,
+      name: found?.name,
+      location: found?.location,
+      isChosen: true,
+      isAvailable: true
+    })
+
     const newData = {
       ...data,
       structures: data.structures.map((structure) => ({

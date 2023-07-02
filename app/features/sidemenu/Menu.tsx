@@ -9,7 +9,7 @@ const SubMenu = dynamic(
   { ssr: false }
 )
 
-const Menu = ({menuItems, subMenusList} : {menuItems: MenuItemsObj[], subMenusList:any}) => {
+const Menu = ({ menuItems, subMenusList } : { menuItems: MenuItemsObj[], subMenusList:any }) => {
 
   const [mobileMenu, setMobileMenu] = useState(true)
 
@@ -18,7 +18,7 @@ const Menu = ({menuItems, subMenusList} : {menuItems: MenuItemsObj[], subMenusLi
   const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
 
   return (
-    <div className={`${mobileMenu ? 'block' : 'hidden'} w-full xl:w-[300px] max-h-[700px] bg-[#E6E6E6] dark:bg-black p-4 rounded-2xl`}>
+    <div className={`${mobileMenu ? 'block' : 'hidden'} w-full xl:w-[300px] max-h-[800px] bg-[#E6E6E6] dark:bg-black p-4 rounded-2xl`}>
       <div className="border-y py-5 border-slate-500 dark:border-slate-300 ">
       <small className="pr-3 text-slate-500 inline-block mb-2">مدیریت</small>
       <ul className="flex flex-col gap-4">

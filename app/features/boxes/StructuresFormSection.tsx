@@ -11,6 +11,8 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
   const { register, errors, structuresField, appendStructure, removeStructure, control } = props
 
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state))
+  const filtered = structures.filter((structure) => structure.isChosen === false)
+
   
   return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
@@ -38,7 +40,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                   className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none"
                 >
                   {
-                    structures.map((structure) => (
+                    filtered.map((structure) => (
                       <option
                         value={structure.id}
                         key={structure.id}

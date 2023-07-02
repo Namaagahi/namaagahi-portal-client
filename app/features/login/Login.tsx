@@ -51,7 +51,7 @@ const Login = () => {
 
             if(!error.status) setLoginInfo({...loginInfo, errMsg: 'خطای اتصال به سرور'})
             else if(error.status === 400) setLoginInfo({...loginInfo, errMsg: 'نام کاربری و رمز عبور را وارد کنید.'})
-            else if(error.status === 401) setLoginInfo({...loginInfo, errMsg: 'ورود غیر مجاز! با پشتیبانی تماس بگیرید.'})
+            else if(error.status === 401) setLoginInfo({...loginInfo, errMsg: 'نام کاربری و یا رمز عبور اشتباه است.'})
             else setLoginInfo({...loginInfo, errMsg: error.data?.message})
             
         }
@@ -64,21 +64,25 @@ const Login = () => {
         <div className='pr-6 pt-6 '>
             <LogoSmall />
             <div className="grid xl:grid-cols-2 grid-cols-1 py-12 xl:py-48 px-10 xl:px-40 gap-24 place-items-center">
-                <div className="order-last opacity-60 block dark:hidden ">
+                <div className="order-last opacity-60 block dark:hidden relative w-[740px] h-[292px]">
                     <Image
-                    src={'/images/Logo-Black-text.webp'}
-                    alt="hero"
-                    width={740}
-                    height={290} 
+                        src={'/images/Logo-Black-text.webp'}
+                        alt="hero"
+                        fill
+                        loading="eager"
+                        fetchPriority="high"
+                        priority
                     />
                 </div>
 
-                <div className="order-last opacity-60 ">
+                <div className="order-last opacity-60 relative w-[740px] h-[292px]">
                     <Image
-                    src={'/images/Logo-White-Text.webp'}
-                    alt="hero"
-                    width={740}
-                    height={290} 
+                        src={'/images/Logo-White-Text.webp'}
+                        alt="hero"
+                        fill
+                        loading="eager"
+                        fetchPriority="high"
+                        // priority
                     />
                 </div>
 
@@ -104,8 +108,8 @@ const Login = () => {
                             ref={userRef}
                             autoComplete="off"
                             value={username}
-                            required
                             onChange={handleUsernameInput}
+                            data-lpignore="true"
                         />
 
                         <input 
@@ -114,8 +118,8 @@ const Login = () => {
                             placeholder="رمز عبور" 
                             autoComplete="off"
                             value={password}
-                            required
                             onChange={handlePasswordInput}
+                            data-lpignore="true"
                             />
 
                         <button className="btn-primary">

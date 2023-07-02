@@ -1,13 +1,18 @@
 "use client"
-import { DeleteBoxProps, StructureData } from '@/app/lib/interfaces'
+import { DeleteBoxProps, StructureData, StructureObject } from '@/app/lib/interfaces'
 import { useDeleteBoxMutation } from './boxesApiSlice'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
+import { selectAllStructures, useUpdateStructureMutation } from '../structures/structuresApiSlice'
+import { useSelector } from 'react-redux'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
 )
 const DeleteBox = (props: DeleteBoxProps) => {
+
+  const structures = useSelector(state => selectAllStructures(state))
+
 
     const { box, handleModal } = props
 
@@ -15,7 +20,23 @@ const DeleteBox = (props: DeleteBoxProps) => {
         isLoading, 
     }] = useDeleteBoxMutation()
 
+  const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
+
+
     const onDeleteStructureClick = async () => {
+
+    let found = {} as StructureObject | undefined
+      box?.structures?.forEach((str: any) => {
+        found = structures.find((structure:any) => structure.id === str.structureId)
+      })
+      await updateStructure({
+        userId: found?.userId,
+        id: found?.id,
+        name: found?.name,
+        location: found?.location,
+        isChosen: false,
+        isAvailable: true
+      })
         await deleteBox({ id: box?.id })
         handleModal()
         toast.success(`سازه ${box?.name} با موفقیت حذف شد`)
