@@ -21,6 +21,7 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
     endpoints: (builder) => ({
 
         getAllBoxes: builder.query({
+            
             query: () => '/boxes',
 
             transformResponse: (responseData: BoxObject[]) => {

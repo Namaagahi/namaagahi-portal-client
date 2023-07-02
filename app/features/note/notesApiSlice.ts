@@ -3,18 +3,27 @@ import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { apiSlice } from "../../config/api-config/apiSlice"
 import { NoteObject } from "@/app/lib/interfaces"
 
+/* This API Slice is for:
+    * Getting All Notes from databse
+    * Creating a new note
+    * Updating an existing note
+    * Deleting an existing note
+*/
+
 const notesAdapter = createEntityAdapter({
     sortComparer: (a: NoteObject, b: NoteObject) => (a.completed === b.completed) ? 0 : a.completed ? 1 : -1
 })
 const initialState = notesAdapter.getInitialState()
+const notesApiSliceTag = apiSlice.enhanceEndpoints({addTagTypes: ['Note']})
 
-export const notesApiSlice = apiSlice.injectEndpoints({
+export const notesApiSlice = notesApiSliceTag.injectEndpoints({
 
     overrideExisting: module.hot?.status() === "apply",
 
     endpoints: builder => ({
 
         getNotes: builder.query({
+
             query: () => '/notes',
 
             transformResponse: (responseData: NoteObject[]) => {

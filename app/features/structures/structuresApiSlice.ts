@@ -3,12 +3,17 @@ import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
 import { apiSlice } from "../../config/api-config/apiSlice"
 import { StructureObject } from "@/app/lib/interfaces"
 
+/* This API Slice is for:
+    * Getting All Structures from databse
+    * Creating a new structure
+    * Updating an existing structure
+    * Deleting an existing structure
+*/
+
 const structuresAdapter = createEntityAdapter({
     sortComparer: (a: StructureObject, b: StructureObject) => (a.isAvailable === b.isAvailable) ? 0 : a.isAvailable ? 1 : -1
 })
-
 const initialState = structuresAdapter.getInitialState() 
-
 const structuresApiSliceTag = apiSlice.enhanceEndpoints({addTagTypes: ['Structure']})
 
 export const structuresApiSlice = structuresApiSliceTag.injectEndpoints({
@@ -18,6 +23,7 @@ export const structuresApiSlice = structuresApiSliceTag.injectEndpoints({
     endpoints: builder => ({
 
         getStructures: builder.query({
+
             query: () => '/structures',
 
             transformResponse: (responseData: StructureObject[]) => {

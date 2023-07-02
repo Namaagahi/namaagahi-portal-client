@@ -12,14 +12,16 @@ import { UserObject } from "@/app/lib/interfaces"
 
 const usersAdapter = createEntityAdapter({})
 const initialState = usersAdapter.getInitialState() 
+const usersApiSliceTag = apiSlice.enhanceEndpoints({addTagTypes: ['User']})
 
-export const usersApiSlice = apiSlice.injectEndpoints({
+export const usersApiSlice = usersApiSliceTag.injectEndpoints({
 
     overrideExisting: module.hot?.status() === "apply",
 
     endpoints: builder => ({
 
         getUsers: builder.query({
+
             query: () => '/users',
 
             transformResponse: (responseData: UserObject[]) => {

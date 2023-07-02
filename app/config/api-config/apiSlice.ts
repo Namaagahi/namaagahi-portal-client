@@ -4,9 +4,9 @@ import { setCredentials } from '@/app/features/auth/authSlice'
 import { CustomError } from '@/app/lib/interfaces'
 import { RootState } from '../state-config/store'
 
-const baseQuery = fetchBaseQuery({
+const baseQuery = fetchBaseQuery({ 
     // baseUrl: 'http://it-pc1.namagahi.co:3500',
-    baseUrl: 'http://localhost:3500',
+    baseUrl: process.env.SERVER,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).auth.token
@@ -33,6 +33,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['Note', 'User', 'Structure'],
+    tagTypes: ['Note', 'User', 'Structure', 'Box'],
     endpoints: builder => ({})
 })

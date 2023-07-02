@@ -1,14 +1,14 @@
 "use client"
-import PageTitle from "@/app/components/main/PageTitle"
-import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet"
-import "leaflet/dist/leaflet.css";
-import { useState } from "react";
-import L from "leaflet"
-import { MapData } from "@/app/lib/constants";
-import { useSelector } from "react-redux";
 import { selectAllStructures, selectStructureById } from "@/app/features/structures/structuresApiSlice";
-import { selectAllBoxes } from "@/app/features/boxes/boxesApiSlice";
-import { toast } from "react-toastify";
+import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet"
+import { selectAllBoxes } from "@/app/features/boxes/boxesApiSlice"
+import PageTitle from "@/app/components/main/PageTitle"
+import { MapData } from "@/app/lib/constants"
+import { useSelector } from "react-redux"
+import { toast } from "react-toastify"
+import "leaflet/dist/leaflet.css"
+import { useState } from "react"
+import L from "leaflet"
 
 const MapNama = () => {
 
@@ -32,8 +32,6 @@ const MapNama = () => {
   const structures = useSelector(state => selectAllStructures(state))
   const structure = useSelector(state => selectStructureById(state, structureId))
   const boxStr = boxes.map(box => box.structures.find(str => str.structureId === structureId))
-
-  console.log("BOXES", boxes)
 
   function LeafIcon({ iconUrl }) {
     L.Icon.call(this, {
@@ -77,12 +75,6 @@ const MapNama = () => {
           <div className='flex flex-col items-start  gap-3'>
             <label htmlFor="typeName" className='text-[#767676] text-center font-bold'>کد سامانه </label>
             <select 
-              // {...register(`structures.${fieldIndex}.structureId`, {
-              //   required: {
-              //     value: true,
-              //     message:  'کد سازه را انتخاب کنید'
-              //   }
-              // })}
               onChange={(e) => setStructureId(e.target.value)}
               className="select select-bordered max-w-xs w-full px-6 py-3 rounded-xl h-16 bg-[#E6E6E6] outline-none text-black"
             >
@@ -99,7 +91,6 @@ const MapNama = () => {
               }
             </select>
             <small className="text-xs text-rose-600 "> 
-              {/* {errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']} */}
             </small>
           </div>
 

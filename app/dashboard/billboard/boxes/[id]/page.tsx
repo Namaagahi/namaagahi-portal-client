@@ -8,7 +8,6 @@ import PageTitle from '@/app/components/main/PageTitle'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -33,7 +32,6 @@ const SingleBox = () => {
         return number.toLocaleString(undefined, options).replace(/,/g, separator);
       }
 
-      console.log("BOX", box)   
     
     if(!box) return <Loading />
 
