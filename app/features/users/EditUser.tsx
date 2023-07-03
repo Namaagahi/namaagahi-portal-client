@@ -18,4 +18,4 @@ const EditUser = (props: EditUserProps) => {
   )
 }
 
-export default EditUser
+export default EditUser 

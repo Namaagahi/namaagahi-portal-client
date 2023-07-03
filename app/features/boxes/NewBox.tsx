@@ -1,19 +1,19 @@
 "use client"
+import { selectAllStructures, useUpdateStructureMutation } from "../structures/structuresApiSlice"
+import { selectAllBoxes, useCreateNewBoxMutation } from "./boxesApiSlice"
+import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
-import { selectAllBoxes, useCreateNewBoxMutation } from "./boxesApiSlice"
 import { newBoxDefaultValues } from "@/app/lib/constants"
 import { useForm, useFieldArray } from "react-hook-form"
 import { DateObject } from "react-multi-date-picker"
 import type { Value } from "react-multi-date-picker"
-import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
 import dynamic from "next/dynamic"
-import { useSelector } from "react-redux"
-import { selectAllStructures, useUpdateStructureMutation } from "../structures/structuresApiSlice"
 const BasicInfoFormSection = dynamic(
   () => import('./BasicInfoFormSection'),
   { ssr: false }
@@ -73,14 +73,14 @@ const NewBox = ({ mark }: { mark: string }) => {
     return englishDate
   }
 
-  console.log("structures", structures)
+  // console.log("structures", structures)
 
   const onSubmit = async(data: AddBoxForm) => {
   
     let found = {} as StructureObject | undefined
     if(boxes) {
       boxes.forEach((box: any) => {
-        console.log(box)
+        // console.log(box)
         box.structures.forEach((str: any) => {
           found = structures.find((structure:any) => structure.id === str.structureId)
           

@@ -8,6 +8,11 @@ import PageTitle from '@/app/components/main/PageTitle'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
+import Tooltip from '@/app/components/main/Tooltip'
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import useAuth from '@/app/hooks/useAuth'
+import { useState } from 'react'
+import UpdateBoxModal from '@/app/components/modals/UpdateBoxModal'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -19,10 +24,17 @@ const Table = dynamic(
 
 const SingleBox = () => {
 
+    const { isAdmin } = useAuth()
     const { id } = useParams()
 
     const box: BoxObject | any = useSelector(state => selectBoxById(state, id))
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
+
+    const [isEditBoxContent, setIsEditBoxContent] = useState(false)
+    const [isDeleteBoxStructure, setIsDeleteBoxStructure] = useState(false)
+
+    const handleEditBoxContent = () => setIsEditBoxContent(!isEditBoxContent)
+    const handleDeleteBoxStructure = () => setIsDeleteBoxStructure(!isDeleteBoxStructure)
 
     function formatNumber(number: number, separator: string): string {
         const options = {
@@ -34,123 +46,162 @@ const SingleBox = () => {
 
     
     if(!box) return <Loading />
+    console.log("BOX", box)
 
     return ( 
-        <main className='min-h-screen'>
-            <PageTitle name={`باکس ${box.name}`} />
-            <div className="flex flex-col rounded-lg w-full min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md ">
-                <div className="  w-full h-full duration-1000">
-                    <div className=" p-4  w-full h-full bg-gray-100 overflow-hidden">
-                        <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-[#2563EB]/80 flex items-center justify-between px-2 text-white font-bold">
-                            <div className="flex flex-col gap-2">
-                                {box.mark.name === 'buyShort'?
-                                <p>خرید کوتاه مدت</p>
-                                : box.mark.name === 'buyLong'?
-                                <p>خرید بلند مدت</p>
-                                : <p>مزایده ای</p>}
-
-                                <p>{box.name}</p>
-                            </div>
-
-                            {
-                            box.mark.name === 'buyShort' && 
+        <>
+            <main className='min-h-screen'>
+                <PageTitle name={`باکس ${box.name}`} />
+                <div className="flex flex-col rounded-lg w-full min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md ">
+                    <div className="  w-full h-full duration-1000">
+                        <div className=" p-4  w-full h-full bg-gray-100 overflow-hidden">
+                            <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-[#2563EB]/80 flex items-center justify-between px-2 text-white font-bold">
                                 <div className="flex flex-col gap-2">
-                                    <p>{box.mark.markOptions.projectNumber}</p>
-                                    <p>{box.mark.markOptions.brand}</p>
+                                    {box.mark.name === 'buyShort'?
+                                    <p>خرید کوتاه مدت</p>
+                                    : box.mark.name === 'buyLong'?
+                                    <p>خرید بلند مدت</p>
+                                    : <p>مزایده ای</p>}
+
+                                    <p>{box.name}</p>
                                 </div>
-                            }
 
-                            <div className="flex flex-col gap-2 text-sm">
-                                <p>{box.duration.startDate}</p>
-                                <p>{box.duration.endDate}</p>
-                                <p>مدت قرارداد: {box.duration.diff} روز</p>
-                            </div>
-                        </div>
-                        
-                        {!box.structures?.length && <p className='text-black'>باکس سازه ندارد</p>} 
-
-                        <small className=" mt-2 text-black px-2">خرید</small>
-                        <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black">
-                            <Table 
-                                tableHeadings={boxStructureHeadings}
-                                tableContent={
-                                    box.structures.map((structure: any, index: number) => {
-                                        const str = allStructures.find(rawStructure => rawStructure.id === structure.structureId)
-                                        return(
-                                            <tr key={structure.structureId}>                
-                                                <td className="px-6 py-4">{str?.name}</td>
-                                                <td className="px-6 py-4">{structure.marks.name}</td>
-                                                <td className="px-6 py-4">{str?.location.path}</td>
-                                                <td className="px-6 py-4">{str?.location.address}</td>
-                                                <td className="px-6 py-4">{structure.duration.startDate}</td>
-                                                <td className="px-6 py-4">{structure.duration.endDate}</td>
-                                                <td className="px-6 py-4">{structure.duration.diff}</td>
-                                                <td className="px-6 py-4">{structure.marks.markOptions.style}</td>
-                                                <td className="px-6 py-4">{structure.marks.markOptions.face}</td>
-                                                <td className="px-6 py-4">{structure.marks.markOptions.length}</td>
-                                                <td className="px-6 py-4">{structure.marks.markOptions.width}</td>
-                                                <td className="px-6 py-4">{structure.marks.markOptions.printSize}</td>
-                                                <td className="px-6 py-4">{structure.marks.markOptions.docSize}</td>
-                                                <td className="px-6 py-4">{formatNumber(structure.costs.fixedCosts.squareCost, ',')}</td>
-                                                <td className="px-6 py-4">{formatNumber(structure.costs.fixedCosts.monthlyCost, ',')}</td>
-                                            </tr>
-                                        )
-                                    })
+                                {
+                                box.mark.name === 'buyShort' && 
+                                    <div className="flex flex-col gap-2">
+                                        <p>{box.mark.markOptions.projectNumber}</p>
+                                        <p>{box.mark.markOptions.brand}</p>
+                                    </div>
                                 }
-                            />
+
+                                <div className="flex flex-col gap-2 text-sm">
+                                    <p>{box.duration.startDate}</p>
+                                    <p>{box.duration.endDate}</p>
+                                    <p>مدت قرارداد: {box.duration.diff} روز</p>
+                                </div>
+                            </div>
+                            
+                            {!box.structures?.length && <p className='text-black'>باکس سازه ندارد</p>} 
+
+                            <small className=" mt-2 text-black px-2">خرید</small>
+                            <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black">
+                                <Table  
+                                    tableHeadings={boxStructureHeadings}
+                                    tableContent={
+                                        box.structures.map((structure: any, index: number) => {
+                                            const str = allStructures.find(rawStructure => rawStructure.id === structure.structureId)
+                
+                                            return(
+                                                <>
+                                                
+                                                <tr key={str?._id}>                
+                                                    <td className="px-1 text-center py-4">{index + 1}</td>
+                                                    <td className="px-6 py-4">{str?.name}</td>
+                                                    <td className="px-2 py-4">{structure.marks.name}</td>
+                                                    <td className="px-6 py-4">{str?.location.path}</td>
+                                                    <Tooltip
+                                                        tooltipText={str?.location.address}
+                                                        orientation='left'
+                                                    >
+                                                        <td className="px-2 py-4">{`${str?.location.address.slice(0,10)}...`}</td>
+                                                    </Tooltip>
+                                                    <td className="px-6 py-4">{structure.duration.startDate}</td>
+                                                    <td className="px-6 py-4">{structure.duration.endDate}</td>
+                                                    <td className="px-6 py-4">{structure.duration.diff}</td>
+                                                    <td className="px-6 py-4">{structure.marks.markOptions.style}</td>
+                                                    <td className="px-6 py-4">{structure.marks.markOptions.face}</td>
+                                                    <td className="px-6 py-4">{structure.marks.markOptions.length}</td>
+                                                    <td className="px-6 py-4">{structure.marks.markOptions.width}</td>
+                                                    <td className="px-6 py-4">{structure.marks.markOptions.printSize}</td>
+                                                    <td className="px-6 py-4">{structure.marks.markOptions.docSize}</td>
+                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.squareCost, ',')}</td>
+                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.dailyCost, ',')}</td>
+                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.monthlyCost, ',')}</td>
+                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600 font-bold">{formatNumber(structure.costs.fixedCosts.periodCost, ',')}</td>
+                                                    <td className="px-6 py-4 flex items-center justify-center gap-5 cursor-pointer">
+                                                        <AiFillEdit 
+                                                            className="text-black hover:scale-125 transition-all" size={20}
+                                                            onClick={handleEditBoxContent}
+                                                        />
+                                                        <AiFillDelete 
+                                                            className="text-orange-600 hover:scale-125 transition-all" size={20}
+                                                            onClick={handleDeleteBoxStructure}
+                                                        />
+                                                    </td>
+                                                    {/* {structure.costs.variableCosts.map((varCost : any) => {
+                                                        return (
+                                                            <td>{formatNumber(varCost.figures.periodCost, ',')}</td>
+                                                        )
+                                                    })} */}
+                                                </tr>
+                                 
+                                                </>
+                                                )
+                                        })
+                                    }
+                                />
+                            </div>
+
+                            <small className=" mt-2 text-black px-2">فروش</small>
+                                <UnderConstruction 
+                                    desc='این بخش از پنل مربوط به جدول فروش به تفکیک سازه ها و جداول تجمیعی سود و زیان است و به زودی اضافه خواهد شد.'
+                                />  
+                            {/* <div className="max-h-[30%] bg-lime-200 overflow-y-auto text-black">
+                                <Table 
+                                    tableHeadings={plannedStructureHeadings}
+                                    tableContent={
+                                    <>                
+                                        <td className="px-6 py-4">ST1000</td>
+                                        <td className="px-6 py-4">PL1000</td>
+                                        <td className="px-6 py-4">دیپوینت</td>
+                                        <td className="px-6 py-4">مدرس</td>
+                                        <td className="px-6 py-4">18.000.000</td>
+                                        <td className="px-6 py-4">1402/05/15</td>
+                                        <td className="px-6 py-4">1402/06/20</td>
+                                    </>}
+                                />
+                            </div> */}
+
+                            <small className=" mt-2 text-black px-2">سود/ زیان جزئی </small>
+                            {/* <div className="max-h-[30%] bg-slate-200 overflow-y-auto text-black">
+                                <Table 
+                                    tableHeadings={structureRevenueHeadings}
+                                    tableContent={
+                                    <>                
+                                        <td className="px-6 py-4">ST1000</td>
+                                        <td className="px-6 py-4">مدرس</td>
+                                        <td className="px-6 py-4">17.000.000</td>
+                                        <td className="px-6 py-4">18.000.000</td>
+                                        <td className="px-6 py-4">1.000.000</td>
+                                    </>}
+                                />
+                            </div> */}
+
+                            <small className=" mt-2 text-black px-2">سود/ زیان تجمیعی </small>
+                            {/* <div className="max-h-[30%] bg-slate-200 overflow-y-auto text-black">
+                                <Table 
+                                    tableHeadings={boxRevenueHeadings}
+                                    tableContent={
+                                    <>                
+                                        <td className="px-6 py-4">17.000.000</td>
+                                        <td className="px-6 py-4">18.000.000</td>
+                                        <td className="px-6 py-4">1.000.000</td>
+                                    </>}
+                                />
+                            </div> */}
                         </div>
-
-                        <small className=" mt-2 text-black px-2">فروش</small>
-                            <UnderConstruction 
-                                desc='این بخش از پنل مربوط به جدول فروش به تفکیک سازه ها و جداول تجمیعی سود و زیان است و به زودی اضافه خواهد شد.'
-                            />  
-                        {/* <div className="max-h-[30%] bg-lime-200 overflow-y-auto text-black">
-                            <Table 
-                                tableHeadings={plannedStructureHeadings}
-                                tableContent={
-                                <>                
-                                    <td className="px-6 py-4">ST1000</td>
-                                    <td className="px-6 py-4">PL1000</td>
-                                    <td className="px-6 py-4">دیپوینت</td>
-                                    <td className="px-6 py-4">مدرس</td>
-                                    <td className="px-6 py-4">18.000.000</td>
-                                    <td className="px-6 py-4">1402/05/15</td>
-                                    <td className="px-6 py-4">1402/06/20</td>
-                                </>}
-                            />
-                        </div> */}
-
-                        <small className=" mt-2 text-black px-2">سود/ زیان جزئی </small>
-                        {/* <div className="max-h-[30%] bg-slate-200 overflow-y-auto text-black">
-                            <Table 
-                                tableHeadings={structureRevenueHeadings}
-                                tableContent={
-                                <>                
-                                    <td className="px-6 py-4">ST1000</td>
-                                    <td className="px-6 py-4">مدرس</td>
-                                    <td className="px-6 py-4">17.000.000</td>
-                                    <td className="px-6 py-4">18.000.000</td>
-                                    <td className="px-6 py-4">1.000.000</td>
-                                </>}
-                            />
-                        </div> */}
-
-                        <small className=" mt-2 text-black px-2">سود/ زیان تجمیعی </small>
-                        {/* <div className="max-h-[30%] bg-slate-200 overflow-y-auto text-black">
-                            <Table 
-                                tableHeadings={boxRevenueHeadings}
-                                tableContent={
-                                <>                
-                                    <td className="px-6 py-4">17.000.000</td>
-                                    <td className="px-6 py-4">18.000.000</td>
-                                    <td className="px-6 py-4">1.000.000</td>
-                                </>}
-                            />
-                        </div> */}
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
+            {/* {isAdmin && isEditBoxContent &&
+                <UpdateBoxModal
+                    handleModal={handleEditBoxContent}
+                    structureId={structure.structureId}
+                    box={box}
+                />
+            } */}
+
+        </>
     )
 }
 

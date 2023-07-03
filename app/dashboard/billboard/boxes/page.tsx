@@ -25,7 +25,7 @@ const Boxes = () => {
     refetchOnMountOrArgChange: true
   })
 
-  console.log(boxes)
+  // console.log(boxes)
   
   if(isLoading) return <Loading/>
   

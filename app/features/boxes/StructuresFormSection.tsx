@@ -85,7 +85,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
               </div>
     
               <div className='flex flex-col gap-3'>
-                <label htmlFor="styleName" className='text-[#767676] font-bold'>استایل</label>
+                <label htmlFor="styleName" className='text-[#767676] font-bold'>تیپ</label>
                 <select 
                   {...register(`structures.${fieldIndex}.marks.markOptions.style`, {
                     required: {
@@ -113,7 +113,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
               </div>
               
               <div className='flex flex-col gap-3'>
-                <label htmlFor="face" className='text-[#767676] font-bold'>تیپ</label>
+                <label htmlFor="face" className='text-[#767676] font-bold'>وجه</label>
                 <select 
                   {...register(`structures.${fieldIndex}.marks.markOptions.face`, {
                     required: {

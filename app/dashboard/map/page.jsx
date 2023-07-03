@@ -64,7 +64,7 @@ const MapNama = () => {
     return null
   }
 
-  console.log(MapData)
+  // console.log(MapData)
 
   return (
     <main className="min-h-screen">
@@ -128,7 +128,7 @@ const MapNama = () => {
                 const boxStr = boxes.map(box => box.structures.find(str => 
                    str.structureId === structureId
                 ))
-                console.log("boxStr", boxStr)
+                // console.log("boxStr", boxStr)
 
                 MapData.push({
                   id: structureId,
