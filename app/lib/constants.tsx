@@ -173,6 +173,7 @@ export const newBoxDefaultValues = {
 export const typeNames = ['عرشه پل سواره رو', 'پل عابر پیاده', 'بیلبورد']
 export const styles = ['افقی', 'عمودی']
 export const faces = ['شمالی', 'جنوبی', 'غربی', 'شرقی']
+export const boxMarks = ['مزایده ای', 'کوتاه مدت', 'بلندمدت']
 
 export const boxStructureFormValues = {
   structureId: '',

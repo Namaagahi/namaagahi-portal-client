@@ -57,11 +57,8 @@ const EditUserForm = (props: EditUserProps) => {
     }, [isSuccess, push])
 
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setUserData({...userData, name: e.target.value})
-
     const onUserameChange = (e: React.ChangeEvent<HTMLInputElement>) => setUserData({...userData, username: e.target.value})
-
     const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => setUserData({...userData, password: e.target.value})
-
     const onActiveChange = () => setUserData({...userData, active:!active})
 
     const onRolesChange = (e: ChangeEvent<HTMLSelectElement>) => {

@@ -4,6 +4,7 @@ import ConfirmModal from '../modals/ConfirmModal'
 import useAuth from '@/app/hooks/useAuth'
 import { useState } from 'react'
 import Link from 'next/link'
+import CreateUpdateModal from '../modals/CreateUpdateModal'
 
 const ListItem = (props: ListItemProps) => {
 
@@ -11,10 +12,11 @@ const ListItem = (props: ListItemProps) => {
 
     const { isAdmin } = useAuth()
 
-    const [isEdit, setIsEditS] = useState(false)
-    const [isDelete, setIsDelete] = useState(false)
+    const [isEditBox, setIsEditBox] = useState(false)
+    const [isDeleteBox, setIsDeleteBox] = useState(false)
 
-    const handleDeleteModal = () => setIsDelete(!isDelete)
+    const handleEditBox = () => setIsEditBox(!isEditBox)
+    const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
 
     return (
     <>
@@ -29,7 +31,7 @@ const ListItem = (props: ListItemProps) => {
                     <AiFillDelete onClick={handleDeleteModal}/>
                 </div>
                 <div className='absolute left-16 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
-                    <AiFillEdit />
+                    <AiFillEdit onClick={handleEditBox}/>
                 </div>
             </>
             }
@@ -75,7 +77,7 @@ const ListItem = (props: ListItemProps) => {
             </div>
 
         {
-            isDelete && 
+            isDeleteBox && 
                 <ConfirmModal
                     prop={prop} 
                     handleModal={handleDeleteModal}
@@ -83,6 +85,15 @@ const ListItem = (props: ListItemProps) => {
                     deleteType="box"
                 />
         } 
+
+        {
+            isEditBox && 
+                <CreateUpdateModal 
+                    type={'editBox'}
+                    handleModal={handleEditBox} 
+                    prop={prop}
+                />
+        }
     </>
   )
 }

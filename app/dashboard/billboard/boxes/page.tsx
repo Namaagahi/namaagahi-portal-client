@@ -6,7 +6,7 @@ import Link from 'next/link'
 const BoxItem = dynamic(
   () => import('@/app/features/boxes/BoxItem'),
   { ssr: false }
-)
+) 
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }

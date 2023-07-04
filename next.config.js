@@ -4,7 +4,7 @@ const nextConfig = {
     env: {
         // SERVER:"http://it-pc1.namagahi.co:3500",
         SERVER:"http://localhost:3500",
-        TITLE:"پلتفرم اختصاصی مالی نماآگهی"
+        TITLE:"پلتفرم اختصاصی نماآگهی"
       },
     images: {
       remotePatterns: [

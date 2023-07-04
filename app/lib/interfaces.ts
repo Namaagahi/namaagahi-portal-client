@@ -191,6 +191,11 @@ export interface DeleteBoxProps {
   handleModal: () => void
 }
 
+export interface EditBoxProps {
+  box: BoxObject | undefined
+  handleModal: () => void
+}
+
 
 // STRUCTURE ===========================================================================
 export interface StructureObject {

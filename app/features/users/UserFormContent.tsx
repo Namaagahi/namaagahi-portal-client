@@ -29,7 +29,9 @@ const UserFormContent = (props: UserFormProps) => {
                 key={role}
                 value={role}
 
-            > {role}</option >
+            > 
+                {role}
+            </option >
         )
     })
 
