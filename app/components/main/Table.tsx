@@ -5,7 +5,7 @@ const Table = (props: TableProps) => {
   const { tableContent, tableHeadings } = props
 
   return (
-    <div className="relative overflow-x-auto mt-5">
+    <div className="relative overflow-x-auto mt-5 max-w-full">
       <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
         <thead className="table-heading">
           <tr>

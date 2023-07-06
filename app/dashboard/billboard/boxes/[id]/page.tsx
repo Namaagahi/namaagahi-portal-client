@@ -10,7 +10,8 @@ import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 import Tooltip from '@/app/components/main/Tooltip'
 import useAuth from '@/app/hooks/useAuth'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -19,12 +20,13 @@ const Table = dynamic(
     () => import('@/app/components/main/Table'),
     { ssr: false }
   )
+import { variableCostNames2 } from '@/app/lib/constants'
 
 const SingleBox = () => {
 
     const { isAdmin } = useAuth()
     const { id } = useParams()
-
+    const [newBox, setNewBox] = useState<any>({})
     const {
         data: boxes
     } = useGetAllBoxesQuery(undefined, {
@@ -41,7 +43,7 @@ const SingleBox = () => {
         refetchOnMountOrArgChange: true
     })
 
-    const box: BoxObject | any = useSelector(state => selectBoxById(state, id))
+    const box: BoxObject = useSelector(state => selectBoxById(state, id))
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
     const [isEditBoxContent, setIsEditBoxContent] = useState(false)
@@ -55,47 +57,49 @@ const SingleBox = () => {
         return number.toLocaleString(undefined, options).replace(/,/g, separator);
       }
 
-    if(!box) return <Loading />
+      const calcVariableCosts = () => {
+        const clone:any = []
+        box.structures.forEach(item => {
+            clone.push({...item, ['myCustomCost'] : {}})
+        })
+        clone.forEach((stucture:any) => {
+            stucture.costs.variableCosts.forEach((varCost:any) => {
+                variableCostNames2.forEach(varName => {
+                    if(stucture['myCustomCost'][varName]) return
+                    if(!stucture['myCustomCost'][varName]) stucture['myCustomCost'][varName] = 0
+                    if(varCost.name === varName) return stucture['myCustomCost'][varName] = varCost.figures.periodCost
+
+                })
+            })
+        })
+       const boxClone = {...box}
+       boxClone['structures'] = [...clone]
+    setNewBox(boxClone)
+      }
+
+      useEffect(() => {
+        if(box) calcVariableCosts()
+      }, [box])
+
+    if(!newBox.id) return <Loading />
+    console.log("BOX", newBox)
 
     return ( 
         <>
-            <main className='min-h-screen'>
-                <PageTitle name={`باکس ${box.name}`} />
-                <div className="flex flex-col rounded-lg w-full min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md ">
-                    <div className="  w-full h-full duration-1000">
-                        <div className=" p-4  w-full h-full bg-gray-100 overflow-hidden">
-                            <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-[#2563EB]/80 flex items-center justify-between px-2 text-white font-bold">
-                                <div className="flex flex-col gap-2">
-                                    {box.mark.name === 'buyShort'?
-                                    <p>خرید کوتاه مدت</p>
-                                    : box.mark.name === 'buyLong'?
-                                    <p>خرید بلند مدت</p>
-                                    : <p>مزایده ای</p>}
-
-                                    <p>{box.name}</p>
-                                </div>
-
-                                {
-                                box.mark.name === 'buyShort' && 
-                                    <div className="flex flex-col gap-2">
-                                        <p>{box.mark.markOptions.projectNumber}</p>
-                                        <p>{box.mark.markOptions.brand}</p>
-                                    </div>
-                                }
-
-                                <div className="flex flex-col gap-2 text-sm">
-                                    <p>{box.duration.startDate}</p>
-                                    <p>{box.duration.endDate}</p>
-                                    <p>مدت قرارداد: {box.duration.diff} روز</p>
-                                </div>
-                            </div>
-            
+            <main className='min-h-screen w-full'>
+                <PageTitle name={`باکس ${newBox.name}`} />
+                <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
+                    <div className=" h-full duration-1000">
+                        <div className=" p-4 h-full bg-gray-100 overflow-hidden">
+                            <SingleBoxHeading 
+                                box={newBox}
+                            />
                             <small className=" mt-2 text-black px-2">خرید</small>
-                            <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black">
+                            <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black w-full">
                                 <Table  
                                     tableHeadings={boxStructureHeadings}
                                     tableContent={
-                                        box.structures.map((structure: any, index: number) => {
+                                        newBox.structures.map((structure, index: number) => {
                                             const str = allStructures.find(rawStructure => rawStructure.id === structure.structureId)
                                             return( 
                                                 <>
@@ -123,6 +127,12 @@ const SingleBox = () => {
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.dailyCost, ',')}</td>
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.monthlyCost, ',')}</td>
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600 font-bold">{formatNumber(structure.costs.fixedCosts.periodCost, ',')}</td>
+                                                    {
+                                                        variableCostNames2.map((varName) => {
+                                                           return <td className="px-6 py-4">{formatNumber(structure.myCustomCost[varName], ',')}</td>
+                                                        
+                                                        })
+                                                    }
                                                 </tr>
                                  
                                                 </>

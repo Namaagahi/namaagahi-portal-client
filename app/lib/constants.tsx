@@ -12,6 +12,8 @@ export const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 export const DASH_REGEX = /^\/dashboard(\/)?$/
 export const NOTES_REGEX = /^\/dashboard\/tasks(\/)?$/
 export const USERS_REGEX = /^\/dashboard\/users(\/)?$/
+export const variableCostNames2 = ['برق', 'پایش', 'بیمه', 'نگهداری', 'سایر']
+
 
 // SINGLE BOX PAGE =======================================================
 export const boxStructureHeadings = [
@@ -33,7 +35,8 @@ export const boxStructureHeadings = [
     'تمام شده روزانه', 
     'تمام شده ماهیانه',
     'تمام شده دوره',
-]
+    
+].concat(variableCostNames2)
 export const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
 export const structureRevenueHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده', 'مجموع فروش دوره', 'سود / زیان' ]
 export const boxRevenueHeadings = ['بهای تمام شده باکس', 'مجموع فروش باکس', 'سود / زیان تجمیعی' ]
