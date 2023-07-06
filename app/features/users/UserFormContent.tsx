@@ -11,15 +11,14 @@ const UserFormContent = (props: UserFormProps) => {
             name,
             username,
             password,
-            validUserName,
-            validPassWord,
             roles,
             active,
             onNameChange,
             onUserameChange,
             onPasswordChange,
             onActiveChange,
-            onRolesChange
+            onRolesChange,
+            type
         }
         = props
 
@@ -53,10 +52,10 @@ const UserFormContent = (props: UserFormProps) => {
             type="username"
             placeholder="نام کاربری انگلیسی"
             id="name"
-            value={username}
+            defaultValue={username}
             autoComplete="off"
             onChange={onUserameChange}
-            className={`${!validUserName && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} form-input`}
         />
 
         <label className="mt-7" htmlFor="password">رمز عبور</label>
@@ -67,7 +66,7 @@ const UserFormContent = (props: UserFormProps) => {
             value={password}
             autoComplete="off"
             onChange={onPasswordChange}
-            className={`${!validPassWord && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} form-input`}
         />
 
         {
@@ -84,18 +83,21 @@ const UserFormContent = (props: UserFormProps) => {
                     onChange={onRolesChange}
                 >{options}</select>
 
+                {type === 'edit' && 
+                <>   
                 <label className="mt-7" htmlFor="status">وضعیت</label>
                 <div className='flex items-center gap-3'>
                     <input
                         id='status'
                         name='status'
                         type='checkbox'
-                        // checked={active}
+                        checked={active}
                         onChange={onActiveChange}
                         className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     />
                     <p>فعال</p>
-                </div>
+                </div></>
+                }
             </>
         }
     </div>

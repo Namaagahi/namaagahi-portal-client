@@ -6,6 +6,8 @@ import { store } from './config/state-config/store'
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css'
 import { ThemeProvider } from "next-themes"
+import { DefaultSeo } from 'next-seo'
+import Head from 'next/head'
 
 const sahel = localFont({
   src: [{
@@ -30,17 +32,24 @@ const sahel = localFont({
 export default function RootLayout({children}: {children: React.ReactNode}) {
 
   return (
-    <html lang="en" dir='rtl'>
-      <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800 pb-20`}>
-        <ThemeProvider attribute="class">
-          <Provider store={store}>
-              <ToastContainer style={{zIndex:9999}} />
-              <div>
-                {children}
-              </div>
-          </Provider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <>
+      <html lang="en" dir='rtl'>
+      <head>
+        <title>{process.env.TITLE}</title>
+          <meta charSet="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        </head>
+        <body className={`${sahel.variable} font-sans bg-white dark:bg-gray-800 pb-20`}>
+          <ThemeProvider attribute="class">
+            <Provider store={store}>
+                <ToastContainer style={{zIndex:9999}} />
+                <div>
+                  {children}
+                </div>
+            </Provider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
   )
 }

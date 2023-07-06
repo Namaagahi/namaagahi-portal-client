@@ -48,10 +48,11 @@ const NewStructureForm = () => {
       }
     })
   
-    if(isSuccess) {
-      toast.success('سازه جدید با موفقیت ساخته شد')
-      push('/dashboard/billboard/structures')
-    }
+  }
+  
+  if(isSuccess) {
+    toast.success('سازه جدید با موفقیت ساخته شد')
+    push('/dashboard/billboard/structures')
   }
 
   return (
@@ -72,11 +73,12 @@ const NewStructureForm = () => {
                     message:  'کد سامانه را وارد کنید' 
                   },
                   pattern: {
-                      value: /^[N][0-9]{4}$/,
+                      value: /^N\d{4}(-\d)?$/,
                       message: 'فرمت کد پروژه باید به صورت N و چهار عدد بعد از آن باشد'
                   }
                 })
               }
+                autoComplete='off'
                 type="text"
                 id='name'
                 className='input-create-page'
@@ -89,7 +91,7 @@ const NewStructureForm = () => {
             <input
               {...register("district", {
                 required: {
-                    value: true,
+                    value: false,
                     message:  'منطقه را وارد کنید'
                   }
                 })

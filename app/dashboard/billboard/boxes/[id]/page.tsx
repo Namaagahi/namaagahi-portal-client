@@ -1,7 +1,7 @@
 "use client"
-import { selectAllStructures } from '@/app/features/structures/structuresApiSlice'
+import { selectAllStructures, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
 import UnderConstruction from '@/app/components/main/UnderConstruction'
-import { selectBoxById } from '@/app/features/boxes/boxesApiSlice'
+import { selectBoxById, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
 import { BoxObject, StructureObject } from '@/app/lib/interfaces'
 import { boxStructureHeadings } from '@/app/lib/constants'
 import PageTitle from '@/app/components/main/PageTitle'
@@ -9,10 +9,8 @@ import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 import Tooltip from '@/app/components/main/Tooltip'
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import useAuth from '@/app/hooks/useAuth'
 import { useState } from 'react'
-import UpdateBoxModal from '@/app/components/modals/UpdateBoxModal'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -27,14 +25,27 @@ const SingleBox = () => {
     const { isAdmin } = useAuth()
     const { id } = useParams()
 
+    const {
+        data: boxes
+    } = useGetAllBoxesQuery(undefined, {
+        pollingInterval: 60000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    })
+
+    const {
+        data: structures
+    } = useGetStructuresQuery(undefined, {
+        pollingInterval: 60000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    })
+
     const box: BoxObject | any = useSelector(state => selectBoxById(state, id))
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
     const [isEditBoxContent, setIsEditBoxContent] = useState(false)
     const [isDeleteBoxStructure, setIsDeleteBoxStructure] = useState(false)
-
-    const handleEditBoxContent = () => setIsEditBoxContent(!isEditBoxContent)
-    const handleDeleteBoxStructure = () => setIsDeleteBoxStructure(!isDeleteBoxStructure)
 
     function formatNumber(number: number, separator: string): string {
         const options = {
@@ -44,9 +55,7 @@ const SingleBox = () => {
         return number.toLocaleString(undefined, options).replace(/,/g, separator);
       }
 
-    
     if(!box) return <Loading />
-    console.log("BOX", box)
 
     return ( 
         <>
@@ -80,9 +89,7 @@ const SingleBox = () => {
                                     <p>مدت قرارداد: {box.duration.diff} روز</p>
                                 </div>
                             </div>
-                            
-                            {!box.structures?.length && <p className='text-black'>باکس سازه ندارد</p>} 
-
+            
                             <small className=" mt-2 text-black px-2">خرید</small>
                             <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black">
                                 <Table  
@@ -90,10 +97,8 @@ const SingleBox = () => {
                                     tableContent={
                                         box.structures.map((structure: any, index: number) => {
                                             const str = allStructures.find(rawStructure => rawStructure.id === structure.structureId)
-                
-                                            return(
+                                            return( 
                                                 <>
-                                                
                                                 <tr key={str?._id}>                
                                                     <td className="px-1 text-center py-4">{index + 1}</td>
                                                     <td className="px-6 py-4">{str?.name}</td>
@@ -118,21 +123,6 @@ const SingleBox = () => {
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.dailyCost, ',')}</td>
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.monthlyCost, ',')}</td>
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600 font-bold">{formatNumber(structure.costs.fixedCosts.periodCost, ',')}</td>
-                                                    <td className="px-6 py-4 flex items-center justify-center gap-5 cursor-pointer">
-                                                        <AiFillEdit 
-                                                            className="text-black hover:scale-125 transition-all" size={20}
-                                                            onClick={handleEditBoxContent}
-                                                        />
-                                                        <AiFillDelete 
-                                                            className="text-orange-600 hover:scale-125 transition-all" size={20}
-                                                            onClick={handleDeleteBoxStructure}
-                                                        />
-                                                    </td>
-                                                    {/* {structure.costs.variableCosts.map((varCost : any) => {
-                                                        return (
-                                                            <td>{formatNumber(varCost.figures.periodCost, ',')}</td>
-                                                        )
-                                                    })} */}
                                                 </tr>
                                  
                                                 </>
@@ -193,14 +183,6 @@ const SingleBox = () => {
                     </div>
                 </div>
             </main>
-            {/* {isAdmin && isEditBoxContent &&
-                <UpdateBoxModal
-                    handleModal={handleEditBoxContent}
-                    structureId={structure.structureId}
-                    box={box}
-                />
-            } */}
-
         </>
     )
 }

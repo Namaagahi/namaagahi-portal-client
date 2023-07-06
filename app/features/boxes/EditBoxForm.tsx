@@ -15,7 +15,7 @@ const Loading = dynamic(
 const EditBoxForm = (props: EditBoxProps) => {
 
     const { handleModal, box } = props
-    console.log("BOXXXXXX", box)
+    
     const [updateBox, {
       isLoading,
       isSuccess,
@@ -45,7 +45,7 @@ const EditBoxForm = (props: EditBoxProps) => {
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setBoxData({...boxData, name: e.target.value})
 
   const onSaveBoxClick = async () => {
-    await updateBox({ id: box!.id, userId: box?.userId, name,  })
+    await updateBox({ id: box!.id, userId: box?.userId, name, duration, mark  })
 
     handleModal()
     toast.success(`باکس ${box!.name} با موفقیت ویرایش شد`)

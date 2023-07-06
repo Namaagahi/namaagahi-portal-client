@@ -1,9 +1,11 @@
 "use client"
-import { useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
+import { selectAllStructures, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
 import { structuresTableHeadings } from '@/app/lib/constants'
 import PageTitle from '@/app/components/main/PageTitle'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import useAuth from '@/app/hooks/useAuth'
+import { useSelector } from 'react-redux'
 const Table = dynamic(
   () => import('@/app/components/main/Table'),
   { ssr: false }
@@ -19,7 +21,9 @@ const Structure = dynamic(
 
 const Structures = () => {
 
-  const {
+  const { isAdmin, id } = useAuth()
+
+  const { 
     data: structures,
     isLoading,
     isSuccess, 
@@ -30,7 +34,7 @@ const Structures = () => {
     refetchOnMountOrArgChange: true
   })
 
-
+  const allStructures = useSelector(state => selectAllStructures(state))
 
   if(isLoading) return <Loading/>
 
@@ -44,10 +48,18 @@ const Structures = () => {
 
   if(isSuccess) {
 
-    const { ids } = structures
+    const { ids, entities } = structures
+    
+    const thisUserStructures = allStructures.filter(structure => structure.userId === id)
+    console.log(thisUserStructures)
 
-    const structureTableContent = ids?.length && ids.map((structureId: string) => <Structure key={structureId} structureId={structureId} />)
-  
+    let structureTableContent
+
+    isAdmin ?
+      structureTableContent = ids?.length && ids.map((structureId: string) => <Structure key={structureId} structureId={structureId} />) 
+      :
+      structureTableContent = thisUserStructures.length && thisUserStructures.map((structure => <Structure key={structure.id} structureId={structure.id} />))
+    
     return (
       <main className="min-h-screen"> 
         <PageTitle name={'سازه ها'} />

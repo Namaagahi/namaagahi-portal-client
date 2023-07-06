@@ -53,22 +53,17 @@ const Users = () => {
     return (
       <>
         <PageTitle name={'مدیریت کاربران'}/>
-        {
-          isAdmin ?
-          <>
-            <Table 
-              tableContent = {userTableContent}
-              tableHeadings = {usersTableHeadings}
-            />
+          <Table 
+            tableContent = {userTableContent}
+            tableHeadings = {usersTableHeadings}
+          />
 
+          {isAdmin && 
             <Button 
               onClickHandler={handleNewUserModal}
               title="کاربر جدید"
             />
-          </>
-        :
-        <AccessDenied />
-        }
+          }
         
         {
           isNewUser && 

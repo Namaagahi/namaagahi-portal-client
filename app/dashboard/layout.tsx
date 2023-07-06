@@ -49,19 +49,19 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       // eslint-disable-next-line
   }, [trueSuccess])
 
-  useEffect(()=> {
-    const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate(undefined))
-    const boxes = store.dispatch(boxesApiSlice.endpoints.getAllBoxes.initiate(undefined))
-    const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate(undefined))
-    const structures = store.dispatch(structuresApiSlice.endpoints.getStructures.initiate(undefined))
+  // useEffect(()=> {
+  //   const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate(undefined))
+  //   const boxes = store.dispatch(boxesApiSlice.endpoints.getAllBoxes.initiate(undefined))
+  //   const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate(undefined))
+  //   const structures = store.dispatch(structuresApiSlice.endpoints.getStructures.initiate(undefined))
 
-    return () => {
-      users.unsubscribe()
-      boxes.unsubscribe()
-      notes.unsubscribe()
-      structures.unsubscribe()
-    }
-  }, [])
+  //   return () => {
+  //     users.unsubscribe()
+  //     boxes.unsubscribe()
+  //     notes.unsubscribe()
+  //     structures.unsubscribe()
+  //   }
+  // }, [])
 
 
   let content

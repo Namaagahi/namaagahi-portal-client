@@ -24,8 +24,6 @@ const Boxes = () => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true
   })
-
-  // console.log(boxes)
   
   if(isLoading) return <Loading/>
   

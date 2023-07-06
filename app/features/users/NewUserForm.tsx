@@ -24,9 +24,10 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
         validUserName: false,
         password: '',
         validPassWord: false,
-        roles: ['Planner']
+        roles: ['Planner'],
+        active: true
     })
-    const { name, username, password, validUserName, validPassWord, roles } = newUserData
+    const { name, username, password, validUserName, validPassWord, roles, active } = newUserData
 
     useEffect(() => {
         setNewUserData({...newUserData, validUserName:USER_REGEX.test(username)})
@@ -46,6 +47,7 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewUserData({...newUserData, name: e.target.value})
     const onUserameChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewUserData({...newUserData, username: e.target.value})
     const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewUserData({...newUserData, password: e.target.value})
+    const onActiveChange = () => setNewUserData({...newUserData, active:!active})
 
     const onRolesChange = (e: any) => {
         const values = Array.from(
@@ -80,13 +82,12 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                 name={name}
                 username={username}
                 password={password}
-                validUserName={validUserName}
-                validPassWord={validPassWord}
                 roles={roles}
                 onNameChange={onNameChange}
                 onUserameChange={onUserameChange}
                 onPasswordChange={onPasswordChange}
                 onRolesChange={onRolesChange}
+                type={'new'}
             />
 
             <div className="flex items-center gap-6">

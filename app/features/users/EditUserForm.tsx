@@ -32,22 +32,20 @@ const EditUserForm = (props: EditUserProps) => {
     const [userData, setUserData] = useState<UserData>({
         name: user?.name,
         username: user?.username,
-        validUserName: false,
         password: '',
-        validPassWord: false,
         roles: user?.roles,
         active: user?.active
     })
 
-    const { name, username, password, validUserName, validPassWord, roles, active } = userData
+    const { name, username, password, roles, active } = userData
 
-    useEffect(() => {
-        setUserData({...userData, validUserName:USER_REGEX.test(username!)})
-    }, [username])
+    // useEffect(() => {
+    //     setUserData({...userData, validUserName:USER_REGEX.test(username!)})
+    // }, [username])
 
-    useEffect(() => {
-        setUserData({...userData, validPassWord:PASSWORD_REGEX.test(password)})
-    }, [password])
+    // useEffect(() => {
+    //     setUserData({...userData, validPassWord:PASSWORD_REGEX.test(password)})
+    // }, [password])
 
     useEffect(() => {
         if(isSuccess) {
@@ -77,11 +75,12 @@ const EditUserForm = (props: EditUserProps) => {
         }
         handleModal()
         toast.success(`کاربر ${user!.name} با موفقیت ویرایش شد`)
+
     }
 
     let canSave
-    if (password) canSave = [roles!.length, validUserName, validPassWord].every(Boolean) && !isLoading
-    else canSave = [roles!.length, validUserName].every(Boolean) && !isLoading
+    if (password) canSave = [roles!.length].every(Boolean) && !isLoading
+    else canSave = [roles!.length ].every(Boolean) && !isLoading
     
     if(isLoading) return <Loading/>  
     return (
@@ -103,10 +102,11 @@ const EditUserForm = (props: EditUserProps) => {
                     name={name!}
                     username={username!}
                     password={password}
-                    validUserName={validUserName}
-                    validPassWord={validPassWord}
+                    // validUserName={validUserName}
+                    // validPassWord={validPassWord}
                     roles={roles!}
                     active={active!}
+                    type={'edit'}
                     onNameChange={onNameChange}
                     onUserameChange={onUserameChange}
                     onPasswordChange={onPasswordChange}

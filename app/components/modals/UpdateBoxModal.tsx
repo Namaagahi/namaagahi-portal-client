@@ -16,8 +16,6 @@ const UpdateBoxModal = ({ handleModal, structureId, box }: any) => {
 
     const thisStructure = box.structures.find((structure: any) => structure.structureId === structureId)
 
-    console.log("THIS STR", structureId)
-
   return (
     <div className="modal-container">
     <div className="backdrop-container" onClick={handleModal}></div>

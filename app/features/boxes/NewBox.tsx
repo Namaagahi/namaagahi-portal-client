@@ -1,6 +1,6 @@
 "use client"
-import { selectAllStructures, useUpdateStructureMutation } from "../structures/structuresApiSlice"
-import { selectAllBoxes, useCreateNewBoxMutation } from "./boxesApiSlice"
+import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from "../structures/structuresApiSlice"
+import { selectAllBoxes, useCreateNewBoxMutation, useGetAllBoxesQuery } from "./boxesApiSlice"
 import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
@@ -25,6 +25,22 @@ const StructuresFormSection = dynamic(
 
 const NewBox = ({ mark }: { mark: string }) => {
 
+  const {
+    data: allBoxes
+  } = useGetAllBoxesQuery(undefined, {
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true
+  })
+
+  const {
+    data: allStructures
+  } = useGetStructuresQuery(undefined, {
+    pollingInterval: 60000,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true
+  })
+
   const boxes = useSelector(state => selectAllBoxes(state))
   const structures = useSelector(state => selectAllStructures(state))
 
@@ -36,7 +52,7 @@ const NewBox = ({ mark }: { mark: string }) => {
       error
   }] = useCreateNewBoxMutation()
 
-  const [updateStructure, { isLoading, isError:iserror, error: Error }] = useUpdateStructureMutation()
+  const [updateStructure] = useUpdateStructureMutation()
 
   const [startDate, setStartDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
   const [endDate, setEndDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
@@ -73,23 +89,17 @@ const NewBox = ({ mark }: { mark: string }) => {
     return englishDate
   }
 
-  // console.log("structures", structures)
-
   const onSubmit = async(data: AddBoxForm) => {
   
     let found = {} as StructureObject | undefined
     if(boxes) {
       boxes.forEach((box: any) => {
-        // console.log(box)
         box.structures.forEach((str: any) => {
           found = structures.find((structure:any) => structure.id === str.structureId)
           
         })
-        console.log("FOUND", found)
       })
     }
-
-    if(iserror) console.log("ERROR", Error)
 
     await updateStructure({
       userId: found?.userId,
@@ -145,11 +155,11 @@ const NewBox = ({ mark }: { mark: string }) => {
       },
       structures: newData.structures
     })
-
-    if(isSuccess) {
-      toast.success(`باکس ${newData.name} با موفقیت ساخته شد.`)
-      push('/dashboard/billboard/boxes')
-    }
+  }
+  
+  if(isSuccess) {
+    toast.success(`باکس جدید با موفقیت ساخته شد.`)
+    push('/dashboard/billboard/boxes')
   }
 
     return (

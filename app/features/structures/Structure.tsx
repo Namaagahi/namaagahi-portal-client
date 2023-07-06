@@ -1,6 +1,6 @@
 import AccessDeniedModeal from '@/app/components/modals/AccessDeniedModeal'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
-import { selectStructureById } from './structuresApiSlice'
+import { selectStructureById, useGetStructuresQuery } from './structuresApiSlice'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { StructureObject } from '@/app/lib/interfaces'
 import Status from '@/app/components/main/Status'
@@ -9,11 +9,22 @@ import { useSelector } from 'react-redux'
 import moment from 'jalali-moment'
 import { useState } from 'react'
 
-const Structure = ({ structureId }: { structureId: string }) => {
+const Structure = ({ structureId }: { structureId: string | undefined }) => {
 
     const { isAdmin } = useAuth()
 
-    const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId))
+    const { 
+        data: structures,
+        isLoading,
+        isSuccess, 
+        isError,
+      } = useGetStructuresQuery(undefined, {
+        pollingInterval: 60000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+      })
+
+    const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
 
     const [isEditStructure, setIsEditStructure] = useState(false)
     const [isDeleteStructure, setIsDeleteStructure] = useState(false)
@@ -54,16 +65,18 @@ const Structure = ({ structureId }: { structureId: string }) => {
                         className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
                         onClick={handleEditStructure}
                     />
+                   
                     <AiFillDelete 
                         className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
                         onClick={handleDeleteStructure}    
                     />
+                    
                 </td>
                 <td className="px-6 py-4">{moment(structure.createdAt).format('jYYYY/jM/jD')}</td>
                 <td className="px-6 py-4">{moment(structure.updatedAt).format('jYYYY/jM/jD')}</td>
             </tr>
                 {
-                    isAdmin && isDeleteStructure && 
+                    isDeleteStructure && 
                     <ConfirmModal 
                         prop={structure} 
                         handleModal={handleDeleteStructure}
@@ -72,21 +85,9 @@ const Structure = ({ structureId }: { structureId: string }) => {
                     /> 
                 }
                 {
-                    !isAdmin && isDeleteStructure && 
-                    <AccessDeniedModeal 
-                        handleModal={handleDeleteStructure}
-                    />
-                }
-                {
-                    isAdmin && isEditStructure && 
+                   isEditStructure && 
                     <p>در حال ساخت</p>
             
-                }
-                {
-                    !isAdmin && isEditStructure && 
-                    <AccessDeniedModeal 
-                        handleModal={handleEditStructure}
-                    />
                 }
         </>
         )

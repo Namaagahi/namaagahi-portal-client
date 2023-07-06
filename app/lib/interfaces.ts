@@ -26,9 +26,7 @@ export interface UserObject {
   export interface UserData {
     name?: string
     username?: string
-    validUserName: boolean
     password: string
-    validPassWord: boolean
     roles?: string[]
     active?: boolean
 }
@@ -39,10 +37,9 @@ export interface UserFormProps {
   name: string
   username: string
   password: string
-  validUserName: boolean
-  validPassWord: boolean
   roles: string[]
   active?: boolean
+  type: string
   onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onUserameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void

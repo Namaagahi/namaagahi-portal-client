@@ -3,6 +3,7 @@ import { useSendLogoutMutation } from '../auth/authApiSlice'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { LogoutModalContentProps } from '@/app/lib/interfaces'
+import { useEffect } from 'react'
 const Loading = dynamic(
   () => import('../loading/Loading'),
   { ssr: false }
@@ -14,14 +15,17 @@ const Logout = (props: LogoutModalContentProps) => {
   const { push } = useRouter()
 
   const [sendLogout, {
-    isLoading
+    isLoading,
   }] = useSendLogoutMutation()
 
+  // useEffect(() =>{
+  //   push('/')
+  // },[error])
 
-  const onLogoutHandler = () => {
-    sendLogout(undefined)
-    handleModal()
+  const onLogoutHandler = async () => {
+    await sendLogout(undefined)
     push('/')
+    handleModal()
   }
 
   if(isLoading) return <Loading />

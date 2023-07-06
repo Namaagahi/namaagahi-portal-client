@@ -33,7 +33,6 @@ export const boxStructureHeadings = [
     'تمام شده روزانه', 
     'تمام شده ماهیانه',
     'تمام شده دوره',
-    'عملیات'
 ]
 export const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
 export const structureRevenueHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده', 'مجموع فروش دوره', 'سود / زیان' ]
