@@ -133,10 +133,14 @@ const SingleBox = () => {
                                                     <td className="px-6 py-4 bg-rose-300 text-gray-600 font-bold">{formatNumber(structure.costs.fixedCosts.periodCost, ',')}</td>
                                                     {
                                                         variableCostNames2.map((varName) => {
-                                                           return <td className="px-6 py-4">{formatNumber(structure.myCustomCost[varName], ',')}</td>
-                                                        
+                                                           return <td className="px-6 py-4 bg-amber-300">{formatNumber(structure.myCustomCost[varName], ',')}</td>
                                                         })
                                                     }
+                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.dailyVariableCost, ',')}</td>
+                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.totalDailyCost, ',')}</td>
+                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.totalMonthlyCost, ',')}</td>
+                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.totalPeriodCost, ',')}</td>
+                                                    
                                                 </tr>
                                  
                                                 </>

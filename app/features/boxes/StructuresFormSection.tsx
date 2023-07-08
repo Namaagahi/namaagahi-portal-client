@@ -148,10 +148,12 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                       message:  'طول سازه را وارد کنید'
                     }
                   })}
+                  step={0.1}
                   type="number"
                   id='length'
                   className='p-4 rounded-[50px] bg-white outline-none'
                   data-error
+                  onWheel={(e: any) => e.target.blur()}
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.length as FieldError)?.message}
@@ -171,6 +173,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                   type="number"
                   id='width'
                   className='p-4 rounded-[50px] bg-white outline-none'
+                  onWheel={(e: any) => e.target.blur()}
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.width as FieldError)?.message}
@@ -190,6 +193,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                   type="number"
                   id='printSize'
                   className='p-4 rounded-[50px] bg-white outline-none'
+                  onWheel={(e: any) => e.target.blur()}
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.printSize as FieldError)?.message}
@@ -209,6 +213,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                   type="number"
                   id='docSize'
                   className='p-4 rounded-[50px] bg-white outline-none'
+                  onWheel={(e: any) => e.target.blur()}
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.docSize as FieldError)?.message}
@@ -228,6 +233,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                   type="number"
                   id='squareCost'
                   className='p-4 rounded-[50px] bg-white outline-none'
+                  onWheel={(e: any) => e.target.blur()}
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.costs?.fixedCosts?.squareCost as FieldError)?.message}

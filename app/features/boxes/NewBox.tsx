@@ -96,10 +96,10 @@ const NewBox = ({ mark }: { mark: string }) => {
           ...structure.marks,
           markOptions: {
             ...structure.marks.markOptions,
-            length: parseInt(structure.marks.markOptions.length),
-            width: parseInt(structure.marks.markOptions.width),
-            printSize: parseInt(structure.marks.markOptions.printSize),
-            docSize: parseInt(structure.marks.markOptions.docSize),
+            length: parseFloat(structure.marks.markOptions.length),
+            width: parseFloat(structure.marks.markOptions.width),
+            printSize: parseFloat(structure.marks.markOptions.printSize),
+            docSize: parseFloat(structure.marks.markOptions.docSize),
           },
         },
         costs: {

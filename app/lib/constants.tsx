@@ -36,7 +36,8 @@ export const boxStructureHeadings = [
     'تمام شده ماهیانه',
     'تمام شده دوره',
     
-].concat(variableCostNames2)
+].concat(variableCostNames2).concat(['جمع هزینه سربار روزانه', 'هزینه روزانه کل', 'هزینه ماهیانه کل', 'هزینه دوره کل'])
+
 export const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
 export const structureRevenueHeadings = ['کد سامانه', 'مسیر', 'بهای تمام شده', 'مجموع فروش دوره', 'سود / زیان' ]
 export const boxRevenueHeadings = ['بهای تمام شده باکس', 'مجموع فروش باکس', 'سود / زیان تجمیعی' ]

@@ -12,13 +12,21 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
         name: `structures.${fieldIndex}.costs.variableCosts`,
         })
 
+        const formatValue = (value: any) => {
+            if (!value) {
+              return '';
+            }
+            const formattedValue = parseFloat(value.replace(/\D/g, ',')).toLocaleString(); // Format the value with a thousands separator
+            return formattedValue.replace(/,/g, ''); // Remove the comma separator
+          };
+
   return ( 
     <>
         {variableCostFields.map((variableCost, variableCostIndex: number) => (
             <>
                 <div 
                     className={`${variableCostIndex === variableCostFields.length -1 && ' rounded-br-lg'} ${variableCostIndex === 0 && 'rounded-tr-lg'}
-                    p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-1/2 xl:w-1/4 border-[1px] border-b-white mt-4`}
+                    p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-3/4 xl:w-1/3 border-[1px] border-b-white mt-4`}
                     key={variableCost.id}
                 >
                     <div className='flex flex-col gap-3' >
@@ -61,7 +69,12 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                             } 
                             type="number"
                             id='varCost'
-                            className='p-1 rounded-[50px] w-full bg-white outline-none'
+                            className='p-1 rounded-[50px] w-full bg-white outline-none tracking-wide'
+                            onWheel={(e: any) => e.target.blur()}
+                            onChange={(event) => {
+                                event.target.value = formatValue(event.target.value);
+                                register(`structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.periodCost`).onChange(event);
+                              }}
                         />
                         <small className="text-xs text-rose-200 ">
                             {(errors?.structures?.[fieldIndex]?.costs?.variableCosts?.[variableCostIndex]?.figures?.periodCost as FieldError)?.message}
