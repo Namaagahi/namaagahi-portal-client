@@ -51,9 +51,9 @@ const Structures = () => {
   useEffect(() => {
     const abc = async() => {
       const date = new Date()
-      allStructures.forEach(async(structure) => {
+      allStructures.forEach(async(structure: any) => {
       if(!structure.isChosen) return 
-      const thisBox = allBoxes.find(box => box.boxId === structure.parent)
+      const thisBox: any = allBoxes.find((box: any) => box.boxId === structure.parent)
         if(thisBox.duration.endDate <  moment(date.getTime(), 'jYYYY-jMM-jDD'))
         await updateStructure({
           userId: structure?.userId,
