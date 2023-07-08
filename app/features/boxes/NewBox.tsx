@@ -118,6 +118,7 @@ const NewBox = ({ mark }: { mark: string }) => {
     }
 
     await createNewBox({
+      boxId: newData.boxId,
       userId: id,
       name: newData.name,
       mark: { 
@@ -135,7 +136,7 @@ const NewBox = ({ mark }: { mark: string }) => {
     })
 
     newData.structures.forEach(async(structure) => {
-      allStructures.forEach(async(nonBoxStructure: any) => {
+      structures.forEach(async(nonBoxStructure: any) => {
         if(structure.structureId === nonBoxStructure.id)
         await updateStructure({
           userId: nonBoxStructure?.userId,
