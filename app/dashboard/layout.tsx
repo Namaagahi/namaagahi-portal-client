@@ -1,12 +1,7 @@
 "use client"
-import { structuresApiSlice } from '../features/structures/structuresApiSlice'
 import { useRefreshMutation } from '../features/auth/authApiSlice'
-import { usersApiSlice } from "../features/users/usersApiSlice"
 import { selectCurrentToken } from '../features/auth/authSlice'
-import { boxesApiSlice } from '../features/boxes/boxesApiSlice'
-import { notesApiSlice } from "../features/note/notesApiSlice"
 import { menuItems, subMenusList } from "../lib/constants"
-import { store } from "../config/state-config/store"
 import { useEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'
 import Footer from '../features/footer/Footer'
@@ -48,21 +43,6 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     return () => { effectRan.current = true }
       // eslint-disable-next-line
   }, [trueSuccess])
-
-  // useEffect(()=> {
-  //   const users = store.dispatch(usersApiSlice.endpoints.getUsers.initiate(undefined))
-  //   const boxes = store.dispatch(boxesApiSlice.endpoints.getAllBoxes.initiate(undefined))
-  //   const notes = store.dispatch(notesApiSlice.endpoints.getNotes.initiate(undefined))
-  //   const structures = store.dispatch(structuresApiSlice.endpoints.getStructures.initiate(undefined))
-
-  //   return () => {
-  //     users.unsubscribe()
-  //     boxes.unsubscribe()
-  //     notes.unsubscribe()
-  //     structures.unsubscribe()
-  //   }
-  // }, [])
-
 
   let content
 

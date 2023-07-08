@@ -30,9 +30,8 @@ const Tasks = () => {
     isSuccess, 
     isError,
   } = useGetNotesQuery(undefined, {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
   })
 
   const [isNewTask, setIsNewTask] = useState(false)

@@ -1,15 +1,15 @@
 "use client"
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { IoIosArrowDown } from "react-icons/io";
-import { usePathname } from "next/navigation";
+import { IoIosArrowDown } from "react-icons/io"
+import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
+import { useState } from "react"
 import Link from "next/link";
 
  const SubMenu = ({ data } :any) => {
   const path = usePathname()
   const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
-    // console.log(data.name)
-  const [subMenuOpen, setSubMenuOpen] = useState(false);
+  const [subMenuOpen, setSubMenuOpen] = useState(false)
+  
   return (
     <>
       <li

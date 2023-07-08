@@ -1,17 +1,18 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
-import UnderConstruction from '@/app/components/main/UnderConstruction'
 import { selectBoxById, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import UnderConstruction from '@/app/components/main/UnderConstruction'
+import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'
 import { BoxObject, StructureObject } from '@/app/lib/interfaces'
 import { boxStructureHeadings } from '@/app/lib/constants'
+import { variableCostNames2 } from '@/app/lib/constants'
 import PageTitle from '@/app/components/main/PageTitle'
+import Tooltip from '@/app/components/main/Tooltip'
+import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
+import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
-import Tooltip from '@/app/components/main/Tooltip'
-import useAuth from '@/app/hooks/useAuth'
-import { useEffect, useState } from 'react'
-import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -20,34 +21,31 @@ const Table = dynamic(
     () => import('@/app/components/main/Table'),
     { ssr: false }
   )
-import { variableCostNames2 } from '@/app/lib/constants'
 
 const SingleBox = () => {
 
     const { isAdmin } = useAuth()
     const { id } = useParams()
     const [newBox, setNewBox] = useState<any>({})
+
     const {
         data: boxes
     } = useGetAllBoxesQuery(undefined, {
-        pollingInterval: 60000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
     })
 
     const {
         data: structures
     } = useGetStructuresQuery(undefined, {
-        pollingInterval: 60000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
     })
 
-    const box: BoxObject = useSelector(state => selectBoxById(state, id))
+    const box: BoxObject | any = useSelector(state => selectBoxById(state as BoxObject , id))
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
-    const [isEditBoxContent, setIsEditBoxContent] = useState(false)
-    const [isDeleteBoxStructure, setIsDeleteBoxStructure] = useState(false)
+    console.log("BOX", box)
 
     function formatNumber(number: number, separator: string): string {
         const options = {
@@ -57,12 +55,13 @@ const SingleBox = () => {
         return number.toLocaleString(undefined, options).replace(/,/g, separator);
       }
 
-      const calcVariableCosts = () => {
-        const clone:any = []
-        box.structures.forEach(item => {
-            clone.push({...item, ['myCustomCost'] : {}})
+    const calcVariableCosts = () => {
+        const clone: any = []
+        box?.structures.forEach((item: any) => {
+            const thisName = allStructures.find(rawStructure => rawStructure.id === item.structureId)?.name ?? ''
+            clone.push({...item, ['myCustomCost'] : {}, ['name']: thisName})
         })
-        clone.forEach((stucture:any) => {
+        clone.forEach((stucture: any) => {
             stucture.costs.variableCosts.forEach((varCost:any) => {
                 variableCostNames2.forEach(varName => {
                     if(stucture['myCustomCost'][varName]) return
@@ -72,17 +71,22 @@ const SingleBox = () => {
                 })
             })
         })
-       const boxClone = {...box}
-       boxClone['structures'] = [...clone]
-    setNewBox(boxClone)
-      }
+        clone.sort((a: any, b: any) => {
+            if(Number(a.name.slice(1,5)) > Number(b.name.slice(1,5))) return 1
+            if(Number(a.name.slice(1,5)) < Number(b.name.slice(1,5))) return -1
+            return 0
+        })
+        const boxClone = {...box}
+        boxClone['structures'] = [...clone]
+        setNewBox(boxClone)
+    }
 
       useEffect(() => {
         if(box) calcVariableCosts()
       }, [box])
 
     if(!newBox.id) return <Loading />
-    console.log("BOX", newBox)
+    // console.log("BOX", newBox)
 
     return ( 
         <>
@@ -99,7 +103,7 @@ const SingleBox = () => {
                                 <Table  
                                     tableHeadings={boxStructureHeadings}
                                     tableContent={
-                                        newBox.structures.map((structure, index: number) => {
+                                        newBox.structures.map((structure: any, index: number) => {
                                             const str = allStructures.find(rawStructure => rawStructure.id === structure.structureId)
                                             return( 
                                                 <>

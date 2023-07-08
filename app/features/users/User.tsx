@@ -19,9 +19,8 @@ const User = ({ userId }: { userId: string }) => {
         isSuccess,
         isError,
       } = useGetUsersQuery(undefined, { 
-        pollingInterval: 60000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
       }) 
 
     const user: UserObject | any = useSelector(state => selectUserById(state, userId))

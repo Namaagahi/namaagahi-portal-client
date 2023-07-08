@@ -102,8 +102,6 @@ const EditUserForm = (props: EditUserProps) => {
                     name={name!}
                     username={username!}
                     password={password}
-                    // validUserName={validUserName}
-                    // validPassWord={validPassWord}
                     roles={roles!}
                     active={active!}
                     type={'edit'}

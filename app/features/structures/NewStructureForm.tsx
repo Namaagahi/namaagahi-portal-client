@@ -1,9 +1,9 @@
 "use client"
 import { useAddNewStructureMutation } from '@/app/features/structures/structuresApiSlice'
-import useAuth from '@/app/hooks/useAuth'
 import { StructureObjectForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import useAuth from '@/app/hooks/useAuth'
 import { toast } from 'react-toastify'
 
 const NewStructureForm = () => {

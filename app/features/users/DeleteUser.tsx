@@ -1,8 +1,6 @@
 "use client"
 import { useDeleteUserMutation } from "@/app/features/users/usersApiSlice"
 import {  DeleteUserProps } from "@/app/lib/interfaces"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
@@ -24,11 +22,7 @@ const DeleteUser = (props: DeleteUserProps) => {
     const onDeleteUserClick = async () => {
 
         const deleted = await deleteUser({ id: user?.id })
-        // if(deleted.error) {
-        //     deleted.error.data.message === "BAD REQUEST : User has assigned notes"  && toast.error('این کاربر وظایف انجام نشده دارد!')
-        //     handleModal()
-        // }
-        
+
         handleModal()
         if(isSuccess) {
             toast.success(`کاربر ${user?.name} با موفقیت حذف شد`)

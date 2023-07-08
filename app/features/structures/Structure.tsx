@@ -1,6 +1,5 @@
-import AccessDeniedModeal from '@/app/components/modals/AccessDeniedModeal'
-import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { selectStructureById, useGetStructuresQuery } from './structuresApiSlice'
+import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { StructureObject } from '@/app/lib/interfaces'
 import Status from '@/app/components/main/Status'
@@ -11,17 +10,14 @@ import { useState } from 'react'
 
 const Structure = ({ structureId }: { structureId: string | undefined }) => {
 
-    const { isAdmin } = useAuth()
-
     const { 
         data: structures,
         isLoading,
         isSuccess, 
         isError,
       } = useGetStructuresQuery(undefined, {
-        pollingInterval: 60000,
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
       })
 
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))

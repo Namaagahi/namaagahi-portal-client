@@ -1,11 +1,14 @@
 "use client"
-import { selectAllStructures, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
+import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/features/structures/structuresApiSlice'
 import { structuresTableHeadings } from '@/app/lib/constants'
 import PageTitle from '@/app/components/main/PageTitle'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import moment from 'jalali-moment'
 const Table = dynamic(
   () => import('@/app/components/main/Table'),
   { ssr: false }
@@ -29,12 +32,42 @@ const Structures = () => {
     isSuccess, 
     isError,
   } = useGetStructuresQuery(undefined, {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
   })
 
+  const {
+    data: boxes
+} = useGetAllBoxesQuery(undefined, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
+})
+
   const allStructures = useSelector(state => selectAllStructures(state))
+  const allBoxes = useSelector(state => selectAllBoxes(state))
+  const [updateStructure] = useUpdateStructureMutation()
+
+
+  useEffect(() => {
+    const abc = async() => {
+      const date = new Date()
+      allStructures.forEach(async(structure) => {
+      if(!structure.isChosen) return 
+      const thisBox = allBoxes.find(box => box.boxId === structure.parent)
+        if(thisBox.duration.endDate <  moment(date.getTime(), 'jYYYY-jMM-jDD'))
+        await updateStructure({
+          userId: structure?.userId,
+          id: structure?.id,
+          name: structure?.name,
+          location: structure?.location,
+          isChosen: false,
+          isAvailable: true,
+          parent: ''
+        })
+    })
+    }
+    abc()
+  }, [])
 
   if(isLoading) return <Loading/>
 

@@ -139,6 +139,7 @@ export const subMenusList = [
 
 // NEW BOX =======================================================
 export const newBoxDefaultValues = {
+  boxId: `box_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
   name: '',
   projectNumber: '',
   brand: '',

@@ -118,8 +118,10 @@ export interface BoxObject {
   duration: {
     startDate: Date
     endDate: Date
+    diff?: number
   }
   structures: {
+    id? : string
     structureId:string
     marks: {
       name: string
@@ -135,13 +137,24 @@ export interface BoxObject {
     costs: {
       fixedCosts: {
         squareCost: string
+        dailyCost?: number
+        monthlyCost?: number
+        periodCost?: number
+
       }, 
       variableCosts: {
+        _id?: string
         name: string
         figures: {
-          periodCost: string
+          periodCost: number
+          dailyCost?: number
+          monthlyCost?: number
         }
       }[]
+      totalDailyCost?: number
+      totalMonthlyCost?: number
+      totalPeriodCost?: number
+
     }
   }[]
   updatedAt: string
@@ -149,6 +162,7 @@ export interface BoxObject {
 }
 
 export interface AddBoxForm {
+  boxId: string
   name: string
   mark: string
   projectNumber: string

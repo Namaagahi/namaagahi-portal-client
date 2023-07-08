@@ -20,9 +20,8 @@ const Boxes = () => {
     isSuccess, 
     isError,
   } = useGetAllBoxesQuery(undefined, {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
   })
   
   if(isLoading) return <Loading/>

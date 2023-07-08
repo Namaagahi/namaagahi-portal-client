@@ -17,11 +17,7 @@ const Logout = (props: LogoutModalContentProps) => {
   const [sendLogout, {
     isLoading,
   }] = useSendLogoutMutation()
-
-  // useEffect(() =>{
-  //   push('/')
-  // },[error])
-
+  
   const onLogoutHandler = async () => {
     await sendLogout(undefined)
     push('/')

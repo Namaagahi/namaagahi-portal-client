@@ -31,9 +31,8 @@ const Users = () => {
     isSuccess,
     isError,
   } = useGetUsersQuery(undefined, { 
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
   }) 
 
   const [isNewUser, setIsNewUser] = useState(false)

@@ -28,17 +28,15 @@ const NewBox = ({ mark }: { mark: string }) => {
   const {
     data: allBoxes
   } = useGetAllBoxesQuery(undefined, {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
   })
 
   const {
     data: allStructures
   } = useGetStructuresQuery(undefined, {
-    pollingInterval: 60000,
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
   })
 
   const boxes = useSelector(state => selectAllBoxes(state))
@@ -90,26 +88,6 @@ const NewBox = ({ mark }: { mark: string }) => {
   }
 
   const onSubmit = async(data: AddBoxForm) => {
-  
-    let found = {} as StructureObject | undefined
-    if(boxes) {
-      boxes.forEach((box: any) => {
-        box.structures.forEach((str: any) => {
-          found = structures.find((structure:any) => structure.id === str.structureId)
-          
-        })
-      })
-    }
-
-    await updateStructure({
-      userId: found?.userId,
-      id: found?.id,
-      name: found?.name,
-      location: found?.location,
-      isChosen: true,
-      isAvailable: true
-    })
-
     const newData = {
       ...data,
       structures: data.structures.map((structure) => ({
@@ -155,8 +133,23 @@ const NewBox = ({ mark }: { mark: string }) => {
       },
       structures: newData.structures
     })
+
+    newData.structures.forEach(async(structure) => {
+      allStructures.forEach(async(nonBoxStructure: any) => {
+        if(structure.structureId === nonBoxStructure.id)
+        await updateStructure({
+          userId: nonBoxStructure?.userId,
+          id: nonBoxStructure?.id,
+          name: nonBoxStructure?.name,
+          location: nonBoxStructure?.location,
+          isChosen: true,
+          isAvailable: true,
+          parent: newData.boxId
+        })
+      })
+    })
   }
-  
+
   if(isSuccess) {
     toast.success(`باکس جدید با موفقیت ساخته شد.`)
     push('/dashboard/billboard/boxes')
