@@ -39,7 +39,6 @@ const NewBox = ({ mark }: { mark: string }) => {
     refetchOnMountOrArgChange: false
   })
 
-  const boxes = useSelector(state => selectAllBoxes(state))
   const structures = useSelector(state => selectAllStructures(state))
 
   const { id } = useAuth()  
@@ -137,16 +136,18 @@ const NewBox = ({ mark }: { mark: string }) => {
 
     newData.structures.forEach(async(structure) => {
       structures.forEach(async(nonBoxStructure: any) => {
-        if(structure.structureId === nonBoxStructure.id)
+        if(structure.structureId === nonBoxStructure.id){
+          console.log(newData.boxId)
         await updateStructure({
-          userId: nonBoxStructure?.userId,
-          id: nonBoxStructure?.id,
-          name: nonBoxStructure?.name,
-          location: nonBoxStructure?.location,
-          isChosen: true,
-          isAvailable: true,
-          parent: newData.boxId
-        })
+            userId: nonBoxStructure?.userId,
+            id: nonBoxStructure?.id,
+            name: nonBoxStructure?.name,
+            location: nonBoxStructure?.location,
+            isChosen: true,
+            isAvailable: true,
+            parent: newData.boxId
+          })
+        }
       })
     })
   }

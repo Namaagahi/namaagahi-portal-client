@@ -45,8 +45,6 @@ const SingleBox = () => {
     const box: BoxObject | any = useSelector(state => selectBoxById(state as BoxObject , id))
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
-    console.log("BOX", box)
-
     function formatNumber(number: number, separator: string): string {
         const options = {
           useGrouping: true,
@@ -87,6 +85,7 @@ const SingleBox = () => {
 
     if(!newBox.id) return <Loading />
     // console.log("BOX", newBox)
+    console.log("allStructures", allStructures)
 
     return ( 
         <>

@@ -47,6 +47,19 @@ const Structures = () => {
   const allBoxes = useSelector(state => selectAllBoxes(state))
   const [updateStructure] = useUpdateStructureMutation()
 
+  // useEffect(() => {
+  //   allStructures.forEach(async(structure: any) => {
+  //       await updateStructure({
+  //         userId: structure?.userId,
+  //         id: structure?.id,
+  //         name: structure?.name,
+  //         location: structure?.location,
+  //         isChosen: false,
+  //         isAvailable: true,
+  //         parent: ''
+  //       })
+  //   })
+  // },[])
 
   useEffect(() => {
     const abc = async() => {
@@ -54,20 +67,23 @@ const Structures = () => {
       allStructures.forEach(async(structure: any) => {
       if(!structure.isChosen) return 
       const thisBox: any = allBoxes.find((box: any) => box.boxId === structure.parent)
-        if(thisBox.duration.endDate <  moment(date.getTime(), 'jYYYY-jMM-jDD'))
-        await updateStructure({
-          userId: structure?.userId,
-          id: structure?.id,
-          name: structure?.name,
-          location: structure?.location,
-          isChosen: false,
-          isAvailable: true,
-          parent: ''
-        })
+      console.log(thisBox)
+        // if(thisBox.duration.endDate <  moment(date.getTime(), 'jYYYY-jMM-jDD'))
+        // await updateStructure({
+        //   userId: structure?.userId,
+        //   id: structure?.id,
+        //   name: structure?.name,
+        //   location: structure?.location,
+        //   isChosen: false,
+        //   isAvailable: true,
+        //   parent: ''
+        // })
     })
     }
     abc()
   }, [])
+
+  console.log(allStructures)
 
   if(isLoading) return <Loading/>
 
@@ -81,10 +97,9 @@ const Structures = () => {
 
   if(isSuccess) {
 
-    const { ids, entities } = structures
+    const { ids } = structures
     
     const thisUserStructures = allStructures.filter(structure => structure.userId === id)
-    console.log(thisUserStructures)
 
     let structureTableContent
 

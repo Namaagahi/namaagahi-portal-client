@@ -35,7 +35,8 @@ const DeleteBox = (props: DeleteBoxProps) => {
         name: found?.name,
         location: found?.location,
         isChosen: false,
-        isAvailable: true
+        isAvailable: true,
+        parent: ''
       })
         await deleteBox({ id: box?.id })
         handleModal()

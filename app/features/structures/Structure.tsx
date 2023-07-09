@@ -56,6 +56,21 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
                     />    
                 }
                 </td>
+                <td className="px-6 py-4">
+                    {structure.isChosen? 
+                    <Status 
+                        status = {'درباکس '} 
+                        bgColor = {'#00ff37'}
+                        textColor = {'#0a541e'}
+                    />
+                    : 
+                    <Status
+                        status = {'خارج'}
+                        bgColor = {'#ff66b3'}
+                        textColor = {'#2e030c'}
+                    />    
+                }
+                </td>
                 <td className="px-6 py-4 flex items-center gap-5 cursor-pointer">
                     <AiFillEdit 
                         className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
