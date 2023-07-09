@@ -2,7 +2,8 @@
 const nextConfig = {
     reactStrictMode: false,
     env: {
-        SERVER:'http://192.168.68.21:3500',
+        // SERVER:'http://192.168.68.35:3500',
+        SERVER:'http://portal.namaagahi.com',
         // SERVER:"http://localhost:3500",
         TITLE:"پلتفرم اختصاصی نماآگهی"
       },
