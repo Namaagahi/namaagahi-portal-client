@@ -22,8 +22,8 @@ const Structure = ({ structureId, page }: { structureId: string | undefined, pag
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
       })
-
-    const { isAdmin } = useAuth()
+      
+    const { isAdmin, isMediaManager } = useAuth()
 
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
     const allBoxes: any = useSelector(state => selectAllBoxes(state))
@@ -32,8 +32,6 @@ const Structure = ({ structureId, page }: { structureId: string | undefined, pag
 
     const [isEditStructure, setIsEditStructure] = useState(false)
     const [isDeleteStructure, setIsDeleteStructure] = useState(false)
-
-    console.log(structureBox)
     
     if(structure) {
 
@@ -84,7 +82,7 @@ const Structure = ({ structureId, page }: { structureId: string | undefined, pag
                 }
                 </td>
                 <td className="px-6 py-4 flex items-center gap-5 ">
-                {isAdmin && page === 'all' ?
+                {isMediaManager && page === 'all' ?
                 <>
                     <AiFillEdit 
                         className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}

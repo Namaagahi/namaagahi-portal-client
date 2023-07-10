@@ -26,7 +26,7 @@ const useAuth = () => {
         return { id, username, name, avatar, roles, active, isAdmin, isMediaManager, status }
     }
 
-    return { id:'', username:'', name:'', roles: [], avatar:'', isMediaManager, isAdmin, status}
+    return { id:'', username:'', name:'', roles: [], avatar:'', isMediaManager, isAdmin, status }
 }
 
 export default useAuth

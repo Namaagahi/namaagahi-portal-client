@@ -106,6 +106,7 @@ export interface DeleteNoteProps {
 export interface BoxObject {
   id? : string
   _id: string
+  boxId: string
   userId: string
   name: string
   mark: {

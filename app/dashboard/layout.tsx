@@ -2,7 +2,7 @@
 import { useRefreshMutation } from '../features/auth/authApiSlice'
 import { selectCurrentToken } from '../features/auth/authSlice'
 import { menuItems, subMenusList } from "../lib/constants"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'
 import Footer from '../features/footer/Footer'
 import Menu from '../features/sidemenu/Menu'
@@ -11,6 +11,7 @@ import { ROLES } from '../config/roles'
 import Link from "next/link"
 import useAuth from '../hooks/useAuth'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/navigation'
 const Loading = dynamic(
   () => import('../features/loading/Loading'),
   { ssr: false }
@@ -22,6 +23,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
   const token = useSelector(selectCurrentToken)
   const effectRan = useRef(false)
   const [trueSuccess, setTrueSuccess] = useState(false)
+  const{ push } = useRouter()
 
   const [refresh, {
       isUninitialized,
@@ -29,6 +31,10 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       isSuccess,
       isError,
   }] = useRefreshMutation()
+
+  useLayoutEffect(() =>{
+    if(!token) push('/')
+  },[])
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -43,6 +49,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     return () => { effectRan.current = true }
       // eslint-disable-next-line
   }, [trueSuccess])
+
 
   let content
 

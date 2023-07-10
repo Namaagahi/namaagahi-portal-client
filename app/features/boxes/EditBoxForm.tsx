@@ -26,10 +26,13 @@ const EditBoxForm = (props: EditBoxProps) => {
   const { push } = useRouter()
 
   const [boxData, setBoxData] = useState<any>({
+    boxId: box?.boxId, 
+    userId: box?.userId,
     name: box?.name,
     duration: {
       startDate: box?.duration.startDate,
-      endDate: box?.duration.endDate
+      endDate: box?.duration.endDate,
+      diff: box?.duration.diff
     },
     mark: {
       name: box?.mark.name,
@@ -37,7 +40,8 @@ const EditBoxForm = (props: EditBoxProps) => {
         brand: box?.mark.markOptions.brand,
         projectNumber: box?.mark.markOptions.projectNumber
       }
-    }
+    },
+    structures: []
   })
 
   const { name, duration, mark } = boxData
@@ -45,7 +49,7 @@ const EditBoxForm = (props: EditBoxProps) => {
   const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setBoxData({...boxData, name: e.target.value})
 
   const onSaveBoxClick = async () => {
-    await updateBox({ id: box!.id, userId: box?.userId, name, duration, mark  })
+    await updateBox({ id: box!.id, userId: box?.userId, name, duration, mark })
 
     handleModal()
     toast.success(`باکس ${box!.name} با موفقیت ویرایش شد`)

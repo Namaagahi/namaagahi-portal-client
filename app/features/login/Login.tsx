@@ -20,6 +20,7 @@ const Login = () => {
     const { push } = useRouter()
     const dispatch = useDispatch()
 
+
     const [loginInfo, setLoginInfo] = useState({
         username: '',
         password: '', 
@@ -29,8 +30,6 @@ const Login = () => {
 
     const [login, { isLoading }] = useLoginMutation()
     const token = useSelector(selectCurrentToken)
-  
-    useEffect(() => {if(token) push('/dashboard')}, [])
     useEffect(() => {userRef.current?.focus()}, [])
     useEffect(() => {setLoginInfo({...loginInfo, errMsg:''})}, [username, password])
 
@@ -40,7 +39,6 @@ const Login = () => {
     const handleSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault()
         try {
-
             const { accessToken } = await login({ username, password }).unwrap()
             dispatch(setCredentials({ accessToken }))
             toast.success(`${username} خوش آمدید!`)
