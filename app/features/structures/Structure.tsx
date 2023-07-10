@@ -3,7 +3,6 @@ import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import { StructureObject } from '@/app/lib/interfaces'
 import Status from '@/app/components/main/Status'
-import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import moment from 'jalali-moment'
 import { useState } from 'react'
@@ -24,7 +23,7 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
       })
 
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
-    const allBoxes = useSelector(state => selectAllBoxes(state))
+    const allBoxes: any = useSelector(state => selectAllBoxes(state))
 
     const structureBox: any = allBoxes.find((box: any) => box.boxId === structure.parent)
 

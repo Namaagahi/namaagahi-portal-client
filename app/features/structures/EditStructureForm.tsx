@@ -1,38 +1,51 @@
 import { useUpdateStructureMutation } from './structuresApiSlice'
-import { EditStructureProps } from '@/app/lib/interfaces'
+import { EditStructureProps, UserObject } from '@/app/lib/interfaces'
 import { AiOutlineClose } from 'react-icons/ai'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
+import useAuth from '@/app/hooks/useAuth'
+import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
+import { useSelector } from 'react-redux'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
   )
   
-
 const EditStructureForm = (props: EditStructureProps) => {
 
     const { handleModal, structure } = props
 
     const [updateStructure, {
         isLoading,
-        isSuccess,
         isError,
         error
     }] = useUpdateStructureMutation()
 
-    const { push } = useRouter()
+    const {
+        data: users, 
+      } = useGetUsersQuery(undefined, { 
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
+      }) 
+
+    const allUsers: UserObject[] | any  = useSelector(selectAllUsers)
+
+    const { isAdmin } = useAuth()
 
     const [structureData, setStructureData] = useState<any>({
+        userId: structure?.userId,
         name: structure?.name,
         district: structure?.location.district,
         path: structure?.location.path,
         address: structure?.location.address
     })
 
-    const { name, district, path, address } = structureData
+    const { userId, name, district, path, address } = structureData
 
+    const username = allUsers.find((user: any) => user.id === userId)
+
+    const onUserChange = (e: React.ChangeEventHandler<HTMLSelectElement> | any) => setStructureData({...structureData, userId: e.target.value})
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setStructureData({...structureData, name: e.target.value})
     const onDistrictChange = (e: React.ChangeEvent<HTMLInputElement>) => setStructureData({...structureData, district: e.target.value})
     const onPathChange = (e: React.ChangeEvent<HTMLInputElement>) => setStructureData({...structureData, path: e.target.value})
@@ -41,7 +54,7 @@ const EditStructureForm = (props: EditStructureProps) => {
     const onSaveStructureClick = async () => {
         await updateStructure({
              id: structure!.id,
-             userId: structure?.userId,
+             userId: userId,
              parent: structure?.parent,
              name,
              location: { district, path, address },
@@ -66,10 +79,36 @@ const EditStructureForm = (props: EditStructureProps) => {
                         onClick={handleModal}/>
                 </div>
 
-                <div className="flex flex-col pt-12 pb-7">
+                { isAdmin &&
+                    <div className="flex items-center justify-between w-full pt-12">
+                        <label htmlFor="userId">کاربر</label>
+                        <select 
+                            onChange={onUserChange}
+                            className="select select-bordered form-input w-[80%] ">
+                            {
+                                allUsers.map((user: any, index: number) => {
+                                    console.log("USER", user)
+                                    return(  
+                                        <option 
+                                            className='text-black'
+                                            value={user.id}
+                                            key={user.id}
+                                            id="userId"
+                                        >
+                                            {user.name}
+                                        </option>
+                                    )
+                                })
+                            }
+                        </select>
+                    </div>
+                }
+
+                <div className="flex flex-col pb-7">
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="">نام سازه</label>
+                        <label htmlFor="name">نام سازه</label>
                         <input
+                            id='name'
                             value={name}
                             type="text"
                             className={`${isError && 'border-rose-700'} form-input w-[80%]`}
@@ -77,8 +116,9 @@ const EditStructureForm = (props: EditStructureProps) => {
                         />
                     </div>
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="">نام سازه</label>
+                        <label htmlFor="district">منطقه</label>
                         <input
+                            id='district'
                             value={district}
                             type="text"
                             className={`${isError && 'border-rose-700'} form-input w-[80%]`}
@@ -86,8 +126,9 @@ const EditStructureForm = (props: EditStructureProps) => {
                         />
                     </div>
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="">نام سازه</label>
+                        <label htmlFor="path">مسیر</label>
                         <input
+                            id='path'
                             value={path}
                             type="text"
                             className={`${isError && 'border-rose-700'} form-input w-[80%]`}
@@ -95,8 +136,9 @@ const EditStructureForm = (props: EditStructureProps) => {
                         />
                     </div>
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="">نام سازه</label>
+                        <label htmlFor="address">آدرس</label>
                         <input
+                            id='address'
                             value={address}
                             type="text"
                             className={`${isError && 'border-rose-700'} form-input w-[80%]`}
