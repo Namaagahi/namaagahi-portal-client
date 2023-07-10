@@ -70,9 +70,11 @@ export const billboardPagePropsObject = [
         id:2,
         title: 'سازه',
         main:'مشاهده سازه ها',
+        main2:'مشاهده سازه های من',
         mainLink:'/dashboard/billboard/structures', 
+        main2Link:'/dashboard/billboard/mystructures', 
         subTitle:'ایجاد سازه جدید', 
-        subTitleLink:'/dashboard/billboard/createstructure'
+        subTitleLink:'/dashboard/billboard/createstructure',
     },
 ]
 

@@ -271,7 +271,9 @@ export interface BadgeProps {
 export interface CardProps {
   title: string 
   main: string
+  main2?: string
   mainLink: string
+  main2Link?: string
   subTitle: string
   subTitleLink: string
 }

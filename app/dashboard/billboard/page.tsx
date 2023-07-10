@@ -25,7 +25,9 @@ const Billboard = () => {
                 key={prop.id}
                 title={prop.title}
                 main={prop.main}
+                main2={prop.main2}
                 mainLink={prop.mainLink}
+                main2Link={prop.main2Link}
                 subTitle={prop.subTitle}
                 subTitleLink={prop.subTitleLink}
               />

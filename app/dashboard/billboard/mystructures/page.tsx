@@ -21,41 +21,42 @@ const Structure = dynamic(
   { ssr: false }
 )
 
-const Structures = () => {
 
-  const { isAdmin, id } = useAuth()
+const MyStructures = () => {
 
-  const { 
-    data: structures,
-    isLoading,
-    isSuccess, 
-    isError,
-  } = useGetStructuresQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-  })
+    const { isAdmin, id } = useAuth()
 
-  const {
-    data: boxes
-} = useGetAllBoxesQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-})
-
-  const [updateStructure] = useUpdateStructureMutation()
-
-  const allStructures = useSelector(state => selectAllStructures(state))
-  const allBoxes = useSelector(state => selectAllBoxes(state))
-
-  const findChosenStructures = () =>{
-    let inBoxStructures
-    allBoxes.map((box: any) => {
-      inBoxStructures = allStructures.filter((structure: any) => structure.parent === box.boxId)
+    const { 
+        data: structures,
+        isLoading,
+        isSuccess, 
+        isError,
+    } = useGetStructuresQuery(undefined, {
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
     })
-    return inBoxStructures
-  } 
 
-  console.log(findChosenStructures())
+    const {
+        data: boxes
+    } = useGetAllBoxesQuery(undefined, {
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
+    })
+
+    const [updateStructure] = useUpdateStructureMutation()
+
+    const allStructures = useSelector(state => selectAllStructures(state))
+    const allBoxes = useSelector(state => selectAllBoxes(state))
+
+    const findChosenStructures = () =>{
+        let inBoxStructures
+        allBoxes.map((box: any) => {
+        inBoxStructures = allStructures.filter((structure: any) => structure.parent === box.boxId)
+        })
+        return inBoxStructures
+    } 
+
+    console.log(findChosenStructures())
 
   // useEffect(() => {
   //   const n1008 = allStructures.find((structure: any) => structure.name === "N1008")
@@ -112,21 +113,25 @@ const Structures = () => {
 
     const { ids } = structures
     
+    const thisUserStructures = allStructures.filter(structure => structure.userId === id)
 
     let structureTableContent
 
-      structureTableContent = ids?.length && ids.map((structureId: string) => <Structure page={'all'} key={structureId} structureId={structureId} />) 
+    isAdmin ?
+      structureTableContent = ids?.length && ids.map((structureId: string) => <Structure page={'my'} key={structureId} structureId={structureId} />) 
+      :
+      structureTableContent = thisUserStructures.length && thisUserStructures.map((structure => <Structure page={'my'} key={structure.id} structureId={structure.id} />))
     
-    return (
-      <main className="min-h-screen"> 
-        <PageTitle name={'سازه ها'} />
-        <Table
-          tableContent = {structureTableContent}
-          tableHeadings = {structuresTableHeadings}
-        />
-      </main>
-    )
-  }
+  return (
+    <main className="min-h-screen"> 
+    <PageTitle name={'سازه ها'} />
+    <Table
+      tableContent = {structureTableContent}
+      tableHeadings = {structuresTableHeadings}
+    />
+  </main>
+  )
+}
 }
 
-export default Structures
+export default MyStructures

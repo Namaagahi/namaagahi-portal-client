@@ -9,8 +9,9 @@ import { useState } from 'react'
 import { selectAllBoxes } from '../boxes/boxesApiSlice'
 import Link from 'next/link'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
+import useAuth from '@/app/hooks/useAuth'
 
-const Structure = ({ structureId }: { structureId: string | undefined }) => {
+const Structure = ({ structureId, page }: { structureId: string | undefined, page: string }) => {
 
     const { 
         data: structures,
@@ -21,6 +22,8 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
       })
+
+    const { isAdmin } = useAuth()
 
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
     const allBoxes: any = useSelector(state => selectAllBoxes(state))
@@ -80,7 +83,25 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
                     />    
                 }
                 </td>
-                <td className="px-6 py-4 flex items-center gap-5 cursor-pointer">
+                <td className="px-6 py-4 flex items-center gap-5 ">
+                {isAdmin && page === 'all' ?
+                <>
+                    <AiFillEdit 
+                        className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
+                        onClick={handleEditStructure}
+                    />
+                   
+                    <AiFillDelete 
+                        className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
+                        onClick={handleDeleteStructure}    
+                    />
+                </>
+                : page === 'all' &&
+                <p>دسترسی محدود</p>
+                }
+
+                {page === 'my' &&
+                <>
                     <AiFillEdit 
                         className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
                         onClick={handleEditStructure}
@@ -90,6 +111,8 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
                         className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
                         onClick={handleDeleteStructure}    
                     />
+                </>
+                }
                     
                 </td>
                 <td className="px-6 py-4">{moment(structure.createdAt).format('jYYYY/jM/jD')}</td>
