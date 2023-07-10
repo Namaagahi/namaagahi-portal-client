@@ -1,6 +1,6 @@
 import { EditBoxProps } from '@/app/lib/interfaces'
-import dynamic from 'next/dynamic'
 import EditBoxForm from './EditBoxForm'
+import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }

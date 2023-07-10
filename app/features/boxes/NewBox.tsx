@@ -40,6 +40,7 @@ const NewBox = ({ mark }: { mark: string }) => {
   })
 
   const structures = useSelector(state => selectAllStructures(state))
+  const boxes = useSelector(state => selectAllBoxes(state))
 
   const { id } = useAuth()  
 

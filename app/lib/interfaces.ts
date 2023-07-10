@@ -213,6 +213,7 @@ export interface StructureObject {
   id? : string
   _id?: string
   userId: string
+  parent: string
   name : string
   location: {
     district: number
@@ -251,6 +252,12 @@ export interface StructureData {
   isAvailable? : boolean
   userId?:string
 }
+
+export interface EditStructureProps {
+  structure: StructureObject | undefined
+  handleModal: () => void
+}
+
 // COMPONENT PROPS ===========================================================================
 export interface CreateButtonProps {
   onClickHandler: () => void

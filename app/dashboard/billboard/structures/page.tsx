@@ -43,22 +43,35 @@ const Structures = () => {
     refetchOnMountOrArgChange: false
 })
 
-  const allStructures = useSelector(state => selectAllStructures(state))
-  const allBoxes = useSelector(state => selectAllBoxes(state))
   const [updateStructure] = useUpdateStructureMutation()
 
+  const allStructures = useSelector(state => selectAllStructures(state))
+  const allBoxes = useSelector(state => selectAllBoxes(state))
+
+  const findChosenStructures = () =>{
+    let inBoxStructures
+    allBoxes.map((box: any) => {
+      inBoxStructures = allStructures.filter((structure: any) => structure.parent === box.boxId)
+    })
+    return inBoxStructures
+  } 
+
+  console.log(findChosenStructures())
+
   // useEffect(() => {
-  //   allStructures.forEach(async(structure: any) => {
-  //       await updateStructure({
-  //         userId: structure?.userId,
-  //         id: structure?.id,
-  //         name: structure?.name,
-  //         location: structure?.location,
-  //         isChosen: false,
-  //         isAvailable: true,
-  //         parent: ''
-  //       })
-  //   })
+  //   const n1008 = allStructures.find((structure: any) => structure.name === "N1008")
+  //   const update = async() => {
+  //     await updateStructure({
+  //       userId: n1008?.userId,
+  //       id: n1008?.id,
+  //       name: n1008?.name,
+  //       location: n1008?.location,
+  //       isChosen: false,
+  //       isAvailable: true,
+  //       parent: ''
+  //     })
+  //   }
+  //   update()
   // },[])
 
   useEffect(() => {
@@ -74,7 +87,7 @@ const Structures = () => {
         //   id: structure?.id,
         //   name: structure?.name,
         //   location: structure?.location,
-        //   isChosen: false,
+        //   isChosen: false, 
         //   isAvailable: true,
         //   parent: ''
         // })
@@ -83,7 +96,8 @@ const Structures = () => {
     abc()
   }, [])
 
-  console.log(allStructures)
+  console.log("STRS",allStructures)
+  console.log("BXS", allBoxes)
 
   if(isLoading) return <Loading/>
 

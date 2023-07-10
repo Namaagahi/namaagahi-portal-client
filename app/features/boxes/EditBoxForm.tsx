@@ -2,11 +2,11 @@ import { EditBoxProps } from '@/app/lib/interfaces'
 import React, { useState } from 'react'
 import { useUpdateBoxMutation } from './boxesApiSlice'
 import { useRouter } from 'next/navigation'
-import dynamic from 'next/dynamic'
 import { AiOutlineClose } from 'react-icons/ai'
 import BoxStructureFormContent from './BoxStructureFormContent'
 import BoxBaseFormContent from './BoxBaseFormContent'
 import { toast } from 'react-toastify'
+import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }

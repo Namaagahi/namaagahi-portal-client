@@ -7,6 +7,9 @@ import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import moment from 'jalali-moment'
 import { useState } from 'react'
+import { selectAllBoxes } from '../boxes/boxesApiSlice'
+import Link from 'next/link'
+import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 
 const Structure = ({ structureId }: { structureId: string | undefined }) => {
 
@@ -21,9 +24,14 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
       })
 
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
+    const allBoxes = useSelector(state => selectAllBoxes(state))
+
+    const structureBox: any = allBoxes.find((box: any) => box.boxId === structure.parent)
 
     const [isEditStructure, setIsEditStructure] = useState(false)
     const [isDeleteStructure, setIsDeleteStructure] = useState(false)
+
+    console.log(structureBox)
     
     if(structure) {
 
@@ -58,11 +66,13 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
                 </td>
                 <td className="px-6 py-4">
                     {structure.isChosen? 
-                    <Status 
-                        status = {'درباکس '} 
-                        bgColor = {'#00ff37'}
-                        textColor = {'#0a541e'}
-                    />
+                    <Link href={`/dashboard/billboard/boxes/${structureBox && structureBox.id}`}  target="_blank">
+                        <Status
+                            status = {structureBox ? structureBox.name : "در باکس"}
+                            bgColor = {'#00ff37'}
+                            textColor = {'#0a541e'}
+                        />
+                    </Link>
                     : 
                     <Status
                         status = {'خارج'}
@@ -96,8 +106,12 @@ const Structure = ({ structureId }: { structureId: string | undefined }) => {
                     /> 
                 }
                 {
-                   isEditStructure && 
-                    <p>در حال ساخت</p>
+                   isEditStructure &&  
+                    <CreateUpdateModal 
+                        prop={structure}
+                        handleModal={handleEditStructure}
+                        type={'editStructure'}
+                    />
             
                 }
         </>
