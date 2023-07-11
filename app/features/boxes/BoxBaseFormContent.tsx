@@ -6,95 +6,126 @@ import DatePicker, { DateObject, Value } from 'react-multi-date-picker'
 
 const BoxBaseFormContent = (props:any) => {
     
-    const { name, startDate, endDate, markName, brand, projectNumber, onNameChange, isError } = props
-
-    const [startDatee, setStartDatee] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
-    const [endDatee, setEndDatee] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa }))
-
-    const handleStartDate = (val: any) => setStartDatee(val)
-    const handleEndDate = (val: any) => setEndDatee(val)
+    const { register, errors, box, handleStartDate, handleEndDate } = props
 
   return (
     <div className="flex flex-col pt-12 pb-7">
-        <div className="flex items-center gap-4 justify-between w-full">
-            <label htmlFor="">تاریخ شروع</label>
-            <DatePicker
-                inputClass='form-input '
-                format='YYYY-MM-DD'
-                calendar={persian}
-                locale={persian_fa}
-                calendarPosition="bottom-left"
-                value={startDate}
-                onChange={(val) => handleStartDate(val)}
-            />
-        </div>
-
-        <div className="flex items-center gap-4 justify-between w-full">
-            <label htmlFor="">تاریخ پایان</label>
-            <DatePicker
-                inputClass='form-input '
-                format='YYYY-MM-DD'
-                calendar={persian}
-                locale={persian_fa}
-                calendarPosition="bottom-left"
-                value={endDate}
-                onChange={(val) => handleEndDate(val)}
-            />
-        </div>
-
-        <div className="flex items-center gap-4 justify-between w-full">
-            <label htmlFor="">نام باکس</label>
+        <div className='flex flex-col gap-3'>
+            <label htmlFor="name" className='text-[#767676] font-bold'>نام باکس</label>
             <input
-                 value={name}
+                {...register("name", {
+                    required: {
+                        value: true,
+                        message:  'نام باکس را وارد کنید'
+                    },
+                })}
                 type="text"
-                className={`${isError && 'border-rose-700'} form-input w-[80%]`}
-                onChange={onNameChange}
+                id='name'
+                className='form-input'
             />
+            <small className="text-xs text-rose-600 ">{errors.name?.message}</small>
         </div>
-        <div className="flex items-center gap-4 justify-between w-full">
-            <label htmlFor="">نوع باکس</label>
+
+        <div className='flex flex-col gap-3'>
+            <label htmlFor="typeName" className='text-[#767676] font-bold'>نوع سازه</label>
             <select 
-                //   {...register(`structures.${fieldIndex}.marks.markOptions.face`, {
-                //     required: {
-                //       value: true,
-                //       message:  'تیپ سازه را انتخاب کنید'
-                //     }
-                //   })}
-                  className="select select-bordered form-input w-[80%] ">
-                  {
-                    boxMarks.map((mark, index) => (
-                      <option 
+                {...register("box.mark.name", {
+                required: {
+                    value: true,
+                    message:  'نوع سازه را انتخاب کنید'
+                }
+                })}
+                className="select select-bordered form-input"
+            >
+                {
+                boxMarks.map((type: string, index: number) => (
+                    <option
                         className='text-black'
-                        value={mark}
+                        value={type}
                         key={index}
-                        id="boxMark"
-                      >
-                        {mark}
-                      </option>
-                    ))
-                  }
+                        id="typeName"
+                        >
+                        {type}
+                    </option>
+                ))
+                }
             </select>
+            <small className="text-xs text-rose-600 ">
+                {errors?.mark?.name.message}
+            </small>
         </div>
-        {markName === "buyShort" && 
-            <>
-                <div className="flex items-center gap-4 justify-between w-full">
-                    <label htmlFor="">برند</label>
-                    <input
-                        value={brand}
-                        type="text"
-                        className="form-input w-[80%]"
-                    />
-                </div>
-                <div className="flex items-center gap-4 justify-between w-full">
-                    <label htmlFor="">کد پروژه</label>
-                    <input
-                        value={projectNumber}
-                        type="text"
-                        className="form-input w-[80%]"
-                    />
-                </div>
-            </>
-        }
+
+        {
+            box.mark.name === 'buyShort' &&
+                <>
+                    <div className='flex flex-col gap-3'>
+                        <label htmlFor="projectNumber" className='text-[#767676] font-bold'>کد پروژه</label>
+                        <input
+                            {...register("mark.markOptions.projectNumber", {
+                                required: {
+                                    value: true,
+                                    message: 'شماره پروژه را وارد کنید'
+                                },
+                                pattern: {
+                                    value: /^[P][R][0-9]{4}$/,
+                                    message: 'فرمت کد پروژه باید به صورت PR و چهار عدد بعد از آن باشد'
+                                }
+                            })}
+                            type="text"
+                            id='projectNumber'
+                            className='form-input'
+                        />
+                    <small className="text-xs text-rose-600 ">{errors.projectNumber?.message}</small>
+                    </div>
+
+                    <div className='flex flex-col gap-3'>
+                        <label htmlFor="brand" className='text-[#767676] font-bold'>برند</label>
+                        <input
+                            {...register("mark.markOptions.brand", {
+                                required: {
+                                    value: true,
+                                    message: 'نام برند را وارد کنید'
+                                }, 
+                                validate: {
+                                    notSelf: (fieldValue: any) => fieldValue !== 'nama agahi' || 'این برند مجاز نیست',
+                                }
+                            })}
+                            type="text"
+                            id='brand'
+                            className='form-input'
+                        />
+                    <small className="text-xs text-rose-600 ">{errors.brand?.message}</small>
+                    </div>
+                </>
+            }
+
+            <div className='flex flex-col gap-3'>
+                <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
+                <DatePicker
+                    value={box.duration.startDate}
+                    inputClass='form-input'
+                    format='YYYY-MM-DD'
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
+                    onChange={(val) => handleStartDate(val)}
+                />
+                <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
+            </div>
+
+            <div className='flex flex-col gap-3'>
+                <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
+                <DatePicker
+                    value={box.duration.endDate}
+                    inputClass='form-input'
+                    format='YYYY-MM-DD'
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
+                    onChange={(val) => handleEndDate(val)}
+                />
+                <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
+            </div>
     </div>
   )
 }

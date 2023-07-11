@@ -32,7 +32,7 @@ const NewBox = ({ mark }: { mark: string }) => {
     refetchOnMountOrArgChange: false
   })
 
-  const {
+  const { 
     data: allStructures
   } = useGetStructuresQuery(undefined, {
     refetchOnFocus: false,
@@ -87,7 +87,18 @@ const NewBox = ({ mark }: { mark: string }) => {
     return englishDate
   }
 
+  function convertToNumber(value: string | null): any {
+    const cleanedValue = value!.replace(/,/g, '')
+    const parsedValue = parseFloat(cleanedValue)
+  
+    if (isNaN(parsedValue)) {
+      return null
+    }
+    return parsedValue;
+  }
+
   const onSubmit = async(data: AddBoxForm) => {
+
     const newData = {
       ...data,
       structures: data.structures.map((structure) => ({
@@ -106,8 +117,8 @@ const NewBox = ({ mark }: { mark: string }) => {
           ...structure.costs,
           fixedCosts: {
             ...structure.costs.fixedCosts,
-            squareCost: parseInt(structure.costs.fixedCosts.squareCost),
-          },
+            squareCost: convertToNumber(structure.costs.fixedCosts.squareCost),
+          }
         },
       })),
     }
@@ -117,7 +128,7 @@ const NewBox = ({ mark }: { mark: string }) => {
         'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
     }
 
-    await createNewBox({
+   await createNewBox({
       boxId: newData.boxId,
       userId: id,
       name: newData.name,
@@ -132,7 +143,17 @@ const NewBox = ({ mark }: { mark: string }) => {
         startDate: convertToEnglishDate(newData.startDate),
         endDate: convertToEnglishDate(newData.endDate),
       },
-      structures: newData.structures
+      structures: newData.structures.map((structure: any) => {
+        return(
+          ({ ...structure, costs: {
+              ...structure.costs, variableCosts: structure.costs.variableCosts.map((varCost: any) => {
+                return(
+                  ({ ...varCost, figures: { monthlyCost: convertToNumber(varCost.figures.monthlyCost) } })
+                )})
+            } 
+          })
+        )
+      })
     })
 
     newData.structures.forEach(async(structure) => {
@@ -180,6 +201,8 @@ const NewBox = ({ mark }: { mark: string }) => {
             appendStructure={appendStructure}
             removeStructure={removeStructure}
             control={control}
+            setValue={setValue}
+            convertToNumber={convertToNumber}
           />
 
           <button className="btn-primary">افزودن باکس</button>

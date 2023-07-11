@@ -1,6 +1,6 @@
 import { SerializedError } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister } from "react-hook-form"
+import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from "react-hook-form"
 import { Value } from "react-multi-date-picker"
 
 // USER ===========================================================================
@@ -147,9 +147,9 @@ export interface BoxObject {
         _id?: string
         name: string
         figures: {
-          periodCost: number
+          monthlyCost: number
+          periodCost?: number
           dailyCost?: number
-          monthlyCost?: number
         }
       }[]
       totalDailyCost?: number
@@ -164,6 +164,7 @@ export interface BoxObject {
 
 export interface AddBoxForm {
   boxId: string
+  userId?: string
   name: string
   mark: string
   projectNumber: string
@@ -190,13 +191,54 @@ export interface AddBoxForm {
       variableCosts: {
         name: string
         figures: {
-          periodCost: string
+          monthlyCost: string | number
         }
       }[]
     }
   }[]
 }
 
+export interface EditBoxForm {
+  boxId: string
+  userId?: string
+  name: string
+  mark: {
+    name: string
+    markOptions: {
+      projectNumber: string
+      brand: string
+    }
+  }
+  duration: {
+    startDate:  string | Date
+    endDate:  string | Date
+  }
+  structures: {
+    structureId:string
+    marks: {
+      name: string
+      markOptions: {
+        style: string
+        face: string
+        length: string
+        width: string
+        printSize: string
+        docSize: string
+      }
+    },
+    costs: {
+      fixedCosts: {
+        squareCost: string
+      }, 
+      variableCosts: {
+        name: string
+        figures: {
+          monthlyCost: string
+        }
+      }[]
+    }
+  }[]
+}
 
 export interface DeleteBoxProps {
   box: BoxObject | undefined
@@ -329,6 +371,8 @@ export interface StructuresFormSectionProps {
   appendStructure: UseFieldArrayAppend<AddBoxForm, "structures">
   removeStructure:  UseFieldArrayRemove
   control: Control<AddBoxForm, any>
+  setValue: UseFormSetValue<AddBoxForm>
+  convertToNumber: (value: string) => number | null
 }
 
 export interface VariableCostsFormSectionProps { 
@@ -336,6 +380,7 @@ export interface VariableCostsFormSectionProps {
   fieldIndex: number
   control: Control<AddBoxForm, any>
   errors: FieldErrors<AddBoxForm>
+  handleTextbox1Change: (event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) => void
 }
 
 export interface NewNoteFormProps {

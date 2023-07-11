@@ -20,10 +20,6 @@ const BasicInfoFormSection = (props: BasicInfoFormSectionProps) => {
                                 value: true,
                                 message:  'نام باکس را وارد کنید'
                             },
-                            // pattern: {
-                            //     value: /^[B][X][0-9]{4}$/,
-                            //     message: 'فرمت کد پروژه باید به صورت BX و چهار عدد بعد از آن باشد'
-                            // }
                         })}
                         type="text"
                         id='name'

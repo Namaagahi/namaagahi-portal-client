@@ -169,7 +169,7 @@ export const newBoxDefaultValues = {
       variableCosts: [{
         name: '',
         figures: {
-          periodCost: ''
+          monthlyCost: ''
         }
       }]
     }
@@ -202,7 +202,7 @@ export const boxStructureFormValues = {
     variableCosts: [{
       name: '',
       figures: {
-        periodCost: ''
+        monthlyCost: ''
       }
     }]
   }
@@ -214,7 +214,7 @@ export const variableCostNames = ['برق', 'پایش', 'بیمه', 'نگهدا�
 export const structureVariableCostsFormValues = {
   name: '',
   figures: {
-      periodCost: ''
+      monthlyCost: ''
   }
 }
 

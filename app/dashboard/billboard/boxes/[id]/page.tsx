@@ -64,7 +64,7 @@ const SingleBox = () => {
                 variableCostNames2.forEach(varName => {
                     if(stucture['myCustomCost'][varName]) return
                     if(!stucture['myCustomCost'][varName]) stucture['myCustomCost'][varName] = 0
-                    if(varCost.name === varName) return stucture['myCustomCost'][varName] = varCost.figures.periodCost
+                    if(varCost.name === varName) return stucture['myCustomCost'][varName] = varCost.figures.monthlyCost
 
                 })
             })
@@ -84,8 +84,8 @@ const SingleBox = () => {
       }, [box])
 
     if(!newBox.id) return <Loading />
-    // console.log("BOX", newBox)
-    console.log("allStructures", allStructures)
+    console.log("BOX", box)
+    // console.log("allStructures", allStructures)
 
     return ( 
         <>

@@ -5,20 +5,12 @@ import { FieldError, useFieldArray } from 'react-hook-form'
 
 const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
 
-    const { register, fieldIndex, control, errors } = props 
+    const { register, fieldIndex, control, errors, handleTextbox1Change } = props 
 
     const { fields: variableCostFields, append: appendVariableCost, remove: removeVariableCost } = useFieldArray({
         control,
         name: `structures.${fieldIndex}.costs.variableCosts`,
         })
-
-        const formatValue = (value: any) => {
-            if (!value) {
-              return '';
-            }
-            const formattedValue = parseFloat(value.replace(/\D/g, ',')).toLocaleString(); // Format the value with a thousands separator
-            return formattedValue.replace(/,/g, ''); // Remove the comma separator
-          };
 
   return ( 
     <>
@@ -58,26 +50,24 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                     </div>
 
                     <div  className='flex flex-col gap-3'>
-                        <label htmlFor="varCost" className='font-bold text-white'>هزینه دوره</label>
+                        <label htmlFor="varCost" className='font-bold text-white'>هزینه ماهیانه</label>
                         <input
-                            {...register(`structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.periodCost`, {
+                            {...register(`structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.monthlyCost`, {
                                 required: {
                                     value: true,
                                     message:  ' هزینه دوره را وارد کنید'
                                 }
                             })
                             } 
-                            type="number"
+                            type="text"
                             id='varCost'
                             className='p-1 rounded-[50px] w-full bg-white outline-none tracking-wide'
                             onWheel={(e: any) => e.target.blur()}
-                            onChange={(event) => {
-                                event.target.value = formatValue(event.target.value);
-                                register(`structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.periodCost`).onChange(event);
-                              }}
+                            onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.monthlyCost`)}
+
                         />
                         <small className="text-xs text-rose-200 ">
-                            {(errors?.structures?.[fieldIndex]?.costs?.variableCosts?.[variableCostIndex]?.figures?.periodCost as FieldError)?.message}
+                            {(errors?.structures?.[fieldIndex]?.costs?.variableCosts?.[variableCostIndex]?.figures?.monthlyCost as FieldError)?.message}
                         </small>
                     </div>
                     

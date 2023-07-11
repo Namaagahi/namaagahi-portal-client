@@ -32,9 +32,9 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       isError,
   }] = useRefreshMutation()
 
-  useLayoutEffect(() =>{
-    if(!token) push('/')
-  },[])
+  // useLayoutEffect(() =>{
+  //   if(!token) push('/')
+  // },[])
 
   useEffect(() => {
     const verifyRefreshToken = async () => {

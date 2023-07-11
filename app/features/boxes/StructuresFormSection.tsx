@@ -8,10 +8,17 @@ import { useSelector } from "react-redux"
 
 const StructuresFormSection = (props: StructuresFormSectionProps) => {
 
-  const { register, errors, structuresField, appendStructure, removeStructure, control } = props
+  const { register, errors, structuresField, appendStructure, removeStructure, control, setValue, convertToNumber } = props
 
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state))
   const filtered = structures.filter((structure) => structure.isChosen === false)
+
+  function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
+    const newValue = event.target.value.replace(/,/g, '')
+    const numberValue = convertToNumber(newValue)
+    const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
+    setValue(prop, formattedValue)
+  }
  
   return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
@@ -224,16 +231,16 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
                 <label htmlFor="squareCost" className='text-[#767676] font-bold'>قیمت متر مربع</label>
                 <input
                   {...register(`structures.${fieldIndex}.costs.fixedCosts.squareCost`, {
-                    valueAsNumber: true,
                     required: {
                       value: true,
-                      message:  'قیمت متر مربع سازه را وارد کنید'
-                    }
+                      message: "قیمت متر مربع سازه را وارد کنید",
+                    },
                   })}
-                  type="number"
-                  id='squareCost'
-                  className='p-4 rounded-[50px] bg-white outline-none'
-                  onWheel={(e: any) => e.target.blur()}
+                  type="text"
+                  id="squareCost"
+                  className="p-4 rounded-[50px] bg-white outline-none"
+                  // onWheel={(e: any) => e.target.blur()} 
+                  onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.fixedCosts.squareCost`)}
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.costs?.fixedCosts?.squareCost as FieldError)?.message}
@@ -252,6 +259,7 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
               register={register}
               control={control}
               fieldIndex={fieldIndex}
+              handleTextbox1Change={handleTextbox1Change}
             />
           </div>
         )
