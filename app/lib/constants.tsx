@@ -181,6 +181,11 @@ export const typeNames = ['عرشه پل سواره رو', 'پل عابر پیا
 export const styles = ['افقی', 'عمودی']
 export const faces = ['شمالی', 'جنوبی', 'غربی', 'شرقی']
 export const boxMarks = ['مزایده ای', 'کوتاه مدت', 'بلندمدت']
+export const boxMarksObject = {
+  'مزایده ای' : 'owner',
+  'کوتاه مدت' : 'buyShort',
+  'بلند مدت' : 'buyLong'
+}
 
 export const boxStructureFormValues = {
   structureId: '',

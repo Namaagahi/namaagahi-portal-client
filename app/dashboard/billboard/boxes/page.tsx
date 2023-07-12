@@ -20,10 +20,12 @@ const Boxes = () => {
     isSuccess, 
     isError,
   } = useGetAllBoxesQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    pollingInterval: 5000
   })
-  
+
   if(isLoading) return <Loading/>
   
   if(isError) return (
@@ -37,7 +39,7 @@ const Boxes = () => {
       </p>
     </div>
   )
-
+console.log(boxes)
   if(isSuccess){
 
     const { ids } = boxes

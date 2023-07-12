@@ -1,5 +1,5 @@
-import { AddBoxForm, EditBoxForm, EditBoxProps } from '@/app/lib/interfaces'
-import React, { useState } from 'react'
+import { AddBoxForm, EditBoxForm, EditBoxProps, UserObject } from '@/app/lib/interfaces'
+import React, { useEffect, useState } from 'react'
 import { selectAllBoxes, useGetAllBoxesQuery, useUpdateBoxMutation } from './boxesApiSlice'
 import { useRouter } from 'next/navigation'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -14,6 +14,7 @@ import { DateObject, Value } from 'react-multi-date-picker'
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
 import { useFieldArray, useForm } from 'react-hook-form'
+import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
@@ -37,87 +38,122 @@ const EditBoxForm = (props: EditBoxProps) => {
     refetchOnMountOrArgChange: false
   })
 
-  // const structures = useSelector(state => selectAllStructures(state))
-  const boxes = useSelector(state => selectAllBoxes(state))
-
-  const { id } = useAuth()  
-
   const [updateBox, {
     isLoading,
     isSuccess,
     isError,
     error
-}] = useUpdateBoxMutation()
+  }] = useUpdateBoxMutation()
 
-const [updateStructure] = useUpdateStructureMutation()
+  const [updateStructure] = useUpdateStructureMutation()
 
-const [startDate, setStartDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
-const [endDate, setEndDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
+  const {
+    data: users, 
+} = useGetUsersQuery(undefined, { 
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
+}) 
 
-const { push } = useRouter()
+  const allUsers: UserObject[] | any  = useSelector(selectAllUsers)
 
-const boxStructures = box?.structures?.map((structure) => ({
-  structureId: structure.structureId,
-  marks: {
-    name: structure.marks.name,
-    markOptions: {
-      style: structure.marks.markOptions.style,
-      face: structure.marks.markOptions.face,
-      length: structure.marks.markOptions.length,
-      width: structure.marks.markOptions.width,
-      printSize: structure.marks.markOptions.printSize,
-      docSize: structure.marks.markOptions.docSize,
-    },
-  },
-  costs: {
-    fixedCosts: {
-      squareCost: structure.costs.fixedCosts.squareCost,
-    },
-    variableCosts: structure.costs.variableCosts.map((variableCost) => ({
-      name: variableCost.name,
-      figures: {
-        monthlyCost: variableCost.figures.monthlyCost,
-      },
-    })),
-  },
-}))
+  const [startDate, setStartDate] = useState<Value | any>('') 
+  const [endDate, setEndDate] = useState<Value | any>('') 
 
-
-const editBoxForm = useForm<any>({
-  defaultValues: {
-    id: box?.id,
-    boxId: box?.boxId,
-    userId: box?.userId,
-    name: box?.name,
-    mark: {
-      name: box?.mark.name,
+  const boxStructures = box?.structures?.map((structure) => ({
+    structureId: structure.structureId,
+    marks: {
+      name: structure.marks.name,
       markOptions: {
-        projectNumber: box?.mark.markOptions.projectNumber,
-        brand: box?.mark.markOptions.brand,
-      }
+        style: structure.marks.markOptions.style,
+        face: structure.marks.markOptions.face,
+        length: structure.marks.markOptions.length,
+        width: structure.marks.markOptions.width,
+        printSize: structure.marks.markOptions.printSize,
+        docSize: structure.marks.markOptions.docSize,
+      },
     },
-    duration: {
-      startDate: box?.duration.startDate,
-      endDate: box?.duration.endDate
+    costs: {
+      fixedCosts: {
+        squareCost: structure.costs.fixedCosts.squareCost,
+      },
+      variableCosts: structure.costs.variableCosts.map((variableCost) => ({
+        name: variableCost.name,
+        figures: {
+          monthlyCost: variableCost.figures.monthlyCost,
+        },
+      })),
     },
-    structures: boxStructures
-  },
-  mode: 'onSubmit'
-})
+  }))
+   
+  const editBoxForm = useForm<any>({
+    defaultValues: {
+      id: box?.id,
+      boxId: box?.boxId,
+      userId: box?.userId,
+      username: box?.username,
+      name: box?.name,
+      mark: {
+        name: box?.mark.name,
+        markOptions: {
+          projectNumber: box?.mark.markOptions.projectNumber,
+          brand: box?.mark.markOptions.brand,
+        }
+      },
+      duration: {
+        startDate: box?.duration.startDate,
+        endDate: box?.duration.endDate
+      },
+      structures: boxStructures
+    },
+    mode: 'onSubmit'
+  })
 
+  const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = editBoxForm
+  const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
+    control,
+    name: "structures",
+  })
 
+  useEffect(() => {
+    getValues("duration.startDate")
+    getValues("duration.endDate")
+    setValue('duration.startDate',startDate!!.toString())
+    setValue('duration.endDate',  endDate!!.toString())
+  }, [startDate, endDate])
 
-const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = editBoxForm
+  function convertToEnglishDate(dateStr: any) {
+    const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+    const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let englishDate = "";
+    [...dateStr].forEach(char => {
+      let index = persianDigits.indexOf(char);
+      englishDate += (index !== -1) ? englishDigits[index] : char
+    })
+    return englishDate
+  }
 
-const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
-  control,
-  name: "structures",
-})
+  const onSubmit = async(data: EditBoxForm) => {
+    const foundUser = allUsers.find((user: any) => user.id === data.userId)
+    await updateBox({
+      id: box?.id,
+      boxId: data.boxId,
+      userId: data.userId,
+      username: foundUser?.username,
+      name: data.name,
+      mark: data.mark,
+      duration: {
+        startDate: convertToEnglishDate(data.duration.startDate),
+        endDate: convertToEnglishDate(data.duration.endDate),
+      },
+      structures: data.structures
+    })
+    handleModal()
+  }
 
-const onSubmit = (data: EditBoxForm) => {
-  console.log("DATA",data)
-}
-console.log("BOX", box)
+  if(isSuccess) {
+    toast.success(`باکس با موفقیت ویرایش شد.`)
+  }
+
   if(isLoading) return <Loading/>  
   
   return (
@@ -138,6 +174,7 @@ console.log("BOX", box)
             box={box}
             handleStartDate={(val: any) => setStartDate(val)}
             handleEndDate={(val: any) => setEndDate(val)}
+            allUsers={allUsers}
           />
 
         <div className="flex items-center gap-6">

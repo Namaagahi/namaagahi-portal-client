@@ -43,8 +43,6 @@ const EditStructureForm = (props: EditStructureProps) => {
 
     const { userId, name, district, path, address } = structureData
 
-    const username = allUsers.find((user: any) => user.id === userId)
-
     const onUserChange = (e: React.ChangeEventHandler<HTMLSelectElement> | any) => setStructureData({...structureData, userId: e.target.value})
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setStructureData({...structureData, name: e.target.value})
     const onDistrictChange = (e: React.ChangeEvent<HTMLInputElement>) => setStructureData({...structureData, district: e.target.value})

@@ -1,12 +1,18 @@
-import { boxMarks } from '@/app/lib/constants'
+import { boxMarksObject } from '@/app/lib/constants'
 import React, { useState } from 'react'
 import persian from 'react-date-object/calendars/persian'
 import persian_fa from 'react-date-object/locales/persian_fa'
 import DatePicker, { DateObject, Value } from 'react-multi-date-picker'
+import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
+import { UserObject } from '@/app/lib/interfaces'
+import { useSelector } from 'react-redux'
+import useAuth from '@/app/hooks/useAuth'
 
 const BoxBaseFormContent = (props:any) => {
     
-    const { register, errors, box, handleStartDate, handleEndDate } = props
+    const { register, errors, box, handleStartDate, handleEndDate, allUsers } = props
+
+    const { isAdmin } = useAuth()  
 
   return (
     <div className="flex flex-col pt-12 pb-7">
@@ -27,9 +33,9 @@ const BoxBaseFormContent = (props:any) => {
         </div>
 
         <div className='flex flex-col gap-3'>
-            <label htmlFor="typeName" className='text-[#767676] font-bold'>نوع سازه</label>
+            <label htmlFor="markName" className='text-[#767676] font-bold'>نوع سازه</label>
             <select 
-                {...register("box.mark.name", {
+                {...register("mark.name", {
                 required: {
                     value: true,
                     message:  'نوع سازه را انتخاب کنید'
@@ -37,18 +43,16 @@ const BoxBaseFormContent = (props:any) => {
                 })}
                 className="select select-bordered form-input"
             >
-                {
-                boxMarks.map((type: string, index: number) => (
+                {Object.entries(boxMarksObject).map(([key, val]: any) => (
                     <option
                         className='text-black'
-                        value={type}
-                        key={index}
-                        id="typeName"
+                        value={val}
+                        key={key}
+                        id="markName"
                         >
-                        {type}
-                    </option>
-                ))
-                }
+                        {key}
+                    </option>                 
+                ))}
             </select>
             <small className="text-xs text-rose-600 ">
                 {errors?.mark?.name.message}
@@ -97,7 +101,7 @@ const BoxBaseFormContent = (props:any) => {
                     <small className="text-xs text-rose-600 ">{errors.brand?.message}</small>
                     </div>
                 </>
-            }
+        }
 
             <div className='flex flex-col gap-3'>
                 <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
@@ -126,6 +130,35 @@ const BoxBaseFormContent = (props:any) => {
                 />
                 <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
             </div>
+
+        { isAdmin &&
+            <div className="flex flex-col gap-3">
+                <label htmlFor="userId" className='text-[#767676] font-bold'>کاربر</label>
+                <select 
+                    {...register('userId', {
+                        required: {
+                            value: true,
+                            message:  'کاربر را انتخاب کنید'
+                        }
+                    })}
+                    className="select select-bordered form-input">
+                    {
+                        allUsers.map((user: any, index: number) => {
+                            return(  
+                                <option 
+                                    className='text-black'
+                                    value={user.id}
+                                    key={user.id}
+                                    id="userId"
+                                >
+                                    {user.name}
+                                </option>
+                            )
+                        })
+                    }
+                </select>
+            </div>
+        }
     </div>
   )
 }

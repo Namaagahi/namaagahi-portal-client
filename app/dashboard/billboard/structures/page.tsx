@@ -72,6 +72,19 @@ const Structures = () => {
   //   }
   //   update()
   // },[])
+  // useEffect(() => {
+  //   allStructures.forEach(async(structure: any) => {
+  //     await updateStructure({
+  //       userId: structure?.userId,
+  //       id: structure?.id,
+  //       name: structure?.name,
+  //       location: structure?.location,
+  //       isChosen: false,
+  //       isAvailable: true,
+  //       parent:''
+  //     })
+  //   })
+  // },[])
 
   useEffect(() => {
     const abc = async() => {
