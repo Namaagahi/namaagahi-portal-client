@@ -22,17 +22,17 @@ const Menu = ({ menuItems, subMenusList } : { menuItems: MenuItemsObj[], subMenu
       <div className="border-y py-5 border-slate-500 dark:border-slate-300 ">
       <small className="pr-3 text-slate-500 inline-block mb-2">مدیریت</small>
       <ul className="flex flex-col gap-4">
-          {menuItems.map((item: MenuItemsObj) => (
-            <Link href={item.path} key={item.name}>
-              <li
-              className="flex items-center justify-start gap-2 p-3 cursor-pointer hover:bg-[#C91416] hover:bg-opacity-60 hover:text-white rounded-2xl transition-all"
-              style={path === item.path ? activeStyle : {}}
-              >
-                {item.icon}
-                <p className="text-xl">{item.name}</p>
-              </li>
-            </Link>
-          ))}
+        {menuItems.map((item: MenuItemsObj) => (
+          <Link href={item.path} key={item.name}>
+            <li
+            className="flex items-center justify-start gap-2 p-3 cursor-pointer hover:bg-[#C91416] hover:bg-opacity-60 hover:text-white rounded-2xl transition-all"
+            style={path === item.path ? activeStyle : {}}
+            >
+              {item.icon}
+              <p className="text-xl">{item.name}</p>
+            </li>
+          </Link>
+        ))}
       </ul>
       </div>
       <div className="border-b py-5 border-slate-500 dark:border-slate-300 ">

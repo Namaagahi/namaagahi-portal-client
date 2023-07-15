@@ -18,7 +18,7 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
             <>
                 <div 
                     className={`${variableCostIndex === variableCostFields.length -1 && ' rounded-br-lg'} ${variableCostIndex === 0 && 'rounded-tr-lg'}
-                    p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-3/4 xl:w-1/3 border-[1px] border-b-white mt-4`}
+                    p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-3/4 xl:w-2/3 border-[1px] border-b-white mt-4`}
                     key={variableCost.id}
                 >
                     <div className='flex flex-col gap-3' >
@@ -30,7 +30,7 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                                     message:  'نام هزینه را انتخاب کنید'
                                 }
                             })}
-                            className="select select-bordered max-w-xs w-full p-[2px] rounded-[50px] bg-white outline-none"
+                            className="select select-bordered max-w-xs w-full p-[2px] rounded-[50px] bg-white outline-none text-black"
                         >
                         {
                         variableCostNames.map((variableCostName, i) => (
@@ -38,6 +38,7 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                                 value={variableCostName}
                                 key={i}
                                 id="varCostName"
+                                className='text-black'
                             >
                                 {variableCostName}
                             </option>
@@ -61,7 +62,7 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                             } 
                             type="text"
                             id='varCost'
-                            className='p-1 rounded-[50px] w-full bg-white outline-none tracking-wide'
+                            className='p-1 rounded-[50px] w-full bg-white outline-none tracking-wide text-black'
                             onWheel={(e: any) => e.target.blur()}
                             onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.monthlyCost`)}
 
@@ -74,14 +75,14 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                 </div> 
 
             <AiFillMinusSquare
-                className={`${variableCostIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-900 transition-all`}
+                className={`${variableCostIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-900 transition-all dark:text-white`}
                 onClick={() => removeVariableCost(variableCostIndex)} 
                 />
             </>
         ))}  
                  
         <AiFillPlusSquare 
-            className="cursor-pointer text-4xl hover:text-green-700 transition-all pl-2"
+            className="cursor-pointer text-2xl hover:text-green-700 transition-all dark:text-white"
             onClick={() => appendVariableCost(structureVariableCostsFormValues)}
         />
     </>

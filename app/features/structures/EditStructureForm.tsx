@@ -85,7 +85,7 @@ const EditStructureForm = (props: EditStructureProps) => {
                             className="select select-bordered form-input w-[80%] ">
                             {
                                 allUsers.map((user: any, index: number) => {
-                                    console.log("USER", user)
+                                    // console.log("USER", user)
                                     return(  
                                         <option 
                                             className='text-black'

@@ -1,20 +1,16 @@
-import { AddBoxForm, EditBoxForm, EditBoxProps, UserObject } from '@/app/lib/interfaces'
+import { AddBoxForm, EditBoxForm, EditBoxProps, StructureObject, UserObject } from '@/app/lib/interfaces'
 import React, { useEffect, useState } from 'react'
-import { selectAllBoxes, useGetAllBoxesQuery, useUpdateBoxMutation } from './boxesApiSlice'
-import { useRouter } from 'next/navigation'
+import { useGetAllBoxesQuery, useUpdateBoxMutation } from './boxesApiSlice'
 import { AiOutlineClose } from 'react-icons/ai'
-import BoxStructureFormContent from './BoxStructureFormContent'
 import BoxBaseFormContent from './BoxBaseFormContent'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../structures/structuresApiSlice'
 import { useSelector } from 'react-redux'
-import useAuth from '@/app/hooks/useAuth'
-import { DateObject, Value } from 'react-multi-date-picker'
-import persian_fa from "react-date-object/locales/persian_fa"
-import persian from "react-date-object/calendars/persian"
+import { Value } from 'react-multi-date-picker'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
+import EditBoxStructures from './EditBoxStructures'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
@@ -54,13 +50,20 @@ const EditBoxForm = (props: EditBoxProps) => {
     refetchOnMountOrArgChange: false
 }) 
 
+  const structures: StructureObject[] = useSelector(state => selectAllStructures(state))
   const allUsers: UserObject[] | any  = useSelector(selectAllUsers)
+  const filtered = structures.filter((structure) => structure.isChosen === false)
 
-  const [startDate, setStartDate] = useState<Value | any>('') 
-  const [endDate, setEndDate] = useState<Value | any>('') 
+  const [startDate, setStartDate] = useState<Value | any>(box?.duration.startDate) 
+  const [endDate, setEndDate] = useState<Value | any>(box?.duration.endDate) 
+  const [isEditStructure, setIsEditStructure] = useState(false)
 
-  const boxStructures = box?.structures?.map((structure) => ({
+  const boxStructures: any = box?.structures?.map((structure: any) => ({
     structureId: structure.structureId,
+    duration: {
+      startDate: structure.duration.startDate,
+      endDate: structure.duration.endDate,
+    },
     marks: {
       name: structure.marks.name,
       markOptions: {
@@ -76,7 +79,7 @@ const EditBoxForm = (props: EditBoxProps) => {
       fixedCosts: {
         squareCost: structure.costs.fixedCosts.squareCost,
       },
-      variableCosts: structure.costs.variableCosts.map((variableCost) => ({
+      variableCosts: structure.costs.variableCosts.map((variableCost: any) => ({
         name: variableCost.name,
         figures: {
           monthlyCost: variableCost.figures.monthlyCost,
@@ -132,9 +135,45 @@ const EditBoxForm = (props: EditBoxProps) => {
     return englishDate
   }
 
+  function convertToNumber(value: string | null): any {
+    const cleanedValue = value!.replace(/,/g, '')
+    const parsedValue = parseFloat(cleanedValue)
+  
+    if (isNaN(parsedValue)) {
+      return null
+    }
+    return parsedValue;
+  }
+
   const onSubmit = async(data: EditBoxForm) => {
+
+    const newData = {
+      ...data,
+      structures: data.structures.map((structure) => ({
+        ...structure,
+        marks: {
+          ...structure.marks,
+          markOptions: {
+            ...structure.marks.markOptions,
+            length: parseFloat(structure.marks.markOptions.length),
+            width: parseFloat(structure.marks.markOptions.width),
+            printSize: parseFloat(structure.marks.markOptions.printSize),
+            docSize: parseFloat(structure.marks.markOptions.docSize),
+          },
+        },
+        costs: {
+          ...structure.costs,
+          fixedCosts: {
+            ...structure.costs.fixedCosts,
+            squareCost: convertToNumber(structure.costs.fixedCosts.squareCost),
+          }
+        },
+      })),
+    }
+
+    console.log("RHF DATA", data)
     const foundUser = allUsers.find((user: any) => user.id === data.userId)
-    await updateBox({
+    const abc = await updateBox({
       id: box?.id,
       boxId: data.boxId,
       userId: data.userId,
@@ -145,19 +184,28 @@ const EditBoxForm = (props: EditBoxProps) => {
         startDate: convertToEnglishDate(data.duration.startDate),
         endDate: convertToEnglishDate(data.duration.endDate),
       },
-      structures: data.structures
+      structures: newData.structures.map((structure: any) => {
+        return(
+          ({ ...structure, costs: {
+              ...structure.costs, variableCosts: structure.costs.variableCosts.map((varCost: any) => {
+                return(
+                  ({ ...varCost, figures: { monthlyCost: convertToNumber(varCost.figures.monthlyCost) } })
+                )})
+            } 
+          })
+        )
+      })
     })
-    handleModal()
-  }
-
-  if(isSuccess) {
+    console.log("ABC", abc)
+    // handleModal()
     toast.success(`باکس با موفقیت ویرایش شد.`)
   }
 
+  console.log("box",box)
   if(isLoading) return <Loading/>  
   
   return (
-    <div className="py-5 px-8 w-full text-black dark:text-white">
+    <div className="py-5 px-8 w-full text-black dark:text-white overflow-hidden overflow-y-auto">
       <form
         className="flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
@@ -168,22 +216,46 @@ const EditBoxForm = (props: EditBoxProps) => {
                 className="cursor-pointer text-xl hover:text-2xl transition-all" 
                 onClick={handleModal}/>
         </div>
-          <BoxBaseFormContent
-            register={register}
-            errors={errors}
-            box={box}
-            handleStartDate={(val: any) => setStartDate(val)}
-            handleEndDate={(val: any) => setEndDate(val)}
-            allUsers={allUsers}
+          {!isEditStructure &&
+            <BoxBaseFormContent
+              register={register}
+              errors={errors}
+              box={box}
+              handleStartDate={(val: any) => setStartDate(val)}
+              handleEndDate={(val: any) => setEndDate(val)}
+              allUsers={allUsers}
           />
+          }
+          {
+            isEditStructure &&
+            <EditBoxStructures 
+              field={structuresField}
+              appendStructure={appendStructure}
+              removeStructure={removeStructure}
+              register={register}
+              filtered={filtered}
+              errors={errors}
+              control={control}
+              setValue={setValue}
+            />
+          }
 
         <div className="flex items-center gap-6">
           <button
-              className={` bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
-          >ذخیره</button>
+            className={` bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
+            type='submit'
+          >
+            ذخیره
+          </button>
+          <div 
+            className="py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all text-center"
+            onClick={() => setIsEditStructure(!isEditStructure)}
+          >
+              {isEditStructure? 'قبلی' : 'بعدی'}
+          </div>
           <button 
               onClick={handleModal}
-              className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
+              className="py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
           >لغو</button>
       </div>
       </form>

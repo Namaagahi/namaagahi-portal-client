@@ -159,7 +159,7 @@ const NewBox = ({ mark }: { mark: string }) => {
     newData.structures.forEach(async(structure) => {
       structures.forEach(async(nonBoxStructure: any) => {
         if(structure.structureId === nonBoxStructure.id){
-          console.log(newData.boxId)
+          // console.log(newData.boxId)
         await updateStructure({
             userId: nonBoxStructure?.userId,
             id: nonBoxStructure?.id,
