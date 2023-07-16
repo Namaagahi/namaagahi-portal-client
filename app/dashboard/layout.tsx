@@ -75,7 +75,7 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       <Header/> 
       <div className=" flex flex-col xl:flex-row gap-8 ">
         <Menu menuItems = {menuItems} subMenusList={subMenusList} />
-        <div className="w-[calc(100%-270px)] flex flex-col min-h-screen ">
+        <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-screen ">
           {content}
           <Footer />
         </div>

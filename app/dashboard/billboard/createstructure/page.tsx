@@ -6,8 +6,6 @@ import { useSelector } from 'react-redux'
 
 const CreateStructure = () => {
 
-  const structures = useSelector(state => selectAllStructures(state))
-
   return ( 
     <main className="min-h-screen">
       <PageTitle name={'ایجاد سازه جدید'} />

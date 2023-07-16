@@ -10,7 +10,7 @@ import Image from "next/image"
 import useAuth from "@/app/hooks/useAuth"
 
 const User = ({ userId }: { userId: string }) => {
-
+ 
     const { isAdmin } = useAuth()
 
     const {

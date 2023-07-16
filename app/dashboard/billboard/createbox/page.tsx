@@ -12,7 +12,6 @@ const CreateBox = () => {
   const [boxMark, setBoxMark] = useState('')
 
   return (
-    <>
       <main className="min-h-screen">
         <PageTitle name={'ایجاد باکس جدید'} />
         <div className='flex flex-col gap-9 justify-center'>
@@ -60,7 +59,6 @@ const CreateBox = () => {
       }
         </div>
       </main>
-    </>
   )
 }
 

@@ -4,12 +4,16 @@ import { FieldError } from 'react-hook-form'
 import { AiFillMinusSquare, AiFillPlusSquare } from 'react-icons/ai'
 import VariableCostsFormSection from './VariableCostsFormSection'
 import { IoIosArrowDown } from 'react-icons/io'
+import DatePicker, { Value } from 'react-multi-date-picker'
+import persian from 'react-date-object/calendars/persian'
+import persian_fa from 'react-date-object/locales/persian_fa'
 
 const EditBoxStructures = (props: any) => {
 
-    const { field, appendStructure, removeStructure, register, filtered, errors, control, setValue } = props
+    const { field, appendStructure, removeStructure, register, filtered, errors, control, structures, setValue } = props
 
     const [showContent, setShowContent] = useState(true)
+
 
     function convertToNumber(value: string | null): any {
         const cleanedValue = value!.replace(/,/g, '')
@@ -31,6 +35,8 @@ const EditBoxStructures = (props: any) => {
     
   return (
     field.map((item: any, fieldIndex: number) =>{
+        // console.log("ITEM", item)
+        const foundStr = structures.find((structure: any) => structure.id === item.structureId)
         return (
         <div className='flex flex-col gap-8 items-start w-full rounded-[30px] p-4 border-[1px] text-black my-3'>
             <IoIosArrowDown
@@ -52,29 +58,68 @@ const EditBoxStructures = (props: any) => {
                             <select 
                             {...register(`structures.${fieldIndex}.structureId`, {
                                 required: {
-                                value: true,
-                                message:  'کد سازه را انتخاب کنید'
+                                value: false,
                                 }
                             })}
-                            className="select select-bordered form-input"
+                                className="select select-bordered form-input"
+                                // defaultValue={foundStr.name}
                             >
                             {
-                                filtered.map((structure: any) => (
-                                <option
-                                    defaultValue={structure.name}
-                                    value={structure.id}
-                                    key={structure.id}
-                                    id="typeName"
-                                    className='text-black'
-                                >
-                                {structure.name}
-                                </option>
-                                ))
+                                filtered.map((structure: any) => {
+                                    return(
+                                        <option
+                                            // defaultValue={foundStr.name}
+                                            selected
+                                            // defaultValue={item.structureId}
+                                            value={structure.id}
+                                            key={structure.id}
+                                            id="typeName"
+                                            className='text-black'
+                                        >
+                                        {structure.name}
+                                        </option>
+                                    )
+                                }
+                                )
                             }
                             </select>
                             <small className="text-xs text-rose-600 "> 
                             {errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}
                             </small>
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
+                            <DatePicker
+                                value={item.duration.startDate}
+                                inputClass='form-input'
+                                format='YYYY-MM-DD'
+                                calendar={persian}
+                                locale={persian_fa}
+                                calendarPosition="bottom-right"
+                                onChange={(val: any) => {
+                                    setValue(`structures.${fieldIndex}.duration.startDate`, val!!.toString() )
+                                    }
+                                }
+                            />
+                            <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
+                        </div>
+
+                        <div className='flex flex-col gap-3'>
+                            <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
+                            <DatePicker
+                                value={item.duration.endDate}
+                                inputClass='form-input'
+                                format='YYYY-MM-DD'
+                                calendar={persian}
+                                locale={persian_fa}
+                                calendarPosition="bottom-right"
+                                onChange={(val: any) => {
+                                    setValue(`structures.${fieldIndex}.duration.endDate`, val!!.toString() )
+                                    }
+                                }
+                            />
+                            <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
                         </div>
             
                         <div className='flex flex-col gap-3'>

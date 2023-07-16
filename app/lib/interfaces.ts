@@ -408,10 +408,6 @@ export interface AccessDeniedModalProps {
   handleModal: () => void
 }
 
-
-
-
-
 export interface StatusProps { 
   status: string
   bgColor: string
@@ -434,4 +430,20 @@ export interface CreateUpdateModalProps {
   handleModal: () => void
   type: string
   prop?: UserObject | NoteObject | StructureObject | undefined | any
+}
+
+// INITIALCUSTOMERS ===========================================================================
+export interface InitialCustomerObject {
+  _id? : string
+  id?: string
+  userId: string
+  name: string
+  createdAt: string
+  updatedAt: string
+}
+
+
+export interface DeleteInitialCustomerProps {
+  initialCustomer: InitialCustomerObject | undefined
+  handleModal: () => void
 }

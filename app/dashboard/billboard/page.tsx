@@ -14,7 +14,7 @@ const SummarySection = dynamic(
 const Billboard = () => {
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen w-full">
       <PageTitle name={'بیلبورد'} />
       <div className='flex flex-col gap-2'>
         <SummarySection />
@@ -28,8 +28,8 @@ const Billboard = () => {
                 main2={prop.main2}
                 mainLink={prop.mainLink}
                 main2Link={prop.main2Link}
-                subTitle={prop.subTitle}
-                subTitleLink={prop.subTitleLink}
+                subTitle={prop.subTitle!}
+                subTitleLink={prop.subTitleLink!}
               />
             ))
           }

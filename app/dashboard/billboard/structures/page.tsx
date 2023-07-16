@@ -47,18 +47,10 @@ const Structures = () => {
   const allStructures = useSelector(state => selectAllStructures(state))
   const allBoxes = useSelector(state => selectAllBoxes(state))
 
-  const findChosenStructures = () =>{
-    let inBoxStructures
-    allBoxes.map((box: any) => {
-      inBoxStructures = allStructures.filter((structure: any) => structure.parent === box.boxId)
-    })
-    return inBoxStructures
-  } 
-
   // console.log(findChosenStructures())
 
   // useEffect(() => {
-  //   const n1008 = allStructures.find((structure: any) => structure.name === "N1008")
+  //   const n1008 = allStructures.find((structure: any) => structure.name === "N1128")
   //   const update = async() => {
   //     await updateStructure({
   //       userId: n1008?.userId,
@@ -108,7 +100,7 @@ const Structures = () => {
     abc()
   }, [])
 
-  // console.log("STRS",allStructures)
+  console.log("STRS",allStructures)
   // console.log("BXS", allBoxes)
 
   if(isLoading) return <Loading/>

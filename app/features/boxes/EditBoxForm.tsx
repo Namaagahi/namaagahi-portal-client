@@ -33,7 +33,7 @@ const EditBoxForm = (props: EditBoxProps) => {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
   })
-
+ 
   const [updateBox, {
     isLoading,
     isSuccess,
@@ -55,7 +55,7 @@ const EditBoxForm = (props: EditBoxProps) => {
   const filtered = structures.filter((structure) => structure.isChosen === false)
 
   const [startDate, setStartDate] = useState<Value | any>(box?.duration.startDate) 
-  const [endDate, setEndDate] = useState<Value | any>(box?.duration.endDate) 
+  const [endDate, setEndDate] = useState<Value | any>(box?.duration.endDate)  
   const [isEditStructure, setIsEditStructure] = useState(false)
 
   const boxStructures: any = box?.structures?.map((structure: any) => ({
@@ -120,7 +120,7 @@ const EditBoxForm = (props: EditBoxProps) => {
   useEffect(() => {
     getValues("duration.startDate")
     getValues("duration.endDate")
-    setValue('duration.startDate',startDate!!.toString())
+    setValue('duration.startDate', startDate!!.toString())
     setValue('duration.endDate',  endDate!!.toString())
   }, [startDate, endDate])
 
@@ -135,21 +135,12 @@ const EditBoxForm = (props: EditBoxProps) => {
     return englishDate
   }
 
-  function convertToNumber(value: string | null): any {
-    const cleanedValue = value!.replace(/,/g, '')
-    const parsedValue = parseFloat(cleanedValue)
-  
-    if (isNaN(parsedValue)) {
-      return null
-    }
-    return parsedValue;
-  }
-
   const onSubmit = async(data: EditBoxForm) => {
+    // console.log("RHF DATA", data)
 
     const newData = {
       ...data,
-      structures: data.structures.map((structure) => ({
+      structures: data.structures.map((structure:any) => ({
         ...structure,
         marks: {
           ...structure.marks,
@@ -161,17 +152,47 @@ const EditBoxForm = (props: EditBoxProps) => {
             docSize: parseFloat(structure.marks.markOptions.docSize),
           },
         },
+        duration: {
+          startDate: convertToEnglishDate(structure.duration.startDate),
+          endDate: convertToEnglishDate(structure.duration.endDate),
+        },
         costs: {
           ...structure.costs,
           fixedCosts: {
             ...structure.costs.fixedCosts,
-            squareCost: convertToNumber(structure.costs.fixedCosts.squareCost),
+            squareCost: structure.costs.fixedCosts.squareCost
           }
         },
       })),
     }
 
-    console.log("RHF DATA", data)
+    newData.structures.forEach(async(structure) => {
+      structures.forEach(async(nonBoxStructure: any) => {
+        if(structure.structureId === nonBoxStructure.id){
+          // console.log(structure.structureId === nonBoxStructure.id)
+          await updateStructure({
+            userId: nonBoxStructure?.userId,
+            id: nonBoxStructure?.id,
+            name: nonBoxStructure?.name,
+            location: nonBoxStructure?.location,
+            isChosen: true,
+            isAvailable: true,
+            parent: newData.boxId
+          })
+        } else {
+          await updateStructure({
+            userId: nonBoxStructure?.userId,
+            id: nonBoxStructure?.id,
+            name: nonBoxStructure?.name,
+            location: nonBoxStructure?.location,
+            isChosen: false,
+            isAvailable: true,
+            parent: newData.boxId
+          })
+        }
+      })
+    })
+
     const foundUser = allUsers.find((user: any) => user.id === data.userId)
     const abc = await updateBox({
       id: box?.id,
@@ -189,19 +210,20 @@ const EditBoxForm = (props: EditBoxProps) => {
           ({ ...structure, costs: {
               ...structure.costs, variableCosts: structure.costs.variableCosts.map((varCost: any) => {
                 return(
-                  ({ ...varCost, figures: { monthlyCost: convertToNumber(varCost.figures.monthlyCost) } })
+                  ({ ...varCost, figures: { monthlyCost: varCost.figures.monthlyCost } })
                 )})
             } 
           })
         )
       })
     })
-    console.log("ABC", abc)
-    // handleModal()
+
+    // console.log("ABC", abc)
+    handleModal()
     toast.success(`باکس با موفقیت ویرایش شد.`)
   }
 
-  console.log("box",box)
+  // console.log("box",box)
   if(isLoading) return <Loading/>  
   
   return (
@@ -237,6 +259,7 @@ const EditBoxForm = (props: EditBoxProps) => {
               errors={errors}
               control={control}
               setValue={setValue}
+              structures={structures}
             />
           }
 

@@ -38,7 +38,6 @@
     "react-toastify": "^9.1.2",
     "tailwindcss": "3.3.2",
     "typescript": "5.0.4",
-    "universal-cookie": "^4.0.4",
     "webpack-env": "^0.8.0"
   },
   "devDependencies": {

@@ -5,6 +5,7 @@ import EditNote from "@/app/features/note/EditNote"
 import EditBox from "@/app/features/boxes/EditBox"
 import NewNote from "@/app/features/note/NewNote"
 import EditStructure from "@/app/features/structures/EditStructure"
+import NewInitialCustomerForm from "@/app/features/initialCustomers/NewInitialCustomerForm"
 
 const CreateUpdateModal = (props: CreateUpdateModalProps) => {
 
@@ -27,6 +28,8 @@ const CreateUpdateModal = (props: CreateUpdateModalProps) => {
                 <EditBox handleModal={handleModal} box={prop} />
                 : type === 'editStructure'? 
                 <EditStructure handleModal={handleModal} structure={prop} />
+                : type === 'newInitialCustomer'? 
+                <NewInitialCustomerForm handleModal={handleModal} />
                 : null
         }
       </div>     

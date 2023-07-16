@@ -1,7 +1,6 @@
 "use client"
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import { useGetUsersQuery } from "@/app/features/users/usersApiSlice"
-import AccessDenied from "@/app/components/main/AccessDenied"
 import { usersTableHeadings } from "@/app/lib/constants"
 import PageTitle from "@/app/components/main/PageTitle"
 import Button from "@/app/components/main/Button"

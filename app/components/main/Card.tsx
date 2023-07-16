@@ -22,10 +22,12 @@ const Card = (props: CardProps) => {
           <p>{main2}</p>
         </Link>
       }
-      <Link href={subTitleLink} className='flex items-center gap-2 pr-6 dark:hover:text-emerald-400 hover:text-lime-800 transition-all'>
-        <FaPlusCircle/>
-        <p>{subTitle}</p>
-      </Link>
+      {subTitle &&      
+        <Link href={subTitleLink || ''} className='flex items-center gap-2 pr-6 dark:hover:text-emerald-400 hover:text-lime-800 transition-all'>
+          <FaPlusCircle/>
+          <p>{subTitle}</p>
+        </Link>
+      }
   </div>
   )
 }

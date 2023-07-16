@@ -4,6 +4,7 @@ import DeleteUser from "@/app/features/users/DeleteUser"
 import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteBox from "@/app/features/boxes/DeleteBox"
 import { AiOutlineClose } from 'react-icons/ai'
+import DeleteInitialCustomer from "@/app/features/initialCustomers/DeleteInitialCustomer"
 
 const DeleteModalContent = (props: DeleteModalContentProps) => {
 
@@ -46,7 +47,13 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                     box={prop}
                     handleModal={handleModal}
                 />
-                : null
+                : 
+                deleteType === 'initialCustomer'?
+                <DeleteInitialCustomer
+                    initialCustomer={prop}
+                    handleModal={handleModal}
+            />
+            : null
             }
             
         </div>

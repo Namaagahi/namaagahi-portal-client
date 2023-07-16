@@ -15,13 +15,13 @@
 @layer components {
   /* CONTAINERS */
   .modal-container {
-    @apply fixed top-[50%] left-[50%] flex flex-col justify-center items-center z-[9999]
+    @apply fixed top-[50%] left-[50%] flex flex-col justify-center items-center z-[9999] overflow-hidden
   }
   .confirm-modal-content {
-    @apply py-5 px-8 w-full text-black dark:text-white
+    @apply py-5 px-8 w-full text-black dark:text-white 
   }
   .confirm-modal-content-container {
-    @apply fixed flex flex-col justify-center items-center w-[80%] lg:w-[33%] min-h-[30%] bg-white dark:bg-gray-800 rounded-3xl z-[1000]
+    @apply fixed flex flex-col justify-center items-center w-[80%] lg:w-[33%] min-h-[30%] bg-white dark:bg-gray-800 rounded-3xl z-[1000] 
   }
   .create-update-modal-content-container {
     @apply fixed flex flex-col justify-center items-center w-[80%] xl:w-[33%] md:w-[66%] min-h-[50%] bg-white dark:bg-gray-800 rounded-3xl z-[1000]

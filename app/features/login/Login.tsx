@@ -14,13 +14,12 @@ const Loading = dynamic(
 )
 
 const Login = () => {
-
+    
     const userRef = useRef<HTMLInputElement>(null)
     const errRef = useRef<HTMLInputElement>()
     const { push } = useRouter()
     const dispatch = useDispatch()
-
-
+    
     const [loginInfo, setLoginInfo] = useState({
         username: '',
         password: '', 
@@ -29,7 +28,9 @@ const Login = () => {
     const { username, password } = loginInfo
 
     const [login, { isLoading }] = useLoginMutation()
-    const token = useSelector(selectCurrentToken)
+
+
+    useEffect(() => {userRef.current?.focus()}, [])
     useEffect(() => {userRef.current?.focus()}, [])
     useEffect(() => {setLoginInfo({...loginInfo, errMsg:''})}, [username, password])
 
@@ -51,7 +52,7 @@ const Login = () => {
             else if(error.status === 400) setLoginInfo({...loginInfo, errMsg: 'نام کاربری و رمز عبور را وارد کنید.'})
             else if(error.status === 401) setLoginInfo({...loginInfo, errMsg: 'نام کاربری و یا رمز عبور اشتباه است.'})
             else setLoginInfo({...loginInfo, errMsg: error.data?.message})
-            
+
         }
         errRef.current?.focus()
     }
@@ -80,7 +81,6 @@ const Login = () => {
                         fill
                         loading="eager"
                         fetchPriority="high"
-                        // priority
                     />
                 </div>
 

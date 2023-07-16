@@ -7,7 +7,7 @@ import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
 import { UserObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
-
+ 
 const BoxBaseFormContent = (props:any) => {
     
     const { register, errors, box, handleStartDate, handleEndDate, allUsers } = props

@@ -44,7 +44,7 @@ export const boxRevenueHeadings = ['بهای تمام شده باکس', 'مجم�
 
 // STRUCTURES PAGE =======================================================
 export const structuresTableHeadings = [
-    'کاربر',
+    'کاربر ایجاد کننده',
     'کد سامانه',
     'منطقه',
     'مسیر', 
@@ -63,8 +63,16 @@ export const billboardPagePropsObject = [
         title: 'باکس',
         main:'مشاهده باکس ها',
         mainLink:'/dashboard/billboard/boxes', 
-        subTitle:'ایجاد باکس جدید', 
+        subTitle:'تعریف باکس جدید', 
         subTitleLink:'/dashboard/billboard/createbox'
+    },
+    {
+        id:1,
+        title: 'پلن',
+        main:'مشاهده پلن ها',
+        mainLink:'/dashboard/billboard/plans', 
+        subTitle:'تعریف پلن جدید', 
+        subTitleLink:'/dashboard/billboard/createplan'
     },
     {
         id:2,
@@ -73,8 +81,14 @@ export const billboardPagePropsObject = [
         main2:'مشاهده سازه های من',
         mainLink:'/dashboard/billboard/structures', 
         main2Link:'/dashboard/billboard/mystructures', 
-        subTitle:'ایجاد سازه جدید', 
+        subTitle:'تعریف سازه جدید', 
         subTitleLink:'/dashboard/billboard/createstructure',
+    },
+    {
+        id:3,
+        title: 'مشتری اولیه',
+        main:'صفحه مشتریان اولیه ',
+        mainLink:'/dashboard/billboard/initial-customers', 
     },
 ]
 
@@ -223,6 +237,20 @@ export const structureVariableCostsFormValues = {
   }
 }
 
+
+// NEW PLAN =======================================================
+export const newPlanDefaultValues = {
+  
+}
+
+// NEW PLAN =======================================================
+export const initialCustomerTableHeadings = [
+  'کاربر ایجاد کننده',
+  'نام مشتری',
+  'عملیات',
+  'تاریخ ایجاد',
+  'تاریخ به روزرسانی'
+]
 // MAP =======================================================
 export const MapData = [
 //   {
