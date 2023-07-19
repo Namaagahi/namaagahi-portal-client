@@ -50,7 +50,7 @@ const Structures = () => {
   // console.log(findChosenStructures())
 
   // useEffect(() => {
-  //   const n1008 = allStructures.find((structure: any) => structure.name === "N1128")
+  //   const n1008 = allStructures.find((structure: any) => structure.name === "N1434")
   //   const update = async() => {
   //     await updateStructure({
   //       userId: n1008?.userId,

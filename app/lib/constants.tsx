@@ -186,7 +186,8 @@ export const newBoxDefaultValues = {
           monthlyCost: ''
         }
       }]
-    }
+    },
+    monthlyBaseFee: ''
   }]
 }
 
@@ -224,7 +225,8 @@ export const boxStructureFormValues = {
         monthlyCost: ''
       }
     }]
-  }
+  },
+  monthlyBaseFee:''
 }
 
 // NEW BOX - VARIABLECOSTSFORMSECTION =======================================================

@@ -39,24 +39,12 @@ const CreateBox = () => {
               </button>
             </div>
           </div>
-      {
-        boxMark === 'owner' &&
-            <NewBox 
-              mark={boxMark}
-            />
-      }
-      {
-        boxMark === 'buyShort' &&
-            <NewBox 
-              mark={boxMark}
-            />
-      }
-      {
-        boxMark === 'buyLong' &&
-            <NewBox 
-              mark={boxMark}
-            />
-      }
+          {
+            boxMark &&
+              <NewBox 
+                mark={boxMark}
+              />
+          }
         </div>
       </main>
   )

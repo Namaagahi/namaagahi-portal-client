@@ -21,23 +21,25 @@ const DeleteBox = (props: DeleteBoxProps) => {
   const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
 
   const onDeleteBoxClick = async () => {
-
-  let found = {} as StructureObject | undefined
     box?.structures?.forEach((str: any) => {
-      found = structures.find((structure:any) => structure.id === str.structureId)
+      console.log("STR", str)
+      structures.forEach(async(structure: any) => {
+         console.log("structure", structure)
+        if(structure.isChosen && structure.id === str.structureId) 
+        await updateStructure({
+          userId: structure?.userId,
+          id: structure?.id,
+          name: structure?.name,
+          location: structure?.location,
+          isChosen: false,
+          isAvailable: true,
+          parent: ''
+        })
+      })
     })
-    await updateStructure({
-      userId: found?.userId,
-      id: found?.id,
-      name: found?.name,
-      location: found?.location,
-      isChosen: false,
-      isAvailable: true,
-      parent: ''
-    })
-      await deleteBox({ id: box?.id })
-      handleModal()
-      toast.success(`باکس ${box?.name} با موفقیت حذف شد`)
+    await deleteBox({ id: box?.id })
+    handleModal()
+    toast.success(`باکس ${box?.name} با موفقیت حذف شد`)
   }
   
   if(isLoading) return <Loading/>

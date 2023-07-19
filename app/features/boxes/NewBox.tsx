@@ -115,6 +115,7 @@ const NewBox = ({ mark }: { mark: string }) => {
             squareCost: convertToNumber(structure.costs.fixedCosts.squareCost),
           }
         },
+        monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
       })),
     }
 

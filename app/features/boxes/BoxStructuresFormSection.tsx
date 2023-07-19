@@ -29,7 +29,7 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
             className=" border-[1px] rounded-2xl flex flex-col items-end overflow-hidden border-primary bg-secondary w-full"
             key={item.id}
           >
-            <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-9 gap-4 lg:gap-2">
+            <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-10 gap-4 lg:gap-2">
               <div className='absolute right-0 top-0 min-h-[24px] w-4 rounded-b-[20px] bg-primary flex justify-center items-center font-bold text-white hover:scale-125 cursor-pointer transition-all'>
                 {fieldIndex + 1}
               </div>
@@ -244,6 +244,26 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
                 />
                 <small className="text-xs text-rose-600 ">
                   {(errors?.structures?.[fieldIndex]?.costs?.fixedCosts?.squareCost as FieldError)?.message}
+                </small>
+              </div>
+
+              <div className='flex flex-col gap-3'>
+                <label htmlFor="monthlyBaseFee" className='text-[#767676] font-bold'>تعرفه ماهیانه پایه</label>
+                <input
+                  {...register(`structures.${fieldIndex}.monthlyBaseFee`, {
+                    required: {
+                      value: true,
+                      message: "تعرفه ماهیانه پایه سازه را وارد کنید",
+                    },
+                  })}
+                  type="text"
+                  id="monthlyBaseFee"
+                  className="p-4 rounded-[50px] bg-white outline-none"
+                  // onWheel={(e: any) => e.target.blur()} 
+                  onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyBaseFee`)}
+                />
+                <small className="text-xs text-rose-600 ">
+                  {(errors?.structures?.[fieldIndex]?.monthlyBaseFee as FieldError)?.message}
                 </small>
               </div>
 

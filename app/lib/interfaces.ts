@@ -194,7 +194,8 @@ export interface AddBoxForm {
           monthlyCost: string | number
         }
       }[]
-    }
+    },
+    monthlyBaseFee : string
   }[]
 }
 
