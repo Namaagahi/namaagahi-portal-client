@@ -9,19 +9,15 @@ import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
 
 const InitialCustomer = ({ initialCustomerId }: { initialCustomerId: string }) => {
 
-    const {
-        data: users, 
-    } = useGetUsersQuery(undefined, { 
+    useGetUsersQuery(undefined, { 
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     }) 
 
-    const {
-        data: initialCustomers, 
-      } = useGetAllInitialCustomersQuery(undefined, { 
+    useGetAllInitialCustomersQuery(undefined, { 
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
-      }) 
+    }) 
 
     const allUsers: UserObject[] | any  = useSelector(selectAllUsers)
     const initialCustomer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, initialCustomerId))

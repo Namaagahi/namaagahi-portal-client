@@ -1,12 +1,12 @@
 import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
-import { StructureObject, StructuresFormSectionProps } from "@/app/lib/interfaces"
+import { StructureObject, BoxStructuresFormSectionProps } from "@/app/lib/interfaces"
 import { selectAllStructures } from "../structures/structuresApiSlice"
 import { AiFillPlusSquare, AiFillMinusSquare } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
 import { FieldError } from "react-hook-form"
 import { useSelector } from "react-redux"
 
-const StructuresFormSection = (props: StructuresFormSectionProps) => {
+const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
 
   const { register, errors, structuresField, appendStructure, removeStructure, control, setValue, convertToNumber } = props
 
@@ -275,4 +275,4 @@ const StructuresFormSection = (props: StructuresFormSectionProps) => {
   ) 
 }
 
-export default StructuresFormSection
+export default BoxStructuresFormSection

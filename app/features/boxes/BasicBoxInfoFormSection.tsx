@@ -1,9 +1,9 @@
-import { BasicInfoFormSectionProps } from '@/app/lib/interfaces'
+import { BasicBoxInfoFormSectionProps } from '@/app/lib/interfaces'
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
 import DatePicker from "react-multi-date-picker"
 
-const BasicInfoFormSection = (props: BasicInfoFormSectionProps) => {
+const BasicBoxInfoFormSection = (props: BasicBoxInfoFormSectionProps) => {
 
     const { register, errors, mark, handleStartDate, handleEndDate } = props
 
@@ -102,4 +102,4 @@ const BasicInfoFormSection = (props: BasicInfoFormSectionProps) => {
     )
 }
 
-export default BasicInfoFormSection
+export default BasicBoxInfoFormSection

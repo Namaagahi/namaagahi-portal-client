@@ -240,10 +240,27 @@ export const structureVariableCostsFormValues = {
 
 // NEW PLAN =======================================================
 export const newPlanDefaultValues = {
-  
+  name: '',
+  customerName: '',
+  brand: '',
+  structures: [{
+    structureId:'',
+    sellStart: '',
+    sellEnd: '',
+    monthlyFee: '',
+    discountFee: '',
+  }]
 }
 
-// NEW PLAN =======================================================
+export const planStructureFormValues: any = {
+  structureId: '',
+  sellStart: '',
+  sellEnd: '',
+  monthlyFee: '',
+  discountFee: '',
+}
+
+// INITIAL CUSTOMER =======================================================
 export const initialCustomerTableHeadings = [
   'کاربر ایجاد کننده',
   'نام مشتری',

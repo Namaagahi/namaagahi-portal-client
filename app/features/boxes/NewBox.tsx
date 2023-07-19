@@ -14,33 +14,28 @@ import { useSelector } from "react-redux"
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
 import dynamic from "next/dynamic"
-const BasicInfoFormSection = dynamic(
-  () => import('./BasicInfoFormSection'),
+const BasicBoxInfoFormSection = dynamic(
+  () => import('./BasicBoxInfoFormSection'),
   { ssr: false }
 )
-const StructuresFormSection = dynamic(
-  () => import('./StructuresFormSection'),
+const BoxStructuresFormSection = dynamic(
+  () => import('./BoxStructuresFormSection'),
   { ssr: false }
 )
 
 const NewBox = ({ mark }: { mark: string }) => {
 
-  const {
-    data: allBoxes
-  } = useGetAllBoxesQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
+  useGetAllBoxesQuery(undefined, {
+      refetchOnFocus: false,
+      refetchOnMountOrArgChange: false
   })
 
-  const { 
-    data: allStructures
-  } = useGetStructuresQuery(undefined, {
+  useGetStructuresQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
   })
 
   const structures = useSelector(state => selectAllStructures(state))
-  const boxes = useSelector(state => selectAllBoxes(state))
 
   const { id } = useAuth()  
 
@@ -186,7 +181,7 @@ const NewBox = ({ mark }: { mark: string }) => {
           onSubmit={handleSubmit(onSubmit)}
           className='w-full flex flex-col gap-9 justify-center'
         >
-          <BasicInfoFormSection 
+          <BasicBoxInfoFormSection 
             mark={mark}
             register={register}
             errors={errors}
@@ -194,7 +189,7 @@ const NewBox = ({ mark }: { mark: string }) => {
             handleEndDate={(val) => setEndDate(val)}
           />
 
-          <StructuresFormSection 
+          <BoxStructuresFormSection 
             register={register}
             errors={errors}
             structuresField={structuresField}

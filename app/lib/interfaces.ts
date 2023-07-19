@@ -1,6 +1,6 @@
 import { SerializedError } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from "react-hook-form"
+import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 import { Value } from "react-multi-date-picker"
 
 // USER ===========================================================================
@@ -351,7 +351,7 @@ export interface TitleProps {
   bulletSize: number
 }
 
-export interface BasicInfoFormSectionProps {
+export interface BasicBoxInfoFormSectionProps {
   handleStartDate: (val: Value) => void
   handleEndDate: (val: Value) =>void
   register: UseFormRegister<AddBoxForm>
@@ -364,7 +364,7 @@ export interface BoxItemProps {
   index: number 
 }
 
-export interface StructuresFormSectionProps { 
+export interface BoxStructuresFormSectionProps { 
   register: UseFormRegister<AddBoxForm>
   errors: FieldErrors<AddBoxForm>
   structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[]
@@ -442,6 +442,94 @@ export interface InitialCustomerObject {
   updatedAt: string
 }
 
+// PLANS ===========================================================================
+export interface CombinedStructure {
+  id? : string
+  _id? : string
+  structureId:string
+  name: string
+  parent: string
+  userId: string
+  username: string
+  costs: {
+    fixedCosts: {
+      squareCost: string
+      dailyCost?: number
+      monthlyCost?: number
+      periodCost?: number
+
+    }, 
+    variableCosts: {
+      _id?: string
+      name: string
+      figures: {
+        monthlyCost: number
+        periodCost?: number
+        dailyCost?: number
+      }
+    }[]
+    totalDailyCost?: number
+    totalMonthlyCost?: number
+    totalPeriodCost?: number
+  },
+  duration: {
+    startDate: string
+    endDate: string
+    diff?: number
+  }
+  isAvailable: boolean
+  isChosen: true
+  location: {
+    address: string
+    district: number
+    path: string
+  },
+  marks: {
+    name: string
+    markOptions: {
+      style: string
+      face: string
+      length: string
+      width: string
+      printSize: string
+      docSize: string
+    }
+  },
+  updatedAt: string
+  createdAt: string
+  monthlyFee?: number
+}
+
+export interface AddPlanForm {
+  name: string
+  customerName: string
+  brand: string
+  structures: {
+    structureId:string
+    sellStart: string
+    sellEnd: string
+    monthlyFee: string
+    discountFee: string
+  }[]
+}
+
+export interface BasicPlanInfoSectionProps {
+  register: UseFormRegister<AddPlanForm>
+  errors: FieldErrors<AddPlanForm>
+}
+
+export interface PlanStructuresFormSectionProps {
+  register: UseFormRegister<AddPlanForm>
+  errors: FieldErrors<AddPlanForm>
+  structuresField: FieldArrayWithId<AddPlanForm, "structures", "id">[]
+  removeStructure: UseFieldArrayRemove
+  appendStructure:  UseFieldArrayAppend<AddPlanForm, "structures">
+  watch: UseFormWatch<AddPlanForm>
+  convertToNumber: (value: string) => number | null
+  setValue: UseFormSetValue<AddPlanForm>
+  discountType: string
+  handleDiscountType: (val: string) =>void
+}
 
 export interface DeleteInitialCustomerProps {
   initialCustomer: InitialCustomerObject | undefined

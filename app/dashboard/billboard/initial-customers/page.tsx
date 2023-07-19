@@ -23,9 +23,7 @@ const InitialCustomers = () => {
     
     const {
         data: initialCustomers, 
-        isLoading,
         isSuccess,
-        isError,
       } = useGetAllInitialCustomersQuery(undefined, { 
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
@@ -35,13 +33,7 @@ const InitialCustomers = () => {
 
     const handleNewInitialCustomerModal = () => setIsNewInitialCustomer(!isNewInitialCustomer)
 
-    if(isLoading) return <Loading />
-
-    if(isError) return <p>ERROR</p>
-
-    if(isSuccess){
-
-        const { ids } = initialCustomers
+        const { ids } = initialCustomers ?? []
 
         const initialCustomerTableContent = ids?.length && ids.map((initialCustomerId: string) => <InitialCustomer key={initialCustomerId} initialCustomerId={initialCustomerId} />)
 
@@ -49,25 +41,28 @@ const InitialCustomers = () => {
             <>            
                 <main className="min-h-screen">
                     <PageTitle name={'مشتریان اولیه'} />
-                    <Table 
-                        tableContent = {initialCustomerTableContent}
-                        tableHeadings = {initialCustomerTableHeadings}
-                    />
+                    {isSuccess ?
+                      <Table 
+                          tableContent = {initialCustomerTableContent}
+                          tableHeadings = {initialCustomerTableHeadings}
+                      />
+                      :
+                      <p>هیچ مشتری اولیه ای تعریف نشده است</p>
+                    }
                     <Button 
-                        onClickHandler={handleNewInitialCustomerModal}
-                        title="مشتری اولیه جدید"
-                        />
+                      onClickHandler={handleNewInitialCustomerModal}
+                      title="مشتری اولیه جدید"
+                      />
                 </main>
                 {
-                    isNewInitialCustomer && 
-                        <CreateUpdateModal
-                        type={'newInitialCustomer'}
-                        handleModal={handleNewInitialCustomerModal}
-                        />
+                  isNewInitialCustomer && 
+                    <CreateUpdateModal
+                      type={'newInitialCustomer'}
+                      handleModal={handleNewInitialCustomerModal}
+                    />
                 }
             </>
         )
     }
-}
 
 export default InitialCustomers 
