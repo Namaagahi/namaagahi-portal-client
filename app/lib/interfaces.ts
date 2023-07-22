@@ -318,8 +318,8 @@ export interface CardProps {
   main2?: string
   mainLink: string
   main2Link?: string
-  subTitle: string
-  subTitleLink: string
+  subTitle?: string
+  subTitleLink?: string
 }
 
 export interface DeleteModalContentProps {
@@ -444,6 +444,33 @@ export interface InitialCustomerObject {
 }
 
 // PLANS ===========================================================================
+export interface PlanObject {
+  id? : string
+  _id?: string
+  __v?: number
+  planId: string
+  userId: string
+  username?: string
+  name: string
+  customerName: string
+  brand: string
+  status?: string
+  structures: {
+    _id?: string
+    structureId: string
+    discountFee: string
+    discountType: string
+    monthlyFee: number
+    monthlyFeeWithDiscount: number
+    duration: {
+      sellStart: string
+      sellEnd: string
+      diff?: number
+    }
+  }[]
+  createdAt: string
+  updatedAt: string
+}
 export interface CombinedStructure {
   id? : string
   _id? : string

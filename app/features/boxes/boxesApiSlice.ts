@@ -62,7 +62,7 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
                 body: { ...initialBox }
             }),
 
-            invalidatesTags: (result, error, arg) => [{ type: 'Note', id: arg.id }]
+            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id }]
         }),
 
         deleteBox: builder.mutation({

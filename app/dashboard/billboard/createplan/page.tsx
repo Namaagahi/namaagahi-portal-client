@@ -2,16 +2,28 @@
 import PageTitle from '@/app/components/main/PageTitle'
 import BasicPlanInfoSection from '@/app/features/plans/BasicPlanInfoSection'
 import PlanStructuresFormSection from '@/app/features/plans/PlanStructuresFormSection'
+import { useCreateNewPlanMutation } from '@/app/features/plans/plansApiSlice'
 import useAuth from '@/app/hooks/useAuth'
 import { newPlanDefaultValues } from '@/app/lib/constants'
 import { AddPlanForm } from '@/app/lib/interfaces'
-import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 
 const CreatePlan = () => {
 
   const { id } = useAuth()  
+
+  const [createNewPlan, {
+    isSuccess,
+    isError,
+    error
+}] = useCreateNewPlanMutation()
+
   const [discountType, setDiscountType] = useState('percentage')
+
+  const { push } = useRouter()
 
   const createPlanForm = useForm<AddPlanForm>({
     defaultValues: newPlanDefaultValues,
@@ -35,8 +47,8 @@ const CreatePlan = () => {
     return parsedValue;
   }
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const onSubmit = async(data: any) => {
+
     const newData = {
       ...data, 
       structures: data.structures.map((structure: any) => ({
@@ -46,6 +58,23 @@ const CreatePlan = () => {
       }))
     }
     console.log("newData",newData)
+    if(isError) {
+      'status' in error! && error.status === 409 && toast.error('این نام پلن قبلا ثبت شده است')
+      'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
+  }
+
+  await createNewPlan({
+      userId: id,
+      name: newData.name,
+      customerName: newData.customerName,
+      brand: newData.brand,
+      structures: newData.structures
+    })
+  }
+
+  if(isSuccess) {
+    toast.success(`پلن جدید با موفقیت ساخته شد.`)
+    push('/dashboard/billboard/plans')
   }
 
   return (
@@ -54,7 +83,6 @@ const CreatePlan = () => {
         <div className='flex flex-col gap-9 justify-center'>
         <form
           noValidate
-          // onChange={handleSubmit(onSubmit)}
           onSubmit={handleSubmit(onSubmit)}
           className='w-full flex flex-col gap-9 justify-center'
         >

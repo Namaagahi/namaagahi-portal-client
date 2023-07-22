@@ -239,7 +239,6 @@ export const structureVariableCostsFormValues = {
   }
 }
 
-
 // NEW PLAN =======================================================
 export const newPlanDefaultValues = {
   name: '',
@@ -268,6 +267,42 @@ export const planStructureFormValues: any = {
   discountFee: '',
   // monthlyBaseFee: ''
 }
+
+// PLANS =======================================================
+export const plansPagePropsObject = [
+  { 
+      id:1,
+      title: 'پلنهای پیشنهادی',
+      main:'مشاهده پلنهای پیشنهادی',
+      mainLink:'/dashboard/billboard/plans/suggested', 
+  },
+  { 
+      id:2,
+      title: 'پلنهای تایید شده',
+      main:'مشاهده پلنهای تایید شده',
+      mainLink:'/dashboard/billboard/plans/done', 
+  },
+  { 
+      id:2,
+      title: 'پلنهای رد شده',
+      main:'مشاهده پلنهای رد شده',
+      mainLink:'/dashboard/billboard/plans/rejected', 
+  },
+]
+
+// SINGLE PLAN =======================================================
+export const plansTableHeadings = [
+  'ردیف',
+  'کاربر ایجاد کننده',
+  'نام پلن',
+  'نام مشتری',
+  'برند',
+  'تعداد سازه',
+  'عملیات',
+  'وضعیت',
+  'تاریخ ایجاد',
+  'تاریخ به روزرسانی'
+]
 
 // INITIAL CUSTOMER =======================================================
 export const initialCustomerTableHeadings = [

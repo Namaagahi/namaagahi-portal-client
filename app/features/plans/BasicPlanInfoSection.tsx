@@ -9,7 +9,6 @@ const BasicPlanInfoSection = (props: BasicPlanInfoSectionProps) => {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     })
-
     
     const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
 
@@ -55,7 +54,7 @@ const BasicPlanInfoSection = (props: BasicPlanInfoSectionProps) => {
                         allInitialCustomers.map((initialCustomer: any, index: number) => (
                         <option
                             selected
-                            value={initialCustomer.name}
+                            value={initialCustomer.id}
                             key={index}
                             id="typeName"
                         >
