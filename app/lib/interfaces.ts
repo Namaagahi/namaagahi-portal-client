@@ -1,6 +1,6 @@
 import { SerializedError } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
+import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormGetValues, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
 import { Value } from "react-multi-date-picker"
 
 // USER ===========================================================================
@@ -496,6 +496,7 @@ export interface CombinedStructure {
       docSize: string
     }
   },
+  monthlyBaseFee: number
   updatedAt: string
   createdAt: string
   monthlyFee?: number
@@ -507,9 +508,12 @@ export interface AddPlanForm {
   brand: string
   structures: {
     structureId:string
-    sellStart: string
-    sellEnd: string
+    duration: {
+      sellStart: string | null
+      sellEnd: string | null
+    }
     monthlyFee: string
+    monthlyFeeWithDiscount: string
     discountFee: string
   }[]
 }
@@ -526,7 +530,8 @@ export interface PlanStructuresFormSectionProps {
   removeStructure: UseFieldArrayRemove
   appendStructure:  UseFieldArrayAppend<AddPlanForm, "structures">
   watch: UseFormWatch<AddPlanForm>
-  convertToNumber: (value: string) => number | null
+  convertToNumber: (value: string) => number 
+  getValues: UseFormGetValues<AddPlanForm>
   setValue: UseFormSetValue<AddPlanForm>
   discountType: string
   handleDiscountType: (val: string) =>void

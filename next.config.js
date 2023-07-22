@@ -2,8 +2,8 @@
 const nextConfig = {
     reactStrictMode: false,
     env: {
-        SERVER:'http://portal.namaagahi.com:3500',
-        // SERVER:"http://localhost:3500",
+        // SERVER:'http://portal.namaagahi.com:3500',
+        SERVER:"http://localhost:3500",
         TITLE:"پلتفرم اختصاصی نماآگهی"
       },
     images: {
@@ -12,7 +12,6 @@ const nextConfig = {
           protocol: 'https',
           hostname: 's8.uupload.ir',
           port: '',
-          // pathname: '/account123/**',
         },
       ],
     },

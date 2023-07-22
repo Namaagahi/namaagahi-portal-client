@@ -1,6 +1,6 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from "../structures/structuresApiSlice"
-import { selectAllBoxes, useCreateNewBoxMutation, useGetAllBoxesQuery } from "./boxesApiSlice"
+import { useCreateNewBoxMutation, useGetAllBoxesQuery } from "./boxesApiSlice"
 import { AddBoxForm } from "@/app/lib/interfaces"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"

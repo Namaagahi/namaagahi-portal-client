@@ -5,7 +5,7 @@ import PlanStructuresFormSection from '@/app/features/plans/PlanStructuresFormSe
 import useAuth from '@/app/hooks/useAuth'
 import { newPlanDefaultValues } from '@/app/lib/constants'
 import { AddPlanForm } from '@/app/lib/interfaces'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 
 const CreatePlan = () => {
@@ -25,7 +25,7 @@ const CreatePlan = () => {
     name: "structures",
   })
 
-  function convertToNumber(value: string | null): any {
+  function convertToNumber(value: string | null): any { 
     const cleanedValue = value!.replace(/,/g, '')
     const parsedValue = parseFloat(cleanedValue)
   
@@ -37,6 +37,15 @@ const CreatePlan = () => {
 
   const onSubmit = (data: any) => {
     console.log(data)
+    const newData = {
+      ...data, 
+      structures: data.structures.map((structure: any) => ({
+        ...structure,
+        monthlyFee: convertToNumber(structure.monthlyFee),
+        discountType: discountType
+      }))
+    }
+    console.log("newData",newData)
   }
 
   return (
@@ -62,6 +71,7 @@ const CreatePlan = () => {
             appendStructure={appendStructure}
             watch={watch}
             convertToNumber={convertToNumber}
+            getValues={getValues}
             setValue={setValue}
             discountType={discountType}
             handleDiscountType={(val: string) => setDiscountType(val)}

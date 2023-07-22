@@ -247,19 +247,26 @@ export const newPlanDefaultValues = {
   brand: '',
   structures: [{
     structureId:'',
-    sellStart: '',
-    sellEnd: '',
+    duration: {
+      sellStart: null,
+      sellEnd: null,
+    },
     monthlyFee: '',
+    monthlyFeeWithDiscount:'',
     discountFee: '',
   }]
 }
 
 export const planStructureFormValues: any = {
   structureId: '',
-  sellStart: '',
-  sellEnd: '',
+  duration: {
+    sellStart: null,
+    sellEnd: null,
+  },
   monthlyFee: '',
+  monthlyFeeWithDiscount:'',
   discountFee: '',
+  // monthlyBaseFee: ''
 }
 
 // INITIAL CUSTOMER =======================================================
