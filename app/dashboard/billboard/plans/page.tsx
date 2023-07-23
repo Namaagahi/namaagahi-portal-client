@@ -31,13 +31,8 @@ const Plans = () => {
         refetchOnReconnect: true,
     })
 
-    const allPlans = useSelector(state => selectAllPlans(state))
-
-    const suggestedPlans =  allPlans.filter((plan: any) => plan.status === 'suggested')
-    console.log(suggestedPlans)
-
     if(isLoading) return <Loading />
-
+    console.log(plans)
     if(isError) return (
 
         <div className='flex flex-col justify-center items-center min-h-screen gap-3'>

@@ -535,6 +535,7 @@ export interface AddPlanForm {
   brand: string
   structures: {
     structureId:string
+    structureRecord: CombinedStructure | {}
     duration: {
       sellStart: string | null
       sellEnd: string | null

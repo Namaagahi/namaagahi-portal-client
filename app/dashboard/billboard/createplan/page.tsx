@@ -5,9 +5,9 @@ import PlanStructuresFormSection from '@/app/features/plans/PlanStructuresFormSe
 import { useCreateNewPlanMutation } from '@/app/features/plans/plansApiSlice'
 import useAuth from '@/app/hooks/useAuth'
 import { newPlanDefaultValues } from '@/app/lib/constants'
-import { AddPlanForm } from '@/app/lib/interfaces'
+import { AddPlanForm, CombinedStructure } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
@@ -54,14 +54,10 @@ const CreatePlan = () => {
       structures: data.structures.map((structure: any) => ({
         ...structure,
         monthlyFee: convertToNumber(structure.monthlyFee),
+        monthlyFeeWithDiscount: convertToNumber(structure.monthlyFeeWithDiscount),
         discountType: discountType
       }))
     }
-    console.log("newData",newData)
-    if(isError) {
-      'status' in error! && error.status === 409 && toast.error('این نام پلن قبلا ثبت شده است')
-      'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
-  }
 
   await createNewPlan({
       userId: id,
@@ -70,7 +66,13 @@ const CreatePlan = () => {
       brand: newData.brand,
       structures: newData.structures
     })
+
   }
+
+  if(isError) {
+    'status' in error! && error.status === 409 && toast.error('این نام پلن قبلا ثبت شده است')
+    'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
+}
 
   if(isSuccess) {
     toast.success(`پلن جدید با موفقیت ساخته شد.`)

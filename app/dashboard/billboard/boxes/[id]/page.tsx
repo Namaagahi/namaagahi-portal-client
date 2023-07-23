@@ -28,16 +28,12 @@ const SingleBox = () => {
     const { id } = useParams()
     const [newBox, setNewBox] = useState<any>({})
 
-    const {
-        data: boxes
-    } = useGetAllBoxesQuery(undefined, {
+    useGetAllBoxesQuery(undefined, {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     })
 
-    const {
-        data: structures
-    } = useGetStructuresQuery(undefined, {
+    useGetStructuresQuery(undefined, {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     })
@@ -51,7 +47,7 @@ const SingleBox = () => {
           minimumFractionDigits: 0,
         }
         return number?.toLocaleString(undefined, options).replace(/,/g, separator);
-      }
+    }
 
     const calcVariableCosts = () => {
         const clone: any = []

@@ -246,6 +246,7 @@ export const newPlanDefaultValues = {
   brand: '',
   structures: [{
     structureId:'',
+    structureRecord: {},
     duration: {
       sellStart: null,
       sellEnd: null,
@@ -258,6 +259,7 @@ export const newPlanDefaultValues = {
 
 export const planStructureFormValues: any = {
   structureId: '',
+  structureRecord:'',
   duration: {
     sellStart: null,
     sellEnd: null,
@@ -301,7 +303,8 @@ export const plansTableHeadings = [
   'عملیات',
   'وضعیت',
   'تاریخ ایجاد',
-  'تاریخ به روزرسانی'
+  'تاریخ به روزرسانی',
+  ' '
 ]
 
 // INITIAL CUSTOMER =======================================================

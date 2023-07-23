@@ -14,6 +14,14 @@ const DiscountedMonthlyFee = (props: any) => {
         }
     }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
 
+    function formatNumber(number: number, separator: string): string {
+        const options = {
+          useGrouping: true,
+          minimumFractionDigits: 0,
+        }
+        return number?.toLocaleString(undefined, options).replace(/,/g, separator);
+    }
+
   return (
     <div className='flex flex-col gap-3'>
         <label htmlFor="discountedMothlyFee" className='text-[#767676] font-bold'>تعرفه ماهیانه نهایی</label>
@@ -24,13 +32,13 @@ const DiscountedMonthlyFee = (props: any) => {
         >
             {
                 selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && changeInput && discountType ==='percentage' ? 
-                convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100
+                formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
                 : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && changeInput && discountType ==='number' ? 
-                convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount)
+                formatNumber(convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount), ',')
                 : selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && !changeInput && discountType ==='percentage' ? 
-                selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount) ) / 100
+                formatNumber(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount) ) / 100, ',')
                 : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
-                selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount)
+                formatNumber(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
                 : ''
             }
         </p>

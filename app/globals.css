@@ -21,10 +21,10 @@
     @apply py-5 px-8 w-full text-black dark:text-white 
   }
   .confirm-modal-content-container {
-    @apply fixed flex flex-col justify-center items-center w-[80%] lg:w-[33%] min-h-[30%] bg-white dark:bg-gray-800 rounded-3xl z-[1000] 
+    @apply fixed flex flex-col justify-center items-center w-[80%] lg:w-[33%] min-h-[30%] bg-white dark:bg-gray-800  rounded-3xl z-[1000] 
   }
   .create-update-modal-content-container {
-    @apply fixed flex flex-col justify-center items-center w-[80%] xl:w-[33%] md:w-[66%] min-h-[50%] bg-white dark:bg-gray-800 rounded-3xl z-[1000]
+    @apply fixed flex flex-col justify-center items-center w-[80%] xl:w-[33%] md:w-[66%] min-h-[50%] bg-white dark:bg-gray-800 dark:text-white rounded-3xl z-[1000]
   }
   .backdrop-container {
     @apply fixed top-0 left-0 bottom-0 right-0 bg-black bg-opacity-70 z-[1000]
