@@ -5,6 +5,7 @@ import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteBox from "@/app/features/boxes/DeleteBox"
 import { AiOutlineClose } from 'react-icons/ai'
 import DeleteInitialCustomer from "@/app/features/initialCustomers/DeleteInitialCustomer"
+import DeletePlan from "@/app/features/plans/DeletePlan"
 
 const DeleteModalContent = (props: DeleteModalContentProps) => {
 
@@ -52,8 +53,12 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                 <DeleteInitialCustomer
                     initialCustomer={prop}
                     handleModal={handleModal}
-            />
-            : null
+                />
+                : deleteType === 'plan'?
+                <DeletePlan
+                    plan={prop}
+                    handleModal={handleModal}
+                /> : null
             }
             
         </div>

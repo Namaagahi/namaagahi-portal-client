@@ -565,6 +565,12 @@ export interface PlanStructuresFormSectionProps {
   handleDiscountType: (val: string) =>void
 }
 
+export interface DeletePlanProps {
+  plan: PlanObject | undefined
+  handleModal: () => void
+}
+
+// INITIALCUSTOMER ===========================================================================
 export interface DeleteInitialCustomerProps {
   initialCustomer: InitialCustomerObject | undefined
   handleModal: () => void

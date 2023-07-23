@@ -10,6 +10,7 @@ import Status from '@/app/components/main/Status'
 import Link from 'next/link'
 import Badge from '@/app/components/main/Badge'
 import Tooltip from '@/app/components/main/Tooltip'
+import ConfirmModal from '@/app/components/modals/ConfirmModal'
 
 
 const Plan = (props: any) => {
@@ -32,7 +33,7 @@ const Plan = (props: any) => {
     useGetAllInitialCustomersQuery(undefined, { 
         refetchOnFocus: false, 
         refetchOnMountOrArgChange: false
-    }) 
+    })  
 
     const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
     const plan: PlanObject | any = useSelector(state => selectPlanById(state, planId!))
@@ -120,6 +121,15 @@ const Plan = (props: any) => {
                             </td>
                         </Link>
                     </tr>
+                    {
+                    isDeletePlan && 
+                    <ConfirmModal 
+                        prop={plan} 
+                        handleModal={handleDeleteSPlan}
+                        type={'delete'} 
+                        deleteType="plan"
+                    /> 
+                }
             </>
         )
         } else return null
