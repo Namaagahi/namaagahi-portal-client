@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useReducer } from 'react'
 import {
     Column,
     Table,
@@ -131,6 +131,7 @@ const TableComponent = (props: any) => {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const rerender = useReducer(() => ({}), {})[1]
   
   const table = useReactTable({
       data,
@@ -168,64 +169,69 @@ const TableComponent = (props: any) => {
       />
     </div>
     <div className="h-2" />
-    <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
-    <thead className="table-heading text-center">
-      {table.getHeaderGroups().map(headerGroup => (
-        <tr key={headerGroup.id}>
-          {headerGroup.headers.map(header => {
+    <div className="relative overflow-x-auto mt-5 max-w-full">
+      <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
+        <thead className="table-heading text-center">
+          {table.getHeaderGroups().map(headerGroup => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map(header => {
+                console.log( header.getContext())
+                return (
+                  <th key={header.id} colSpan={header.colSpan}  className="px-6 py-3">
+                    {header.isPlaceholder ? null : (
+                      <>
+                        <div
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'cursor-pointer select-none'
+                              : '',
+                            onClick: header.column.getToggleSortingHandler(),
+                          }}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          {{
+                            asc: ' 🔼',
+                            desc: ' 🔽',
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                        {header.column.getCanFilter() ? (
+                          <div>
+                            <Filter column={header.column} table={table} />
+                          </div>
+                        ) : null}
+                      </>
+                    )}
+                  </th>
+                )
+              })}
+            </tr>
+          ))}
+        </thead>
+        <tbody>
+          {table.getRowModel().rows.map((row, index) => {
             return (
-              <th key={header.id} colSpan={header.colSpan}  className="px-6 py-3">
-                {header.isPlaceholder ? null : (
-                  <>
-                    <div
-                      {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
-                        onClick: header.column.getToggleSortingHandler(),
-                      }}
-                    >
+              <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
+                {row.getVisibleCells().map(cell => {
+                  return (
+                    <>
+                    <td key={cell.id}  className="px-6 py-4">
                       {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                        cell.column.columnDef.cell,
+                        cell.getContext()
                       )}
-                      {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
-                      }[header.column.getIsSorted() as string] ?? null}
-                    </div>
-                    {header.column.getCanFilter() ? (
-                      <div>
-                        <Filter column={header.column} table={table} />
-                      </div>
-                    ) : null}
-                  </>
-                )}
-              </th>
+                    </td>
+                    </>
+                  )
+                })}
+              </tr>
             )
           })}
-        </tr>
-      ))}
-    </thead>
-    <tbody>
-      {table.getRowModel().rows.map(row => {
-        return (
-          <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
-            {row.getVisibleCells().map(cell => {
-              return (
-                <td key={cell.id}  className="px-6 py-4">
-                  {flexRender(
-                    cell.column.columnDef.cell,
-                    cell.getContext()
-                  )}
-                </td>
-              )
-            })}
-          </tr>
-        )
-      })}
-    </tbody>
-  </table>
+        </tbody>
+      </table>
+
   <div className="h-2" />
     <div className="flex items-center gap-2">
       <button
@@ -289,6 +295,8 @@ const TableComponent = (props: any) => {
         ))}
       </select>
     </div>
+    {/* <button onClick={() => rerender()}>Force Rerender</button> */}
+  </div>
   </div>
   )
 }
