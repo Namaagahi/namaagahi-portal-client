@@ -24,7 +24,7 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
         validUserName: false,
         password: '',
         validPassWord: false,
-        roles: ['Planner'],
+        roles: ['پذیرشگر'],
         active: true
     })
     const { name, username, password, validUserName, validPassWord, roles, active } = newUserData
@@ -60,10 +60,21 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
     const canSave = [roles.length, validUserName, validPassWord].every(Boolean) && !isLoading
     const onSaveUserClick = async(e: any) => {
         e.preventDefault()
-        if(canSave) await addNewUser({ name, username, password, roles })
-        handleModal()
-        toast.success('کاربر جدید با موفقیت ساخته شد')
+        
+        if(canSave) {
+            if(isError) {
+                'status' in error! && error.status === 409 && toast.error('این نام کاربری قبلا ثبت شده است')
+                'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
+              }
+            const abc = await addNewUser({ name, username, password, roles })
+            console.log("ABC", abc)
+        }
     }
+
+    if(isSuccess) {
+        toast.success('کاربر جدید با موفقیت ساخته شد')
+        handleModal()
+      }
 
   return (
     <div className="py-5 px-8 w-full text-black dark:text-white">
