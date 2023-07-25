@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Image from 'next/image'
 import AccessDenied from '@/app/components/main/AccessDenied'
+import PageTitle from '@/app/components/main/PageTitle'
 
 const Users = () => {
 
@@ -175,9 +176,11 @@ if(isError) return (
     <p className='text-xl'>هیچ کاربری وجود ندارد</p>
   </div>
 )
+
 if(isAdmin) {
   return (
     <>    
+      <PageTitle name={'کاربران'} /> 
       <TableComponent 
         columns={columns}
         data={data}
@@ -216,7 +219,12 @@ if(isAdmin) {
       }
     </>
   )
-} else return <AccessDenied />
+} else return (
+  <>
+    <PageTitle name={'کاربران'} />
+    <AccessDenied />
+  </>
+)
 }
 
 export default Users

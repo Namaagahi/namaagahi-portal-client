@@ -257,6 +257,7 @@ export interface StructureObject {
   id? : string
   _id?: string
   userId: string
+  username? : string
   parent: string
   name : string
   location: {

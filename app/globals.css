@@ -12,6 +12,18 @@
   }
 }
 
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 @layer components {
   /* CONTAINERS */
   .modal-container {
@@ -34,6 +46,9 @@
   }
   .form-input {
     @apply p-3 text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080]
+  }
+  .table-input {
+    @apply  text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080] text-center text-xs
   }
   .input-create-page {
     @apply px-6 py-3 rounded-[50px] bg-white outline-none

@@ -42,7 +42,7 @@ import {
   
     return typeof firstValue === 'number' ? (
       <div>
-        <div className="flex space-x-2">
+        <div className="flex gap-2 items-center mt-1">
           <DebouncedInput
             type="number"
             min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
@@ -51,12 +51,12 @@ import {
             onChange={value =>
               column.setFilterValue((old: [number, number]) => [value, old?.[1]])
             }
-            placeholder={`Min ${
+            placeholder={`حداقل ${
               column.getFacetedMinMaxValues()?.[0]
                 ? `(${column.getFacetedMinMaxValues()?.[0]})`
                 : ''
             }`}
-            className="w-24 border shadow rounded"
+            className="table-input  w-[65px]"
           />
           <DebouncedInput
             type="number"
@@ -66,12 +66,12 @@ import {
             onChange={value =>
               column.setFilterValue((old: [number, number]) => [old?.[0], value])
             }
-            placeholder={`Max ${
+            placeholder={`حداکثر ${
               column.getFacetedMinMaxValues()?.[1]
                 ? `(${column.getFacetedMinMaxValues()?.[1]})`
                 : ''
             }`}
-            className="w-24 border shadow rounded"
+            className="table-input  w-[65px]"
           />
         </div>
         <div className="h-1" />
@@ -88,7 +88,7 @@ import {
           value={(columnFilterValue ?? '') as string}
           onChange={value => column.setFilterValue(value)}
           placeholder={`جستجو... (${column.getFacetedUniqueValues().size})`}
-          className="form-input"
+          className="table-input w-[65px]"
           list={column.id + 'list'}
         />
         <div className="h-1" />
@@ -159,24 +159,25 @@ const TableComponent = (props: any) => {
     })
 
   return (
+    <>
     <div className="p-2">
     <div>
       <DebouncedInput
         value={globalFilter ?? ''}
         onChange={value => setGlobalFilter(String(value))}
-        className="form-input"
+        className="table-input"
         placeholder="جستجو در کل جدول ..."
       />
     </div>
     <div className="h-2" />
-    <div className="relative overflow-x-auto mt-5 max-w-full">
+    <div className="relative overflow-x-auto scroll-smooth no-scrollbar mt-5 max-w-full">
       <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
         <thead className="table-heading text-center">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => {
                 return (
-                  <th key={header.id} colSpan={header.colSpan}  className="px-6 py-3">
+                  <th key={header.id} colSpan={header.colSpan}  className="px-2">
                     {header.isPlaceholder ? null : (
                       <>
                         <div
@@ -216,7 +217,7 @@ const TableComponent = (props: any) => {
                 {row.getVisibleCells().map(cell => {
                   return (
                     <>
-                    <td key={cell.id}  className="px-6 py-4">
+                    <td key={cell.id} >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -232,30 +233,33 @@ const TableComponent = (props: any) => {
       </table>
 
   <div className="h-2" />
+    {/* <button onClick={() => rerender()}>Force Rerender</button> */}
+  </div>
+  </div>
     <div className="flex items-center gap-2">
       <button
-        className="border rounded p-1"
+        className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
       >
         <AiOutlineDoubleRight />
       </button>
       <button
-        className="border rounded p-1"
+        className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
         <AiOutlineRight />
       </button>
       <button
-        className="border rounded p-1"
+        className={`${!table.getCanNextPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
         <AiOutlineLeft />
       </button>
       <button
-        className="border rounded p-1"
+        className={`${!table.getCanNextPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
       >
@@ -277,11 +281,11 @@ const TableComponent = (props: any) => {
             const page = e.target.value ? Number(e.target.value) - 1 : 0
             table.setPageIndex(page)
           }}
-          className="form-input"
+          className="table-input w-[65px]"
         />
       </span>
       <select
-      className='select select-bordered form-input'
+      className='select select-bordered table-input'
         value={table.getState().pagination.pageSize}
         onChange={e => {
           table.setPageSize(Number(e.target.value))
@@ -294,9 +298,7 @@ const TableComponent = (props: any) => {
         ))}
       </select>
     </div>
-    {/* <button onClick={() => rerender()}>Force Rerender</button> */}
-  </div>
-  </div>
+  </>
   )
 }
 
