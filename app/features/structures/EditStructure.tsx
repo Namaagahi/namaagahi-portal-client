@@ -9,6 +9,7 @@ const Loading = dynamic(
 const EditStructure = (props: EditStructureProps) => {
 
   const { handleModal, structure } = props
+  console.log("structure", structure)
 
   return (
     structure ? <EditStructureForm structure={structure} handleModal={handleModal} /> : <Loading />
