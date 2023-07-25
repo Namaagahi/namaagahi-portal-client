@@ -29,7 +29,7 @@ const Dashboard = () => {
         />
       </div>
       <Link href={instance.url!} download="test.pdf">
-      Download
+      Downlooad
     </Link>
     </main>
   )

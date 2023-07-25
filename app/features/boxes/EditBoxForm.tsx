@@ -136,7 +136,6 @@ const EditBoxForm = (props: EditBoxProps) => {
   }
 
   const onSubmit = async(data: EditBoxForm) => {
-    // console.log("RHF DATA", data)
 
     const newData = {
       ...data,
@@ -169,7 +168,6 @@ const EditBoxForm = (props: EditBoxProps) => {
     newData.structures.forEach(async(structure) => {
       structures.forEach(async(nonBoxStructure: any) => {
         if(structure.structureId === nonBoxStructure.id){
-          // console.log(structure.structureId === nonBoxStructure.id)
           await updateStructure({
             userId: nonBoxStructure?.userId,
             id: nonBoxStructure?.id,
@@ -218,12 +216,10 @@ const EditBoxForm = (props: EditBoxProps) => {
       })
     })
 
-    // console.log("ABC", abc)
     handleModal()
     toast.success(`باکس با موفقیت ویرایش شد.`)
   }
 
-  // console.log("box",box)
   if(isLoading) return <Loading/>  
   
   return (

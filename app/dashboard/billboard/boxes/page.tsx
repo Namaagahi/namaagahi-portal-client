@@ -39,7 +39,7 @@ const Boxes = () => {
       </p>
     </div>
   )
-// console.log(boxes)
+
   if(isSuccess){
 
     const { ids } = boxes

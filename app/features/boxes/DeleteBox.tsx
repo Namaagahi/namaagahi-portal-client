@@ -22,9 +22,7 @@ const DeleteBox = (props: DeleteBoxProps) => {
 
   const onDeleteBoxClick = async () => {
     box?.structures?.forEach((str: any) => {
-      console.log("STR", str)
       structures.forEach(async(structure: any) => {
-         console.log("structure", structure)
         if(structure.isChosen && structure.id === str.structureId) 
         await updateStructure({
           userId: structure?.userId,

@@ -35,7 +35,6 @@ const NewStructureForm = () => {
     if(isError) {
       'status' in error! && error.status === 409 && toast.error('این کد سامانه قبلا ثبت شده است')
       'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
-      console.log(error)
     }
     
     await addNewStructure({

@@ -1,26 +1,26 @@
 "use client"
-import { ColumnDef } from '@tanstack/react-table'
-import { useEffect, useMemo, useReducer, useState } from 'react'
-import TableComponent from '@/app/components/table/TableComponent'
 import { selectAllUsers, selectUserById, useGetUsersQuery } from '@/app/features/users/usersApiSlice'
-import Loading from '@/app/features/loading/Loading'
-import { useSelector } from 'react-redux'
-import { UserObject } from '@/app/lib/interfaces'
-import Image from 'next/image'
-import useAuth from '@/app/hooks/useAuth'
-import Status from '@/app/components/main/Status'
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
-import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
-import { EntityId } from '@reduxjs/toolkit'
+import TableComponent from '@/app/components/table/TableComponent'
+import ConfirmModal from '@/app/components/modals/ConfirmModal'
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import Loading from '@/app/features/loading/Loading'
+import { useEffect, useMemo, useState } from 'react'
+import { UserObject } from '@/app/lib/interfaces'
+import { ColumnDef } from '@tanstack/react-table'
+import Status from '@/app/components/main/Status'
 import Button from '@/app/components/main/Button'
+import { EntityId } from '@reduxjs/toolkit'
+import { useSelector } from 'react-redux'
+import useAuth from '@/app/hooks/useAuth'
+import Image from 'next/image'
+import AccessDenied from '@/app/components/main/AccessDenied'
 
-const Test = () => {
+const Users = () => {
 
   const { isAdmin } = useAuth()
 
   const {
-    data: users, 
     isLoading,
     isSuccess,
     isError,
@@ -43,9 +43,6 @@ const Test = () => {
   useEffect(() =>{
     setData(allUsers)
   }, [allUsers])
-
-  console.log("ALL USERS", allUsers)
-  console.log("user", user)
 
   const columns = useMemo<ColumnDef<UserObject, any>[]>(() => {
     return(
@@ -112,11 +109,13 @@ const Test = () => {
                       />
                     )
                   } else {
-                    <Status
-                      status = {'غیرفعال'}
-                      bgColor = {'#d96f85'}
-                      textColor = {'#2e030c'}
-                    />   
+                    return (
+                      <Status
+                        status = {'غیرفعال'}
+                        bgColor = {'#d96f85'}
+                        textColor = {'#2e030c'}
+                      />   
+                    )
                   }
                 } else {
                   return <p>دسترسی محدود شده</p>
@@ -170,6 +169,13 @@ const Test = () => {
 
 if(isLoading) return <Loading />
 
+if(isError) return (
+
+  <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
+    <p className='text-xl'>هیچ کاربری وجود ندارد</p>
+  </div>
+)
+if(isAdmin) {
   return (
     <>    
       <TableComponent 
@@ -210,6 +216,7 @@ if(isLoading) return <Loading />
       }
     </>
   )
+} else return <AccessDenied />
 }
 
-export default Test
+export default Users

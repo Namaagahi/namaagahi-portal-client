@@ -35,7 +35,6 @@ const EditBoxStructures = (props: any) => {
     
   return (
     field.map((item: any, fieldIndex: number) =>{
-        // console.log("ITEM", item)
         const foundStr = structures.find((structure: any) => structure.id === item.structureId)
         return (
         <div className='flex flex-col gap-8 items-start w-full rounded-[30px] p-4 border-[1px] text-black my-3'>

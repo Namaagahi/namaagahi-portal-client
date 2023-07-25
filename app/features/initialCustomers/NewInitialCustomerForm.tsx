@@ -60,7 +60,6 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
         if(data.error?.status === 400)
             setNewInitialCustomerData({...newInitialCustomerData, errorMsg: 'نام مشتری را وارد کنید.'})
     }
-    // console.log("initialCustomers", initialCustomers)
     
     if(isLoading) return <Loading />
     return (

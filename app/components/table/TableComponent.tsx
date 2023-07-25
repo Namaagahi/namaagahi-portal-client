@@ -175,7 +175,6 @@ const TableComponent = (props: any) => {
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => {
-                console.log( header.getContext())
                 return (
                   <th key={header.id} colSpan={header.colSpan}  className="px-6 py-3">
                     {header.isPlaceholder ? null : (

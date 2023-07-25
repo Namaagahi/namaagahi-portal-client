@@ -32,7 +32,7 @@ const Plans = () => {
     })
 
     if(isLoading) return <Loading />
-    console.log(plans)
+
     if(isError) return (
 
         <div className='flex flex-col justify-center items-center min-h-screen gap-3'>

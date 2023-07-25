@@ -80,8 +80,6 @@ const SingleBox = () => {
       }, [box])
 
     if(!newBox.id) return <Loading />
-    console.log("BOX", box)
-    // console.log("allStructures", allStructures)
 
     return ( 
         <>

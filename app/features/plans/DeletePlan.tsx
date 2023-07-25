@@ -7,7 +7,6 @@ import Loading from '../loading/Loading'
 const DeletePlan = (props: DeletePlanProps) => {
 
     const { plan, handleModal } = props
-    console.log("plan", plan)
     const [deletePlan, {
         isLoading, 
     }] = useDeletePlanMutation()
