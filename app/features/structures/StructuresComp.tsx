@@ -63,43 +63,44 @@ const Structures = (props: any) => {
         [
           {
             header: 'جدول سازه ها',
-            footer: props => props.column.id,
             columns: [
+              {
+                accessorKey: "_id",
+                accessorFn: row => row.id,
+                id: '_id',
+                cell: info => null,
+                header: () => null,
+              },
               {
                 accessorKey: 'username',
                 accessorFn: row => row.username,
                 id: 'کاربر ایجاد کننده',
                 cell: info => info.getValue(),
                 header: () => <span>کاربر ایجاد کننده</span>,
-                footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.name,
                 id: 'کد سامانه',
                 cell: info => info.getValue(),
                 header: () => <span>کد سامانه</span>,
-                footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.location.district,
                 id: 'منطقه',
                 cell: info => info.getValue(),
                 header: () => <span>منطقه</span>,
-                footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.location.path,
                 id: 'مسیر',
                 cell: info => info.getValue(),
                 header: () => <span>مسیر</span>,
-                footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.location.address,
                 id: 'آدرس',
                 cell: info => info.getValue(),
                 header: () => <span>نشانی</span>,
-                footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.isAvailable,
@@ -130,7 +131,6 @@ const Structures = (props: any) => {
                  
                 },
                 header: () => <span>وضعیت</span>,
-                footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.isChosen,
@@ -140,7 +140,7 @@ const Structures = (props: any) => {
                   // const structureBox: any = allBoxes.find((box: any) => box.boxId === structure?.parent)
                   return (
                     isChosen?
-                    <Link href={`/dashboard/billboard/boxes/${structureBox && structureBox.id}`}  target="_blank">
+                    <Link href={`/dashboard/billboard/boxes/${info.row.original.id}`}  target="_blank">
                       <Status
                         status = {structureBox ? structureBox?.name : "در باکس"}
                         bgColor = {'#00ff37'}
@@ -156,36 +156,32 @@ const Structures = (props: any) => {
                   ) 
                 },
                 header: () => <span>باکس</span>,
-                footer: props => props.column.id,
               },
               {
                 id: 'تاریخ ایجاد',
                 header: () => <span>تاریخ ایجاد</span>,
-                footer: props => props.column.id,
                 cell: (info) => {
                   const createdAt = info.getValue()
                   return (
-                    <td className="px-6 py-4">{moment(createdAt).format('jYYYY/jM/jD')}</td>
+                    <td className="px-6">{moment(createdAt).format('jYYYY/jM/jD')}</td>
                   )}
               },
               {
                 id: 'تاریخ ویرایش',
                 header: () => <span>تاریخ ویرایش</span>,
-                footer: props => props.column.id,
                 cell: (info) => {
                   const updatedAt = info.getValue()
                   return (
-                    <td className="px-6 py-4">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
+                    <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
                   )}
               },
               {
                 id: 'عملیات',
                 header: () => <span>عملیات</span>,
-                footer: props => props.column.id,
                 cell: (info) => {
                   const row = info.row.original;
                   return (
-                    <div className="px-6 py-4 flex items-center gap-2" onClick={() => setStructureId(row.id)}>
+                    <div className="px-6 flex items-center gap-2" onClick={() => setStructureId(row.id)}>
                         {isMediaManager && page === 'all' ?
                         <>
                             <AiFillEdit 

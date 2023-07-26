@@ -143,7 +143,7 @@ const TableComponent = (props: any) => {
       state: {
         columnFilters,
         globalFilter,
-        columnVisibility,
+        columnVisibility: {...columnVisibility, _id: false }
       },
       onColumnVisibilityChange: setColumnVisibility,
       onColumnFiltersChange: setColumnFilters,
@@ -179,35 +179,23 @@ const TableComponent = (props: any) => {
     <div className="h-2" />
     <div className="relative overflow-x-auto scroll-smooth no-scrollbar mt-5 max-w-full">
     <div className="flex items-center justify-between border p-1 shadow rounded mb-3">
-        <div className="px-1">
-          <label>
-            <input
-              {...{
-                type: 'checkbox',
-                checked: table.getIsAllColumnsVisible(),
-                onChange: table.getToggleAllColumnsVisibilityHandler(),
-              }}
-            />{' '}
-            نمایش همه
-          </label>
-        </div>
-        {table.getAllLeafColumns().map(column => {
-          console.log("COLUMN", column)
-          return (
-            <div key={column.id} className="px-1">
-              <label>
-                <input
-                  {...{
-                    type: 'checkbox',
-                    checked: column.getIsVisible(),
-                    onChange: column.getToggleVisibilityHandler(),
-                  }}
-                />{' '}
-                {column.id}
-              </label>
-            </div>
-          )
-        })}
+      {table.getAllLeafColumns().map(column => {
+        if(column.id === '_id') return
+        return (
+          <div key={column.id} className="px-1">
+            <label>
+              <input
+                {...{
+                  type: 'checkbox',
+                  checked: column.getIsVisible(),
+                  onChange: column.getToggleVisibilityHandler(),
+                }}
+              />{' '}
+              {column.id}
+            </label>
+          </div>
+        )
+      })}
       </div>
       <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
         <thead className="table-heading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
@@ -255,7 +243,7 @@ const TableComponent = (props: any) => {
                 {row.getVisibleCells().map(cell => {
                   return (
                     <>
-                    <td key={cell.id} >
+                    <td key={cell.id} className='py-2' >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

@@ -71,9 +71,9 @@ const PlansComp = (props: any) => {
               footer: props => props.column.id,
               columns: [
                 {
-                  accessorKey: 'آی دی',
+                  accessorKey: "_id",
                   accessorFn: row => row.id,
-                  id: 'id',
+                  id: '_id',
                   cell: info => null,
                   header: () => null,
                 },
@@ -139,19 +139,19 @@ const PlansComp = (props: any) => {
                     />
                     }
                     </td>
-                    )
-                   
+                    ) 
                   },
                   header: () => <span>وضعیت</span>,
                 },
                 {
                   id: 'تاریخ ایجاد',
                   header: () => <span>تاریخ ایجاد</span>,
-                  footer: props => props.column.id,
                   cell: (info) => {
                     const createdAt = info.getValue()
                     return (
-                      <td className="px-6 py-4">{moment(createdAt).format('jYYYY/jM/jD')}</td>
+                    <div className='flex justify-center'>
+                      <td className="px-6">{moment(createdAt).format('jYYYY/jM/jD')}</td>
+                    </div>
                     )}
                 },
                 {
@@ -161,7 +161,9 @@ const PlansComp = (props: any) => {
                     const updatedAt = info.getValue()
                     console.log("updatedAt", updatedAt)
                     return (
-                      <td className="px-6 py-4">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
+                    <div className='flex justify-center'>
+                      <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
+                    </div>
                     )}
                 },
                 {
@@ -208,7 +210,7 @@ const PlansComp = (props: any) => {
                     cell: ({row}) => {
                       return (
                         <Link href={`/dashboard/billboard/plans/${row.original.id}`} target="_blank">
-                            <td className=" py-4 cursor-pointer transition-all">
+                            <td className=" cursor-pointer transition-all">
                                 <Status
                                     status = {'مشاهده '}
                                     bgColor = {'#34ebc9'}
@@ -225,7 +227,7 @@ const PlansComp = (props: any) => {
       },
       []
     )
-    console.log("plan", plan)
+
     if(isLoading) return <Loading />
   
     if(isError) return (

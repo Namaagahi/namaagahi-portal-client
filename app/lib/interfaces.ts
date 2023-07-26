@@ -439,6 +439,7 @@ export interface InitialCustomerObject {
   _id? : string
   id?: string
   userId: string
+  username?: string
   name: string
   createdAt: string
   updatedAt: string

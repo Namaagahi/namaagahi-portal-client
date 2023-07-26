@@ -58,24 +58,25 @@ const Users = () => {
               id: 'آواتار',
               cell: info => {
                 const avatar = info.getValue();
-                return avatar ? <Image src={avatar} alt="avatar" width={35} height={35} /> : null;
+                return (
+                  <div className='flex justify-center'>
+                    <Image src={avatar} alt="avatar" width={35} height={35}  /> 
+                  </div>
+                ) 
               },
               header: () => <span>آواتار</span>,
-              footer: props => props.column.id,
             },
             {
               accessorFn: row => row.name,
               id: 'نام',
               cell: info => info.getValue(),
               header: () => <span>نام</span>,
-              footer: props => props.column.id,
             },
             {
               accessorFn: row => row.username,
               id: 'نام کاربری',
               cell: info => info.getValue(),
               header: () => <span>نام کاربری</span>,
-              footer: props => props.column.id,
             },
             {
               accessorFn: row => row.roles,
@@ -93,7 +94,6 @@ const Users = () => {
                 }
               },
               header: () => <span>سطح دسترسی</span>,
-              footer: props => props.column.id,
             },
             {
               accessorFn: row => row.active,
@@ -124,18 +124,16 @@ const Users = () => {
                
               },
               header: () => <span>وضعیت</span>,
-              footer: props => props.column.id,
             },
             {
               id: 'عملیات',
               header: () => <span>عملیات</span>,
-              footer: props => props.column.id,
               cell: (info) => {
                 const row = info.row.original;
                 return (
                   <>
                   {isAdmin?
-                    <td className="px-6 flex items-center gap-5" onClick={() => setUserId(row.id)}>
+                    <td className="px-6 flex items-center justify-center gap-5" onClick={() => setUserId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit
                           className="text-black dark:text-white hover:scale-125 transition-all"
