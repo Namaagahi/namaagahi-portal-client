@@ -112,7 +112,7 @@ const Plan = (props: any) => {
                         <td className="px-6 py-4">{moment(plan.createdAt).format('jYYYY/jM/jD')}</td>
                         <td className="px-6 py-4">{moment(plan.updatedAt).format('jYYYY/jM/jD')}</td>
                         <Link href={`/dashboard/billboard/plans/${plan.id}`} target="_blank">
-                            <td className=" py-4 cursor-pointer transition-all hover:scale-125">
+                            <td className=" py-4 cursor-pointer transition-all hover:text-white">
                                 <Status
                                     status = {'مشاهده '}
                                     bgColor = {'#34ebc9'}

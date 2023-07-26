@@ -131,6 +131,7 @@ const TableComponent = (props: any) => {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
+  const [columnVisibility, setColumnVisibility] = React.useState({})
   const rerender = useReducer(() => ({}), {})[1]
   
   const table = useReactTable({
@@ -142,7 +143,9 @@ const TableComponent = (props: any) => {
       state: {
         columnFilters,
         globalFilter,
+        columnVisibility,
       },
+      onColumnVisibilityChange: setColumnVisibility,
       onColumnFiltersChange: setColumnFilters,
       onGlobalFilterChange: setGlobalFilter,
       globalFilterFn: fuzzyFilter,
@@ -158,6 +161,10 @@ const TableComponent = (props: any) => {
       debugColumns: false,
     })
 
+    useEffect(() => {
+
+    },[])
+
   return (
     <>
     <div className="p-2">
@@ -171,8 +178,39 @@ const TableComponent = (props: any) => {
     </div>
     <div className="h-2" />
     <div className="relative overflow-x-auto scroll-smooth no-scrollbar mt-5 max-w-full">
+    <div className="flex items-center justify-between border p-1 shadow rounded mb-3">
+        <div className="px-1">
+          <label>
+            <input
+              {...{
+                type: 'checkbox',
+                checked: table.getIsAllColumnsVisible(),
+                onChange: table.getToggleAllColumnsVisibilityHandler(),
+              }}
+            />{' '}
+            نمایش همه
+          </label>
+        </div>
+        {table.getAllLeafColumns().map(column => {
+          console.log("COLUMN", column)
+          return (
+            <div key={column.id} className="px-1">
+              <label>
+                <input
+                  {...{
+                    type: 'checkbox',
+                    checked: column.getIsVisible(),
+                    onChange: column.getToggleVisibilityHandler(),
+                  }}
+                />{' '}
+                {column.id}
+              </label>
+            </div>
+          )
+        })}
+      </div>
       <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
-        <thead className="table-heading text-center">
+        <thead className="table-heading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map(header => {

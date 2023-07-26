@@ -55,7 +55,7 @@ const Users = () => {
             {
               accessorKey: 'avatar',
               accessorFn: row => row.avatar,
-              id: 'avatar',
+              id: 'آواتار',
               cell: info => {
                 const avatar = info.getValue();
                 return avatar ? <Image src={avatar} alt="avatar" width={35} height={35} /> : null;
@@ -65,21 +65,21 @@ const Users = () => {
             },
             {
               accessorFn: row => row.name,
-              id: 'name',
+              id: 'نام',
               cell: info => info.getValue(),
               header: () => <span>نام</span>,
               footer: props => props.column.id,
             },
             {
               accessorFn: row => row.username,
-              id: 'username',
+              id: 'نام کاربری',
               cell: info => info.getValue(),
               header: () => <span>نام کاربری</span>,
               footer: props => props.column.id,
             },
             {
               accessorFn: row => row.roles,
-              id: 'role',
+              id: 'سطح دسترسی',
               cell: info => {
                 const roles = info.getValue();
                 if (roles?.includes('ادمین')) {
@@ -97,7 +97,7 @@ const Users = () => {
             },
             {
               accessorFn: row => row.active,
-              id: 'active',
+              id: 'وضعیت',
               cell: info => {
                 const active = info.getValue();
                 if(isAdmin) {
@@ -127,7 +127,7 @@ const Users = () => {
               footer: props => props.column.id,
             },
             {
-              id: 'actions',
+              id: 'عملیات',
               header: () => <span>عملیات</span>,
               footer: props => props.column.id,
               cell: (info) => {
@@ -135,7 +135,7 @@ const Users = () => {
                 return (
                   <>
                   {isAdmin?
-                    <td className="px-6 py-4 flex items-center gap-5" onClick={() => setUserId(row.id)}>
+                    <td className="px-6 flex items-center gap-5" onClick={() => setUserId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit
                           className="text-black dark:text-white hover:scale-125 transition-all"

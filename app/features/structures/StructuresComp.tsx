@@ -68,42 +68,42 @@ const Structures = (props: any) => {
               {
                 accessorKey: 'username',
                 accessorFn: row => row.username,
-                id: 'username',
+                id: 'کاربر ایجاد کننده',
                 cell: info => info.getValue(),
                 header: () => <span>کاربر ایجاد کننده</span>,
                 footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.name,
-                id: 'name',
+                id: 'کد سامانه',
                 cell: info => info.getValue(),
                 header: () => <span>کد سامانه</span>,
                 footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.location.district,
-                id: 'district',
+                id: 'منطقه',
                 cell: info => info.getValue(),
                 header: () => <span>منطقه</span>,
                 footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.location.path,
-                id: 'path',
+                id: 'مسیر',
                 cell: info => info.getValue(),
                 header: () => <span>مسیر</span>,
                 footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.location.address,
-                id: 'address',
+                id: 'آدرس',
                 cell: info => info.getValue(),
                 header: () => <span>نشانی</span>,
                 footer: props => props.column.id,
               },
               {
                 accessorFn: row => row.isAvailable,
-                id: 'isAvailable',
+                id: 'وضعیت',
                 cell: info => {
                   const isAvailable = info.getValue();
                   if(isAdmin) {
@@ -134,7 +134,7 @@ const Structures = (props: any) => {
               },
               {
                 accessorFn: row => row.isChosen,
-                id: 'isChosen',
+                id: 'باکس',
                 cell: info => {
                   const isChosen = info.getValue();
                   // const structureBox: any = allBoxes.find((box: any) => box.boxId === structure?.parent)
@@ -159,7 +159,7 @@ const Structures = (props: any) => {
                 footer: props => props.column.id,
               },
               {
-                id: 'createdAt',
+                id: 'تاریخ ایجاد',
                 header: () => <span>تاریخ ایجاد</span>,
                 footer: props => props.column.id,
                 cell: (info) => {
@@ -169,7 +169,7 @@ const Structures = (props: any) => {
                   )}
               },
               {
-                id: 'updatedAt',
+                id: 'تاریخ ویرایش',
                 header: () => <span>تاریخ ویرایش</span>,
                 footer: props => props.column.id,
                 cell: (info) => {
@@ -179,7 +179,7 @@ const Structures = (props: any) => {
                   )}
               },
               {
-                id: 'actions',
+                id: 'عملیات',
                 header: () => <span>عملیات</span>,
                 footer: props => props.column.id,
                 cell: (info) => {
