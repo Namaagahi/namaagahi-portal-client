@@ -103,25 +103,7 @@ export interface DeleteNoteProps {
 }
 
 // BOX ===========================================================================
-export interface BoxObject {
-  id? : string
-  _id: string
-  boxId: string
-  userId: string
-  name: string
-  mark: {
-    name: string
-    markOptions: {
-      projectNumber?: string
-      brand?: string
-    }
-  }
-  duration: {
-    startDate: Date
-    endDate: Date
-    diff?: number
-  }
-  structures: {
+export interface BoxStructure {
     id? : string
     structureId:string
     marks: {
@@ -134,6 +116,11 @@ export interface BoxObject {
         printSize: string
         docSize: string
       }
+    },
+    duration: {
+      startDate: Date
+      endDate: Date
+      diff?: number
     },
     costs: {
       fixedCosts: {
@@ -152,12 +139,36 @@ export interface BoxObject {
           dailyCost?: number
         }
       }[]
+      dailyVariableCost?:number
       totalDailyCost?: number
       totalMonthlyCost?: number
       totalPeriodCost?: number
 
+    },
+    myCustomCost?: {
+      [key: string]: number
     }
-  }[]
+}
+
+export interface BoxObject {
+  id? : string
+  _id: string
+  boxId: string
+  userId: string
+  name: string
+  mark: {
+    name: string
+    markOptions: {
+      projectNumber?: string
+      brand?: string
+    }
+  }
+  duration: {
+    startDate: Date
+    endDate: Date
+    diff?: number
+  }
+  structures: BoxStructure[]
   updatedAt: string
   username: string
 }

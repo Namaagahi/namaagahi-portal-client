@@ -42,7 +42,7 @@ import {
   
     return typeof firstValue === 'number' ? (
       <div>
-        <div className="flex gap-2 items-center mt-1">
+        <div className="flex gap-2 items-center justify-center mt-1">
           <DebouncedInput
             type="number"
             min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
@@ -177,8 +177,8 @@ const TableComponent = (props: any) => {
       />
     </div>
     <div className="h-2" />
-    <div className="relative overflow-x-auto scroll-smooth no-scrollbar mt-5 max-w-full">
-    <div className="flex items-center justify-between border p-1 shadow rounded mb-3">
+    <div className="relative overflow-x-auto scroll-smooth mt-5 max-w-full">
+    <div className="w-full flex items-center justify-between border p-1 shadow rounded mb-3 text-xs text-red-500">
       {table.getAllLeafColumns().map(column => {
         if(column.id === '_id') return
         return (

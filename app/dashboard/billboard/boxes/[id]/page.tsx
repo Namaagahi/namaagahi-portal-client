@@ -1,18 +1,19 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
 import { selectBoxById, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import { BoxObject, BoxStructure, StructureObject } from '@/app/lib/interfaces'
 import UnderConstruction from '@/app/components/main/UnderConstruction'
 import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'
-import { BoxObject, StructureObject } from '@/app/lib/interfaces'
-import { boxStructureHeadings } from '@/app/lib/constants'
+import TableComponent from '@/app/components/table/TableComponent'
 import { variableCostNames2 } from '@/app/lib/constants'
 import PageTitle from '@/app/components/main/PageTitle'
-import Tooltip from '@/app/components/main/Tooltip'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { ColumnDef } from '@tanstack/react-table'
 import { useParams } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
+import Tooltip from '@/app/components/main/Tooltip'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -22,11 +23,13 @@ const Table = dynamic(
     { ssr: false }
   )
 
-const SingleBox = () => {
+const SingleBox = () => { 
 
-    const { isAdmin } = useAuth()
+    const { isAdmin, isMediaManager } = useAuth()
     const { id } = useParams()
     const [newBox, setNewBox] = useState<any>({})
+    const [data, setData] = useState<BoxStructure | any>([])
+    const [loading, setLoading] = useState(true)
 
     useGetAllBoxesQuery(undefined, {
         refetchOnFocus: false,
@@ -77,9 +80,267 @@ const SingleBox = () => {
 
       useEffect(() => {
         if(box) calcVariableCosts()
+        setLoading(false)
       }, [box])
 
-    if(!newBox.id) return <Loading />
+      useEffect(() =>{
+        if(newBox) setData(newBox?.structures)
+      }, [newBox])
+
+    const columns = useMemo<ColumnDef<BoxStructure, any>[]>(() => {
+        return(
+        [
+            {
+            header: `جدول باکس`,
+            columns: [
+                {
+                accessorKey: "_id",
+                accessorFn: row => row.id,
+                id: '_id',
+                cell: info => null,
+                header: () => null,
+                },
+                {
+                accessorFn: row => row.structureId,
+                id: 'کد سامانه',
+                cell: info => {
+                    const structureId = info.getValue()
+                    const str = allStructures.find(rawStructure => rawStructure.id === structureId)
+                        return str?.name         
+                },
+                header: () => <span>کد سامانه</span>,
+                },
+                {
+                accessorFn: row => row.marks.name,
+                id: 'نوع سازه',
+                cell: info => info.getValue(),
+                header: () => <span>نوع سازه</span>,
+                },
+                {
+                accessorFn: row => row.structureId,
+                id: 'مسیر',
+                cell: info => {
+                    const structureId = info.getValue()
+                    const str = allStructures.find(rawStructure => rawStructure.id === structureId)
+                        return str?.location.path      
+                },
+                header: () => <span>مسیر</span>,
+                },
+                {
+                accessorFn: row => row.structureId,
+                id: 'آدرس',
+                cell: info => {
+                    const structureId = info.getValue()
+                    const str = allStructures.find(rawStructure => rawStructure.id === structureId)
+                        return (
+                            <Tooltip tooltipText={str?.location.address} orientation='left'>
+                                <div>{str?.location.address.slice(0, 8)}...</div>
+                            </Tooltip>
+                        )  
+                },
+                header: () => <span>آدرس</span>,
+                },
+                {
+                accessorFn: row => row.duration.startDate,
+                id: 'تاریخ شروع',
+                cell: info => info.getValue(),
+                header: () => <span>تاریخ شروع</span>,
+                },
+                {
+                accessorFn: row => row.duration.endDate,
+                id: 'تاریخ پایان',
+                cell: info => info.getValue(),
+                header: () => <span>تاریخ پایان</span>,
+                },
+                {
+                accessorFn: row => row.duration.diff,
+                id: 'طول دوره',
+                cell: info => info.getValue(),
+                header: () => <span>طول دوره</span>,
+                },
+                {
+                accessorFn: row => row.marks.markOptions.style,
+                id: 'تیپ',
+                cell: info => info.getValue(),
+                header: () => <span>تیپ</span>,
+                },
+                {
+                accessorFn: row => row.marks.markOptions.face,
+                id: 'وجه',
+                cell: info => info.getValue(),
+                header: () => <span>وجه</span>,
+                },
+                {
+                accessorFn: row => row.marks.markOptions.length,
+                id: 'طول',
+                cell: info => info.getValue(),
+                header: () => <span>طول</span>,
+                },
+                {
+                accessorFn: row => row.marks.markOptions.width,
+                id: 'عرض',
+                cell: info => info.getValue(),
+                header: () => <span>عرض</span>,
+                },
+                {
+                accessorFn: row => row.marks.markOptions.printSize,
+                id: 'متراژ چاپ',
+                cell: info => info.getValue(),
+                header: () => <span>متراژ چاپ</span>,
+                },
+                {
+                accessorFn: row => row.marks.markOptions.docSize,
+                id: 'متراژ واقعی',
+                cell: info => info.getValue(),
+                header: () => <span>متراژ واقعی</span>,
+                },
+                {
+                accessorFn: row => row.costs.fixedCosts.squareCost,
+                id: 'تمام شده متر مربع',
+                cell: info => {
+                    const squareCost = info.getValue()
+                    return formatNumber(squareCost, ',') 
+                },
+                header: () => <span>تمام شده متر مربع</span>,
+                },
+                {
+                accessorFn: row => row.costs.fixedCosts.dailyCost,
+                id: 'تمام شده روزانه',
+                cell: info => {
+                    const dailyCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(dailyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    )
+                },
+                header: () => <span>تمام شده روزانه</span>,
+                },
+                {
+                accessorFn: row => row.costs.fixedCosts.monthlyCost,
+                id: 'تمام شده ماهیانه',
+                cell: info => {
+                    const monthlyCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(monthlyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    )
+                },
+                header: () => <span>تمام شده ماهیانه</span>,
+                },
+                {
+                accessorFn: row => row.costs.fixedCosts.periodCost,
+                id: 'تمام شده دوره',
+                cell: info => {
+                    const periodCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(periodCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    )
+                },
+                header: () => <span>تمام شده دوره</span>,
+                },
+                {
+                accessorFn: row => row.myCustomCost,
+                id: `${variableCostNames2[0]}`,
+                cell: info => {
+                    const myCustomCost = info.getValue()
+                    return formatNumber(myCustomCost[variableCostNames2[0]], ',')
+                },
+                header: () => <span>{variableCostNames2[0]}</span>,
+                },
+                {
+                accessorFn: row => row.myCustomCost,
+                id: `${variableCostNames2[1]}`,
+                cell: info => {
+                    const myCustomCost = info.getValue()
+                    return formatNumber(myCustomCost[variableCostNames2[1]], ',')
+                },
+                header: () => <span>{variableCostNames2[1]}</span>,
+                },
+                {
+                accessorFn: row => row.myCustomCost,
+                id: `${variableCostNames2[2]}`,
+                cell: info => {
+                    const myCustomCost = info.getValue()
+                    return formatNumber(myCustomCost[variableCostNames2[2]], ',')
+                },
+                header: () => <span>{variableCostNames2[2]}</span>,
+                },
+                {
+                accessorFn: row => row.myCustomCost,
+                id: `${variableCostNames2[3]}`,
+                cell: info => {
+                    const myCustomCost = info.getValue()
+                    return formatNumber(myCustomCost[variableCostNames2[3]], ',')
+                },
+                header: () => <span>{variableCostNames2[3]}</span>,
+                },
+                {
+                accessorFn: row => row.myCustomCost,
+                id: `${variableCostNames2[4]}`,
+                cell: info => {
+                    const myCustomCost = info.getValue()
+                    return formatNumber(myCustomCost[variableCostNames2[4]], ',')
+                },
+                header: () => <span>{variableCostNames2[4]}</span>,
+                },
+                {
+                accessorFn: row => row.costs.dailyVariableCost,
+                id: 'جمع هزینه سربار روزانه',
+                cell: info => {
+                    const dailyVariableCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(dailyVariableCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    ) 
+                },
+                header: () => <span>جمع هزینه سربار روزانه</span>,
+                },
+                {
+                accessorFn: row => row.costs.totalDailyCost,
+                id: 'هزینه روزانه کل',
+                cell: info => {
+                    const totalDailyCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(totalDailyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    ) 
+                },
+                header: () => <span>هزینه روزانه کل</span>,
+                },
+                {
+                accessorFn: row => row.costs.totalMonthlyCost,
+                id: 'هزینه ماهیانه کل',
+                cell: info => {
+                    const totalMonthlyCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(totalMonthlyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    )
+                },
+                header: () => <span>هزینه ماهیانه کل</span>,
+                },
+                {
+                accessorFn: row => row.costs.totalPeriodCost,
+                id: 'هزینه دوره کل',
+                cell: info => {
+                    const totalPeriodCost = info.getValue()
+                    return (
+                        (isAdmin || isMediaManager) ?
+                        formatNumber(totalPeriodCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                    )
+                },
+                header: () => <span>هزینه دوره کل</span>,
+                },
+            ],
+            }
+        ]
+        )
+    },
+    []
+    )
+
+    if(!data || loading) return <Loading />
 
     return ( 
         <>
@@ -93,54 +354,10 @@ const SingleBox = () => {
                             />
                             <small className=" mt-2 text-black px-2">خرید</small>
                             <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black w-full">
-                                <Table  
-                                    tableHeadings={boxStructureHeadings}
-                                    tableContent={
-                                        newBox.structures.map((structure: any, index: number) => {
-                                            const str = allStructures.find(rawStructure => rawStructure.id === structure.structureId)
-                                            return( 
-                                                <>
-                                                <tr key={str?._id}>                
-                                                    <td className="px-1 text-center py-4">{index + 1}</td>
-                                                    <td className="px-6 py-4">{str?.name}</td>
-                                                    <td className="px-2 py-4">{structure.marks.name}</td>
-                                                    <td className="px-6 py-4">{str?.location.path}</td>
-                                                    <Tooltip
-                                                        tooltipText={str?.location.address}
-                                                        orientation='left'
-                                                    >
-                                                        <td className="px-2 py-4">{`${str?.location.address.slice(0,10)}...`}</td>
-                                                    </Tooltip>
-                                                    <td className="px-6 py-4">{structure.duration.startDate}</td>
-                                                    <td className="px-6 py-4">{structure.duration.endDate}</td>
-                                                    <td className="px-6 py-4">{structure.duration.diff}</td>
-                                                    <td className="px-6 py-4">{structure.marks.markOptions.style}</td>
-                                                    <td className="px-6 py-4">{structure.marks.markOptions.face}</td>
-                                                    <td className="px-6 py-4">{structure.marks.markOptions.length}</td>
-                                                    <td className="px-6 py-4">{structure.marks.markOptions.width}</td>
-                                                    <td className="px-6 py-4">{structure.marks.markOptions.printSize}</td>
-                                                    <td className="px-6 py-4">{structure.marks.markOptions.docSize}</td>
-                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.squareCost, ',')}</td>
-                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.dailyCost, ',')}</td>
-                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600">{formatNumber(structure.costs.fixedCosts.monthlyCost, ',')}</td>
-                                                    <td className="px-6 py-4 bg-rose-300 text-gray-600 font-bold">{formatNumber(structure.costs.fixedCosts.periodCost, ',')}</td>
-                                                    {
-                                                        variableCostNames2.map((varName) => {
-                                                           return <td className="px-6 py-4 bg-amber-300">{formatNumber(structure.myCustomCost[varName], ',')}</td>
-                                                        })
-                                                    }
-                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.dailyVariableCost, ',')}</td>
-                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.totalDailyCost, ',')}</td>
-                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.totalMonthlyCost, ',')}</td>
-                                                    <td className="px-6 py-4 bg-red-900 text-gray-100">{formatNumber(structure.costs.totalPeriodCost, ',')}</td>
-                                                    
-                                                </tr>
-                                 
-                                                </>
-                                                )
-                                        })
-                                    }
-                                />
+                            <TableComponent 
+                                columns={columns}
+                                data={data}
+                            />
                             </div>
 
                             <small className=" mt-2 text-black px-2">فروش</small>

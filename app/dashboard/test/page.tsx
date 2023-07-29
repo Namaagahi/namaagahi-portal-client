@@ -1,10 +1,10 @@
-import PlansComp from '@/app/features/plans/PlansComp'
-import React from 'react'
+"use client"
 
-const page = () => {
-  return (
-    <PlansComp page={'all'} />
-  )
+const Test = () => {
+
+    return ( 
+      <></>
+    )
 }
 
-export default page
+export default Test
