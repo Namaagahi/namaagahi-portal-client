@@ -124,7 +124,7 @@ const NewBox = ({ mark }: { mark: string }) => {
         'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
     }
 
-   await createNewBox({
+    const abc = await createNewBox({
       boxId: newData.boxId,
       userId: id,
       name: newData.name,
@@ -164,6 +164,7 @@ const NewBox = ({ mark }: { mark: string }) => {
             isAvailable: true,
             parent: newData.boxId
           })
+          console.log("abc", abc)
         }
       })
     })
@@ -171,7 +172,7 @@ const NewBox = ({ mark }: { mark: string }) => {
 
   if(isSuccess) {
     toast.success(`باکس جدید با موفقیت ساخته شد.`)
-    push('/dashboard/billboard/boxes')
+    // push('/dashboard/billboard/boxes')
   }
 
     return (

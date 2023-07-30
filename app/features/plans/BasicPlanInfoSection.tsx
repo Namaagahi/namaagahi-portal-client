@@ -1,11 +1,16 @@
 import { BasicPlanInfoSectionProps } from "@/app/lib/interfaces"
 import { useGetStructuresQuery } from "../structures/structuresApiSlice"
 import { useSelector } from "react-redux"
-import { selectAllInitialCustomers } from "../initialCustomers/initialCustomersApiSlice"
+import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from "../initialCustomers/initialCustomersApiSlice"
 
 const BasicPlanInfoSection = (props: BasicPlanInfoSectionProps) => {
 
     useGetStructuresQuery(undefined, {
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
+    })
+
+    useGetAllInitialCustomersQuery(undefined, {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     })

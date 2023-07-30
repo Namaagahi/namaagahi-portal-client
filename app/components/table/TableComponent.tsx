@@ -42,7 +42,7 @@ import {
   
     return typeof firstValue === 'number' ? (
       <div>
-        <div className="flex gap-2 items-center justify-center mt-1">
+        {/* <div className="flex gap-2 items-center justify-center mt-1">
           <DebouncedInput
             type="number"
             min={Number(column.getFacetedMinMaxValues()?.[0] ?? '')}
@@ -73,7 +73,7 @@ import {
             }`}
             className="table-input  w-[65px]"
           />
-        </div>
+        </div> */}
         <div className="h-1" />
       </div>
     ) : (
@@ -178,7 +178,7 @@ const TableComponent = (props: any) => {
     </div>
     <div className="h-2" />
     <div className="relative overflow-x-auto scroll-smooth mt-5 max-w-full">
-    <div className="w-full flex items-center justify-between border p-1 shadow rounded mb-3 text-xs text-red-500">
+    <div className="w-full flex items-center justify-between border p-1 shadow rounded mb-3 text-xs">
       {table.getAllLeafColumns().map(column => {
         if(column.id === '_id') return
         return (
@@ -243,7 +243,7 @@ const TableComponent = (props: any) => {
                 {row.getVisibleCells().map(cell => {
                   return (
                     <>
-                    <td key={cell.id} className='py-2' >
+                    <td key={cell.id} className='py-2 px-2' >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

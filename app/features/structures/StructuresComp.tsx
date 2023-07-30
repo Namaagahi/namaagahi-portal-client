@@ -25,7 +25,6 @@ const Structures = (props: any) => {
 
     const { 
       isLoading,
-      isSuccess, 
       isError,
     } = useGetStructuresQuery(undefined, {
       refetchOnFocus: false,

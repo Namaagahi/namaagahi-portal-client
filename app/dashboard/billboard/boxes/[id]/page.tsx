@@ -8,18 +8,14 @@ import TableComponent from '@/app/components/table/TableComponent'
 import { variableCostNames2 } from '@/app/lib/constants'
 import PageTitle from '@/app/components/main/PageTitle'
 import { useEffect, useMemo, useState } from 'react'
+import Tooltip from '@/app/components/main/Tooltip'
 import { ColumnDef } from '@tanstack/react-table'
 import { useParams } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
-import Tooltip from '@/app/components/main/Tooltip'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
-    { ssr: false }
-  )
-const Table = dynamic(
-    () => import('@/app/components/main/Table'),
     { ssr: false }
   )
 
@@ -91,7 +87,7 @@ const SingleBox = () => {
         return(
         [
             {
-            header: `جدول باکس`,
+            header: ' ',
             columns: [
                 {
                 accessorKey: "_id",
@@ -354,10 +350,10 @@ const SingleBox = () => {
                             />
                             <small className=" mt-2 text-black px-2">خرید</small>
                             <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black w-full">
-                            <TableComponent 
-                                columns={columns}
-                                data={data}
-                            />
+                                <TableComponent 
+                                    columns={columns}
+                                    data={data}
+                                />
                             </div>
 
                             <small className=" mt-2 text-black px-2">فروش</small>

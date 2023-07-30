@@ -559,6 +559,20 @@ export interface AddPlanForm {
   }[]
 }
 
+export interface PlanStructure {
+  discountType: string
+  structureId:string
+  structureRecord: CombinedStructure 
+  duration: {
+    sellStart: string | null
+    sellEnd: string | null
+    diff: number
+  }
+  monthlyFee: string
+  monthlyFeeWithDiscount: string
+  discountFee: string
+}[]
+
 export interface BasicPlanInfoSectionProps {
   register: UseFormRegister<AddPlanForm>
   errors: FieldErrors<AddPlanForm>

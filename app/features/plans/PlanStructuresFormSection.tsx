@@ -45,7 +45,7 @@ const PlanStructuresFormSection = (props: PlanStructuresFormSectionProps) => {
     )
     const combinedStructures: CombinedStructure[] = boxStructures.map((boxStructure: CombinedStructure) => ({
     ...boxStructure,
-    ...(chosenStructuresLookup[boxStructure.structureId] || null),
+    ...(chosenStructuresLookup[boxStructure.structureId]),
     }))
       
     useEffect(() => {
@@ -72,7 +72,8 @@ const PlanStructuresFormSection = (props: PlanStructuresFormSectionProps) => {
         })
         return englishDate
     }
-
+console.log("combinedStructures", combinedStructures)
+console.log("allStructures", allStructures)
     if(isLoading) return <Loading />
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>

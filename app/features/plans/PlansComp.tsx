@@ -26,7 +26,6 @@ const PlansComp = (props: any) => {
   
     const { 
       isLoading,
-      isSuccess, 
       isError,
     } = useGetAllPlansQuery(undefined, {
       refetchOnFocus: false,
@@ -48,7 +47,6 @@ const PlansComp = (props: any) => {
     const allPlans: PlanObject[] | unknown = useSelector(state => selectAllPlans(state))
     const plan: PlanObject | any = useSelector(state => selectPlanById(state, planId!))
     const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
-    const allBoxes: any = useSelector(state => selectAllBoxes(state))
     const [isEditPlan, setIsEditPlan] = useState(false)
     const [isDeletePlan, setIsDeletePlan] = useState(false)
     const handleEditPlan = () => setIsEditPlan(!isEditPlan)

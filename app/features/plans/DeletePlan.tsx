@@ -7,14 +7,16 @@ import Loading from '../loading/Loading'
 const DeletePlan = (props: DeletePlanProps) => {
 
     const { plan, handleModal } = props
+    
     const [deletePlan, {
         isLoading, 
     }] = useDeletePlanMutation()
 
     const onDeletePlanClick = async () => {
-        await deletePlan({ id: plan?.id })
+        const abc = await deletePlan({ id: plan?.id })
         handleModal()
         toast.success(`پلن  ${plan?.name} با موفقیت حذف شد`)
+        console.log("ABC", abc)
     }
 
   if(isLoading) return <Loading/>
