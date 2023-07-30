@@ -33,7 +33,7 @@ const Boxes = () => {
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
       <p className='text-xl'>هیچ باکسی وجود ندارد</p>
       <p>برای ایجاد باکس جدید 
-        <Link href={'/dashboard/billboard/createbox'}>
+        <Link href={'/dashboard/billboard/boxes/createbox'}>
           <span className='text-cyan-300'>کلیک کنید</span>
         </Link>
       </p>

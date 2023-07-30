@@ -64,7 +64,7 @@ export const billboardPagePropsObject = [
         main:'مشاهده باکس ها',
         mainLink:'/dashboard/billboard/boxes', 
         subTitle:'تعریف باکس جدید', 
-        subTitleLink:'/dashboard/billboard/createbox'
+        subTitleLink:'/dashboard/billboard/boxes/createbox'
     },
     {
         id:1,
@@ -72,7 +72,7 @@ export const billboardPagePropsObject = [
         main:'مشاهده پلن ها',
         mainLink:'/dashboard/billboard/plans', 
         subTitle:'تعریف پلن جدید', 
-        subTitleLink:'/dashboard/billboard/createplan'
+        subTitleLink:'/dashboard/billboard/plans/createplan'
     },
     {
         id:2,
@@ -80,9 +80,9 @@ export const billboardPagePropsObject = [
         main:'مشاهده سازه ها',
         main2:'مشاهده سازه های من',
         mainLink:'/dashboard/billboard/structures', 
-        main2Link:'/dashboard/billboard/mystructures', 
+        main2Link:'/dashboard/billboard/structures/mystructures', 
         subTitle:'تعریف سازه جدید', 
-        subTitleLink:'/dashboard/billboard/createstructure',
+        subTitleLink:'/dashboard/billboard/structures/createstructure',
     },
     {
         id:3,

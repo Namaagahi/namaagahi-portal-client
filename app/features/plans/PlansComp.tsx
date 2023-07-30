@@ -1,22 +1,22 @@
 "use client"
+import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../initialCustomers/initialCustomersApiSlice'
 import { selectAllPlans, selectPlanById, useGetAllPlansQuery } from '@/app/features/plans/plansApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
+import { useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useMemo, useState } from 'react'
-import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import { ColumnDef } from '@tanstack/react-table'
 import Status from '@/app/components/main/Status'
 import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
-import PageTitle from '@/app/components/main/PageTitle'
 import moment from 'jalali-moment'
 import Link from 'next/link'
-import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
-import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../initialCustomers/initialCustomersApiSlice'
 
 const PlansComp = (props: any) => {
 
@@ -43,7 +43,6 @@ const PlansComp = (props: any) => {
     })
 
     const [planId, setPlanId] = useState<string | any | EntityId>('')
-    const [customer, setCustomer] = useState<InitialCustomerObject | any>()
     const allPlans: PlanObject[] | unknown = useSelector(state => selectAllPlans(state))
     const plan: PlanObject | any = useSelector(state => selectPlanById(state, planId!))
     const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
@@ -57,10 +56,6 @@ const PlansComp = (props: any) => {
         setData(allPlans)
       }, [allPlans])
       
-      useEffect(() =>{
-        setCustomer(allInitialCustomers.find((customer: any) => customer.id === plan?.customerName))
-      }, [planId])
-
     const columns = useMemo<ColumnDef<PlanObject, any>[]>(() => {
         return(
           [
@@ -92,9 +87,9 @@ const PlansComp = (props: any) => {
                   accessorFn: row => row.customerName,
                   id: 'مشتری',
                   cell: info => {
+                    const customer: InitialCustomerObject | any = allInitialCustomers.find((customer: any) => customer.id === info.getValue());
                     return(
-                        <td className="px-6 py-4">{customer}</td>
-
+                        <div>{customer?.name}</div>
                     )
                   },
                   header: () => <span>نام مشتری</span>,
@@ -117,7 +112,7 @@ const PlansComp = (props: any) => {
                   cell: info => {
                     const status = info.getValue();
                     return(
-                        <td className="px-6 py-4">
+                        <div>
                         {status === 'suggested'?
                         <Status
                             status = {'پیشنهادی '}
@@ -136,12 +131,13 @@ const PlansComp = (props: any) => {
                         textColor = {'#ffc5b3'}
                     />
                     }
-                    </td>
+                    </div>
                     ) 
                   },
                   header: () => <span>وضعیت</span>,
                 },
                 {
+                  accessorFn: row => row.createdAt,
                   id: 'تاریخ ایجاد',
                   header: () => <span>تاریخ ایجاد</span>,
                   cell: (info) => {
@@ -153,11 +149,11 @@ const PlansComp = (props: any) => {
                     )}
                 },
                 {
+                  accessorFn: row => row.updatedAt,
                   id: 'تاریخ ویرایش',
                   header: () => <span>تاریخ ویرایش</span>,
                   cell: (info) => {
                     const updatedAt = info.getValue()
-                    console.log("updatedAt", updatedAt)
                     return (
                     <div className='flex justify-center'>
                       <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
@@ -170,33 +166,33 @@ const PlansComp = (props: any) => {
                   cell: (info) => {
                     const row = info.row.original;
                     return (
-                      <div className="px-6 py-4 flex items-center gap-2" onClick={() => setPlanId(row.id)}>
-                          {isMediaManager && page === 'all' ?
+                      <div className="flex items-center justify-center gap-2" onClick={() => setPlanId(row.id)}>
+                          {(isMediaManager || isAdmin) && page === 'all' ?
                           <>
-                              <AiFillEdit 
-                                  className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
-                                  onClick={handleEditPlan}
-                              />
-                          
-                              <AiFillDelete 
-                                  className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
-                                  onClick={handleDeletePlan}    
-                              />
+                            <AiFillEdit 
+                              className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
+                              onClick={handleEditPlan}
+                            />
+                        
+                            <AiFillDelete 
+                              className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
+                              onClick={handleDeletePlan}    
+                            />
                           </>
                           : page === 'all' &&
                           <p>دسترسی محدود</p>
                           }
                           {page === 'my' &&
                           <>
-                              <AiFillEdit 
-                                  className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
-                                  onClick={handleEditPlan}
-                              />
-                          
-                              <AiFillDelete 
-                                  className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
-                                  onClick={handleDeletePlan}    
-                              />
+                            <AiFillEdit 
+                              className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
+                              onClick={handleEditPlan}
+                            />
+                        
+                            <AiFillDelete 
+                              className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
+                              onClick={handleDeletePlan}    
+                            />
                           </>
                           }
                       </div>
@@ -226,12 +222,19 @@ const PlansComp = (props: any) => {
       []
     )
 
-    if(isLoading) return <Loading />
+    console.log("allPlans", allPlans)
+
+    if(isLoading) return <Loading /> 
   
     if(isError) return (
-    
+
       <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
         <p className='text-xl'>هیچ پلنی وجود ندارد</p>
+        <p>برای ایجاد پلن جدید 
+          <Link href={'/dashboard/billboard/plans/createplan'}>
+            <span className='text-cyan-300'>کلیک کنید</span>
+          </Link>
+        </p>
       </div>
     )
     

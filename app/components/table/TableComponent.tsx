@@ -143,7 +143,7 @@ const TableComponent = (props: any) => {
       state: {
         columnFilters,
         globalFilter,
-        columnVisibility: {...columnVisibility, _id: false }
+        columnVisibility: {...columnVisibility, _id: false, parent: false }
       },
       onColumnVisibilityChange: setColumnVisibility,
       onColumnFiltersChange: setColumnFilters,
@@ -180,7 +180,7 @@ const TableComponent = (props: any) => {
     <div className="relative overflow-x-auto scroll-smooth mt-5 max-w-full">
     <div className="w-full flex items-center justify-between border p-1 shadow rounded mb-3 text-xs">
       {table.getAllLeafColumns().map(column => {
-        if(column.id === '_id') return
+        if(column.id === '_id' || column.id === 'parent') return
         return (
           <div key={column.id} className="px-1">
             <label>
@@ -256,13 +256,29 @@ const TableComponent = (props: any) => {
             )
           })}
         </tbody>
+        <tfoot>
+          {table.getFooterGroups().map(footerGroup => (
+            <tr key={footerGroup.id}>
+              {footerGroup.headers.map(header => (
+                <th key={header.id} colSpan={header.colSpan}>
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </tfoot>
       </table>
 
   <div className="h-2" />
-    {/* <button onClick={() => rerender()}>Force Rerender</button> */}
+    <button onClick={() => rerender()}>Force Rerender</button>
   </div>
   </div>
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 mt-2">
       <button
         className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
         onClick={() => table.setPageIndex(0)}

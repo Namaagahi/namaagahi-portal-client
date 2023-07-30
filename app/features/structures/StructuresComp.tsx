@@ -37,7 +37,6 @@ const Structures = (props: any) => {
     })
   
     const [structureId, setStructureId] = useState<string | any | EntityId>('')
-    const [structureBox, setStructureBox] = useState<StructureObject | undefined>()
     const allStructures: StructureObject[] | unknown = useSelector(state => selectAllStructures(state))
     const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
     const allBoxes: any = useSelector(state => selectAllBoxes(state))
@@ -50,12 +49,6 @@ const Structures = (props: any) => {
     useEffect(() =>{
       setData(allStructures)
     }, [allStructures])
-    
-    useEffect(() =>{
-      setStructureBox(allBoxes.find((box: any) => box.boxId === structure?.parent))
-    }, [structureId])
-    
-    console.log("structure", structure)
   
     const columns = useMemo<ColumnDef<StructureObject, any>[]>(() => {
       return(
@@ -67,6 +60,13 @@ const Structures = (props: any) => {
                 accessorKey: "_id",
                 accessorFn: row => row.id,
                 id: '_id',
+                cell: info => null,
+                header: () => null,
+              },
+              {
+                accessorKey: "parent",
+                accessorFn: row => row.parent,
+                id: 'parent',
                 cell: info => null,
                 header: () => null,
               },
@@ -136,10 +136,10 @@ const Structures = (props: any) => {
                 id: 'باکس',
                 cell: info => {
                   const isChosen = info.getValue();
-                  // const structureBox: any = allBoxes.find((box: any) => box.boxId === structure?.parent)
+                  const structureBox: any = allBoxes.find((box: any) => box.boxId === info.row.original.parent)
                   return (
-                    isChosen?
-                    <Link href={`/dashboard/billboard/boxes/${info.row.original.id}`}  target="_blank">
+                    (isChosen && structureBox) ?
+                    <Link href={`/dashboard/billboard/boxes/${structureBox.id}`}  target="_blank">
                       <Status
                         status = {structureBox ? structureBox?.name : "در باکس"}
                         bgColor = {'#00ff37'}

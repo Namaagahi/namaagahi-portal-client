@@ -42,6 +42,7 @@ const SinglePlan = () => {
     return number?.toLocaleString(undefined, options).replace(/,/g, separator);
 }
 
+
   const columns = useMemo<ColumnDef<PlanStructure, any>[]>(() => {
     return(
     [
@@ -96,6 +97,18 @@ const SinglePlan = () => {
             id: 'قیمت ماهانه پس از تخفیف',
             cell: info => formatNumber(info.getValue(),','),
             header: () => <span>قیمت ماهانه پس از تخفیف</span>,
+            // footer: () => <span>قیمت ماهانه پس از تخفیف</span>,
+            footer: (info: any, rows: any) => {
+              console.log("data", data)
+              console.log("rows", info)
+              if(data[0]) {
+              return (
+                <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
+                  {formatNumber(data.reduce((total: any, item: any) => total + item.monthlyFeeWithDiscount, 0), ',')}
+                </div>
+              )
+            }
+            },
             },
             {
             accessorFn: row => row.discountType,
@@ -111,7 +124,7 @@ const SinglePlan = () => {
             accessorFn: row => row.discountFee,
             id: 'مقدار تخفیف',
             cell: info => info.getValue(),
-            header: () => <span>مقیاس تخفیف</span>,
+            header: () => <span>مقدار تخفیف</span>,
             },
             {
             accessorFn: row => row.duration.sellStart,
@@ -132,17 +145,14 @@ const SinglePlan = () => {
             header: () => <span>طول دوره</span>,
             },
         ],
-        }
+        },
     ]
     )
-},
-[]
-)
+  },
+  []
+  )
 
-  console.log("data", data)
-  console.log("customer", customer)
-
-  if(isLoading) return <Loading />
+  if(!data[0]) return <Loading />
 
   return (
     <>
@@ -155,7 +165,7 @@ const SinglePlan = () => {
               customer={customer}
             />
             <small className=" mt-2 text-black px-2">فروش</small>
-            <div className="max-h-[30%] bg-lime-200 overflow-y-auto text-black w-full">
+            <div className="max-h-[30%] bg-cyan-200 dark:bg-cyan-900 overflow-y-auto  w-full p-2">
               <TableComponent 
                   columns={columns}
                   data={data}

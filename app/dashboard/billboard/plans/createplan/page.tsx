@@ -5,9 +5,9 @@ import PlanStructuresFormSection from '@/app/features/plans/PlanStructuresFormSe
 import { useCreateNewPlanMutation } from '@/app/features/plans/plansApiSlice'
 import useAuth from '@/app/hooks/useAuth'
 import { newPlanDefaultValues } from '@/app/lib/constants'
-import { AddPlanForm, CombinedStructure } from '@/app/lib/interfaces'
+import { AddPlanForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
-import React, { useCallback, useState } from 'react'
+import React, { useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 

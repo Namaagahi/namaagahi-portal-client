@@ -99,11 +99,7 @@ const SingleBox = () => {
                 {
                 accessorFn: row => row.structureId,
                 id: 'کد سامانه',
-                cell: info => {
-                    const structureId = info.getValue()
-                    const str = allStructures.find(rawStructure => rawStructure.id === structureId)
-                        return str?.name         
-                },
+                cell: info => <div>{allStructures.find(rawStructure => rawStructure.id === info.getValue())?.name}</div>        ,
                 header: () => <span>کد سامانه</span>,
                 },
                 {
@@ -115,25 +111,16 @@ const SingleBox = () => {
                 {
                 accessorFn: row => row.structureId,
                 id: 'مسیر',
-                cell: info => {
-                    const structureId = info.getValue()
-                    const str = allStructures.find(rawStructure => rawStructure.id === structureId)
-                        return str?.location.path      
-                },
+                cell: info => <div>{allStructures.find(rawStructure => rawStructure.id === info.getValue())?.location.path}</div>,
                 header: () => <span>مسیر</span>,
                 },
                 {
                 accessorFn: row => row.structureId,
                 id: 'آدرس',
-                cell: info => {
-                    const structureId = info.getValue()
-                    const str = allStructures.find(rawStructure => rawStructure.id === structureId)
-                        return (
-                            <Tooltip tooltipText={str?.location.address} orientation='left'>
-                                <div>{str?.location.address.slice(0, 8)}...</div>
-                            </Tooltip>
-                        )  
-                },
+                cell: info => 
+                    <Tooltip tooltipText={allStructures.find(rawStructure => rawStructure.id === info.getValue())?.location.address} orientation='left'>
+                        <div>{(allStructures.find(rawStructure => rawStructure.id === info.getValue())?.location.address)?.slice(0,8)}...</div>
+                    </Tooltip>,
                 header: () => <span>آدرس</span>,
                 },
                 {
@@ -336,7 +323,7 @@ const SingleBox = () => {
     []
     )
 
-    if(!data || loading) return <Loading />
+    if(!data?.length || !newBox?.structures || !box || !allStructures || loading) return <Loading />
 
     return ( 
         <>
@@ -349,7 +336,7 @@ const SingleBox = () => {
                                 box={newBox}
                             />
                             <small className=" mt-2 text-black px-2">خرید</small>
-                            <div className="max-h-[30%] bg-rose-200 overflow-y-auto text-black w-full">
+                            <div className="max-h-[30%] bg-rose-200 dark:bg-red-900 overflow-y-auto p-2 w-full">
                                 <TableComponent 
                                     columns={columns}
                                     data={data}
