@@ -3,7 +3,20 @@ import { useEffect, useRef } from 'react'
 
 const DiscountedMonthlyFee = (props: any) => {
 
-    const { selectedStructure, changeInput, discountType, convertToNumber, selectedMonthlyFee, selectedDiscount, errors, fieldIndex, setValue, numberDiscountInputRef, percentageDiscountInputRef } = props
+    const { 
+        selectedStructure,
+        changeInput,
+        discountType,
+        convertToNumber,
+        selectedMonthlyFee,
+        selectedDiscount,
+        errors,
+        fieldIndex,
+        setValue,
+        numberDiscountInputRef,
+        percentageDiscountInputRef,
+        formatNumber 
+    } = props
 
     const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
 
@@ -13,14 +26,6 @@ const DiscountedMonthlyFee = (props: any) => {
             setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee), 100)
         }
     }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
-
-    function formatNumber(number: number, separator: string): string {
-        const options = {
-          useGrouping: true,
-          minimumFractionDigits: 0,
-        }
-        return number?.toLocaleString(undefined, options).replace(/,/g, separator);
-    }
 
   return (
     <div className='flex flex-col gap-3'>

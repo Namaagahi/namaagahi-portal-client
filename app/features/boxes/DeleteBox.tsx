@@ -35,6 +35,7 @@ const DeleteBox = (props: DeleteBoxProps) => {
         })
       })
     })
+    
     await deleteBox({ id: box?.id })
     handleModal()
     toast.success(`باکس ${box?.name} با موفقیت حذف شد`)

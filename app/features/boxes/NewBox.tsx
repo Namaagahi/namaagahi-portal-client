@@ -164,7 +164,6 @@ const NewBox = ({ mark }: { mark: string }) => {
             isAvailable: true,
             parent: newData.boxId
           })
-          console.log("abc", abc)
         }
       })
     })

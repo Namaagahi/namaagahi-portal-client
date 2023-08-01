@@ -16,7 +16,6 @@ const DeletePlan = (props: DeletePlanProps) => {
         const abc = await deletePlan({ id: plan?.id })
         handleModal()
         toast.success(`پلن  ${plan?.name} با موفقیت حذف شد`)
-        console.log("ABC", abc)
     }
 
   if(isLoading) return <Loading/>

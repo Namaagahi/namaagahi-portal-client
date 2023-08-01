@@ -67,7 +67,6 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                 'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
               }
             const abc = await addNewUser({ name, username, password, roles })
-            console.log("ABC", abc)
         }
     }
 

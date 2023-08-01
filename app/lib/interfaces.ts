@@ -546,9 +546,28 @@ export interface AddPlanForm {
   name: string
   customerName: string
   brand: string
+  status: string
   structures: {
     structureId:string
-    structureRecord: CombinedStructure | {}
+    structureRecord: CombinedStructure
+    duration: {
+      sellStart: string | null
+      sellEnd: string | null
+    }
+    monthlyFee: string
+    monthlyFeeWithDiscount: string
+    discountFee: string
+  }[]
+}
+
+export interface EditPlanForm {
+  name: string
+  customerName: string
+  brand: string
+  status: string
+  structures: {
+    structureId:string
+    structureRecord: CombinedStructure 
     duration: {
       sellStart: string | null
       sellEnd: string | null
@@ -578,10 +597,26 @@ export interface BasicPlanInfoSectionProps {
   errors: FieldErrors<AddPlanForm>
 }
 
+export interface PlanStructuresInfoProps {
+  page: string
+  control: Control<EditPlanForm, any> | Control<AddPlanForm, any>
+  plan?: PlanObject | any
+  errors: FieldErrors<EditPlanForm>
+  field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
+  discountType: string
+  convertToNumber: (value: string) => number  
+  handleDiscountType: (val: string) =>void 
+  setValue: UseFormSetValue<EditPlanForm> |  UseFormSetValue<AddPlanForm>
+  appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
+  removeStructure: UseFieldArrayRemove 
+  watch: any
+  register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
+}
+
 export interface PlanStructuresFormSectionProps {
   register: UseFormRegister<AddPlanForm>
   errors: FieldErrors<AddPlanForm>
-  structuresField: FieldArrayWithId<AddPlanForm, "structures", "id">[]
+  field: FieldArrayWithId<AddPlanForm, "structures", "id">[]
   removeStructure: UseFieldArrayRemove
   appendStructure:  UseFieldArrayAppend<AddPlanForm, "structures">
   watch: UseFormWatch<AddPlanForm>
@@ -601,4 +636,32 @@ export interface DeletePlanProps {
 export interface DeleteInitialCustomerProps {
   initialCustomer: InitialCustomerObject | undefined
   handleModal: () => void
+}
+
+export interface CustomInputProps {
+  control: Control<any, any>
+  defaultValue?: string
+  name: string
+  label: string
+  required?: boolean
+  message?: string
+  pattern?: RegExp
+  patternMessage?: string
+  type: 'text' | 'number' | 'email' | 'password'
+  errors?: string
+  onChange?: any
+  placeholder?: string
+  ref?: any
+  key?: string
+  onWheel?: any
+}
+
+export interface SelectInputProps {
+  control: Control<any, any>;
+  defaultValue?: string;
+  name: string;
+  label: string;
+  required?: boolean;
+  options: any[];
+  errors?: string;
 }

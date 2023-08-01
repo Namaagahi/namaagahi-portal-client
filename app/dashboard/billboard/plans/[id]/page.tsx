@@ -99,8 +99,6 @@ const SinglePlan = () => {
             header: () => <span>قیمت ماهانه پس از تخفیف</span>,
             // footer: () => <span>قیمت ماهانه پس از تخفیف</span>,
             footer: (info: any, rows: any) => {
-              console.log("data", data)
-              console.log("rows", info)
               if(data[0]) {
               return (
                 <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>

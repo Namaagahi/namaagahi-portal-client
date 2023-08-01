@@ -64,7 +64,7 @@
 //     return null
 //   }
 
-//   // console.log(MapData)
+//   // (MapData)
 
 //   return (
 //     <main className="min-h-screen">

@@ -42,7 +42,7 @@ export const plansApiSlice = plansApiSliceTag.injectEndpoints({
             }
         }),
 
-        createNewPlan: builder.mutation({
+        createNewPlan: builder.mutation({ 
 
             query: initialPlan => (
                 {

@@ -112,7 +112,7 @@ const EditBoxForm = (props: EditBoxProps) => {
   })
 
   const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = editBoxForm
-  const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
+  const { fields, append: appendStructure, remove: removeStructure } = useFieldArray({
     control,
     name: "structures",
   })
@@ -247,7 +247,7 @@ const EditBoxForm = (props: EditBoxProps) => {
           {
             isEditStructure &&
             <EditBoxStructures 
-              field={structuresField}
+              field={fields}
               appendStructure={appendStructure}
               removeStructure={removeStructure}
               register={register}

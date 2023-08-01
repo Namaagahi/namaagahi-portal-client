@@ -1,29 +1,28 @@
 "use client"
-import PageTitle from '@/app/components/main/PageTitle'
-import BasicPlanInfoSection from '@/app/features/plans/BasicPlanInfoSection'
-import PlanStructuresFormSection from '@/app/features/plans/PlanStructuresFormSection'
 import { useCreateNewPlanMutation } from '@/app/features/plans/plansApiSlice'
-import useAuth from '@/app/hooks/useAuth'
+import PlanStructuresInfo from '@/app/features/plans/PlanStructuresInfo'
+import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
 import { newPlanDefaultValues } from '@/app/lib/constants'
+import { useFieldArray, useForm } from 'react-hook-form'
+import PageTitle from '@/app/components/main/PageTitle'
 import { AddPlanForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
+import useAuth from '@/app/hooks/useAuth'
 import React, { useState } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 
 const CreatePlan = () => {
 
   const { id } = useAuth()  
+  const { push } = useRouter()
+
+  const [discountType, setDiscountType] = useState('percentage')
 
   const [createNewPlan, {
     isSuccess,
     isError,
     error
 }] = useCreateNewPlanMutation()
-
-  const [discountType, setDiscountType] = useState('percentage')
-
-  const { push } = useRouter()
 
   const createPlanForm = useForm<AddPlanForm>({
     defaultValues: newPlanDefaultValues,
@@ -83,31 +82,34 @@ const CreatePlan = () => {
       <main className="min-h-screen">
         <PageTitle name={'ایجاد پلن جدید'} />
         <div className='flex flex-col gap-9 justify-center'>
-        <form
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-          className='w-full flex flex-col gap-9 justify-center'
-        >
-          <BasicPlanInfoSection
-            register={register}
-            errors={errors}
-          />
-          
-          <PlanStructuresFormSection
-            register={register}
-            errors={errors}
-            structuresField={structuresField}
-            removeStructure={removeStructure}
-            appendStructure={appendStructure}
-            watch={watch}
-            convertToNumber={convertToNumber}
-            getValues={getValues}
-            setValue={setValue}
-            discountType={discountType}
-            handleDiscountType={(val: string) => setDiscountType(val)}
-          />
-          <button className="btn-primary">افزودن پلن</button>
-        </form>
+          <form
+            noValidate
+            onSubmit={handleSubmit(onSubmit)}
+            className='w-full flex flex-col gap-9 justify-center'
+          >
+            <PlanBasicInfo
+              page={'create'}
+              control={control}
+              errors={errors}
+            />
+
+            <PlanStructuresInfo
+              page={'create'}
+              control={control}
+              errors={errors}
+              discountType={discountType}
+              convertToNumber={convertToNumber}
+              handleDiscountType={(val: string) => setDiscountType(val)}
+              setValue={setValue}
+              field={structuresField}
+              appendStructure={appendStructure}
+              removeStructure={removeStructure}
+              watch={watch}
+              register={register}
+            />
+
+            <button className="btn-primary">افزودن پلن</button>
+          </form>
         </div>
       </main>
 

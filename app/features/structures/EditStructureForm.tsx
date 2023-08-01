@@ -62,8 +62,7 @@ const EditStructureForm = (props: EditStructureProps) => {
         handleModal()
         toast.success(`سازه ${structure!.name} با موفقیت ویرایش شد`)
     }
-console.log("isError", isError)
-    // if(isLoading) return <Loading />  
+
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">
             <form
