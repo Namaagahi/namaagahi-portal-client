@@ -124,7 +124,6 @@ const InitialCustomers = () => {
               header: () => <span>تاریخ ویرایش</span>,
               cell: (info) => {
                 const updatedAt = info.getValue()
-                ("updatedAt", updatedAt)
                 return (
                   <div className='flex justify-center'>
                     <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
