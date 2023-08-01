@@ -147,7 +147,6 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                         control={control}
                                         name={`structures.${fieldIndex}.structureId`}
                                         label='کد سامانه سازه'
-                                        defaultValue={page === 'edit' ? item?.structureRecord?.structureId : ''}
                                         required={true}
                                         options={combinedStructures}
                                         errors={errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}
@@ -212,7 +211,6 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                     return (
                                         structure.structureId === selectedStructureId &&
                                         <MonthlyFeeInput 
-                                            page={page}
                                             changeInput={changeInput}
                                             selectedStructure={selectedStructure}
                                             control={control}
@@ -240,9 +238,9 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                                 type="text"
                                                 id="discountFee"
                                                 placeholder='تخفیف به درصد'
-                                                defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 className="p-4 rounded-[50px] bg-white outline-none w-full"
                                                 onWheel={(e: any) => e.target.blur()} 
+                                                defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 onChange={(event) => {
                                                     const newValue = event.target.value;
                                                     if (discountType === 'percentage' && parseFloat(newValue) > 100) 
@@ -268,9 +266,9 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                                 type="text"
                                                 id="discountFee"
                                                 placeholder='تخفیف به ریال'
-                                                defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 className="p-4 rounded-[50px] bg-white outline-none w-full"
                                                 onWheel={(e: any) => e.target.blur()} 
+                                                defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 onChange={(event) => {
                                                     const newValue = event.target.value;
                                                     if (discountType !== 'percentage' && convertToNumber(newValue) > selectedStructure?.monthlyBaseFee!)

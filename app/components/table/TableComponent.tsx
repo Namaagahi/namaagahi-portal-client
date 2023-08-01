@@ -274,8 +274,8 @@ const TableComponent = (props: any) => {
         </tfoot>
       </table>
 
-  <div className="h-2" />
-    <button onClick={() => rerender()}>Force Rerender</button>
+  <div className="h-2 mt-4" />
+    {/* <button onClick={() => rerender()}>Force Rerender</button> */}
   </div>
   </div>
     <div className="flex items-center gap-2 mt-2">

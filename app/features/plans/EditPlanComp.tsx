@@ -1,6 +1,6 @@
 import useAuth from '@/app/hooks/useAuth'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUpdatePlanMutation } from './plansApiSlice'
 import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '../initialCustomers/initialCustomersApiSlice'
 import { selectAllStructures, useUpdateStructureMutation } from '../structures/structuresApiSlice'
@@ -51,27 +51,35 @@ const EditPlanComp = (props: any) => {
         structureRecord: structure?.structureRecord
     }))
 
-    const [discountType, setDiscountType] = useState(planStructures[0].discountType)
+    const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
+    const [data, setData] = useState<any>(null)
     
     const editPlanForm = useForm<EditPlanForm>({
-        defaultValues: {
-            name: plan?.name,
-            customerName: plan?.customerName,
-            brand: plan?.brand,
-            status: plan?.status,
-            structures: planStructures
-          },
+        defaultValues: data,
         mode: 'onSubmit'
       })
 
-    const { register, control, handleSubmit, formState: {errors}, getValues, setValue, watch } = editPlanForm
+    const { register, control, handleSubmit, formState: {errors}, getValues, setValue, reset, watch } = editPlanForm
 
     const { fields, append: appendStructure, remove: removeStructure } = useFieldArray({
         control,
         name: "structures",
       })
 
-      
+      useEffect(() => {
+        setTimeout(() => setData({
+            name: plan?.name,
+            customerName: plan?.customerName,
+            brand: plan?.brand,
+            status: plan?.status,
+            structures: JSON.parse(JSON.stringify(plan?.structures))
+          }), 1000);
+    }, [])
+
+      useEffect(() => {
+        reset(data)
+      }, [data, reset])
+
     function convertToNumber(value: string | null): any { 
         const cleanedValue = value!.replace(/,/g, '')
         const parsedValue = parseFloat(cleanedValue)
@@ -106,7 +114,8 @@ const EditPlanComp = (props: any) => {
               ...structure,
               monthlyFee: convertToNumber(structure.monthlyFee),
               monthlyFeeWithDiscount: convertToNumber(structure.monthlyFeeWithDiscount),
-              discountType: discountType
+              discountType: discountType,
+              structureRecord: structure.structureRecord
             }))
           }
         
@@ -121,7 +130,6 @@ const EditPlanComp = (props: any) => {
             status: newData.status,
             structures: newData.structures
         })
-        console.log("ABC", abc)
     }
 
 
@@ -134,7 +142,9 @@ const EditPlanComp = (props: any) => {
         toast.success(`پلن ${plan.name} با موفقیت ویرایش شد.`)
         push('/dashboard/billboard/plans')
     }
-
+// console.log("plan", plan)
+console.log("editPlanForm", editPlanForm.getValues())
+// console.log("planStructures", planStructures)
     if(!plan) return <Loading />
 
     return (

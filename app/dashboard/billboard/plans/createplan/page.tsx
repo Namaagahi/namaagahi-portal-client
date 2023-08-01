@@ -58,14 +58,14 @@ const CreatePlan = () => {
       }))
     }
 
-  await createNewPlan({
+  const abc = await createNewPlan({
       userId: id,
       name: newData.name,
       customerName: newData.customerName,
       brand: newData.brand,
       structures: newData.structures
     })
-
+console.log("ABC", abc)
   }
 
   if(isError) {

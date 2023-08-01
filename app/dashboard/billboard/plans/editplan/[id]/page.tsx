@@ -17,7 +17,7 @@ const EditPlan = () => {
 
     const plan: PlanObject | any = useSelector(state => selectPlanById(state as PlanObject , id))
 
-    if(isLoading || !plan) return <Loading />
+    if(isLoading || !plan || !plan?.structures) return <Loading />
     return <EditPlanComp plan={plan} />
 }
 

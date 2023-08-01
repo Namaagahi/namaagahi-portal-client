@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 const PlanBasicInfo = (props: any) => {
 
-    const { page, control, plan, errors } = props
+    const { control, errors } = props
     
     useGetAllInitialCustomersQuery(undefined, {
         refetchOnFocus: false,
@@ -22,7 +22,6 @@ const PlanBasicInfo = (props: any) => {
                     control={control}
                     name={'name'}
                     label={'نام پلن'}
-                    defaultValue={page=== 'edit' ? plan?.name : ''}
                     errors={errors.name?.message}
                     required={true}
                     pattern={/^[P][L][0-9]{4}$/}
@@ -32,7 +31,6 @@ const PlanBasicInfo = (props: any) => {
                 <SelectInput
                     control={control}
                     name={'customerName'}
-                    defaultValue={page === 'edit' ? plan?.customerName : ''}
                     label={'نام مشتری'}
                     required={true}
                     errors={errors.customerName?.message}
@@ -42,7 +40,6 @@ const PlanBasicInfo = (props: any) => {
                     control={control}
                     name={'brand'}
                     label={'برند'}
-                    defaultValue={page === 'edit' ? plan?.brand : ''}
                     errors={errors.brand?.message}
                     required={true}
                     type={'text'}

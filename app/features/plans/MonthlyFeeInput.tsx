@@ -5,7 +5,6 @@ import { FieldError } from 'react-hook-form'
 const MonthlyFeeInput = (props: any) => {
 
     const { 
-        page,
         changeInput,
         selectedStructure,
         control,
@@ -30,7 +29,6 @@ const MonthlyFeeInput = (props: any) => {
                 : 
                 <CustomInput
                     control={control}
-                    defaultValue={selectedStructure?.monthlyBaseFee}
                     type='text'
                     name={`structures.${fieldIndex}.monthlyFee`}
                     onChange={(event: any) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyFee`)}
