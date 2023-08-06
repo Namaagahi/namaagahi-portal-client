@@ -239,7 +239,7 @@ const TableComponent = (props: any) => {
         <tbody>
           {table.getRowModel().rows.map((row, index) => {
             return (
-              <tr key={row.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 text-center">
+              <tr key={row.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-center">
                 {row.getVisibleCells().map(cell => {
                   return (
                     <>

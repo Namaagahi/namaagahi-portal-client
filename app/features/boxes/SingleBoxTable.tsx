@@ -1,45 +1,19 @@
-"use client"
-import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
-import { selectBoxById, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
-import { BoxObject, BoxStructure, StructureObject } from '@/app/lib/interfaces'
-import UnderConstruction from '@/app/components/main/UnderConstruction'
-import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'
 import TableComponent from '@/app/components/table/TableComponent'
 import { variableCostNames2 } from '@/app/lib/constants'
-import PageTitle from '@/app/components/main/PageTitle'
-import { useEffect, useMemo, useState } from 'react'
+import { BoxStructure } from '@/app/lib/interfaces'
 import Tooltip from '@/app/components/main/Tooltip'
 import { ColumnDef } from '@tanstack/react-table'
-import { useParams } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
-import { useSelector } from 'react-redux'
-import dynamic from 'next/dynamic'
-import SingleBoxTable from '@/app/features/boxes/SingleBoxTable'
-const Loading = dynamic(
-    () => import('@/app/features/loading/Loading'),
-    { ssr: false }
-  )
+import React, { useMemo } from 'react'
 
-const SingleBox = () => { 
+const SingleBoxTable = (props: any) => {
+
+    const {
+        data,
+        allStructures
+    } = props
 
     const { isAdmin, isMediaManager } = useAuth()
-    const { id } = useParams()
-    const [newBox, setNewBox] = useState<any>({})
-    const [data, setData] = useState<BoxStructure | any>([])
-    const [loading, setLoading] = useState(true)
-
-    useGetAllBoxesQuery(undefined, {
-        refetchOnFocus: false,
-        refetchOnMountOrArgChange: false
-    })
-
-    useGetStructuresQuery(undefined, {
-        refetchOnFocus: false,
-        refetchOnMountOrArgChange: false
-    })
-
-    const box: BoxObject | any = useSelector(state => selectBoxById(state as BoxObject , id))
-    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
     function formatNumber(number: number, separator: string): string {
         const options = {
@@ -48,41 +22,6 @@ const SingleBox = () => {
         }
         return number?.toLocaleString(undefined, options).replace(/,/g, separator);
     }
-
-    const calcVariableCosts = () => {
-        const clone: any = []
-        box?.structures.forEach((item: any) => {
-            const thisName = allStructures.find(rawStructure => rawStructure.id === item.structureId)?.name ?? ''
-            clone.push({...item, ['myCustomCost'] : {}, ['name']: thisName})
-        })
-        clone.forEach((stucture: any) => {
-            stucture.costs.variableCosts.forEach((varCost:any) => {
-                variableCostNames2.forEach(varName => {
-                    if(stucture['myCustomCost'][varName]) return
-                    if(!stucture['myCustomCost'][varName]) stucture['myCustomCost'][varName] = 0
-                    if(varCost.name === varName) return stucture['myCustomCost'][varName] = varCost.figures.monthlyCost
-
-                })
-            })
-        })
-        clone.sort((a: any, b: any) => {
-            if(Number(a.name.slice(1,5)) > Number(b.name.slice(1,5))) return 1
-            if(Number(a.name.slice(1,5)) < Number(b.name.slice(1,5))) return -1
-            return 0
-        })
-        const boxClone = {...box}
-        boxClone['structures'] = [...clone]
-        setNewBox(boxClone)
-    }
-
-      useEffect(() => {
-        if(box) calcVariableCosts()
-        setLoading(false)
-      }, [box])
-
-      useEffect(() =>{
-        if(newBox) setData(newBox?.structures)
-      }, [newBox])
 
     const columns = useMemo<ColumnDef<BoxStructure, any>[]>(() => {
         return(
@@ -100,7 +39,7 @@ const SingleBox = () => {
                 {
                 accessorFn: row => row.structureId,
                 id: 'کد سامانه',
-                cell: info => <div>{allStructures.find(rawStructure => rawStructure.id === info.getValue())?.name}</div>        ,
+                cell: info => <div>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.name}</div>        ,
                 header: () => <span>کد سامانه</span>,
                 },
                 {
@@ -112,15 +51,15 @@ const SingleBox = () => {
                 {
                 accessorFn: row => row.structureId,
                 id: 'مسیر',
-                cell: info => <div>{allStructures.find(rawStructure => rawStructure.id === info.getValue())?.location.path}</div>,
+                cell: info => <div>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.path}</div>,
                 header: () => <span>مسیر</span>,
                 },
                 {
                 accessorFn: row => row.structureId,
                 id: 'آدرس',
                 cell: info => 
-                    <Tooltip tooltipText={allStructures.find(rawStructure => rawStructure.id === info.getValue())?.location.address} orientation='left'>
-                        <div>{(allStructures.find(rawStructure => rawStructure.id === info.getValue())?.location.address)?.slice(0,8)}...</div>
+                    <Tooltip tooltipText={allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.address} orientation='left'>
+                        <div>{(allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.address)?.slice(0,8)}...</div>
                     </Tooltip>,
                 header: () => <span>آدرس</span>,
                 },
@@ -323,39 +262,12 @@ const SingleBox = () => {
     },
     []
     )
-
-    if(!data?.length || !newBox?.structures || !box || !allStructures || loading) return <Loading />
-
-    return ( 
-        <>
-            <main className='min-h-screen w-full'>
-                <PageTitle name={`باکس ${newBox.name}`} />
-                <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
-                    <div className=" h-full duration-1000">
-                        <div className=" p-4 h-full bg-gray-100 overflow-hidden">
-                            <SingleBoxHeading box={newBox} />
-                            <small className=" mt-2 text-black px-2">خرید</small>
-                            <div className="max-h-[30%] bg-rose-200 dark:bg-[#7d332e] overflow-y-auto p-2 w-full">
-                                <SingleBoxTable
-                                    data={data}
-                                    allStructures={allStructures}
-                                />
-                            </div>
-
-                            <small className=" mt-2 text-black px-2">فروش</small>
-                                <UnderConstruction 
-                                    desc='این بخش از پنل مربوط به جدول فروش به تفکیک سازه ها و جداول تجمیعی سود و زیان است و به زودی اضافه خواهد شد.'
-                                />  
-
-                            <small className=" mt-2 text-black px-2">سود/ زیان جزئی </small>
-
-                            <small className=" mt-2 text-black px-2">سود/ زیان تجمیعی </small>
-                        </div>
-                    </div>
-                </div>
-            </main>
-        </>
-    )
+  return (
+    <TableComponent 
+        columns={columns}
+        data={data}
+    />
+  )
 }
 
-export default SingleBox
+export default SingleBoxTable
