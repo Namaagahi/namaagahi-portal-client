@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from './initialCustomersApiSlice'
+import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { InitialCustomerObject, UserObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
 import { AiFillDelete } from 'react-icons/ai'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import moment from 'jalali-moment'
-import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
+import { selectAllUsers, useGetUsersQuery } from '../../apiSlices/usersApiSlice'
 
 const InitialCustomer = ({ initialCustomerId }: { initialCustomerId: string }) => {
 

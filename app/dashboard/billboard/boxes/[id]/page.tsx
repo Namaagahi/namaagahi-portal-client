@@ -1,6 +1,6 @@
 "use client"
-import { selectAllStructures, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
-import { selectBoxById, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
+import { selectBoxById, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { BoxObject, BoxStructure, StructureObject } from '@/app/lib/interfaces'
 import UnderConstruction from '@/app/components/main/UnderConstruction'
 import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'

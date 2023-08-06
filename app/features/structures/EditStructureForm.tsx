@@ -1,11 +1,11 @@
-import { useUpdateStructureMutation } from './structuresApiSlice'
+import { useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { EditStructureProps, UserObject } from '@/app/lib/interfaces'
 import { AiOutlineClose } from 'react-icons/ai'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
 import useAuth from '@/app/hooks/useAuth'
-import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
+import { selectAllUsers, useGetUsersQuery } from '../../apiSlices/usersApiSlice'
 import { useSelector } from 'react-redux'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),

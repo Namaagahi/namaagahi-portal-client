@@ -1,5 +1,5 @@
 "use client"
-import { useAddNewStructureMutation } from '@/app/features/structures/structuresApiSlice'
+import { useAddNewStructureMutation } from '@/app/apiSlices/structuresApiSlice'
 import { StructureObjectForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'

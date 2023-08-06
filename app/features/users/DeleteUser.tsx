@@ -1,5 +1,5 @@
 "use client"
-import { useDeleteUserMutation } from "@/app/features/users/usersApiSlice"
+import { useDeleteUserMutation } from "@/app/apiSlices/usersApiSlice"
 import {  DeleteUserProps } from "@/app/lib/interfaces"
 import { toast } from "react-toastify"
 import dynamic from 'next/dynamic'

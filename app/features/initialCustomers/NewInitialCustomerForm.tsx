@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from 'react'
-import { selectAllInitialCustomers, useCreateNewInitialCustomerMutation, useGetAllInitialCustomersQuery } from './initialCustomersApiSlice'
+import { selectAllInitialCustomers, useCreateNewInitialCustomerMutation, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { AiOutlineClose } from 'react-icons/ai'

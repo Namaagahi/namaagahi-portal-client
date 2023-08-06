@@ -1,6 +1,6 @@
 "use client"
-import { selectCurrentToken, setCredentials } from "../auth/authSlice"
-import { useLoginMutation } from "../auth/authApiSlice"
+import { selectCurrentToken, setCredentials } from "../../apiSlices/authSlice"
+import { useLoginMutation } from "../../apiSlices/authApiSlice"
 import LogoSmall from "@/app/components/main/LogoSmall"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect, useRef, useState } from "react"

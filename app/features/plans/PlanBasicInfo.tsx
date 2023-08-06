@@ -1,6 +1,6 @@
 import CustomInput from '@/app/components/inputs/CustomInput'
 import SelectInput from '@/app/components/inputs/SelectInput'
-import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../initialCustomers/initialCustomersApiSlice'
+import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { useSelector } from 'react-redux'
 
 const PlanBasicInfo = (props: any) => {

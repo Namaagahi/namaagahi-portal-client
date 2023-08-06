@@ -1,5 +1,5 @@
 "use client"
-import { useAddNewUserMutation } from "@/app/features/users/usersApiSlice"
+import { useAddNewUserMutation } from "@/app/apiSlices/usersApiSlice"
 import { PASSWORD_REGEX, USER_REGEX } from "@/app/lib/constants"
 import UserFormContent from "./UserFormContent"
 import { AiOutlineClose } from 'react-icons/ai'

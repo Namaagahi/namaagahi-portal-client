@@ -1,5 +1,5 @@
 "use client"
-import { useCreateNewPlanMutation } from '@/app/features/plans/plansApiSlice'
+import { useCreateNewPlanMutation } from '@/app/apiSlices/plansApiSlice'
 import PlanStructuresInfo from '@/app/features/plans/PlanStructuresInfo'
 import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
 import { newPlanDefaultValues } from '@/app/lib/constants'

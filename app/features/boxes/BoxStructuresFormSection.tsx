@@ -1,6 +1,6 @@
 import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
 import { StructureObject, BoxStructuresFormSectionProps } from "@/app/lib/interfaces"
-import { selectAllStructures } from "../structures/structuresApiSlice"
+import { selectAllStructures } from "../../apiSlices/structuresApiSlice"
 import { AiFillPlusSquare, AiFillMinusSquare } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
 import { FieldError } from "react-hook-form"

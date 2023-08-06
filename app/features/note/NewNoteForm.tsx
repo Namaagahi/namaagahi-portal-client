@@ -1,6 +1,6 @@
 "use client"
 import { NewNoteFormProps, NoteData, UserObject } from '@/app/lib/interfaces'
-import { useAddNewNoteMutation } from './notesApiSlice'
+import { useAddNewNoteMutation } from '../../apiSlices/notesApiSlice'
 import NoteFormContent from './NoteFormContent'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useRouter } from "next/navigation"

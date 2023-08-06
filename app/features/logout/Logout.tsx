@@ -1,5 +1,5 @@
 "use client"
-import { useSendLogoutMutation } from '../auth/authApiSlice'
+import { useSendLogoutMutation } from '../../apiSlices/authApiSlice'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { LogoutModalContentProps } from '@/app/lib/interfaces'

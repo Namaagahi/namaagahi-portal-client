@@ -1,6 +1,6 @@
 "use client"
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit"
-import { apiSlice } from "../../config/api-config/apiSlice"
+import { apiSlice } from "../config/api-config/apiSlice"
 import { PlanObject } from "@/app/lib/interfaces"
 
 /* This API Slice is for:

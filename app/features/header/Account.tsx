@@ -1,7 +1,7 @@
 "use client"
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import ConfirmModal from "@/app/components/modals/ConfirmModal"
-import { selectUserById } from "../users/usersApiSlice"
+import { selectUserById } from "../../apiSlices/usersApiSlice"
 import { AiOutlineSetting } from 'react-icons/ai'
 import { UserObject } from "@/app/lib/interfaces"
 import { useSelector } from "react-redux"

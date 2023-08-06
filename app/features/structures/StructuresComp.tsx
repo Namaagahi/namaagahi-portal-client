@@ -1,5 +1,5 @@
 "use client"
-import { selectAllStructures, selectStructureById, useGetStructuresQuery } from '@/app/features/structures/structuresApiSlice'
+import { selectAllStructures, selectStructureById, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
@@ -15,7 +15,7 @@ import useAuth from '@/app/hooks/useAuth'
 import PageTitle from '@/app/components/main/PageTitle'
 import moment from 'jalali-moment'
 import Link from 'next/link'
-import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 
 const Structures = (props: any) => {
 

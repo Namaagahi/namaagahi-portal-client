@@ -1,4 +1,4 @@
-import { selectAllUsers } from "../users/usersApiSlice"
+import { selectAllUsers } from "../../apiSlices/usersApiSlice"
 import { UserObject } from "@/app/lib/interfaces"
 import { useSelector } from "react-redux"
 import NewNoteForm from "./NewNoteForm"

@@ -1,6 +1,6 @@
 import { DeletePlanProps } from '@/app/lib/interfaces'
 import React from 'react'
-import { useDeletePlanMutation } from './plansApiSlice'
+import { useDeletePlanMutation } from '../../apiSlices/plansApiSlice'
 import { toast } from 'react-toastify'
 import Loading from '../loading/Loading'
 

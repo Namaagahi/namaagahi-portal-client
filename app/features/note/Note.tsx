@@ -1,4 +1,4 @@
-import { selectNoteById } from "@/app/features/note/notesApiSlice"
+import { selectNoteById } from "@/app/apiSlices/notesApiSlice"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { NoteObject } from "@/app/lib/interfaces"
 import { useSelector } from "react-redux"

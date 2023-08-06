@@ -1,5 +1,5 @@
 "use client"
-import { selectAllUsers, selectUserById, useGetUsersQuery } from '@/app/features/users/usersApiSlice'
+import { selectAllUsers, selectUserById, useGetUsersQuery } from '@/app/apiSlices/usersApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'

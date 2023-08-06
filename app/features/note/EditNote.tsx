@@ -1,5 +1,5 @@
 import { EditNoteProps, UserObject } from "@/app/lib/interfaces"
-import { selectAllUsers, useGetUsersQuery } from "../users/usersApiSlice"
+import { selectAllUsers, useGetUsersQuery } from "../../apiSlices/usersApiSlice"
 import EditNoteForm from "./EditNoteForm"
 import { useSelector } from "react-redux"
 import dynamic from 'next/dynamic'

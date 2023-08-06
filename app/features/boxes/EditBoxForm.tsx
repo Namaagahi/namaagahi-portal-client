@@ -1,15 +1,15 @@
 import { AddBoxForm, EditBoxForm, EditBoxProps, StructureObject, UserObject } from '@/app/lib/interfaces'
 import React, { useEffect, useState } from 'react'
-import { useGetAllBoxesQuery, useUpdateBoxMutation } from './boxesApiSlice'
+import { useGetAllBoxesQuery, useUpdateBoxMutation } from '../../apiSlices/boxesApiSlice'
 import { AiOutlineClose } from 'react-icons/ai'
 import BoxBaseFormContent from './BoxBaseFormContent'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
-import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../structures/structuresApiSlice'
+import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useSelector } from 'react-redux'
 import { Value } from 'react-multi-date-picker'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { selectAllUsers, useGetUsersQuery } from '../users/usersApiSlice'
+import { selectAllUsers, useGetUsersQuery } from '../../apiSlices/usersApiSlice'
 import EditBoxStructures from './EditBoxStructures'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),

@@ -1,6 +1,6 @@
 import { DeleteInitialCustomerProps } from '@/app/lib/interfaces'
 import React from 'react'
-import { useDeleteInitialCustomerMutation } from './initialCustomersApiSlice'
+import { useDeleteInitialCustomerMutation } from '../../apiSlices/initialCustomersApiSlice'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 

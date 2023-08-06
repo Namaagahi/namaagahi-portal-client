@@ -1,8 +1,8 @@
 "use client"
-import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../initialCustomers/initialCustomersApiSlice'
-import { selectAllPlans, selectPlanById, useGetAllPlansQuery } from '@/app/features/plans/plansApiSlice'
+import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
+import { selectAllPlans, selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
-import { useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import { useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'

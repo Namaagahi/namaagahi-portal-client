@@ -1,5 +1,5 @@
 "use client"
-import { selectPlanById, useGetAllPlansQuery } from '@/app/features/plans/plansApiSlice'
+import { selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import EditPlanComp from '@/app/features/plans/EditPlanComp'

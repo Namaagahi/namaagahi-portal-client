@@ -1,5 +1,5 @@
 "use client"
-import { useDeleteStructureMutation } from './structuresApiSlice'
+import { useDeleteStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { DeleteStructureProps } from '@/app/lib/interfaces'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'

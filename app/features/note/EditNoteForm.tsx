@@ -1,5 +1,5 @@
 import { EditNoteProps, NoteData, UserObject } from '@/app/lib/interfaces'
-import { useUpdateNoteMutation } from './notesApiSlice'
+import { useUpdateNoteMutation } from '../../apiSlices/notesApiSlice'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 import NoteFormContent from './NoteFormContent'

@@ -1,12 +1,12 @@
 "use client"
-import { selectPlanById, useGetAllPlansQuery } from '@/app/features/plans/plansApiSlice'
+import { selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
 import PlanPdfDoc from '@/app/features/plans/PlanPdfDoc'
 import Loading from '@/app/features/loading/Loading'
 import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import { PDFViewer } from '@react-pdf/renderer'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/features/initialCustomers/initialCustomersApiSlice'
+import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
 
 const Invoice = () => {
 

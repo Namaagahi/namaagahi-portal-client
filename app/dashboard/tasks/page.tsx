@@ -1,6 +1,6 @@
 "use client"
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
-import { useGetNotesQuery } from "@/app/features/note/notesApiSlice"
+import { useGetNotesQuery } from "@/app/apiSlices/notesApiSlice"
 import { notesTableHeadings } from "@/app/lib/constants"
 import PageTitle from "@/app/components/main/PageTitle"
 import Button from "@/app/components/main/Button"

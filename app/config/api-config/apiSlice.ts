@@ -1,6 +1,6 @@
 "use client"
 import { BaseQueryFn, FetchArgs, FetchBaseQueryError, createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { setCredentials } from '@/app/features/auth/authSlice'
+import { setCredentials } from '@/app/apiSlices/authSlice'
 import { CustomError } from '@/app/lib/interfaces'
 import { RootState } from '../state-config/store'
 

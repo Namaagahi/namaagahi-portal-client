@@ -1,6 +1,6 @@
 "use client"
-import { useRefreshMutation } from '../features/auth/authApiSlice'
-import { selectCurrentToken } from '../features/auth/authSlice'
+import { useRefreshMutation } from '../apiSlices/authApiSlice'
+import { selectCurrentToken } from '../apiSlices/authSlice'
 import { menuItems, subMenusList } from "../lib/constants"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'

@@ -2,7 +2,7 @@
 import { PASSWORD_REGEX, USER_REGEX } from "@/app/lib/constants"
 import { EditUserProps, UserData } from '@/app/lib/interfaces'
 import { ChangeEvent, useEffect, useState } from 'react'
-import { useUpdateUserMutation } from './usersApiSlice'
+import { useUpdateUserMutation } from '../../apiSlices/usersApiSlice'
 import { AiOutlineClose } from 'react-icons/ai'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'

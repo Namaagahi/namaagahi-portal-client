@@ -1,10 +1,10 @@
 "use client"
 import PageTitle from '@/app/components/main/PageTitle'
-import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/features/initialCustomers/initialCustomersApiSlice'
+import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
 import Loading from '@/app/features/loading/Loading'
 import SinglePlanHeading from '@/app/features/plans/SinglePlanHeading'
 import SinglePlanTable from '@/app/features/plans/SinglePlanTable'
-import { selectPlanById, useGetAllPlansQuery } from '@/app/features/plans/plansApiSlice'
+import { selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
 import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import { useParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'

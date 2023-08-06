@@ -1,7 +1,7 @@
 "use client"
 import dynamic from 'next/dynamic'
 import { useSelector } from 'react-redux'
-import { selectCurrentToken } from './features/auth/authSlice'
+import { selectCurrentToken } from './apiSlices/authSlice'
 import { useLayoutEffect } from 'react'
 import { useRouter } from 'next/navigation'
 

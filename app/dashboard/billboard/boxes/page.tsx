@@ -1,5 +1,5 @@
 "use client"
-import { useGetAllBoxesQuery } from '@/app/features/boxes/boxesApiSlice'
+import { useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import PageTitle from '@/app/components/main/PageTitle'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'

@@ -1,6 +1,6 @@
 "use client"
 import { DeleteNoteProps, NoteData } from "@/app/lib/interfaces"
-import { useDeleteNoteMutation } from "./notesApiSlice"
+import { useDeleteNoteMutation } from "../../apiSlices/notesApiSlice"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"

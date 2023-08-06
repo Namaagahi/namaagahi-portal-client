@@ -1,5 +1,5 @@
 import { BoxItemProps, BoxObject } from "@/app/lib/interfaces"
-import { selectBoxById } from "./boxesApiSlice"
+import { selectBoxById } from "../../apiSlices/boxesApiSlice"
 import { useSelector } from "react-redux"
 import dynamic from 'next/dynamic'
 const ListItem = dynamic(
