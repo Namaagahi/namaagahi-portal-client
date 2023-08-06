@@ -14,8 +14,7 @@ const SinglePlanTable = (props: any) => {
         }
         return number?.toLocaleString(undefined, options).replace(/,/g, separator);
     }
-    console.log("DATA", data)
-    
+        
       const columns = useMemo<ColumnDef<PlanStructure, any>[]>(() => {
         return(
         [

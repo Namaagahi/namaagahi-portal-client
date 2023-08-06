@@ -327,7 +327,7 @@ const TableComponent = (props: any) => {
         />
       </span>
       <select
-      className='select select-bordered table-input'
+        className='select select-bordered table-input'
         value={table.getState().pagination.pageSize}
         onChange={e => {
           table.setPageSize(Number(e.target.value))

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux'
 const SinglePlan = () => {
 
   const { id } = useParams()
+  
   const { isLoading }=useGetAllPlansQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false

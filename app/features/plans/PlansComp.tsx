@@ -15,6 +15,7 @@ import Status from '@/app/components/main/Status'
 import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
+import { FaFilePdf } from 'react-icons/fa'
 import moment from 'jalali-moment'
 import Link from 'next/link'
 
@@ -158,6 +159,19 @@ const PlansComp = (props: any) => {
                     <div className='flex justify-center'>
                       <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
                     </div>
+                    )}
+                },
+                {
+                  id: 'پیش فاکتور',
+                  header: () => <span>پیش فاکتور</span>,
+                  cell: (info) => {
+                    const row = info.row.original;
+                    return (
+                      <Link href={`/dashboard/billboard/plans/invoice/${row.id}`} target='_blank'>
+                        <div className='flex justify-center text-xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'>
+                          <FaFilePdf />
+                        </div>
+                      </Link>
                     )}
                 },
                 {
