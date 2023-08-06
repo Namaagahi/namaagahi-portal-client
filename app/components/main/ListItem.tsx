@@ -4,18 +4,23 @@ import ConfirmModal from '../modals/ConfirmModal'
 import useAuth from '@/app/hooks/useAuth'
 import { useState } from 'react'
 import Link from 'next/link'
-import CreateUpdateModal from '../modals/CreateUpdateModal'
 
 const ListItem = (props: ListItemProps) => {
 
-    const { number, param, prop, startDate, endDate, diff, titles } = props
+    const {
+        number,
+        param,
+        prop,
+        startDate,
+        endDate,
+        diff,
+        titles
+    } = props
 
     const { isAdmin } = useAuth()
 
-    const [isEditBox, setIsEditBox] = useState(false)
     const [isDeleteBox, setIsDeleteBox] = useState(false)
 
-    const handleEditBox = () => setIsEditBox(!isEditBox)
     const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
 
     return (
@@ -30,9 +35,11 @@ const ListItem = (props: ListItemProps) => {
                 <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#f04a17] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
                     <AiFillDelete onClick={handleDeleteModal}/>
                 </div>
-                <div className='absolute left-16 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
-                    <AiFillEdit onClick={handleEditBox}/>
-                </div>
+                <Link href={`/dashboard/billboard/boxes/editbox/${param}`} target="_blank">
+                    <div className='absolute left-16 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
+                        <AiFillEdit />
+                    </div>
+                </Link>
             </>
             }
 
@@ -85,15 +92,6 @@ const ListItem = (props: ListItemProps) => {
                     deleteType="box"
                 />
         } 
-
-        {
-            isEditBox && 
-                <CreateUpdateModal 
-                    type={'editBox'}
-                    handleModal={handleEditBox} 
-                    prop={prop}
-                />
-        }
     </>
   )
 }

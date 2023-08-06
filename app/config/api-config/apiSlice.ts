@@ -5,7 +5,7 @@ import { CustomError } from '@/app/lib/interfaces'
 import { RootState } from '../state-config/store'
 
 const baseQuery = fetchBaseQuery({ 
-    // baseUrl: 'http://it-pc1.namagahi.co:3500',
+
     baseUrl: process.env.SERVER,
     credentials: 'include',
     prepareHeaders: (headers, { getState }) => {
@@ -16,6 +16,7 @@ const baseQuery = fetchBaseQuery({
 }) as BaseQueryFn<string | FetchArgs, unknown, CustomError | undefined, {}>
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError | CustomError | undefined >= async (args, api, extraOptions) => {
+    
     let result = await baseQuery(args, api, extraOptions) 
     if(result?.error?.status === 403) {
         const refreshResult = await baseQuery('/auth/refresh', api, extraOptions)

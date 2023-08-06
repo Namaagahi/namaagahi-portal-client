@@ -332,9 +332,7 @@ const SingleBox = () => {
                 <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
                     <div className=" h-full duration-1000">
                         <div className=" p-4 h-full bg-gray-100 overflow-hidden">
-                            <SingleBoxHeading 
-                                box={newBox}
-                            />
+                            <SingleBoxHeading box={newBox} />
                             <small className=" mt-2 text-black px-2">خرید</small>
                             <div className="max-h-[30%] bg-rose-200 dark:bg-red-900 overflow-y-auto p-2 w-full">
                                 <TableComponent 
@@ -347,49 +345,10 @@ const SingleBox = () => {
                                 <UnderConstruction 
                                     desc='این بخش از پنل مربوط به جدول فروش به تفکیک سازه ها و جداول تجمیعی سود و زیان است و به زودی اضافه خواهد شد.'
                                 />  
-                            {/* <div className="max-h-[30%] bg-lime-200 overflow-y-auto text-black">
-                                <Table 
-                                    tableHeadings={plannedStructureHeadings}
-                                    tableContent={
-                                    <>                
-                                        <td className="px-6 py-4">ST1000</td>
-                                        <td className="px-6 py-4">PL1000</td>
-                                        <td className="px-6 py-4">دیپوینت</td>
-                                        <td className="px-6 py-4">مدرس</td>
-                                        <td className="px-6 py-4">18.000.000</td>
-                                        <td className="px-6 py-4">1402/05/15</td>
-                                        <td className="px-6 py-4">1402/06/20</td>
-                                    </>}
-                                />
-                            </div> */}
 
                             <small className=" mt-2 text-black px-2">سود/ زیان جزئی </small>
-                            {/* <div className="max-h-[30%] bg-slate-200 overflow-y-auto text-black">
-                                <Table 
-                                    tableHeadings={structureRevenueHeadings}
-                                    tableContent={
-                                    <>                
-                                        <td className="px-6 py-4">ST1000</td>
-                                        <td className="px-6 py-4">مدرس</td>
-                                        <td className="px-6 py-4">17.000.000</td>
-                                        <td className="px-6 py-4">18.000.000</td>
-                                        <td className="px-6 py-4">1.000.000</td>
-                                    </>}
-                                />
-                            </div> */}
 
                             <small className=" mt-2 text-black px-2">سود/ زیان تجمیعی </small>
-                            {/* <div className="max-h-[30%] bg-slate-200 overflow-y-auto text-black">
-                                <Table 
-                                    tableHeadings={boxRevenueHeadings}
-                                    tableContent={
-                                    <>                
-                                        <td className="px-6 py-4">17.000.000</td>
-                                        <td className="px-6 py-4">18.000.000</td>
-                                        <td className="px-6 py-4">1.000.000</td>
-                                    </>}
-                                />
-                            </div> */}
                         </div>
                     </div>
                 </div>

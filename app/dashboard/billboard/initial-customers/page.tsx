@@ -24,7 +24,6 @@ const InitialCustomers = () => {
     
   const {
     isLoading,
-    isSuccess,
     isError,
   } = useGetAllInitialCustomersQuery(undefined, { 
     refetchOnFocus: false,
@@ -91,13 +90,6 @@ const InitialCustomers = () => {
                           onClick={handleDeleteInitialCustomer}
                         />
                       </div>
-                      {/* <div className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
-                        <AiFillDelete
-                          className="text-orange-600 dark:text-white hover:scale-125 transition-all"
-                          size={20}
-                          onClick={handleDeleteUser}
-                        />
-                      </div> */}
                     </td>
                     :
                     <>
@@ -137,7 +129,6 @@ const InitialCustomers = () => {
   },
   []
 )
-
 
 if(isLoading) return <Loading />
 

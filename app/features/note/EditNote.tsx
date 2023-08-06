@@ -11,19 +11,19 @@ const Loading = dynamic(
 const EditNote = (props: EditNoteProps) => {
 
   const {
-    data: allUsers, 
-  } = useGetUsersQuery(undefined, { 
+    note,
+    handleModal
+  } = props
+
+  useGetUsersQuery(undefined, { 
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
   }) 
 
-  const { note, handleModal } = props
-
   const users: UserObject[] | any  = useSelector(selectAllUsers)
 
-  return (
-    note && users ? <EditNoteForm note={note} users={users} handleModal={handleModal} /> : <Loading />
-  )
+  return note && users ? <EditNoteForm note={note} users={users} handleModal={handleModal} /> : <Loading />
+  
 }
 
 export default EditNote 

@@ -47,9 +47,7 @@ const PlansComp = (props: any) => {
     const allPlans: PlanObject[] | unknown = useSelector(state => selectAllPlans(state))
     const plan: PlanObject | any = useSelector(state => selectPlanById(state, planId!))
     const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
-    const [isEditPlan, setIsEditPlan] = useState(false)
     const [isDeletePlan, setIsDeletePlan] = useState(false)
-    const handleEditPlan = () => setIsEditPlan(!isEditPlan)
     const handleDeletePlan = () => setIsDeletePlan(!isDeletePlan)
     const [data, setData] = useState<PlanObject[] | unknown>([])
 
@@ -186,7 +184,6 @@ const PlansComp = (props: any) => {
                             <Link href={`/dashboard/billboard/plans/editplan/${row.id}`} target="_blank">
                               <AiFillEdit
                                 className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
-                                // onClick={handleEditPlan}
                               />
                             </Link>
                         
@@ -200,10 +197,11 @@ const PlansComp = (props: any) => {
                           }
                           {page === 'my' &&
                           <>
-                            <AiFillEdit 
-                              className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
-                              onClick={handleEditPlan}
-                            />
+                            <Link href={`/dashboard/billboard/plans/editplan/${row.id}`} target="_blank">
+                              <AiFillEdit
+                                className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
+                              />
+                            </Link>
                         
                             <AiFillDelete 
                               className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
@@ -267,14 +265,6 @@ const PlansComp = (props: any) => {
             type={'delete'} 
             deleteType="plan"
             /> 
-        }
-        {
-            isEditPlan &&  
-            <CreateUpdateModal 
-            prop={plan}
-            handleModal={handleEditPlan}
-            type={'editPlan'}
-            />
         }
     </>
   )

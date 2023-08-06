@@ -1,14 +1,30 @@
 import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
 import { StructureObject, BoxStructuresFormSectionProps } from "@/app/lib/interfaces"
-import { selectAllStructures } from "../../apiSlices/structuresApiSlice"
+import { selectAllStructures, useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
 import { AiFillPlusSquare, AiFillMinusSquare } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
+import SelectInput from "@/app/components/inputs/SelectInput"
+import CustomInput from "@/app/components/inputs/CustomInput"
 import { FieldError } from "react-hook-form"
-import { useSelector } from "react-redux"
+import { useSelector } from "react-redux" 
 
 const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
 
-  const { register, errors, structuresField, appendStructure, removeStructure, control, setValue, convertToNumber } = props
+  const {
+    register,
+    errors,
+    structuresField,
+    appendStructure,
+    removeStructure,
+    control,
+    setValue,
+    convertToNumber
+  } = props
+
+  useGetStructuresQuery(undefined, { 
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
+})
 
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state))
   const filtered = structures.filter((structure) => structure.isChosen === false)
@@ -19,11 +35,97 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
     const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
     setValue(prop, formattedValue)
   }
- 
+
   return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
       {structuresField.map((item, fieldIndex) =>{
+          const selectInputs = [
+            {
+              id: 1,
+              label: "کد سامانه سازه",
+              name: `structures.${fieldIndex}.structureId`,
+              options: filtered,
+              errors: errors?.['structures']?.[fieldIndex]?.['structureId']?.['message'],
+              defaultValue:{}
+            },
+            {
+              id: 2,
+              label: "نوع سازه",
+              name: `structures.${fieldIndex}.marks.name`,
+              options: typeNames,
+              errors: (errors?.structures?.[fieldIndex]?.marks?.name as FieldError)?.message
+            },
+            {
+              id: 3,
+              label: "استایل سازه",
+              name: `structures.${fieldIndex}.marks.markOptions.style`,
+              options: styles,
+              errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.style as FieldError)?.message
+            },
+            {
+              id: 4,
+              label: "تیپ سازه",
+              name: `structures.${fieldIndex}.marks.markOptions.face`,
+              options: faces,
+              errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.face as FieldError)?.message
+            }
+          ]
+          
+          const customInputs = [
+            {
+              id: 1,
+              label: "طول",
+              name: `structures.${fieldIndex}.marks.markOptions.length`,
+              type:'number',
+              message: 'طول سازه را وارد کنید',
+              errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.length as FieldError)?.message,
+              // onWheel: (e: any) => e.target.blur()
+            },
+            {
+              id: 2,
+              label: "عرض",
+              name: `structures.${fieldIndex}.marks.markOptions.width`,
+              type:'number',
+              message: 'عرض سازه را وارد کنید',
+              errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.width as FieldError)?.message,
+            },
+            {
+              id: 3,
+              label: "متراژ چاپ",
+              name: `structures.${fieldIndex}.marks.markOptions.printSize`,
+              type:'number',
+              message: 'متراژ چاپ سازه را وارد کنید',
+              errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.printSize as FieldError)?.message,
+            },
+            {
+              id: 4,
+              label: "متراژ واقعی",
+              name: `structures.${fieldIndex}.marks.markOptions.docSize`,
+              type:'number',
+              message: 'متراژ واقعی سازه را وارد کنید',
+              errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.docSize as FieldError)?.message,
+            },
+            {
+              id: 5,
+              label: "قیمت متر مربع",
+              name: `structures.${fieldIndex}.costs.fixedCosts.squareCost`,
+              type:'text',
+              message: 'قیمت متر مربع سازه را وارد کنید',
+              errors: (errors?.structures?.[fieldIndex]?.costs?.fixedCosts?.squareCost as FieldError)?.message,
+              onChange: (event: any) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.fixedCosts.squareCost`)
+            },
+            {
+              id: 6,
+              label: "تعرفه ماهیانه پایه",
+              name: `structures.${fieldIndex}.monthlyBaseFee`,
+              type:'text',
+              message: 'تعرفه ماهیانه پایه سازه را وارد کنید',
+              errors: (errors?.structures?.[fieldIndex]?.monthlyBaseFee as FieldError)?.message,
+              onChange: (event: any) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyBaseFee`)
+            },
+          ]
+         
         return (
           <div
             className=" border-[1px] rounded-2xl flex flex-col items-end overflow-hidden border-primary bg-secondary w-full"
@@ -33,239 +135,36 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
               <div className='absolute right-0 top-0 min-h-[24px] w-4 rounded-b-[20px] bg-primary flex justify-center items-center font-bold text-white hover:scale-125 cursor-pointer transition-all'>
                 {fieldIndex + 1}
               </div>
+              
+              {selectInputs.map((selectInput: any, index: number)=> {
+                return(
+                  <SelectInput
+                    key={selectInput.id}
+                    control={control}
+                    label={selectInput.label}
+                    name={selectInput.name}
+                    options={selectInput.options}
+                    required={true}
+                    errors={selectInput.errors}
+                  />
+                )
+              })}
 
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="typeName" className='text-[#767676] text-center font-bold'>کد سامانه سازه</label>
-                <select 
-                  {...register(`structures.${fieldIndex}.structureId`, {
-                    required: {
-                      value: true,
-                      message:  'کد سازه را انتخاب کنید'
-                    }
-                  })}
-                  className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none"
-                >
-                  {
-                    filtered.map((structure) => (
-                      <option
-                        value={structure.id}
-                        key={structure.id}
-                        id="typeName"
-                    >
-                      {structure.name}
-                    </option>
-                    ))
-                  }
-                </select>
-                <small className="text-xs text-rose-600 "> 
-                  {errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}
-                </small>
-              </div>
-    
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="typeName" className='text-[#767676] font-bold'>نوع سازه</label>
-                <select 
-                  {...register(`structures.${fieldIndex}.marks.name`, {
-                    required: {
-                      value: true,
-                      message:  'نوع سازه را انتخاب کنید'
-                  }
-                  })}
-                  className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none"
-                >
-                  {
-                    typeNames.map((type: string, index: number) => (
-                      <option
-                        value={type}
-                        key={index}
-                        id="typeName"
-                      >
-                        {type}
-                      </option>
-                    ))
-                  }
-                </select>
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.marks?.name as FieldError)?.message}
-                </small>
-              </div>
-    
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="styleName" className='text-[#767676] font-bold'>تیپ</label>
-                <select 
-                  {...register(`structures.${fieldIndex}.marks.markOptions.style`, {
-                    required: {
-                      value: true,
-                      message:  'استایل سازه را انتخاب کنید'
-                    }
-                  })}
-                  className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none"
-                >
-                  {
-                    styles.map((style: string, index: number) => (
-                      <option 
-                        value={style}
-                        key={index}
-                        id="styleName"
-                      >
-                        {style}
-                      </option>
-                    ))
-                  }
-                </select>
-                <small className="text-xs text-rose-600 ">
-                {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.style as FieldError)?.message}
-                </small>
-              </div>
-              
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="face" className='text-[#767676] font-bold'>وجه</label>
-                <select 
-                  {...register(`structures.${fieldIndex}.marks.markOptions.face`, {
-                    required: {
-                      value: true,
-                      message:  'تیپ سازه را انتخاب کنید'
-                    }
-                  })}
-                  className="select select-bordered max-w-xs w-full px-6 py-3 rounded-[50px] bg-white outline-none">
-                  {
-                    faces.map((face, index) => (
-                      <option 
-                        value={face}
-                        key={index}
-                        id="face"
-                      >
-                        {face}
-                      </option>
-                    ))
-                  }
-                </select>
-                <small className="text-xs text-rose-600 ">
-                {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.face as FieldError)?.message}
-                </small>
-              </div>
-              
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="length" className='text-[#767676] font-bold'>طول</label>
-                <input
-                  {...register(`structures.${fieldIndex}.marks.markOptions.length`, {
-                    valueAsNumber: true,
-                    required: {
-                      value: true,
-                      message:  'طول سازه را وارد کنید'
-                    }
-                  })}
-                  step={0.1}
-                  type="number"
-                  id='length'
-                  className='p-4 rounded-[50px] bg-white outline-none'
-                  data-error
-                  onWheel={(e: any) => e.target.blur()}
-                />
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.length as FieldError)?.message}
-                </small>
-              </div>
-                  
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="width" className='text-[#767676] font-bold'>عرض</label>
-                <input
-                  {...register(`structures.${fieldIndex}.marks.markOptions.width`, {
-                    valueAsNumber: true,
-                    required: {
-                      value: true,
-                      message:  'عرض سازه را وارد کنید'
-                    }
-                  })}
-                  type="number"
-                  id='width'
-                  className='p-4 rounded-[50px] bg-white outline-none'
-                  onWheel={(e: any) => e.target.blur()}
-                />
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.width as FieldError)?.message}
-                </small>
-              </div>
-                          
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="printSize" className='text-[#767676] font-bold'>متراژ چاپ</label>
-                <input
-                  {...register(`structures.${fieldIndex}.marks.markOptions.printSize`, {
-                    valueAsNumber: true,
-                    required: {
-                      value: true,
-                      message:  'متراژ چاپ سازه را وارد کنید'
-                    }
-                  })}
-                  type="number"
-                  id='printSize'
-                  className='p-4 rounded-[50px] bg-white outline-none'
-                  onWheel={(e: any) => e.target.blur()}
-                />
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.printSize as FieldError)?.message}
-                </small>
-              </div>
-              
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="docSize" className='text-[#767676] font-bold'>متراژ واقعی</label>
-                <input
-                  {...register(`structures.${fieldIndex}.marks.markOptions.docSize`, {
-                    valueAsNumber: true,
-                    required: {
-                      value: true,
-                      message:  'متراژ واقعی سازه را وارد کنید'
-                    }
-                  })}
-                  type="number"
-                  id='docSize'
-                  className='p-4 rounded-[50px] bg-white outline-none'
-                  onWheel={(e: any) => e.target.blur()}
-                />
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.marks?.markOptions?.docSize as FieldError)?.message}
-                </small>
-              </div>
-              
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="squareCost" className='text-[#767676] font-bold'>قیمت متر مربع</label>
-                <input
-                  {...register(`structures.${fieldIndex}.costs.fixedCosts.squareCost`, {
-                    required: {
-                      value: true,
-                      message: "قیمت متر مربع سازه را وارد کنید",
-                    },
-                  })}
-                  type="text"
-                  id="squareCost"
-                  className="p-4 rounded-[50px] bg-white outline-none"
-                  // onWheel={(e: any) => e.target.blur()} 
-                  onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.fixedCosts.squareCost`)}
-                />
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.costs?.fixedCosts?.squareCost as FieldError)?.message}
-                </small>
-              </div>
-
-              <div className='flex flex-col gap-3'>
-                <label htmlFor="monthlyBaseFee" className='text-[#767676] font-bold'>تعرفه ماهیانه پایه</label>
-                <input
-                  {...register(`structures.${fieldIndex}.monthlyBaseFee`, {
-                    required: {
-                      value: true,
-                      message: "تعرفه ماهیانه پایه سازه را وارد کنید",
-                    },
-                  })}
-                  type="text"
-                  id="monthlyBaseFee"
-                  className="p-4 rounded-[50px] bg-white outline-none"
-                  // onWheel={(e: any) => e.target.blur()} 
-                  onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyBaseFee`)}
-                />
-                <small className="text-xs text-rose-600 ">
-                  {(errors?.structures?.[fieldIndex]?.monthlyBaseFee as FieldError)?.message}
-                </small>
-              </div>
+              {customInputs.map((customInput: any) => {
+                return(
+                  <CustomInput
+                    control={control}
+                    name={customInput.name}
+                    label={customInput.label}
+                    required
+                    message={customInput.message}
+                    type={customInput.type}
+                    errors={customInput.errors}
+                    onWheel={customInput.onWheel? customInput.onWheel : undefined}
+                    onChange={customInput.onChange!!}
+                  />
+                )
+              })}
 
               <AiFillMinusSquare
                 className={`${fieldIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-700 transition-all`}

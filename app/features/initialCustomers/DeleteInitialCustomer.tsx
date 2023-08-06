@@ -6,7 +6,10 @@ import { toast } from 'react-toastify'
 
 const DeleteInitialCustomer = (props: DeleteInitialCustomerProps) => {
 
-    const { initialCustomer, handleModal } = props
+    const {
+      initialCustomer,
+      handleModal
+    } = props
 
     const [deleteInitialCustomer, {
         isLoading, 

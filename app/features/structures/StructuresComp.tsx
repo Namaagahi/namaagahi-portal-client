@@ -137,9 +137,10 @@ const Structures = (props: any) => {
                 cell: info => {
                   const isChosen = info.getValue();
                   const structureBox: any = allBoxes.find((box: any) => box.boxId === info.row.original.parent)
+                  console.log("structureBox", structureBox)
                   return (
-                    (isChosen && structureBox) ?
-                    <Link href={`/dashboard/billboard/boxes/${structureBox.id}`}  target="_blank">
+                    (isChosen) ?
+                    <Link href={`/dashboard/billboard/boxes/${structureBox?.id}`}  target="_blank">
                       <Status
                         status = {structureBox ? structureBox?.name : "در باکس"}
                         bgColor = {'#00ff37'}
@@ -220,7 +221,7 @@ const Structures = (props: any) => {
     []
   )
   
-  if(isLoading) return <Loading />
+  if(isLoading || !allBoxes) return <Loading />
   
   if(isError) return (
   

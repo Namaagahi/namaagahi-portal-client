@@ -9,7 +9,10 @@ const ListItem = dynamic(
 
 const BoxItem = (props: BoxItemProps) => {
   
-  const { boxId, index } = props 
+  const {
+    boxId,
+    index
+  } = props 
   
   const box: BoxObject | any = useSelector(state => selectBoxById(state, boxId))
 

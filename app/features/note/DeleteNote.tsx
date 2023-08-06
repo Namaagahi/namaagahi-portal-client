@@ -12,7 +12,10 @@ const Loading = dynamic(
 
 const DeleteNote = (props: DeleteNoteProps) => {
 
-    const { note, handleModal } = props
+    const {
+        note,
+        handleModal
+    } = props
     
     const [deleteNote, {
         isLoading,

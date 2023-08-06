@@ -1,10 +1,15 @@
+import LogoutModalContent from "../main/LogoutModalContent"
 import DeleteModalContent from "../main/DeleteModalContent"
 import { ConfirmModalProps } from "@/app/lib/interfaces"
-import LogoutModalContent from "../main/LogoutModalContent"
 
 const ConfirmModal = (props: ConfirmModalProps) => {
 
-  const { handleModal, type, prop, deleteType } = props
+  const {
+    handleModal,
+    type,
+    prop,
+    deleteType
+  } = props
 
   return (
     <div className="modal-container">

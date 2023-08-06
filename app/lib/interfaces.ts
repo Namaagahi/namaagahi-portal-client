@@ -214,17 +214,11 @@ export interface EditBoxForm {
   boxId: string
   userId?: string
   name: string
-  mark: {
-    name: string
-    markOptions: {
-      projectNumber: string
-      brand: string
-    }
-  }
-  duration: {
-    startDate:  string | Date
-    endDate:  string | Date
-  }
+  mark: string
+  projectNumber: string
+  brand: string
+  startDate:  string
+  endDate:  string
   structures: {
     structureId:string
     marks: {
@@ -245,10 +239,11 @@ export interface EditBoxForm {
       variableCosts: {
         name: string
         figures: {
-          monthlyCost: string
+          monthlyCost: string | number
         }
       }[]
-    }
+    },
+    monthlyBaseFee : string
   }[]
 }
 
@@ -365,10 +360,12 @@ export interface TitleProps {
 }
 
 export interface BasicBoxInfoFormSectionProps {
+  page: string
+  control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
+  box?: BoxObject
   handleStartDate: (val: Value) => void
   handleEndDate: (val: Value) =>void
-  register: UseFormRegister<AddBoxForm>
-  errors: FieldErrors<AddBoxForm>
+  errors: FieldErrors<AddBoxForm> | FieldErrors<EditBoxForm>
   mark: string 
 }
 
@@ -378,6 +375,7 @@ export interface BoxItemProps {
 }
 
 export interface BoxStructuresFormSectionProps { 
+  page: string
   register: UseFormRegister<AddBoxForm>
   errors: FieldErrors<AddBoxForm>
   structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[]
@@ -604,7 +602,7 @@ export interface PlanStructuresInfoProps {
   errors: FieldErrors<EditPlanForm>
   field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
   discountType: string
-  convertToNumber: (value: string) => number  
+  convertToNumber: (value: string | number) => number | any
   handleDiscountType: (val: string) =>void 
   setValue: UseFormSetValue<EditPlanForm> |  UseFormSetValue<AddPlanForm>
   appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
@@ -664,4 +662,10 @@ export interface SelectInputProps {
   required?: boolean;
   options: any[];
   errors?: string;
+}
+
+export interface TootlipProps { 
+  children: JSX.Element, 
+  tooltipText: string | undefined , 
+  orientation: string 
 }

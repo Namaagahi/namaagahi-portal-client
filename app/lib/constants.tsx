@@ -154,7 +154,7 @@ export const subMenusList = [
     ]
   },
 ];
-
+ 
 // NEW BOX =======================================================
 export const newBoxDefaultValues = {
   boxId: `box_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
@@ -192,9 +192,21 @@ export const newBoxDefaultValues = {
 }
 
 // NEW BOX - STRUCTURESFORMSECTION =======================================================
-export const typeNames = ['عرشه پل سواره رو', 'پل عابر پیاده', 'بیلبورد']
-export const styles = ['افقی', 'عمودی']
-export const faces = ['شمالی', 'جنوبی', 'غربی', 'شرقی']
+export const typeNames = [
+  {id: 'عرشه پل سواره رو', name: 'عرشه پل سواره رو'},
+  {id: 'پل عابر پیاده', name: 'پل عابر پیاده'},
+  {id: 'بیلبورد', name: 'بیلبورد'},
+]
+export const styles = [
+  {id: 'افقی', name: 'افقی'},
+  {id: 'عمودی', name: 'عمودی'},
+]
+export const faces = [
+  {id: 'شمالی', name: 'شمالی'},
+  {id: 'جنوبی', name: 'جنوبی'},
+  {id: 'غربی', name: 'غربی'},
+  {id: 'شرقی', name: 'شرقی'},
+]
 export const boxMarks = ['مزایده ای', 'کوتاه مدت', 'بلندمدت']
 export const boxMarksObject = {
   'مزایده ای' : 'owner',

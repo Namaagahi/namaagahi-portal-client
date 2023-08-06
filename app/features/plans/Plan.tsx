@@ -15,14 +15,13 @@ import ConfirmModal from '@/app/components/modals/ConfirmModal'
 
 const Plan = (props: any) => {
     
-    const { planId, index, page } = props
-
     const {
-        data: plans,
-        isLoading,
-        isError,
-        isSuccess
-    } = useGetAllPlansQuery(undefined, {
+        planId,
+        index,
+        page
+    } = props
+
+    useGetAllPlansQuery(undefined, {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true,
         refetchOnReconnect: true,

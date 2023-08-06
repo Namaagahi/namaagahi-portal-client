@@ -1,4 +1,4 @@
-const UnderConstruction = ({desc}: {desc:string}) => {
+const UnderConstruction = ({ desc }: { desc:string }) => {
   
   return (
     <section className="bg-white dark:bg-gray-900">

@@ -13,7 +13,11 @@ const Loading = dynamic(
 
 const EditNoteForm = (props: EditNoteProps) => {
 
-    const {note, users, handleModal} = props
+    const {
+        note,
+        users,
+        handleModal
+    } = props
 
     const [updateNote, {
         isLoading,

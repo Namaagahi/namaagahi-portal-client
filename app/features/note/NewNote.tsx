@@ -14,9 +14,8 @@ const NewNote = ({handleModal}: {handleModal: () => void}) => {
 
     if(!users.length) return <p>در حال حاضر در دسترس نیست.</p>
 
-    return (
-      users ? <NewNoteForm users={users!} handleModal={handleModal} /> : <Loading />
-    )
+    return users ? <NewNoteForm users={users!} handleModal={handleModal} /> : <Loading />
+    
 }
  
 export default NewNote 

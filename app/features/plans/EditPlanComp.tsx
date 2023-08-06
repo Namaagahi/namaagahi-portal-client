@@ -2,9 +2,9 @@ import useAuth from '@/app/hooks/useAuth'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useUpdatePlanMutation } from '../../apiSlices/plansApiSlice'
-import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
+import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { selectAllStructures, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
-import { EditPlanForm, InitialCustomerObject, UserObject } from '@/app/lib/interfaces'
+import { EditPlanForm, UserObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
 import { selectUserById } from '../../apiSlices/usersApiSlice'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -16,10 +16,9 @@ import PlanStructuresInfo from './PlanStructuresInfo'
 
 const EditPlanComp = (props: any) => {
     
-    const { plan } = props
+    const { plan } = props 
     const { id: currentUserId } = useAuth()
     const { push } = useRouter()
-    
     
     useGetAllInitialCustomersQuery(undefined, { 
         refetchOnFocus: false,
@@ -80,15 +79,21 @@ const EditPlanComp = (props: any) => {
         reset(data)
       }, [data, reset])
 
-    function convertToNumber(value: string | null): any { 
-        const cleanedValue = value!.replace(/,/g, '')
-        const parsedValue = parseFloat(cleanedValue)
-    
-        if (isNaN(parsedValue)) {
-        return null
+      function convertToNumber(value: string | number) {
+        if (typeof value === "number") {
+          return value;
         }
+      
+        const cleanedValue = value?.replace(/,/g, "");
+        const parsedValue = parseFloat(cleanedValue);
+      
+        if (isNaN(parsedValue)) {
+          return null;
+        }
+      
         return parsedValue;
-    }
+      }
+    
       
     const onSubmit = async(data: any) => {
         if(data.status === 'done') {
@@ -143,7 +148,7 @@ const EditPlanComp = (props: any) => {
         push('/dashboard/billboard/plans')
     }
 // console.log("plan", plan)
-console.log("editPlanForm", editPlanForm.getValues())
+// console.log("editPlanForm", editPlanForm.getValues())
 // console.log("planStructures", planStructures)
     if(!plan) return <Loading />
 

@@ -4,7 +4,12 @@ import { useTheme } from "next-themes"
 
 const ToggleButton = () => {
 
-  const { systemTheme, theme, setTheme } = useTheme()
+  const {
+    systemTheme,
+    theme,
+    setTheme
+  } = useTheme()
+  
   const currentTheme = theme === 'system' ? systemTheme : theme
 
   return (

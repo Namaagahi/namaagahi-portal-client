@@ -14,7 +14,7 @@ import Link from "next/link"
 
 const Account = () => {
 
-  const { id,name, status, avatar  } = useAuth()  
+  const { id, name, status, avatar  } = useAuth()  
   const user: UserObject | any = useSelector(state => selectUserById(state, id))
 
   const [showAccountMenu, setShowAccountMenu] = useState(false)

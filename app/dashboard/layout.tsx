@@ -6,12 +6,12 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'
 import Footer from '../features/footer/Footer'
 import Menu from '../features/sidemenu/Menu'
+import { useRouter } from 'next/navigation'
 import { useSelector } from "react-redux"
 import { ROLES } from '../config/roles'
-import Link from "next/link"
 import useAuth from '../hooks/useAuth'
+import Link from "next/link"
 import dynamic from 'next/dynamic'
-import { useRouter } from 'next/navigation'
 const Loading = dynamic(
   () => import('../features/loading/Loading'),
   { ssr: false }
@@ -31,10 +31,6 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       isSuccess,
       isError,
   }] = useRefreshMutation()
-
-  // useLayoutEffect(() =>{
-  //   if(!token) push('/')
-  // },[])
 
   useEffect(() => {
     const verifyRefreshToken = async () => {

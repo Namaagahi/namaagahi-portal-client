@@ -2,7 +2,10 @@ import { TableProps } from "@/app/lib/interfaces"
 
 const Table = (props: TableProps) => {
 
-  const { tableContent, tableHeadings } = props
+  const {
+    tableContent,
+    tableHeadings
+  } = props
 
   return (
     <div className="relative overflow-x-auto mt-5 max-w-full">

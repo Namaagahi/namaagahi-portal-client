@@ -90,7 +90,7 @@ const NewBox = ({ mark }: { mark: string }) => {
       return null
     }
     return parsedValue;
-  }
+  } 
 
   const onSubmit = async(data: AddBoxForm) => {
 
@@ -175,34 +175,34 @@ const NewBox = ({ mark }: { mark: string }) => {
   }
 
     return (
-      <>
-        <form
-          noValidate
-          onSubmit={handleSubmit(onSubmit)}
-          className='w-full flex flex-col gap-9 justify-center'
-        >
-          <BasicBoxInfoFormSection 
-            mark={mark}
-            register={register}
-            errors={errors}
-            handleStartDate={(val) => setStartDate(val)}
-            handleEndDate={(val) => setEndDate(val)}
-          />
+      <form
+        noValidate
+        onSubmit={handleSubmit(onSubmit)}
+        className='w-full flex flex-col gap-9 justify-center'
+      >
+        <BasicBoxInfoFormSection
+          page={'create'}
+          control={control} 
+          mark={mark}
+          errors={errors}
+          handleStartDate={(val) => setStartDate(val)}
+          handleEndDate={(val) => setEndDate(val)}
+        />
 
-          <BoxStructuresFormSection 
-            register={register}
-            errors={errors}
-            structuresField={structuresField}
-            appendStructure={appendStructure}
-            removeStructure={removeStructure}
-            control={control}
-            setValue={setValue}
-            convertToNumber={convertToNumber}
-          />
+        <BoxStructuresFormSection 
+          page={'create'}
+          register={register}
+          errors={errors}
+          structuresField={structuresField}
+          appendStructure={appendStructure}
+          removeStructure={removeStructure}
+          control={control}
+          setValue={setValue}
+          convertToNumber={convertToNumber}
+        />
 
-          <button className="btn-primary">افزودن باکس</button>
-        </form>
-      </>
+        <button className="btn-primary">افزودن باکس</button>
+      </form>
     )
 }
 

@@ -151,7 +151,7 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                         options={combinedStructures}
                                         errors={errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}
                                     />
-                                                                <button 
+                                    <button 
                                         type='button' 
                                         className='bg-black text-white rounded-md hover:text-black hover:bg-white transition-colors'
                                         onClick={handleStructureInfoModal}

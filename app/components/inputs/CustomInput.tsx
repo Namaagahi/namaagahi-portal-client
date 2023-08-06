@@ -3,14 +3,30 @@ import { Controller } from 'react-hook-form'
 
 const CustomInput = (props: CustomInputProps) => {
 
-    const { control, defaultValue, name, label, required, message, pattern, patternMessage, type, errors, onChange, onWheel, placeholder, ref, key } = props
+    const {
+        control,
+        defaultValue,
+        name,
+        label,
+        required,
+        message,
+        pattern,
+        patternMessage,
+        type,
+        errors,
+        onChange,
+        onWheel,
+        placeholder,
+        ref,
+        key
+    } = props
 
     return (
         <div className='flex flex-col gap-3'>
             <label htmlFor={name} className='text-[#767676] font-bold'>{label}</label>
             <Controller
                 control={control}
-                name={name}
+                name={name} 
                 defaultValue={defaultValue}
                 rules={{ 
                     required: required && message,

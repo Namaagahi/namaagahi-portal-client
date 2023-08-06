@@ -3,7 +3,15 @@ import { Controller } from 'react-hook-form'
 
 const SelectInput = (props: SelectInputProps) => {
 
-    const { control, defaultValue, name, label, required, options, errors } = props
+    const {
+        control,
+        defaultValue,
+        name,
+        label,
+        required,
+        options,
+        errors
+    } = props
 
     return (
         <div className='flex flex-col gap-3'>

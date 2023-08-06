@@ -1,5 +1,4 @@
 import { AccessDeniedModalProps } from '@/app/lib/interfaces'
-import React from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 
 const AccessDeniedModeal = (props: AccessDeniedModalProps) => {

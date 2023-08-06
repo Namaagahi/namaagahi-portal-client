@@ -2,7 +2,11 @@ import { StatusProps } from "@/app/lib/interfaces"
 
 const Status = (props: StatusProps) => {
 
-  const { status, bgColor, textColor } = props
+  const {
+    status,
+    bgColor,
+    textColor
+  } = props
   
   return (
     <span

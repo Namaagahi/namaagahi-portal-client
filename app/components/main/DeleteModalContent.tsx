@@ -1,15 +1,19 @@
+import DeleteInitialCustomer from "@/app/features/initialCustomers/DeleteInitialCustomer"
 import DeleteStructure from "@/app/features/structures/DeleteStructure"
 import { DeleteModalContentProps } from "@/app/lib/interfaces"
+import DeletePlan from "@/app/features/plans/DeletePlan"
 import DeleteUser from "@/app/features/users/DeleteUser"
 import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteBox from "@/app/features/boxes/DeleteBox"
 import { AiOutlineClose } from 'react-icons/ai'
-import DeleteInitialCustomer from "@/app/features/initialCustomers/DeleteInitialCustomer"
-import DeletePlan from "@/app/features/plans/DeletePlan"
 
 const DeleteModalContent = (props: DeleteModalContentProps) => {
 
-    const { handleModal, prop, deleteType } = props
+    const {
+        handleModal,
+        prop,
+        deleteType
+    } = props
 
     return (
         <div className="confirm-modal-content">

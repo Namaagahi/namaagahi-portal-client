@@ -2,7 +2,10 @@ import { CreateButtonProps } from '@/app/lib/interfaces'
 
 const Button = (props: CreateButtonProps) => {
 
-  const { onClickHandler, title } = props
+  const {
+    onClickHandler,
+    title
+  } = props
   
   return (
     <button 

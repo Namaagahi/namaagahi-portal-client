@@ -10,7 +10,10 @@ const Loading = dynamic(
 
 const DeleteStructure = (props: DeleteStructureProps) => {
 
-    const { structure, handleModal } = props
+    const {
+        structure,
+        handleModal
+    } = props
 
     const [deleteStructure, {
         isLoading, 

@@ -1,18 +1,27 @@
 "use client"
-import { DeleteBoxProps, StructureData, StructureObject } from '@/app/lib/interfaces'
+import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useDeleteBoxMutation } from '../../apiSlices/boxesApiSlice'
+import { DeleteBoxProps } from '@/app/lib/interfaces'
+import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
-import { selectAllStructures, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
-import { useSelector } from 'react-redux'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
 )
 const DeleteBox = (props: DeleteBoxProps) => {
 
+  const {
+    box,
+    handleModal
+  } = props
+  
+  useGetStructuresQuery(undefined, { 
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
+})
+
   const structures = useSelector(state => selectAllStructures(state))
-  const { box, handleModal } = props
 
   const [deleteBox, {
       isLoading, 

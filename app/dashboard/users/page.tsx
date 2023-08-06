@@ -3,7 +3,9 @@ import { selectAllUsers, selectUserById, useGetUsersQuery } from '@/app/apiSlice
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
+import AccessDenied from '@/app/components/main/AccessDenied'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useMemo, useState } from 'react'
 import { UserObject } from '@/app/lib/interfaces'
@@ -14,8 +16,6 @@ import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Image from 'next/image'
-import AccessDenied from '@/app/components/main/AccessDenied'
-import PageTitle from '@/app/components/main/PageTitle'
 
 const Users = () => {
 
@@ -23,7 +23,6 @@ const Users = () => {
 
   const {
     isLoading,
-    isSuccess,
     isError,
   } = useGetUsersQuery(undefined, { 
     refetchOnFocus: false,

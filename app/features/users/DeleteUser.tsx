@@ -14,9 +14,7 @@ const DeleteUser = (props: DeleteUserProps) => {
     
     const [deleteUser, {
         isLoading,
-        isError,
         isSuccess,
-        error
     }] = useDeleteUserMutation()
 
     const onDeleteUserClick = async () => {

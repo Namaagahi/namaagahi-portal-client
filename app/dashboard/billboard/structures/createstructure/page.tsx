@@ -1,8 +1,6 @@
 "use client"
-import { selectAllStructures } from '@/app/apiSlices/structuresApiSlice'
 import NewStructureForm from '@/app/features/structures/NewStructureForm'
 import PageTitle from '@/app/components/main/PageTitle'
-import { useSelector } from 'react-redux'
 
 const CreateStructure = () => {
 

@@ -1,13 +1,22 @@
 import { FaDotCircle, FaPlusCircle } from 'react-icons/fa'
 import { CardProps } from '@/app/lib/interfaces'
+import useAuth from '@/app/hooks/useAuth'
 import Link from 'next/link'
 import Title from './Title'
-import useAuth from '@/app/hooks/useAuth'
  
 const Card = (props: CardProps) => {
 
   const { status } = useAuth()
-  const { title, mainLink, main, subTitleLink, subTitle, main2, main2Link } = props
+  
+  const {
+    title,
+    mainLink,
+    main,
+    subTitleLink,
+    subTitle,
+    main2,
+    main2Link
+  } = props
 
   return (
     <div className='bg-secondary dark:bg-primary flex flex-col gap-4 rounded-xl p-4 hover:bg-slate-400 dark:hover:bg-slate-600 transition'>

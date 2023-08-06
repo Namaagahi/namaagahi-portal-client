@@ -2,7 +2,11 @@ import { TitleProps } from '@/app/lib/interfaces'
 
 const Title = (props: TitleProps) => {
 
-  const { title, fontSize, bulletSize } = props
+  const {
+    title,
+    fontSize,
+    bulletSize
+  } = props
   
   return (
     <div className='flex justify-center items-center gap-3'>

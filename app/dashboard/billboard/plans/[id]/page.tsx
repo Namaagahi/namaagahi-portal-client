@@ -1,13 +1,12 @@
 "use client"
-import PageTitle from '@/app/components/main/PageTitle'
 import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
-import Loading from '@/app/features/loading/Loading'
-import SinglePlanHeading from '@/app/features/plans/SinglePlanHeading'
-import SinglePlanTable from '@/app/features/plans/SinglePlanTable'
 import { selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
 import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
+import SinglePlanHeading from '@/app/features/plans/SinglePlanHeading'
+import SinglePlanTable from '@/app/features/plans/SinglePlanTable'
+import PageTitle from '@/app/components/main/PageTitle'
+import Loading from '@/app/features/loading/Loading'
 import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 const SinglePlan = () => {
@@ -30,7 +29,6 @@ const SinglePlan = () => {
   if(isLoading || !plan) return <Loading />
 
   return (
-    <>
       <main className='min-h-screen w-full'>
         <PageTitle name={`پلن ${plan?.name}`} />
         <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
@@ -46,7 +44,6 @@ const SinglePlan = () => {
           </div>
         </div>
       </main>
-    </>
   )
 }
 

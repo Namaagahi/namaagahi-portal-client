@@ -1,6 +1,9 @@
-import React, { useRef } from 'react'
+import { TootlipProps } from '@/app/lib/interfaces'
+import { useRef } from 'react'
 
-const Tooltip = ({ children, tooltipText, orientation = 'right' } : { children: JSX.Element, tooltipText: string | undefined , orientation: string }) => {
+const Tooltip = (props : TootlipProps) => {
+
+    const { children, tooltipText, orientation = 'right' } = props
 
     const tipRef: any = useRef(null)
 
@@ -11,13 +14,9 @@ const Tooltip = ({ children, tooltipText, orientation = 'right' } : { children: 
         bottom: 'bottom',
     }
     
-    function handleMouseEnter() {
-        tipRef.current.style.opacity = 1
-    }
+    const handleMouseEnter = () => tipRef.current.style.opacity = 1
     
-    function handleMouseLeave() {
-        tipRef.current.style.opacity = 0
-    }
+    const handleMouseLeave = () => tipRef.current.style.opacity = 0
     
     const setContainerPosition = (orientation: string) => {
         let classnames

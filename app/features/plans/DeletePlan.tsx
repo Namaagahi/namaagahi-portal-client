@@ -1,12 +1,14 @@
-import { DeletePlanProps } from '@/app/lib/interfaces'
-import React from 'react'
 import { useDeletePlanMutation } from '../../apiSlices/plansApiSlice'
-import { toast } from 'react-toastify'
+import { DeletePlanProps } from '@/app/lib/interfaces'
 import Loading from '../loading/Loading'
+import { toast } from 'react-toastify'
 
 const DeletePlan = (props: DeletePlanProps) => {
 
-    const { plan, handleModal } = props
+    const {
+        plan,
+        handleModal
+    } = props
     
     const [deletePlan, {
         isLoading, 

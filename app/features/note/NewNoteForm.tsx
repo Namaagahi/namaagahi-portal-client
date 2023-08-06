@@ -9,7 +9,10 @@ import { toast } from "react-toastify"
 
 const NewNoteForm = (props: NewNoteFormProps) => {
 
-  const { users, handleModal } = props
+  const {
+    users,
+    handleModal
+  } = props
 
   const [addNewNote, { 
     isLoading,
