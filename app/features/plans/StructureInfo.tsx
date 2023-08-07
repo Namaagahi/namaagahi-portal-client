@@ -2,9 +2,15 @@ import useAuth from '@/app/hooks/useAuth'
 
 const StructureInfo = (props: any) => {
 
-    const { handleModal, selectedStructure } = props
+    const {
+        handleModal,
+        selectedStructure
+    } = props
 
-    const { isAdmin, isMediaManager } = useAuth()
+    const {
+        isAdmin,
+        isMediaManager
+    } = useAuth()
 
     function formatNumber(number: number, separator: string): string {
         const options = {
@@ -13,6 +19,8 @@ const StructureInfo = (props: any) => {
         }
         return number?.toLocaleString(undefined, options).replace(/,/g, separator);
     }
+
+    console.log("selectedStructure", selectedStructure)
 
     return (
         <div className="modal-container">
@@ -31,8 +39,7 @@ const StructureInfo = (props: any) => {
                         <p>{`تعرفه ماهیانه پیشبینی شده: ${formatNumber(selectedStructure.monthlyBaseFee, ',')} ریال`}</p>
                         {(isAdmin || isMediaManager) &&
                             <>
-                                <p>{`قیمت تمام شده ثابت: ${formatNumber(selectedStructure.costs.fixedCosts.periodCost, ',')} ریال`}</p>
-                                <p>{`قیمت تمام شده با هزینه های سربار پیشبینی شده: ${formatNumber(selectedStructure.costs.totalPeriodCost, ',')} ریال`}</p>
+                                <p>{`تمام شده ماهیانه با هزینه سربار پیشبینی شده: ${formatNumber(selectedStructure.costs.totalMonthlyCost, ',')} ریال`}</p>
                             </>
                         }
                     </div>

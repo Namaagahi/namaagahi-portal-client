@@ -18,17 +18,19 @@ const PlanPdfDoc = (props: any) => {
   })
 
   const columnsHeader = [
-    { content: 'پس از تخفیف', width: "10%" },
-    { content: 'تعرفه ماهیانه', width: '10%'},
-    { content: 'اکران', width: '5%'},
+    { content: 'جمع دوره', width: "7%" },
+    { content: 'پس از تخفیف', width: "7%" },
+    { content: 'تخفیف', width: "7%" },
+    { content: 'تعرفه ماهیانه', width: '7%'},
+    { content: 'اکران', width: '3%'},
     { content: 'تاریخ پایان', width: '7%'},
     { content: 'تاریخ شروع', width: '7%'},
-    { content: "مساحت", width: "5%" },
-    { content: "نوع سازه", width: "10%" },
+    { content: "مساحت", width: "3%" },
+    { content: "نوع سازه", width: "7%" },
     { content: "نشانی", width: "30%" },
     { content: "مسیر", width: "8%" },
     { content: "سامانه", width: "5%" },
-    { content: "ردیف", width: "3%" },
+    { content: "ردیف", width: "2%" },
   ]
 
   const styles = StyleSheet.create({
@@ -98,7 +100,7 @@ const PlanPdfDoc = (props: any) => {
     tableRow: { 
       margin: "auto", 
       flexDirection: "row",
-      fontSize: 10, 
+      fontSize: 7, 
     }, 
     tableCol: { 
       width: "12.5%", 
@@ -110,7 +112,7 @@ const PlanPdfDoc = (props: any) => {
     tableCell: { 
       margin: "auto", 
       marginTop: 5, 
-      fontSize: 10 
+      fontSize: 7 
     }
   })
 
@@ -157,24 +159,29 @@ console.log(plan)
               {plan.structures.map((strucuture: any, structureIndex: number) => {
                 return(
                     <View style={styles.tableRow} key={structureIndex}>
-                      <View style={[styles.tableCol, { width: '10%' }]}>
+                      <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
-                        </Text>
-                      </View>
-                      <View style={[styles.tableCol, { width: '10%' }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFee, ',')}
-                        </Text>
-                      </View>
-                      <View style={[styles.tableCol, { width: '5%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.duration.diff}
+                          {formatNumber(strucuture.totalPeriodCost, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {strucuture.duration.sellStart}
+                          {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
+                        </Text>
+                      </View>
+                      <View style={[styles.tableCol, { width: '7%' }]}>
+                        <Text style={styles.tableCell}>
+                          {`${strucuture.discountFee} ${strucuture.discountType === 'percentage'? "درصد" : "ریال"}`}
+                        </Text>
+                      </View>
+                      <View style={[styles.tableCol, { width: '7%' }]}>
+                        <Text style={styles.tableCell}>
+                          {formatNumber(strucuture.monthlyFee, ',')}
+                        </Text>
+                      </View>
+                      <View style={[styles.tableCol, { width: '3%' }]}>
+                        <Text style={styles.tableCell}>
+                          {strucuture.duration.diff}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
@@ -182,12 +189,17 @@ console.log(plan)
                           {strucuture.duration.sellEnd}
                         </Text>
                       </View>
-                      <View style={[styles.tableCol, { width: '5%' }]}>
+                      <View style={[styles.tableCol, { width: '7%' }]}>
+                        <Text style={styles.tableCell}>
+                          {strucuture.duration.sellStart}
+                        </Text>
+                      </View>
+                      <View style={[styles.tableCol, { width: '3%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.marks.markOptions.docSize}
                         </Text>
                       </View>
-                      <View style={[styles.tableCol, { width: '10%' }]}>
+                      <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.marks.name}
                         </Text>
@@ -207,7 +219,7 @@ console.log(plan)
                           {strucuture.structureRecord.name}
                         </Text>
                       </View>
-                      <View style={[styles.tableCol, { width: '3%' }]}>
+                      <View style={[styles.tableCol, { width: '2%' }]}>
                         <Text style={styles.tableCell}>
                           {structureIndex + 1}
                         </Text>
@@ -217,12 +229,12 @@ console.log(plan)
               })}
 
                   <View style={styles.tableRow}>
-                    <View style={[styles.tableCol, { width: '10%' }]}>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
                       <Text style={styles.tableCell}>
-                        {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.monthlyFeeWithDiscount , 0), ',')}
+                        {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
                       </Text> 
                     </View>
-                    <View style={[styles.tableCol, { width: '90%' }]}>
+                    <View style={[styles.tableCol, { width: '93%' }]}>
                       <Text style={styles.tableCell}>جمع</Text> 
                     </View>
                   </View>

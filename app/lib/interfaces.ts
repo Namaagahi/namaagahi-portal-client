@@ -588,6 +588,7 @@ export interface PlanStructure {
   monthlyFee: string
   monthlyFeeWithDiscount: string
   discountFee: string
+  totalPeriodCost: string
 }[]
 
 export interface BasicPlanInfoSectionProps {

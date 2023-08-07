@@ -69,13 +69,6 @@ const SinglePlanTable = (props: any) => {
                 id: 'قیمت ماهانه پس از تخفیف',
                 cell: info => formatNumber(info.getValue(),','),
                 header: () => <span>قیمت ماهانه پس از تخفیف</span>,
-                footer: (info: any, rows: any) => {
-                  return (
-                    <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
-                      {formatNumber(data?.reduce((total: any, item: any) => total + item.monthlyFeeWithDiscount, 0), ',')}
-                    </div>
-                  )
-                },
                 },
                 {
                 accessorFn: row => row?.discountType,
@@ -110,6 +103,19 @@ const SinglePlanTable = (props: any) => {
                 id: 'طول دوره',
                 cell: info => info.getValue(),
                 header: () => <span>طول دوره</span>,
+                },
+                {
+                accessorFn: row => row?.totalPeriodCost,
+                id: 'جمع دوره',
+                cell: info => formatNumber(info.getValue(), ','),
+                header: () => <span>جمع دوره</span>,
+                footer: (info: any, rows: any) => {
+                  return (
+                    <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
+                      {formatNumber(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
+                    </div>
+                  )
+                },
                 },
             ],
             },

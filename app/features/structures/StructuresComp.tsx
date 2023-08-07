@@ -182,7 +182,7 @@ const Structures = (props: any) => {
                   const row = info.row.original;
                   return (
                     <div className="px-6 flex items-center gap-2" onClick={() => setStructureId(row.id)}>
-                        {isMediaManager && page === 'all' ?
+                        {(isMediaManager || isAdmin) && page === 'all' ?
                         <>
                             <AiFillEdit 
                                 className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}

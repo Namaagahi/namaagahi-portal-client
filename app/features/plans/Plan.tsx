@@ -56,7 +56,7 @@ const Plan = (props: any) => {
                         <td className="px-6 py-4">{plan.brand}</td>
                         <td className="px-6 py-4">{plan.structures.length}</td>
                         <td className="px-6 py-4 flex items-center gap-5 ">
-                            {isMediaManager && page === 'all' ?
+                            {(isMediaManager || isAdmin) && page === 'all' ?
                             <>
                                 <AiFillEdit
                                     className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
