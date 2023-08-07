@@ -63,6 +63,8 @@ const CreatePlan = () => {
       }))
     }
 
+    console.log("newData", newData)
+
   const abc = await createNewPlan({
       userId: id,
       name: newData.name,

@@ -144,7 +144,7 @@ const EditPlanComp = (props: any) => {
     }
     
     if(isSuccess) {
-        toast.success(`پلن ${plan.name} با موفقیت ویرایش شد.`)
+        toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
         push('/dashboard/billboard/plans')
     }
 // console.log("plan", plan)

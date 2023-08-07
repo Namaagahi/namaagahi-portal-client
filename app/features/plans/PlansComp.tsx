@@ -77,10 +77,10 @@ const PlansComp = (props: any) => {
                   header: () => <span>کاربر ایجاد کننده</span>,
                 },
                 {
-                  accessorFn: row => row.name,
-                  id: 'نام پلن',
+                  accessorFn: row => row.planId,
+                  id: 'شماره پلن',
                   cell: info => info.getValue(),
-                  header: () => <span>نام پلن</span>,
+                  header: () => <span>شماره پلن</span>,
                 },
                 {
                   accessorFn: row => row.customerName,
@@ -235,7 +235,7 @@ const PlansComp = (props: any) => {
       },
       []
     )
-
+console.log("allPlans", allPlans)
     if(isLoading) return <Loading /> 
   
     if(isError) return (

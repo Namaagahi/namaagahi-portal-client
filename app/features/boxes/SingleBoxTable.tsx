@@ -47,7 +47,7 @@ const SingleBoxTable = (props: any) => {
                 id: 'نوع سازه',
                 cell: info => info.getValue(),
                 header: () => <span>نوع سازه</span>,
-                },
+                }, 
                 {
                 accessorFn: row => row.structureId,
                 id: 'مسیر',

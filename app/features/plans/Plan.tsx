@@ -8,8 +8,6 @@ import useAuth from '@/app/hooks/useAuth'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import Status from '@/app/components/main/Status'
 import Link from 'next/link'
-import Badge from '@/app/components/main/Badge'
-import Tooltip from '@/app/components/main/Tooltip'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
 
 
@@ -53,7 +51,7 @@ const Plan = (props: any) => {
                     >
                         <td className="px-6 py-4">{index + 1}</td>
                         <td className="px-6 py-4">{plan.username}</td>
-                        <td className="px-6 py-4">{plan.name}</td>
+                        <td className="px-6 py-4">{plan.planId}</td>
                         <td className="px-6 py-4">{foundCustomer?.name}</td>
                         <td className="px-6 py-4">{plan.brand}</td>
                         <td className="px-6 py-4">{plan.structures.length}</td>
