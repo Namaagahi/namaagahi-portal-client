@@ -4,6 +4,7 @@ import ConfirmModal from '../modals/ConfirmModal'
 import useAuth from '@/app/hooks/useAuth'
 import { useState } from 'react'
 import Link from 'next/link'
+import moment from 'jalali-moment'
 
 const ListItem = (props: ListItemProps) => {
 
@@ -45,11 +46,11 @@ const ListItem = (props: ListItemProps) => {
 
             <div className='flex justify-between items-center gap-2 w-full font-bold mt-2 text-xs sm:text-sm md:text-base'>
                 <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
-                    {startDate}
+                    {moment(new Date(startDate).toISOString()).format('jYYYY-jM-jD')}
                 </div>
 
                 <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
-                    {endDate}
+                    {moment(new Date(endDate).toISOString()).format('jYYYY-jM-jD')}
                 </div>
 
                 <div className='w-[30%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>

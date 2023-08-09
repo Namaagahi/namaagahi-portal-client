@@ -11,7 +11,7 @@ import { FaDollarSign, FaPercentage } from 'react-icons/fa'
 import React, { useEffect, useRef, useState } from 'react'
 import persian from "react-date-object/calendars/persian"
 import DiscountedMonthlyFee from './DiscountedMonthlyFee'
-import DatePicker from 'react-multi-date-picker'
+import DatePicker, { DateObject } from 'react-multi-date-picker'
 import MonthlyFeeInput from './MonthlyFeeInput'
 import { FieldError } from 'react-hook-form'
 import StructureInfo from './StructureInfo'
@@ -65,25 +65,15 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
           useGrouping: true,
           minimumFractionDigits: 0,
         }
-        return number?.toLocaleString(undefined, options).replace(/,/g, separator);
+        return number?.toLocaleString(undefined, options).replace(/,/g, separator)
     }
 
     function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
         const newValue = event.target.value.replace(/,/g, '')
         const numberValue = convertToNumber(newValue)
-        const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
+        const formattedValue = numberValue !== null ? 
+            new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
         setValue(prop, formattedValue)
-    }
-
-    function convertToEnglishDate(dateStr: any) {
-        const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-        const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        let englishDate = "";
-        [...dateStr].forEach(char => {
-            let index = persianDigits.indexOf(char);
-            englishDate += (index !== -1) ? englishDigits[index] : char
-        })
-        return englishDate
     }
 
     useEffect(() => {
@@ -124,6 +114,28 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                 const selectedMonthlyFee = watch(`structures.${fieldIndex}.monthlyFee`)
                 const selectedDiscount: string = watch(`structures.${fieldIndex}.discountFee`)
                 const selectedStructure = combinedStructures.find((str) => str.structureId === selectedStructureId)
+
+                const handleStartDate = (value: DateObject | DateObject[] | null) => {
+                    if (value instanceof DateObject) {
+                    setValue(`structures.${fieldIndex}.duration.sellStart`, value.unix * 1000)
+                    } else if (Array.isArray(value) && value.length > 0) {
+                    const timestamps = value.map((date) => date.unix * 1000)
+                    setValue(`structures.${fieldIndex}.duration.sellStart`, timestamps[0])
+                } else {
+                    setValue(`structures.${fieldIndex}.duration.sellStart`, new Date().getTime())
+                    }
+                }
+                
+                const handleEndDate = (value: DateObject | DateObject[] | null) => {
+                    if (value instanceof DateObject) {
+                    setValue(`structures.${fieldIndex}.duration.sellEnd`, value.unix * 1000)
+                } else if (Array.isArray(value) && value.length > 0) {
+                    const timestamps = value.map((date) => date.unix * 1000)
+                    setValue(`structures.${fieldIndex}.duration.sellEnd`, timestamps[0])
+                } else {
+                    setValue(`structures.${fieldIndex}.duration.sellEnd`, new Date().getTime())
+                    }
+                }
 
                 return (
                     <>                
@@ -183,8 +195,7 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"
-                                        onChange={(val) => setValue(`structures.${fieldIndex}.duration.sellStart`, convertToEnglishDate(val!!.toString()))}
-
+                                        onChange={(e) => handleStartDate(e)}
                                     />
                                     <small className="text-xs text-rose-600 "> 
                                         {errors?.['structures']?.[fieldIndex]?.['duration']?.['sellStart']?.['message']}
@@ -200,7 +211,7 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"
-                                        onChange={(val) => setValue(`structures.${fieldIndex}.duration.sellEnd`, convertToEnglishDate(val!!.toString()))}
+                                        onChange={(e) => handleEndDate(e)}
                                     />
                                     <small className="text-xs text-rose-600 "> 
                                         {errors?.['structures']?.[fieldIndex]?.['duration']?.['sellEnd']?.['message']}

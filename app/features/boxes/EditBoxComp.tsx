@@ -15,6 +15,7 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
 import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
 import BoxStructuresFormSection from './BoxStructuresFormSection'
+import moment from 'jalali-moment'
 
 const EditBoxComp = (props: { box: BoxObject }) => {
 
@@ -39,8 +40,8 @@ const EditBoxComp = (props: { box: BoxObject }) => {
 
     const structures = useSelector(state => selectAllStructures(state))
 
-    const [startDate, setStartDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
-    const [endDate, setEndDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa }))
+    const [startDate, setStartDate] = useState<number>(new Date().getTime())
+    const [endDate, setEndDate] = useState<number>(new Date().getTime())
 
     const [data, setData] = useState<any>(null)
 
@@ -56,14 +57,14 @@ const EditBoxComp = (props: { box: BoxObject }) => {
         name: "structures",
     })
 
-    useEffect(() => {
+    useEffect(() => { 
         setTimeout(() => setData({
             boxId: box?.boxId,
             name: box?.name,
             projectNumber: box?.mark.markOptions.projectNumber,
             brand: box?.mark.markOptions.brand,
-            startDate: convertToPersianDate(box?.duration.startDate),
-            endDate: convertToPersianDate(box?.duration.endDate),
+            startDate: moment(new Date(startDate).toISOString()).format('jYYYY-jM-jD'),
+            endDate: moment(new Date(endDate).toISOString()).format('jYYYY-jM-jD'),
             structures: JSON.parse(JSON.stringify(box?.structures))
           }), 1000);
     }, [])
@@ -76,46 +77,42 @@ const EditBoxComp = (props: { box: BoxObject }) => {
     useEffect(() => {
         getValues("startDate")
         getValues("endDate")
-        setValue('startDate', startDate!!.toString())
-        setValue('endDate', endDate!!.toString())
+        setValue('startDate', startDate)
+        setValue('endDate', endDate)
     }, [startDate, endDate])
 
-    function convertToEnglishDate(dateStr: any) {
-        const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-        const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        let englishDate = "";
-        [...dateStr].forEach(char => {
-          let index = persianDigits.indexOf(char);
-          englishDate += (index !== -1) ? englishDigits[index] : char
-        })
-        return englishDate
+    const handleStartDate = (value: DateObject | DateObject[] | null) => {
+      if (value instanceof DateObject) {
+        setStartDate(value.unix * 1000)
+      } else if (Array.isArray(value) && value.length > 0) {
+        const timestamps = value.map((date) => date.unix * 1000)
+        setStartDate(timestamps[0])
+      } else {
+        setStartDate(new Date().getTime())
       }
+    }
 
-      function convertToPersianDate(dateStr: any) {
-        const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-        const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-        let persianDate = "";
-        [...dateStr].forEach(char => {
-          let index = englishDigits.indexOf(char);
-          persianDate += (index !== -1) ? persianDigits[index] : char;
-        });
-        return persianDate;
+    const handleEndDate = (value: DateObject | DateObject[] | null) => {
+      if (value instanceof DateObject) {
+        setEndDate(value.unix * 1000)
+      } else if (Array.isArray(value) && value.length > 0) {
+        const timestamps = value.map((date) => date.unix * 1000)
+        setEndDate(timestamps[0])
+      } else {
+        setEndDate(new Date().getTime())
       }
+    }
 
-      function convertToNumber(value: string | number) {
-        if (typeof value === "number") {
-          return value;
-        }
+    function convertToNumber(value: string | number) {
+      if (typeof value === "number") return value
       
-        const cleanedValue = value?.replace(/,/g, "");
-        const parsedValue = parseFloat(cleanedValue);
+      const cleanedValue = value?.replace(/,/g, "")
+      const parsedValue = parseFloat(cleanedValue)
+    
+      if (isNaN(parsedValue)) return null
       
-        if (isNaN(parsedValue)) {
-          return null;
-        }
-      
-        return parsedValue;
-      }
+      return parsedValue
+    }
 
     const onSubmit = async(data: EditBoxForm) => {
 
@@ -158,8 +155,8 @@ const EditBoxComp = (props: { box: BoxObject }) => {
                 },
             },
             duration: {
-                startDate: convertToEnglishDate(newData.startDate),
-                endDate: convertToEnglishDate(newData.endDate),
+                startDate: Number(newData.startDate),
+                endDate: Number(newData.endDate),
             },
             structures: newData.structures.map((structure: any) => {
                 return(
@@ -172,7 +169,8 @@ const EditBoxComp = (props: { box: BoxObject }) => {
                 })
                 )
             })
-        })        
+        })      
+        console.log(abc)  
     
         newData.structures.forEach(async(structure) => {
           structures.forEach(async(nonBoxStructure: any) => {
@@ -221,8 +219,8 @@ if(!box) return <Loading />
                     box={box}
                     mark={box?.mark.name}
                     errors={errors}
-                    handleStartDate={(val) => setStartDate(val)}
-                    handleEndDate={(val) => setEndDate(val)}
+                    handleStartDate={(val) => handleStartDate(val)}
+                    handleEndDate={(val) => handleEndDate(val)}
                 />
 
                 <BoxStructuresFormSection 

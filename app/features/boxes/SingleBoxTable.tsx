@@ -5,6 +5,7 @@ import Tooltip from '@/app/components/main/Tooltip'
 import { ColumnDef } from '@tanstack/react-table'
 import useAuth from '@/app/hooks/useAuth'
 import React, { useMemo } from 'react'
+import moment from 'jalali-moment'
 
 const SingleBoxTable = (props: any) => {
 
@@ -66,13 +67,13 @@ const SingleBoxTable = (props: any) => {
                 {
                 accessorFn: row => row.duration.startDate,
                 id: 'تاریخ شروع',
-                cell: info => info.getValue(),
+                cell: info => <div>{moment(new Date(info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>تاریخ شروع</span>,
                 },
                 {
                 accessorFn: row => row.duration.endDate,
                 id: 'تاریخ پایان',
-                cell: info => info.getValue(),
+                cell: info => <div>{moment(new Date( info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>تاریخ پایان</span>,
                 },
                 {

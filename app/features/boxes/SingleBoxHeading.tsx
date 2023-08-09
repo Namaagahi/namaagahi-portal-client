@@ -1,3 +1,4 @@
+import moment from "jalali-moment"
 import Loading from "../loading/Loading"
 
 const SingleBoxHeading = (props : any) => {
@@ -27,8 +28,8 @@ const SingleBoxHeading = (props : any) => {
             }
 
             <div className="flex flex-col gap-2 text-sm">
-                <p>{box?.duration.startDate}</p>
-                <p>{box?.duration.endDate}</p>
+                <p>{moment(new Date(box?.duration.startDate).toISOString()).format('jYYYY-jM-jD')}</p>
+                <p>{moment(new Date(box?.duration.endDate).toISOString()).format('jYYYY-jM-jD')}</p>
                 <p>مدت قرارداد: {box?.duration.diff} روز</p>
             </div>
         </div>

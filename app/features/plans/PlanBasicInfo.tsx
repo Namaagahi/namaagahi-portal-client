@@ -1,11 +1,14 @@
+import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import CustomInput from '@/app/components/inputs/CustomInput'
 import SelectInput from '@/app/components/inputs/SelectInput'
-import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { useSelector } from 'react-redux'
 
 const PlanBasicInfo = (props: any) => {
 
-    const { control, errors } = props
+    const {
+        control,
+        errors
+    } = props
     
     useGetAllInitialCustomersQuery(undefined, {
         refetchOnFocus: false,

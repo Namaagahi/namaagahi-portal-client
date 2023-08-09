@@ -28,7 +28,7 @@ const EditPlanComp = (props: any) => {
     const [updateStructure] = useUpdateStructureMutation()
     
     const [updatePlan, { 
-        isSuccess, 
+        isSuccess,  
         isError,
         error
     }] = useUpdatePlanMutation()
@@ -58,12 +58,24 @@ const EditPlanComp = (props: any) => {
         mode: 'onSubmit'
       })
 
-    const { register, control, handleSubmit, formState: {errors}, getValues, setValue, reset, watch } = editPlanForm
+    const {
+        register,
+        control,
+        handleSubmit,
+        formState: {errors},
+        setValue,
+        reset,
+        watch
+} = editPlanForm
 
-    const { fields, append: appendStructure, remove: removeStructure } = useFieldArray({
+    const {
+        fields,
+        append: appendStructure,
+        remove: removeStructure
+    } = useFieldArray({
         control,
         name: "structures",
-      })
+      }) 
 
       useEffect(() => {
         setTimeout(() => setData({
@@ -93,8 +105,7 @@ const EditPlanComp = (props: any) => {
       
         return parsedValue;
       }
-    
-      
+       
     const onSubmit = async(data: any) => {
         if(data.status === 'done') {
             plan?.structures.forEach((str: any) => {
@@ -147,9 +158,7 @@ const EditPlanComp = (props: any) => {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
         push('/dashboard/billboard/plans')
     }
-// console.log("plan", plan)
-// console.log("editPlanForm", editPlanForm.getValues())
-// console.log("planStructures", planStructures)
+
     if(!plan) return <Loading />
 
     return (

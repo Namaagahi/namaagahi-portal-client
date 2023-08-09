@@ -3,6 +3,7 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import CustomInput from '@/app/components/inputs/CustomInput'
 import persian from "react-date-object/calendars/persian"
 import DatePicker from "react-multi-date-picker" 
+import moment from 'jalali-moment'
 
 const BasicBoxInfoFormSection = (props: BasicBoxInfoFormSectionProps) => {
 
@@ -61,11 +62,11 @@ const BasicBoxInfoFormSection = (props: BasicBoxInfoFormSectionProps) => {
                     <DatePicker
                         inputClass='input-primary'
                         format='YYYY-MM-DD'
-                        value={page === 'edit' ? box?.duration.startDate : undefined}
+                        value={page === 'edit' ? moment(box?.duration.startDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
                         locale={persian_fa}
                         calendarPosition="bottom-right"
-                        onChange={(val) => handleStartDate(val)}
+                        onChange={(e) => handleStartDate(e)}
                     />
                     <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
                 </div>
@@ -75,11 +76,11 @@ const BasicBoxInfoFormSection = (props: BasicBoxInfoFormSectionProps) => {
                     <DatePicker
                         inputClass='input-primary'
                         format='YYYY-MM-DD'
-                        value={page === 'edit' ? box?.duration.endDate : undefined}
+                        value={page === 'edit' ? moment(box?.duration.endDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
                         locale={persian_fa}
                         calendarPosition="bottom-right"
-                        onChange={(val) => handleEndDate(val)}
+                        onChange={(e) => handleEndDate(e)}
                     />
                     <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
                 </div>

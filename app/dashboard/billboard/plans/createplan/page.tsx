@@ -29,26 +29,33 @@ const CreatePlan = () => {
     mode: 'onSubmit'
   })
 
-  const { register, control, handleSubmit, formState: {errors}, getValues, setValue, watch } = createPlanForm
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: {errors},
+    setValue,
+    watch
+} = createPlanForm
   
-  const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
+  const {
+    fields: structuresField,
+    append: appendStructure,
+    remove: removeStructure
+  } = useFieldArray({
     control,
     name: "structures",
   })
 
   function convertToNumber(value: string | number) {
-    if (typeof value === "number") {
-      return value;
-    }
+    if (typeof value === "number") return value
+    
+    const cleanedValue = value?.replace(/,/g, "")
+    const parsedValue = parseFloat(cleanedValue)
   
-    const cleanedValue = value?.replace(/,/g, "");
-    const parsedValue = parseFloat(cleanedValue);
-  
-    if (isNaN(parsedValue)) {
-      return null;
-    }
-  
-    return parsedValue;
+    if (isNaN(parsedValue)) return null
+    
+    return parsedValue
   }
 
   const onSubmit = async(data: any) => {
@@ -63,8 +70,6 @@ const CreatePlan = () => {
       }))
     }
 
-    console.log("newData", newData)
-
   const abc = await createNewPlan({
       userId: id,
       name: newData.name,
@@ -72,7 +77,6 @@ const CreatePlan = () => {
       brand: newData.brand,
       structures: newData.structures
     })
-console.log("ABC", abc)
   }
 
   if(isError) {

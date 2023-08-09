@@ -1,7 +1,7 @@
 import { SerializedError } from "@reduxjs/toolkit"
 import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
 import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormGetValues, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
-import { Value } from "react-multi-date-picker"
+import { DateObject, Value } from "react-multi-date-picker"
 
 // USER ===========================================================================
 export interface GlobalState {
@@ -180,8 +180,8 @@ export interface AddBoxForm {
   mark: string
   projectNumber: string
   brand: string
-  startDate:  string
-  endDate:  string
+  startDate:  number
+  endDate:  number
   structures: {
     structureId:string
     marks: {
@@ -217,8 +217,8 @@ export interface EditBoxForm {
   mark: string
   projectNumber: string
   brand: string
-  startDate:  string
-  endDate:  string
+  startDate:  number
+  endDate:  number
   structures: {
     structureId:string
     marks: {
@@ -363,8 +363,8 @@ export interface BasicBoxInfoFormSectionProps {
   page: string
   control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
   box?: BoxObject
-  handleStartDate: (val: Value) => void
-  handleEndDate: (val: Value) =>void
+  handleStartDate: (value: DateObject | DateObject[] | null) => void
+  handleEndDate: (value: DateObject | DateObject[] | null) => void
   errors: FieldErrors<AddBoxForm> | FieldErrors<EditBoxForm>
   mark: string 
 }
@@ -455,6 +455,21 @@ export interface InitialCustomerObject {
 }
 
 // PLANS ===========================================================================
+export interface StructurePlanObject {
+  _id?: string
+  structureId: string
+  discountFee: string
+  discountType: string
+  monthlyFee: number
+  monthlyFeeWithDiscount: number
+  duration: {
+    sellStart: string
+    sellEnd: string
+    diff?: number
+  }
+  structureRecord: CombinedStructure
+}
+
 export interface PlanObject {
   id? : string
   _id?: string
@@ -466,19 +481,7 @@ export interface PlanObject {
   customerName: string
   brand: string
   status?: string
-  structures: {
-    _id?: string
-    structureId: string
-    discountFee: string
-    discountType: string
-    monthlyFee: number
-    monthlyFeeWithDiscount: number
-    duration: {
-      sellStart: string
-      sellEnd: string
-      diff?: number
-    }
-  }[]
+  structures: StructurePlanObject[]
   createdAt: string
   updatedAt: string
 }
@@ -549,8 +552,8 @@ export interface AddPlanForm {
     structureId:string
     structureRecord: CombinedStructure
     duration: {
-      sellStart: string | null
-      sellEnd: string | null
+      sellStart: number | null
+      sellEnd: number | null
     }
     monthlyFee: string
     monthlyFeeWithDiscount: string
@@ -567,8 +570,8 @@ export interface EditPlanForm {
     structureId:string
     structureRecord: CombinedStructure 
     duration: {
-      sellStart: string | null
-      sellEnd: string | null
+      sellStart: number
+      sellEnd: number
     }
     monthlyFee: string
     monthlyFeeWithDiscount: string

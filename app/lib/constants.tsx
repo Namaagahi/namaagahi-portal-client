@@ -161,8 +161,8 @@ export const newBoxDefaultValues = {
   name: '',
   projectNumber: '',
   brand: '',
-  startDate:'',
-  endDate:'',
+  startDate:new Date().getTime(),
+  endDate:new Date().getTime(),
   structures: [{
     structureId:'',
     marks: {

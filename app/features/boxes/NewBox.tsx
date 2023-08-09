@@ -2,12 +2,9 @@
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from "../../apiSlices/structuresApiSlice"
 import { useCreateNewBoxMutation, useGetAllBoxesQuery } from "../../apiSlices/boxesApiSlice"
 import { AddBoxForm } from "@/app/lib/interfaces"
-import persian_fa from "react-date-object/locales/persian_fa"
-import persian from "react-date-object/calendars/persian"
 import { newBoxDefaultValues } from "@/app/lib/constants"
 import { useForm, useFieldArray } from "react-hook-form"
 import { DateObject } from "react-multi-date-picker"
-import type { Value } from "react-multi-date-picker"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
@@ -47,8 +44,29 @@ const NewBox = ({ mark }: { mark: string }) => {
 
   const [updateStructure] = useUpdateStructureMutation()
 
-  const [startDate, setStartDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
-  const [endDate, setEndDate] = useState<Value | any>(new DateObject({ calendar: persian, locale: persian_fa })) 
+  const [startDate, setStartDate] = useState<number>(new Date().getTime())
+  const [endDate, setEndDate] = useState<number>(new Date().getTime())
+  
+  const handleStartDate = (value: DateObject | DateObject[] | null) => {
+    if (value instanceof DateObject) {
+      setStartDate(value.unix * 1000);
+    } else if (Array.isArray(value) && value.length > 0) {
+      const timestamps = value.map((date) => date.unix * 1000);
+      setStartDate(timestamps[0]);
+    } else {
+      setStartDate(new Date().getTime());
+    }
+  }
+  const handleEndDate = (value: DateObject | DateObject[] | null) => {
+    if (value instanceof DateObject) {
+      setEndDate(value.unix * 1000);
+    } else if (Array.isArray(value) && value.length > 0) {
+      const timestamps = value.map((date) => date.unix * 1000);
+      setEndDate(timestamps[0]);
+    } else {
+      setEndDate(new Date().getTime());
+    }
+  }
 
   const { push } = useRouter()
     
@@ -57,9 +75,20 @@ const NewBox = ({ mark }: { mark: string }) => {
     mode: 'onSubmit'
   })
 
-  const { register, control, handleSubmit, formState: {errors}, getValues, setValue } = createBoxForm
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState:{errors},
+    getValues,
+    setValue
+} = createBoxForm
 
-  const { fields: structuresField, append: appendStructure, remove: removeStructure } = useFieldArray({
+  const {
+    fields: structuresField,
+    append: appendStructure,
+    remove: removeStructure
+  } = useFieldArray({
     control,
     name: "structures",
   })
@@ -67,20 +96,9 @@ const NewBox = ({ mark }: { mark: string }) => {
   useEffect(() => {
     getValues("startDate")
     getValues("endDate")
-    setValue('startDate', startDate!!.toString())
-    setValue('endDate', endDate!!.toString())
+    setValue('startDate', startDate)
+    setValue('endDate', endDate)
   }, [startDate, endDate])
-
-  function convertToEnglishDate(dateStr: any) {
-    const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-    const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-    let englishDate = "";
-    [...dateStr].forEach(char => {
-      let index = persianDigits.indexOf(char);
-      englishDate += (index !== -1) ? englishDigits[index] : char
-    })
-    return englishDate
-  }
 
   function convertToNumber(value: string | null): any {
     const cleanedValue = value!.replace(/,/g, '')
@@ -136,8 +154,8 @@ const NewBox = ({ mark }: { mark: string }) => {
         },
       },
       duration: {
-        startDate: convertToEnglishDate(newData.startDate),
-        endDate: convertToEnglishDate(newData.endDate),
+        startDate: Number(newData.startDate),
+        endDate: Number(newData.endDate),
       },
       structures: newData.structures.map((structure: any) => {
         return(
@@ -181,12 +199,12 @@ const NewBox = ({ mark }: { mark: string }) => {
         className='w-full flex flex-col gap-9 justify-center'
       >
         <BasicBoxInfoFormSection
-          page={'create'}
+          page={'create'} 
           control={control} 
           mark={mark}
           errors={errors}
-          handleStartDate={(val) => setStartDate(val)}
-          handleEndDate={(val) => setEndDate(val)}
+          handleStartDate={handleStartDate}
+          handleEndDate={handleEndDate}
         />
 
         <BoxStructuresFormSection 

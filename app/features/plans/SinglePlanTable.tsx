@@ -1,6 +1,7 @@
 import TableComponent from '@/app/components/table/TableComponent'
 import { PlanStructure } from '@/app/lib/interfaces'
 import { ColumnDef } from '@tanstack/react-table'
+import moment from 'jalali-moment'
 import React, { useMemo } from 'react'
 
 const SinglePlanTable = (props: any) => {
@@ -73,7 +74,7 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.discountType,
                 id: 'مقیاس تخفیف',
-                cell: info => {
+                cell: info => { 
                   return(
                     info.getValue() === 'percentage' ? <p>درصد</p> : <p>رقم</p>
                   )
@@ -89,13 +90,13 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.duration.sellStart,
                 id: 'شروع اکران',
-                cell: info => info.getValue(),
+                cell: info => <div>{moment(new Date(info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>شروع اکران</span>,
                 },
                 {
                 accessorFn: row => row?.duration.sellEnd,
                 id: 'پایان اکران',
-                cell: info => info.getValue(),
+                cell: info => <div>{moment(new Date(info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>پایان اکران</span>,
                 },
                 {
