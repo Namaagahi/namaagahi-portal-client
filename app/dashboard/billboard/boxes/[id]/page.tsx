@@ -20,7 +20,6 @@ const SingleBox = () => {
 
     const { id } = useParams()
     const [newBox, setNewBox] = useState<any>({})
-    const [data, setData] = useState<BoxStructure | any>([])
     const [structures, setStructures] = useState<any>([])
     const [loading, setLoading] = useState(true)
 
@@ -69,13 +68,9 @@ const SingleBox = () => {
         setLoading(false)
       }, [box, allStructures])
 
-      useEffect(() =>{
-        if(newBox) setData(newBox?.structures)
-      }, [newBox])
-
       console.log("allStructures", structures)  
 
-    if(!data?.length || !newBox?.structures || !box || !structures || loading) return <Loading />
+    if(!newBox || !box || !structures || loading) return <Loading />
 
     return (  
         <>
@@ -88,7 +83,7 @@ const SingleBox = () => {
                             <small className=" mt-2 text-black px-2">خرید</small>
                             <div className="max-h-[30%] bg-rose-200 dark:bg-[#7d332e] overflow-y-auto p-2 w-full">
                                 <SingleBoxTable
-                                    data={data}
+                                    data={newBox.structures}
                                     allStructures={structures}
                                 />
                             </div>

@@ -100,7 +100,7 @@ const SinglePlanTable = (props: any) => {
                 header: () => <span>پایان اکران</span>,
                 },
                 {
-                accessorFn: row => row?.duration.diff,
+                accessorFn: row => row?.duration.diff, 
                 id: 'طول دوره',
                 cell: info => info.getValue(),
                 header: () => <span>طول دوره</span>,
