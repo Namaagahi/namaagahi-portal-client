@@ -13,8 +13,6 @@ import Button from '@/app/components/main/Button'
 import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
-import Image from 'next/image'
-import AccessDenied from '@/app/components/main/AccessDenied'
 import PageTitle from '@/app/components/main/PageTitle'
 import moment from 'jalali-moment'
     
@@ -31,11 +29,9 @@ const InitialCustomers = () => {
   }) 
 
   const allInitialCustomers: InitialCustomerObject[] | unknown = useSelector(state => selectAllInitialCustomers(state))
-  const [inNewInitialCustomer, setIsNewInitialCustomer] = useState(false)
-  const [isEditInitialCustomer, setIsEditInitialCustomer] = useState(false)
+  const [isNewInitialCustomer, setIsNewInitialCustomer] = useState(false)
   const [isDeleteInitialCustomer, setIsDeleteInitialCustomer] = useState(false)
-  const handleNewInitialCustomerModal = () => setIsNewInitialCustomer(!inNewInitialCustomer)
-  const handleEditInitialCustomer = () => setIsEditInitialCustomer(!isEditInitialCustomer)
+  const handleNewInitialCustomerModal = () => setIsNewInitialCustomer(!isNewInitialCustomer)
   const handleDeleteInitialCustomer = () => setIsDeleteInitialCustomer(!isDeleteInitialCustomer)
   const [data, setData] = useState<InitialCustomerObject[] | unknown>([])
   const [initialCustomerId, setInitialCustomerId] = useState<string | any | EntityId>('')
@@ -93,7 +89,6 @@ const InitialCustomers = () => {
                     </td>
                     :
                     <>
-                      <td>دسترسی محدود شده</td>
                       <td>دسترسی محدود شده</td>
                     </>
                 }
@@ -153,7 +148,7 @@ if(isError) return (
         />
       }
       {
-        inNewInitialCustomer && 
+        isNewInitialCustomer && 
           <CreateUpdateModal
             type={'newInitialCustomer'}
             handleModal={handleNewInitialCustomerModal}
@@ -162,7 +157,7 @@ if(isError) return (
       {
         isDeleteInitialCustomer && 
           <ConfirmModal 
-            prop={inNewInitialCustomer} 
+            prop={initialCustomer} 
             handleModal={handleDeleteInitialCustomer}
             type={'delete'}
             deleteType="initialCustomer"
