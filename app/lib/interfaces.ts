@@ -143,11 +143,11 @@ export interface BoxStructure {
       totalDailyCost?: number
       totalMonthlyCost?: number
       totalPeriodCost?: number
-
     },
     myCustomCost?: {
       [key: string]: number
     }
+    name?:string
 }
 
 export interface BoxObject {

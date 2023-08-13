@@ -47,7 +47,7 @@ const EditBoxComp = (props: { box: BoxObject }) => {
 
     const editBoxForm = useForm<EditBoxForm>({
         defaultValues: data,
-        mode: 'onSubmit'
+        mode: 'onSubmit' 
       })
     
     const { register, control, handleSubmit, formState: {errors}, getValues, setValue, reset, watch } = editBoxForm
@@ -63,8 +63,8 @@ const EditBoxComp = (props: { box: BoxObject }) => {
             name: box?.name,
             projectNumber: box?.mark.markOptions.projectNumber,
             brand: box?.mark.markOptions.brand,
-            startDate: moment(new Date(startDate).toISOString()).format('jYYYY-jM-jD'),
-            endDate: moment(new Date(endDate).toISOString()).format('jYYYY-jM-jD'),
+            startDate: startDate,
+            endDate: endDate,
             structures: JSON.parse(JSON.stringify(box?.structures))
           }), 1000);
     }, [])
@@ -175,7 +175,7 @@ const EditBoxComp = (props: { box: BoxObject }) => {
         newData.structures.forEach(async(structure) => {
           structures.forEach(async(nonBoxStructure: any) => {
             if(structure.structureId === nonBoxStructure.id){
-            await updateStructure({
+            const abc = await updateStructure({
                 userId: nonBoxStructure?.userId,
                 id: nonBoxStructure?.id,
                 name: nonBoxStructure?.name,
@@ -184,6 +184,7 @@ const EditBoxComp = (props: { box: BoxObject }) => {
                 isAvailable: nonBoxStructure?.isAvailable,
                 parent: newData.boxId
               })
+              console.log("abc", abc)
             }
           })
         })

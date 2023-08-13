@@ -20,9 +20,9 @@ const ListItem = (props: ListItemProps) => {
 
     const { isAdmin } = useAuth()
 
-    const [isDeleteBox, setIsDeleteBox] = useState(false)
+    // const [isDeleteBox, setIsDeleteBox] = useState(false)
 
-    const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
+    // const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
 
     return (
     <>
@@ -33,11 +33,11 @@ const ListItem = (props: ListItemProps) => {
 
             { isAdmin && 
             <>
-                <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#f04a17] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
+                {/* <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#f04a17] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
                     <AiFillDelete onClick={handleDeleteModal}/>
-                </div>
+                </div> */}
                 <Link href={`/dashboard/billboard/boxes/editbox/${param}`} target="_blank">
-                    <div className='absolute left-16 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
+                    <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
                         <AiFillEdit />
                     </div>
                 </Link>
@@ -84,7 +84,7 @@ const ListItem = (props: ListItemProps) => {
             </Link>
             </div>
 
-        {
+        {/* {
             isDeleteBox && 
                 <ConfirmModal
                     prop={prop} 
@@ -92,7 +92,7 @@ const ListItem = (props: ListItemProps) => {
                     type={'delete'} 
                     deleteType="box"
                 />
-        } 
+        }  */}
     </>
   )
 }

@@ -46,12 +46,12 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                     structure={prop}
                     handleModal={handleModal}
                 />
-                :
-                deleteType === 'box'?
-                <DeleteBox 
-                    box={prop}
-                    handleModal={handleModal}
-                />
+                // :
+                // deleteType === 'box'?
+                // <DeleteBox 
+                //     box={prop}
+                //     handleModal={handleModal}
+                // />
                 : 
                 deleteType === 'initialCustomer'?
                 <DeleteInitialCustomer

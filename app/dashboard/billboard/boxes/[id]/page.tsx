@@ -68,9 +68,9 @@ const SingleBox = () => {
         setLoading(false)
       }, [box, allStructures])
 
-      console.log("allStructures", structures)  
+      console.log("newBox", newBox)  
 
-    if(!newBox || !box || !structures || loading) return <Loading />
+    if(!newBox || !box || !structures[0] || loading) return <Loading />
 
     return (  
         <>
