@@ -1,12 +1,13 @@
 "use client"
-import { selectCurrentToken, setCredentials } from "../../apiSlices/authSlice"
+import { setCredentials } from "../../apiSlices/authSlice"
 import { useLoginMutation } from "../../apiSlices/authApiSlice"
 import LogoSmall from "@/app/components/main/LogoSmall"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from 'react-toastify'
 import Image from "next/image"
+import Cookies from "universal-cookie";
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('../loading/Loading'),
@@ -26,6 +27,14 @@ const Login = () => {
         errMsg:''
     })
     const { username, password } = loginInfo
+    const cookies = new Cookies()
+    const accessToken = cookies.get("jwt")
+  
+    useEffect(() => {
+      if (accessToken) {
+        push("/dashboard")
+      }
+    }, [accessToken, push])
 
     const [login, { isLoading }] = useLoginMutation()
 
@@ -56,7 +65,7 @@ const Login = () => {
         errRef.current?.focus()
     }
 
-    if(isLoading) return <Loading/>
+    if(isLoading || accessToken) return <Loading/>
     
     return (
         <div className='pr-6 pt-6 '>

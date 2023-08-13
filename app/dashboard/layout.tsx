@@ -2,7 +2,7 @@
 import { useRefreshMutation } from '../apiSlices/authApiSlice'
 import { selectCurrentToken } from '../apiSlices/authSlice'
 import { menuItems, subMenusList } from "../lib/constants"
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'
 import Footer from '../features/footer/Footer'
 import Menu from '../features/sidemenu/Menu'
@@ -12,6 +12,7 @@ import { ROLES } from '../config/roles'
 import useAuth from '../hooks/useAuth'
 import Link from "next/link"
 import dynamic from 'next/dynamic'
+import Cookies from 'universal-cookie'
 const Loading = dynamic(
   () => import('../features/loading/Loading'),
   { ssr: false }
@@ -46,6 +47,14 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       // eslint-disable-next-line
   }, [trueSuccess])
 
+  const cookies = new Cookies()
+  const accessToken = cookies.get("jwt")
+
+  useEffect(() => {
+    if (!accessToken) {
+      push("/")
+    }
+  }, [accessToken, push])
 
   let content
 
@@ -66,18 +75,20 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     }
   } 
 
-  return (
-    <div className="p-4 md:p-8">
-      <Header/> 
-      <div className=" flex flex-col xl:flex-row gap-8 ">
-        <Menu menuItems = {menuItems} subMenusList={subMenusList} />
-        <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-screen ">
-          {content}
-          <Footer />
+  if(accessToken){
+    return (
+      <div className="p-4 md:p-8">
+        <Header/> 
+        <div className=" flex flex-col xl:flex-row gap-8 ">
+          <Menu menuItems = {menuItems} subMenusList={subMenusList} />
+          <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-screen ">
+            {content}
+            <Footer />
+          </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default MainLayout
