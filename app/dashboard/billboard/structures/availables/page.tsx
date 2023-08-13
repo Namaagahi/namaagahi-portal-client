@@ -13,6 +13,7 @@ import Loading from '@/app/features/loading/Loading'
 import domtoimage from 'dom-to-image';
 import {jsPDF} from 'jspdf'
 import { FaFilePdf } from 'react-icons/fa'
+import PageTitle from '@/app/components/main/PageTitle'
 
 interface InitialStructureDurations {
     [key:string]: {
@@ -29,8 +30,8 @@ interface StructureDurations {
     }[]
 }
 
-const Test = () => {
 
+const Availables = () => {
     const { 
         isLoading,
         isError,
@@ -146,34 +147,39 @@ const Test = () => {
     console.log("selectedPaths", selectedPaths)
 
 if(isLoading) return <Loading />
-
 return (
     
-    <div>
-        <div className='flex flex-col gap-3'>
-            <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
-            <DatePicker
-                inputClass='input-primary'
-                format='YYYY-MM-DD'
-                calendar={persian}
-                locale={persian_fa}
-                calendarPosition="bottom-right"
-                onChange={(e : DateObject) => setStartDate(e.unix * 1000)}
-            />
+    <main className="min-h-screen w-full">
+        <PageTitle name='گزارش سازه های خالی' />
+        <div className="flex items-center justify-center gap-3 mb-10">
+            <div className='flex items-center gap-3 w-1/3'>
+                <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
+                <DatePicker
+                    inputClass='input-primary'
+                    format='YYYY-MM-DD'
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
+                    onChange={(e : DateObject) => setStartDate(e.unix * 1000)}
+                />
+            </div>
+            <div className='flex items-center gap-3 w-1/3'>
+                <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
+                <DatePicker
+                    inputClass='input-primary'
+                    format='YYYY-MM-DD'
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
+                    onChange={(e : DateObject) => setEndDate(e.unix * 1000)}
+                />
+            </div>
+            <button className='btn-primary w-1/5' onClick={handleButtonClick}>اعمال فیلتر</button>
+                <FaFilePdf 
+                    onClick={generatePDF}
+                    className='text-5xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'
+                />
         </div>
-
-        <div className='flex flex-col gap-3'>
-            <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
-            <DatePicker
-                inputClass='input-primary'
-                format='YYYY-MM-DD'
-                calendar={persian}
-                locale={persian_fa}
-                calendarPosition="bottom-right"
-                onChange={(e : DateObject) => setEndDate(e.unix * 1000)}
-            />
-        </div>
-        <button className='btn-primary' onClick={handleButtonClick}>اعمال فیلتر</button>
         
       <div className="max-w-full flex flex-wrap gap-2 my-3">
         {uniquePaths.map(path => (
@@ -238,11 +244,8 @@ return (
             <p className='bg-red-500 text-white'>تاریخ شروع باید قبل آغاز باشد.</p>
         }
         </div>
-        <div className='flex justify-center text-3xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'>
-            <FaFilePdf onClick={generatePDF}/>
-        </div>
-    </div>
+    </main>
     )
 }
 
-export default Test
+export default Availables

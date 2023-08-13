@@ -6,8 +6,8 @@ const PageTitle = dynamic(
   () => import('@/app/components/main/PageTitle'),
   { ssr: false }
 )
-const SummarySection = dynamic(
-  () => import('@/app/components/media/billboard/cards/SummarySection'),
+const SectionHeader = dynamic(
+  () => import('@/app/components/media/billboard/cards/SectionHeader'),
   { ssr: false }
 )
 
@@ -17,7 +17,7 @@ const Billboard = () => {
     <main className="min-h-screen w-full">
       <PageTitle name={'بیلبورد'} />
       <div className='flex flex-col gap-2'>
-        <SummarySection />
+        <SectionHeader title='مدیریت' />
         <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2'>
           {
             billboardPagePropsObject.map((prop) => (
@@ -33,6 +33,16 @@ const Billboard = () => {
               />
             ))
           }
+        </div>
+        <div className='flex flex-col gap-2 mt-5'>
+          <SectionHeader title='گزارشات' />
+          <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-2'>
+            <Card
+              title='سازه های خالی'
+              main='گزارش سازه های خالی'
+              mainLink='/dashboard/billboard/structures/availables'
+            />
+          </div>
         </div>
       </div>
     </main>

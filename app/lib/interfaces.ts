@@ -118,8 +118,8 @@ export interface BoxStructure {
       }
     },
     duration: {
-      startDate: Date
-      endDate: Date
+      startDate: number
+      endDate: number
       diff?: number
     },
     costs: {
@@ -164,8 +164,8 @@ export interface BoxObject {
     }
   }
   duration: {
-    startDate: Date
-    endDate: Date
+    startDate: number
+    endDate: number
     diff?: number
   }
   structures: BoxStructure[]
@@ -463,8 +463,8 @@ export interface StructurePlanObject {
   monthlyFee: number
   monthlyFeeWithDiscount: number
   duration: {
-    sellStart: string
-    sellEnd: string
+    sellStart: number
+    sellEnd: number
     diff?: number
   }
   structureRecord: CombinedStructure
@@ -515,8 +515,8 @@ export interface CombinedStructure {
     totalPeriodCost?: number
   },
   duration: {
-    startDate: string
-    endDate: string
+    startDate: number
+    endDate: number
     diff?: number
   }
   isAvailable: boolean

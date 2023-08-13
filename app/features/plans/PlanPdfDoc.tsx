@@ -124,7 +124,7 @@ const PlanPdfDoc = (props: any) => {
     return number?.toLocaleString(undefined, options).replace(/,/g, separator);
 }
 
-console.log(plan)
+// console.log(plan)
 
   if(!plan || !customer) return <Loading />
 

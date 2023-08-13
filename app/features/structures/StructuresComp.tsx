@@ -137,7 +137,7 @@ const Structures = (props: any) => {
                 cell: info => {
                   const isChosen = info.getValue();
                   const structureBox: any = allBoxes.find((box: any) => box.boxId === info.row.original.parent)
-                  console.log("structureBox", structureBox)
+                  // console.log("structureBox", structureBox)
                   return (
                     (isChosen) ?
                     <Link href={`/dashboard/billboard/boxes/${structureBox?.id}`}  target="_blank">

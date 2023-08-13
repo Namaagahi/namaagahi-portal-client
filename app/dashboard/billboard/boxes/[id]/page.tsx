@@ -73,9 +73,11 @@ const SingleBox = () => {
         if(newBox) setData(newBox?.structures)
       }, [newBox])
 
-    if(!data?.length || !newBox?.structures || !box || !allStructures || loading) return <Loading />
+      console.log("allStructures", structures)  
 
-    return ( 
+    if(!data?.length || !newBox?.structures || !box || !structures || loading) return <Loading />
+
+    return (  
         <>
             <main className='min-h-screen w-full'>
                 <PageTitle name={`باکس ${newBox.name}`} />

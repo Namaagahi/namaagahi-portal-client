@@ -40,7 +40,10 @@ const SingleBoxTable = (props: any) => {
                 {
                 accessorFn: row => row.structureId,
                 id: 'کد سامانه',
-                cell: info => <div>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.name}</div>        ,
+                cell: info => {
+                    // console.log("STRUCTURES", allStructures)
+                    return <div>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.name}</div>
+                },
                 header: () => <span>کد سامانه</span>,
                 },
                 {

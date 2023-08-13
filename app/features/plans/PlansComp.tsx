@@ -235,7 +235,7 @@ const PlansComp = (props: any) => {
       },
       []
     )
-console.log("allPlans", allPlans)
+// console.log("allPlans", allPlans)
     if(isLoading) return <Loading /> 
   
     if(isError) return (

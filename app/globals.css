@@ -42,7 +42,7 @@
     @apply px-6 py-3 rounded-[50px] bg-white outline-none
   }
   .btn-primary {
-    @apply mt-6 w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
+    @apply w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
   }
   .btn-create {
     @apply w-[150px] m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r

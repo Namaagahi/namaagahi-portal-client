@@ -25,7 +25,7 @@ const Invoice = () => {
   const plan: PlanObject | undefined | any = useSelector((state) =>selectPlanById(state as PlanObject, id))
   const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.customerName))
 
-  console.log(plan)
+  // console.log(plan)
 
   if ( isLoading || !plan) return <Loading />
 
