@@ -56,9 +56,21 @@ const Availables = () => {
 
     const [startDate, setStartDate] = useState(new Date().getTime())
     const [endDate, setEndDate] = useState(new Date().getTime())
-    const [filtered, setFiltetred] = useState<StructureDurations | {}>({})
+    const [filtered, setFiltetred] = useState({
+        initial: {} as StructureDurations,
+        edited: {} as StructureDurations
+    })
     const [selectedPaths, setSelectedPaths] = useState<string[]>([]);
-    const uniquePaths = Array.from(new Set(allStructures.map(structure => structure.location.path)))
+    const [paths, setPaths] = useState<{name:string, isSelected:boolean}[]>([])
+
+    if(!paths[0] && allStructures[0]) {
+        const jsonObject = allStructures.map(item => JSON.stringify({
+            name:item.location.path,
+            isSelected:false
+        }))
+        const uniquePaths = Array.from(new Set(jsonObject)).map(item => JSON.parse(item))
+        setPaths(uniquePaths)
+    }
 
     const filterStructures = (startDate:number, endDate:number) => {
 
@@ -95,7 +107,7 @@ const Availables = () => {
             if(!obj2[structure.structureId]) {
                 console.log("IF 1")
                 return obj2[structure.structureId] = [{
-                    start: structure.duration.startDate >= startDate ? startDate : structure.duration.startDate, 
+                    start: structure.duration.startDate >= startDate ?  structure.duration.startDate : startDate, 
                     end: structure.duration.endDate <= endDate ? structure.duration.endDate : endDate
                 }]
             }
@@ -116,14 +128,31 @@ const Availables = () => {
         return  obj3
     }
 
-    const handlePathChange = (path: string) => {
-        const updatedSelectedPaths = selectedPaths.includes(path)
-          ? selectedPaths.filter(selectedPath => selectedPath !== path)
-          : [...selectedPaths, path]
-        setSelectedPaths(updatedSelectedPaths)
-      }
+    const handlePathChange = (thisPath:string, thisIndex:number) => {
+        const clone = [...paths]
+        clone[thisIndex].isSelected = !clone[thisIndex].isSelected
 
-    const handleButtonClick = () => setFiltetred(filterStructures(startDate, endDate))
+        const oneIsSelected = clone.some(path => path.isSelected)
+        if(!oneIsSelected)  return setFiltetred({...filtered, edited:JSON.parse(JSON.stringify({...filtered.initial}))})
+
+        const clone2 = {} as StructureDurations
+        Object.entries(filtered.initial).forEach(([key, value]) => {
+            allStructures.forEach(item => {
+                if(item.id === key) {
+                    paths.forEach(path => {
+                        if(path.isSelected && item.location.path.includes(path.name)) clone2[key] = value
+                    })
+                }
+            })
+        })
+        setFiltetred({...filtered, edited:clone2})
+        setPaths(clone)
+    }
+
+    const handleButtonClick = () => setFiltetred({
+        initial:filterStructures(startDate, endDate),
+        edited: filterStructures(startDate, endDate)
+    })
 
     const captureContent = () => {
         const element = document.getElementById('content-to-capture')
@@ -146,7 +175,7 @@ const Availables = () => {
     console.log("FILTERED", filtered)
     console.log("selectedPaths", selectedPaths)
 
-if(isLoading) return <Loading />
+if(isLoading || !paths[0]) return <Loading />
 return (
     
     <main className="min-h-screen w-full">
@@ -182,14 +211,14 @@ return (
         </div>
         
       <div className="max-w-full flex flex-wrap gap-2 my-3">
-        {uniquePaths.map(path => (
-          <label key={path} className="flex items-center gap-1 text-xs">
+        {paths.map(({name, isSelected}, index) => (
+          <label key={name} className="flex items-center gap-1 text-xs">
             <input
               type="checkbox"
-              checked={selectedPaths.includes(path)}
-              onChange={() => handlePathChange(path)}
+              checked={isSelected}
+              onChange={() => handlePathChange(name, index)}
             />
-            <span>{path}</span>
+            <span>{name}</span>
           </label>
         ))}
       </div>
@@ -207,7 +236,7 @@ return (
                 <p className='col-span-2 text-left'>پایان</p>
             </div>
             {endDate - startDate >= 0 ?
-            Object.entries(filtered).map(([key, val], index) => {
+            Object.entries(filtered.edited).map(([key, val], index) => {
                 const structureFound :any = allStructures.find(str => str.id === key)
                 return val.map((availables) => {
                     // console.log(availables.start === startDate )
