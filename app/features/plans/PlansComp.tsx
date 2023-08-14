@@ -18,7 +18,11 @@ import useAuth from '@/app/hooks/useAuth'
 import moment from 'jalali-moment'
 import Link from 'next/link'
 
-const PlansComp = (props: any) => {
+type Props = { 
+  page: string
+}
+
+const PlansComp = (props: Props) => {
 
   const { page } = props
 
