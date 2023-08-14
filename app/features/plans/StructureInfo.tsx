@@ -1,5 +1,5 @@
 import useAuth from '@/app/hooks/useAuth'
-import useNumberFormatter from '@/app/hooks/useNumberFormatter'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const StructureInfo = (props: any) => {
 
@@ -27,10 +27,10 @@ const StructureInfo = (props: any) => {
                         <p>{`منطقه: ${selectedStructure.location.district}`}</p>
                         <p>{`مسیر: ${selectedStructure.location.path}`}</p>
                         <p>{`نشانی: ${selectedStructure.location.address}`}</p>
-                        <p>{`تعرفه ماهیانه پیشبینی شده: ${useNumberFormatter(selectedStructure.monthlyBaseFee, ',')} ریال`}</p>
+                        <p>{`تعرفه ماهیانه پیشبینی شده: ${formatNumber(selectedStructure.monthlyBaseFee, ',')} ریال`}</p>
                         {(isAdmin || isMediaManager) &&
                             <>
-                                <p>{`تمام شده ماهیانه با هزینه سربار پیشبینی شده: ${useNumberFormatter(selectedStructure.costs.totalMonthlyCost, ',')} ریال`}</p>
+                                <p>{`تمام شده ماهیانه با هزینه سربار پیشبینی شده: ${formatNumber(selectedStructure.costs.totalMonthlyCost, ',')} ریال`}</p>
                             </>
                         }
                     </div>

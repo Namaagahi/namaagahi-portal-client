@@ -6,7 +6,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import useAuth from '@/app/hooks/useAuth'
 import React, { useMemo } from 'react'
 import moment from 'jalali-moment'
-import useNumberFormatter from '@/app/hooks/useNumberFormatter'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const SingleBoxTable = (props: any) => {
 
@@ -119,7 +119,7 @@ const SingleBoxTable = (props: any) => {
                 id: 'تمام شده متر مربع',
                 cell: info => {
                     const squareCost = info.getValue()
-                    return useNumberFormatter(squareCost, ',') 
+                    return formatNumber(squareCost, ',') 
                 },
                 header: () => <span>تمام شده متر مربع</span>,
                 },
@@ -130,7 +130,7 @@ const SingleBoxTable = (props: any) => {
                     const dailyCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(dailyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(dailyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     )
                 },
                 header: () => <span>تمام شده روزانه</span>,
@@ -142,7 +142,7 @@ const SingleBoxTable = (props: any) => {
                     const monthlyCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(monthlyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(monthlyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     )
                 },
                 header: () => <span>تمام شده ماهیانه</span>,
@@ -154,7 +154,7 @@ const SingleBoxTable = (props: any) => {
                     const periodCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(periodCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(periodCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     )
                 },
                 header: () => <span>تمام شده دوره</span>,
@@ -164,7 +164,7 @@ const SingleBoxTable = (props: any) => {
                 id: `${variableCostNames2[0]}`,
                 cell: info => {
                     const myCustomCost = info.getValue()
-                    return useNumberFormatter(myCustomCost[variableCostNames2[0]], ',')
+                    return formatNumber(myCustomCost[variableCostNames2[0]], ',')
                 },
                 header: () => <span>{variableCostNames2[0]}</span>,
                 },
@@ -173,7 +173,7 @@ const SingleBoxTable = (props: any) => {
                 id: `${variableCostNames2[1]}`,
                 cell: info => {
                     const myCustomCost = info.getValue()
-                    return useNumberFormatter(myCustomCost[variableCostNames2[1]], ',')
+                    return formatNumber(myCustomCost[variableCostNames2[1]], ',')
                 },
                 header: () => <span>{variableCostNames2[1]}</span>,
                 },
@@ -182,7 +182,7 @@ const SingleBoxTable = (props: any) => {
                 id: `${variableCostNames2[2]}`,
                 cell: info => {
                     const myCustomCost = info.getValue()
-                    return useNumberFormatter(myCustomCost[variableCostNames2[2]], ',')
+                    return formatNumber(myCustomCost[variableCostNames2[2]], ',')
                 },
                 header: () => <span>{variableCostNames2[2]}</span>,
                 },
@@ -191,7 +191,7 @@ const SingleBoxTable = (props: any) => {
                 id: `${variableCostNames2[3]}`,
                 cell: info => {
                     const myCustomCost = info.getValue()
-                    return useNumberFormatter(myCustomCost[variableCostNames2[3]], ',')
+                    return formatNumber(myCustomCost[variableCostNames2[3]], ',')
                 },
                 header: () => <span>{variableCostNames2[3]}</span>,
                 },
@@ -200,7 +200,7 @@ const SingleBoxTable = (props: any) => {
                 id: `${variableCostNames2[4]}`,
                 cell: info => {
                     const myCustomCost = info.getValue()
-                    return useNumberFormatter(myCustomCost[variableCostNames2[4]], ',')
+                    return formatNumber(myCustomCost[variableCostNames2[4]], ',')
                 },
                 header: () => <span>{variableCostNames2[4]}</span>,
                 },
@@ -209,7 +209,7 @@ const SingleBoxTable = (props: any) => {
                 id: `${variableCostNames2[5]}`,
                 cell: info => {
                     const myCustomCost = info.getValue()
-                    return useNumberFormatter(myCustomCost[variableCostNames2[5]], ',')
+                    return formatNumber(myCustomCost[variableCostNames2[5]], ',')
                 },
                 header: () => <span>{variableCostNames2[5]}</span>,
                 },
@@ -220,7 +220,7 @@ const SingleBoxTable = (props: any) => {
                     const dailyVariableCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(dailyVariableCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(dailyVariableCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     ) 
                 },
                 header: () => <span>جمع هزینه سربار روزانه</span>,
@@ -232,7 +232,7 @@ const SingleBoxTable = (props: any) => {
                     const totalDailyCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(totalDailyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(totalDailyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     ) 
                 },
                 header: () => <span>هزینه روزانه کل</span>,
@@ -244,7 +244,7 @@ const SingleBoxTable = (props: any) => {
                     const totalMonthlyCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(totalMonthlyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(totalMonthlyCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     )
                 },
                 header: () => <span>هزینه ماهیانه کل</span>,
@@ -256,7 +256,7 @@ const SingleBoxTable = (props: any) => {
                     const totalPeriodCost = info.getValue()
                     return (
                         (isAdmin || isMediaManager) ?
-                        useNumberFormatter(totalPeriodCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
+                        formatNumber(totalPeriodCost, ',') : <p className='text-xs'>محدودیت دسترسی</p>
                     )
                 },
                 header: () => <span>هزینه دوره کل</span>,

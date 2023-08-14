@@ -1,8 +1,7 @@
 import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/apiSlices/structuresApiSlice'
-import { selectUserById } from '@/app/apiSlices/usersApiSlice'
 import useAuth from '@/app/hooks/useAuth'
-import { BoxObject, EditBoxForm, UserObject } from '@/app/lib/interfaces'
+import { BoxObject, EditBoxForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -10,12 +9,10 @@ import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Loading from '../loading/Loading'
 import PageTitle from '@/app/components/main/PageTitle'
-import { DateObject, Value } from 'react-multi-date-picker'
-import persian_fa from "react-date-object/locales/persian_fa"
-import persian from "react-date-object/calendars/persian"
+import { DateObject } from 'react-multi-date-picker'
 import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
 import BoxStructuresFormSection from './BoxStructuresFormSection'
-import moment from 'jalali-moment'
+import { convertToNumber } from '@/app/utilities/convertToNumber'
 
 const EditBoxComp = (props: { box: BoxObject }) => {
 
@@ -101,17 +98,6 @@ const EditBoxComp = (props: { box: BoxObject }) => {
       } else {
         setEndDate(new Date().getTime())
       }
-    }
-
-    function convertToNumber(value: string | number) {
-      if (typeof value === "number") return value
-      
-      const cleanedValue = value?.replace(/,/g, "")
-      const parsedValue = parseFloat(cleanedValue)
-    
-      if (isNaN(parsedValue)) return null
-      
-      return parsedValue
     }
 
     const onSubmit = async(data: EditBoxForm) => {

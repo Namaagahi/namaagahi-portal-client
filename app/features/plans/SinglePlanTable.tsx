@@ -3,7 +3,7 @@ import { PlanStructure } from '@/app/lib/interfaces'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'jalali-moment'
 import React, { useMemo } from 'react'
-import useNumberFormatter from '@/app/hooks/useNumberFormatter'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const SinglePlanTable = (props: any) => {
 
@@ -55,13 +55,13 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.monthlyFee,
                 id: 'تعرفه ماهیانه',
-                cell: info => useNumberFormatter(info.getValue(),','),
+                cell: info => formatNumber(info.getValue(),','),
                 header: () => <span>تعرفه ماهیانه</span>,
                 },
                 {
                 accessorFn: row => row?.monthlyFeeWithDiscount,
                 id: 'قیمت ماهانه پس از تخفیف',
-                cell: info => useNumberFormatter(info.getValue(),','),
+                cell: info => formatNumber(info.getValue(),','),
                 header: () => <span>قیمت ماهانه پس از تخفیف</span>,
                 },
                 {
@@ -101,12 +101,12 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.totalPeriodCost,
                 id: 'جمع دوره',
-                cell: info => useNumberFormatter(info.getValue(), ','),
+                cell: info => formatNumber(info.getValue(), ','),
                 header: () => <span>جمع دوره</span>,
                 footer: (info: any, rows: any) => {
                   return (
                     <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
-                      {useNumberFormatter(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
+                      {formatNumber(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
                     </div>
                   )
                 },

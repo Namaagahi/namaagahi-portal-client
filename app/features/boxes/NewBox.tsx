@@ -10,6 +10,7 @@ import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
+import { convertToNumber } from "@/app/utilities/convertToNumber"
 import dynamic from "next/dynamic"
 const BasicBoxInfoFormSection = dynamic(
   () => import('./BasicBoxInfoFormSection'),
@@ -99,16 +100,6 @@ const NewBox = ({ mark }: { mark: string }) => {
     setValue('startDate', startDate)
     setValue('endDate', endDate)
   }, [startDate, endDate])
-
-  function convertToNumber(value: string | null): any {
-    const cleanedValue = value!.replace(/,/g, '')
-    const parsedValue = parseFloat(cleanedValue)
-  
-    if (isNaN(parsedValue)) {
-      return null
-    }
-    return parsedValue;
-  } 
 
   const onSubmit = async(data: AddBoxForm) => {
 

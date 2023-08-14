@@ -1,7 +1,7 @@
 import { Document, Page, StyleSheet, Font, Text, Image, View } from '@react-pdf/renderer'
 import Loading from '../loading/Loading'
 import moment from 'jalali-moment'
-import useNumberFormatter from '@/app/hooks/useNumberFormatter'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const PlanPdfDoc = (props: any) => {
 
@@ -151,12 +151,12 @@ const PlanPdfDoc = (props: any) => {
                     <View style={styles.tableRow} key={structureIndex}>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {useNumberFormatter(strucuture.totalPeriodCost, ',')}
+                          {formatNumber(strucuture.totalPeriodCost, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {useNumberFormatter(strucuture.monthlyFeeWithDiscount, ',')}
+                          {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
@@ -166,7 +166,7 @@ const PlanPdfDoc = (props: any) => {
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {useNumberFormatter(strucuture.monthlyFee, ',')}
+                          {formatNumber(strucuture.monthlyFee, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '3%' }]}>
@@ -221,7 +221,7 @@ const PlanPdfDoc = (props: any) => {
                   <View style={styles.tableRow}>
                     <View style={[styles.tableCol, { width: '7%' }]}>
                       <Text style={styles.tableCell}>
-                        {useNumberFormatter(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
+                        {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
                       </Text> 
                     </View>
                     <View style={[styles.tableCol, { width: '93%' }]}>

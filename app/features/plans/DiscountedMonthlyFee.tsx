@@ -1,6 +1,6 @@
 import { FieldError } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
-import useNumberFormatter from '@/app/hooks/useNumberFormatter'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const DiscountedMonthlyFee = (props: any) => {
 
@@ -37,13 +37,13 @@ const DiscountedMonthlyFee = (props: any) => {
             >
                 {
                     selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && changeInput && discountType ==='percentage' ? 
-                    useNumberFormatter(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
+                    formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && changeInput && discountType ==='number' ? 
-                    useNumberFormatter(convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount), ',')
+                    formatNumber(convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount), ',')
                     : selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && !changeInput && discountType ==='percentage' ? 
-                    useNumberFormatter(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount) ) / 100, ',')
+                    formatNumber(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount) ) / 100, ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
-                    useNumberFormatter(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
+                    formatNumber(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
                     : ''
                 }
             </p>

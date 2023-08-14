@@ -13,6 +13,7 @@ import Loading from '../loading/Loading'
 import PageTitle from '@/app/components/main/PageTitle'
 import PlanBasicInfo from './PlanBasicInfo'
 import PlanStructuresInfo from './PlanStructuresInfo'
+import { convertToNumber } from '@/app/utilities/convertToNumber'
 
 const EditPlanComp = (props: any) => {
     
@@ -90,21 +91,6 @@ const EditPlanComp = (props: any) => {
       useEffect(() => {
         reset(data)
       }, [data, reset])
-
-      function convertToNumber(value: string | number) {
-        if (typeof value === "number") {
-          return value;
-        }
-      
-        const cleanedValue = value?.replace(/,/g, "");
-        const parsedValue = parseFloat(cleanedValue);
-      
-        if (isNaN(parsedValue)) {
-          return null;
-        }
-      
-        return parsedValue;
-      }
        
     const onSubmit = async(data: any) => {
         if(data.status === 'done') {

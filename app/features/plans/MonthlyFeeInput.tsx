@@ -1,7 +1,7 @@
 import CustomInput from '@/app/components/inputs/CustomInput'
 import React, { useEffect } from 'react'
 import { FieldError } from 'react-hook-form'
-import useNumberFormatter from '@/app/hooks/useNumberFormatter'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const MonthlyFeeInput = (props: any) => {
 
@@ -24,7 +24,7 @@ const MonthlyFeeInput = (props: any) => {
             {!changeInput ?
                 <>
                     <label htmlFor={`structures.${fieldIndex}.monthlyFee`} className='text-[#767676] font-bold'>تعرفه ماهیانه سازه</label>
-                    <p className='p-4'>{useNumberFormatter(selectedStructure?.monthlyBaseFee, ',')}</p>
+                    <p className='p-4'>{formatNumber(selectedStructure?.monthlyBaseFee, ',')}</p>
                 </>
                 : 
                 <CustomInput

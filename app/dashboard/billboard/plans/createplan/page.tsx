@@ -13,6 +13,7 @@ import { toast } from 'react-toastify'
 import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
+import { convertToNumber } from '@/app/utilities/convertToNumber'
 
 const CreatePlan = () => {
 
@@ -56,16 +57,7 @@ const allBoxes: any = useSelector(state => selectAllBoxes(state))
     name: "structures",
   })
 
-  function convertToNumber(value: string | number) {
-    if (typeof value === "number") return value
-    
-    const cleanedValue = value?.replace(/,/g, "")
-    const parsedValue = parseFloat(cleanedValue)
-  
-    if (isNaN(parsedValue)) return null
-    
-    return parsedValue
-  }
+
 
   const onSubmit = async(data: any) => {
 

@@ -38,8 +38,8 @@ const SingleBox = () => {
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
 
     useEffect(()=>{ 
-        if(box.duration.endDate < new Date().getTime()) {
-            allStructures.forEach(async(structure: StructureObject) => {
+        if(box?.duration.endDate < new Date().getTime()) {
+            allStructures?.forEach(async(structure: StructureObject) => {
               if(structure.isChosen || structure.parent.length) {
                 await updateStructure({
                   id: structure.id,
