@@ -12,7 +12,7 @@ export const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 export const DASH_REGEX = /^\/dashboard(\/)?$/
 export const NOTES_REGEX = /^\/dashboard\/tasks(\/)?$/
 export const USERS_REGEX = /^\/dashboard\/users(\/)?$/
-export const variableCostNames2 = ['برق', 'پایش', 'بیمه', 'نگهداری', 'سایر']
+export const variableCostNames2 = ['برق', 'پایش', 'بیمه', 'نگهداری', 'سایر', 'رنگ آمیزی']
 
 
 // SINGLE BOX PAGE =======================================================
@@ -242,7 +242,7 @@ export const boxStructureFormValues = {
 }
 
 // NEW BOX - VARIABLECOSTSFORMSECTION =======================================================
-export const variableCostNames = ['برق', 'پایش', 'بیمه', 'نگهداری', 'سایر']
+export const variableCostNames = ['برق', 'پایش', 'بیمه', 'نگهداری', 'سایر', 'رنگ آمیزی']
 
 export const structureVariableCostsFormValues = {
   name: '',

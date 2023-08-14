@@ -77,6 +77,7 @@ const CreatePlan = () => {
       brand: newData.brand,
       structures: newData.structures
     })
+    console.log("ABC", abc)
   }
 
   if(isError) {

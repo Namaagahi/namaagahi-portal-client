@@ -47,14 +47,14 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       // eslint-disable-next-line
   }, [trueSuccess])
 
-  const cookies = new Cookies()
-  const accessToken = cookies.get("jwt")
+  // const cookies = new Cookies()
+  // const accessToken = cookies.get("jwt")
 
-  useEffect(() => {
-    if (!accessToken) {
-      push("/")
-    }
-  }, [accessToken, push])
+  // useEffect(() => {
+  //   if (!accessToken) {
+  //     push("/")
+  //   }
+  // }, [accessToken, push])
 
   let content
 
@@ -75,7 +75,6 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     }
   } 
 
-  if(accessToken){
     return (
       <div className="p-4 md:p-8">
         <Header/> 
@@ -88,7 +87,6 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
         </div>
       </div>
     )
-  }
 }
 
 export default MainLayout

@@ -212,6 +212,15 @@ const SingleBoxTable = (props: any) => {
                 header: () => <span>{variableCostNames2[4]}</span>,
                 },
                 {
+                accessorFn: row => row.myCustomCost,
+                id: `${variableCostNames2[5]}`,
+                cell: info => {
+                    const myCustomCost = info.getValue()
+                    return formatNumber(myCustomCost[variableCostNames2[5]], ',')
+                },
+                header: () => <span>{variableCostNames2[5]}</span>,
+                },
+                {
                 accessorFn: row => row.costs.dailyVariableCost,
                 id: 'جمع هزینه سربار روزانه',
                 cell: info => {
