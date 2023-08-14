@@ -18,18 +18,16 @@ import { useSelector } from 'react-redux'
 const AllStructuresTable = (props: any) => {
     const {
         data,
-        page
+        page,
+        allBoxes
     } = props
     
     const { isAdmin, isMediaManager } = useAuth()
 
-    useGetAllBoxesQuery(undefined, {
-        refetchOnFocus: false,
-        refetchOnMountOrArgChange: false,
-      })
+
       const [structureId, setStructureId] = useState<string | any | EntityId>('')
       const structure: StructureObject | any = useSelector(state => selectStructureById(state, structureId!))
-      const allBoxes: any = useSelector(state => selectAllBoxes(state))
+
       const [isEditStructure, setIsEditStructure] = useState(false)
       const [isDeleteStructure, setIsDeleteStructure] = useState(false)
       const handleEditStructure = () => setIsEditStructure(!isEditStructure)

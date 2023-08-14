@@ -10,6 +10,9 @@ import { useRouter } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
+import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
+import { useSelector } from 'react-redux'
+import Link from 'next/link'
 
 const CreatePlan = () => {
 
@@ -23,6 +26,12 @@ const CreatePlan = () => {
     isError,
     error
 }] = useCreateNewPlanMutation()
+
+useGetAllBoxesQuery(undefined, {
+  refetchOnFocus: false,
+  refetchOnMountOrArgChange: false,
+})
+const allBoxes: any = useSelector(state => selectAllBoxes(state))
 
   const createPlanForm = useForm<AddPlanForm>({
     defaultValues: newPlanDefaultValues,
@@ -89,6 +98,17 @@ const CreatePlan = () => {
     toast.success(`پلن جدید با موفقیت ساخته شد.`)
     push('/dashboard/billboard/plans')
   }
+
+  if(!allBoxes[0]) return (
+    <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
+      <p className='text-xl'>برای ایجاد پلن باید سازه ها در باکس ثبت شده باشند. در حال حاضر هیچ باکسی وجود ندارد.</p>
+      <p>برای ایجاد باکس جدید 
+        <Link href={'/dashboard/billboard/boxes/createbox'}>
+          <span className='text-cyan-300'>کلیک کنید</span>
+        </Link>
+      </p>
+    </div>
+  )
 
   return (
       <main className="min-h-screen">

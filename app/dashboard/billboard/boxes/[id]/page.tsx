@@ -1,5 +1,5 @@
 "use client"
-import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
+import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/apiSlices/structuresApiSlice'
 import { selectBoxById, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { BoxObject, BoxStructure, StructureObject } from '@/app/lib/interfaces'
 import UnderConstruction from '@/app/components/main/UnderConstruction'
@@ -33,8 +33,27 @@ const SingleBox = () => {
         refetchOnMountOrArgChange: false
     })
 
-    const box: BoxObject | any = useSelector(state => selectBoxById(state as BoxObject , id))
+    const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
+    const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id) as BoxObject)
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
+
+    useEffect(()=>{ 
+        if(box.duration.endDate < new Date().getTime()) {
+            allStructures.forEach(async(structure: StructureObject) => {
+              if(structure.isChosen || structure.parent.length) {
+                await updateStructure({
+                  id: structure.id,
+                  userId: structure.userId,
+                  name: structure.name,
+                  location: structure.location,
+                  isAvailable: structure.isAvailable,
+                  isChosen: false,
+                  parent: ''
+                })
+              }
+            })
+        }
+    }, [])
 
     const calcVariableCosts = () => {
         const clone: any = []

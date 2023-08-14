@@ -65,7 +65,8 @@ const Login = () => {
         errRef.current?.focus()
     }
 
-    if(isLoading || accessToken) return <Loading/>
+    if(isLoading) return <Loading/>
+    if(accessToken) push('/dashboard')
     
     return (
         <div className='pr-6 pt-6 '>
