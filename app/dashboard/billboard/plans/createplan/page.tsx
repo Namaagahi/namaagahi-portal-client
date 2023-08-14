@@ -1,6 +1,8 @@
 "use client"
+import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { useCreateNewPlanMutation } from '@/app/apiSlices/plansApiSlice'
 import PlanStructuresInfo from '@/app/features/plans/PlanStructuresInfo'
+import { convertToNumber } from '@/app/utilities/convertToNumber'
 import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
 import { newPlanDefaultValues } from '@/app/lib/constants'
 import { useFieldArray, useForm } from 'react-hook-form'
@@ -8,12 +10,10 @@ import PageTitle from '@/app/components/main/PageTitle'
 import { AddPlanForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
+import { useSelector } from 'react-redux'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
-import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
-import { useSelector } from 'react-redux'
 import Link from 'next/link'
-import { convertToNumber } from '@/app/utilities/convertToNumber'
 
 const CreatePlan = () => {
 

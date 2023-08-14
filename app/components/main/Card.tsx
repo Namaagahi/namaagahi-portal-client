@@ -1,10 +1,19 @@
 import { FaDotCircle, FaPlusCircle } from 'react-icons/fa'
-import { CardProps } from '@/app/lib/interfaces'
 import useAuth from '@/app/hooks/useAuth'
 import Link from 'next/link'
 import Title from './Title'
+
+type Props = {
+  title: string 
+  main: string
+  main2?: string
+  mainLink: string
+  main2Link?: string
+  subTitle?: string
+  subTitleLink?: string
+}
  
-const Card = (props: CardProps) => {
+const Card = (props: Props) => {
 
   const { status } = useAuth()
   

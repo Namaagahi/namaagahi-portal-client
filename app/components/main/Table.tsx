@@ -1,6 +1,9 @@
-import { TableProps } from "@/app/lib/interfaces"
+type Props = {
+  tableContent: any
+  tableHeadings: string[]
+}
 
-const Table = (props: TableProps) => {
+const Table = (props: Props) => {
 
   const {
     tableContent,

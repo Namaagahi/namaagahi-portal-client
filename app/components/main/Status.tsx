@@ -1,6 +1,10 @@
-import { StatusProps } from "@/app/lib/interfaces"
+type Props = { 
+  status: string
+  bgColor: string
+  textColor: string 
+}
 
-const Status = (props: StatusProps) => {
+const Status = (props: Props) => {
 
   const {
     status,
@@ -11,7 +15,7 @@ const Status = (props: StatusProps) => {
   return (
     <span
       style={{background: bgColor, color: textColor}}
-      className="w-[65px] text-xs text-center font-semibold inline-block py-1 px-2  rounded-xl last:mr-0 mr-1"
+      className="w-[80px] text-[10px] text-center font-semibold inline-block py-1 px-2  rounded-xl last:mr-0 mr-1"
     >
       {status}
     </span>

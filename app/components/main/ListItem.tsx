@@ -1,12 +1,22 @@
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
-import { ListItemProps } from '@/app/lib/interfaces'
+import { BoxObject } from '@/app/lib/interfaces'
 import ConfirmModal from '../modals/ConfirmModal'
 import useAuth from '@/app/hooks/useAuth'
+import moment from 'jalali-moment'
 import { useState } from 'react'
 import Link from 'next/link'
-import moment from 'jalali-moment'
 
-const ListItem = (props: ListItemProps) => {
+type Props = {
+    number: number
+    param: string
+    prop: BoxObject
+    startDate: string
+    endDate: string
+    diff: number
+    titles: Object
+  }
+
+const ListItem = (props: Props) => {
 
     const {
         number,

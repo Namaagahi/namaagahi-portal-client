@@ -1,6 +1,23 @@
-import { CustomInputProps } from '@/app/lib/interfaces'
-import { Controller } from 'react-hook-form'
+import { Control, Controller } from 'react-hook-form'
 
+ type CustomInputProps = {
+    control: Control<any, any>
+    defaultValue?: string
+    name: string
+    label: string
+    required?: boolean
+    message?: string
+    pattern?: RegExp
+    patternMessage?: string
+    type: 'text' | 'number' | 'email' | 'password'
+    errors?: string
+    onChange?: any
+    placeholder?: string
+    ref?: any
+    key?: string
+    onWheel?: any
+  }
+  
 const CustomInput = (props: CustomInputProps) => {
 
     const {

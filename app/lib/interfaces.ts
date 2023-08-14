@@ -53,7 +53,7 @@ export interface EditUserProps {
 }
 
 export interface DeleteUserProps {
-  user: UserObject | undefined
+  user: UserObject 
   handleModal: () => void
 } 
 
@@ -98,7 +98,7 @@ export interface EditNoteProps {
 }
 
 export interface DeleteNoteProps {
-  note: NoteObject | undefined
+  note: NoteObject 
   handleModal: () => void
 }
 
@@ -247,11 +247,6 @@ export interface EditBoxForm {
   }[]
 }
 
-export interface DeleteBoxProps {
-  box: BoxObject | undefined
-  handleModal: () => void
-}
-
 export interface EditBoxProps {
   box: BoxObject | undefined
   handleModal: () => void
@@ -285,7 +280,7 @@ export interface StructureObjectForm {
 }
 
 export interface DeleteStructureProps {
-  structure: StructureObject | undefined
+  structure: StructureObject 
   handleModal: () => void
 }
 
@@ -310,53 +305,11 @@ export interface EditStructureProps {
 }
 
 // COMPONENT PROPS ===========================================================================
-export interface CreateButtonProps {
-  onClickHandler: () => void
-  title: string
-}
-
-export interface BadgeProps {
-  index: number
-}
-
-export interface CardProps {
-  title: string 
-  main: string
-  main2?: string
-  mainLink: string
-  main2Link?: string
-  subTitle?: string
-  subTitleLink?: string
-}
 
 export interface DeleteModalContentProps {
   handleModal: () => void
   prop?: UserObject | NoteObject | StructureObject | undefined | any
   deleteType: string
-}
-
-export interface ListItemProps {
-  number: number
-  param: string
-  prop: BoxObject
-  startDate: string
-  endDate: string
-  diff: number
-  titles: Object
-}
-
-export interface LogoutModalContentProps {
-  handleModal: () => void
-}
-
-export interface PageTitleProps {
-  name: string
-}
-
-export interface TitleProps {
-  title: string
-  fontSize: string
-  bulletSize: number
 }
 
 export interface BasicBoxInfoFormSectionProps {
@@ -367,11 +320,6 @@ export interface BasicBoxInfoFormSectionProps {
   handleEndDate: (value: DateObject | DateObject[] | null) => void
   errors: FieldErrors<AddBoxForm> | FieldErrors<EditBoxForm>
   mark: string 
-}
-
-export interface BoxItemProps {
-  boxId: string
-  index: number 
 }
 
 export interface BoxStructuresFormSectionProps { 
@@ -413,34 +361,6 @@ export interface CustomError {
       error?: any
   }
   status?: number
-}
-
-export interface AccessDeniedModalProps {
-  handleModal: () => void
-}
-
-export interface StatusProps { 
-  status: string
-  bgColor: string
-  textColor: string 
-}
-
-export interface TableProps {
-  tableContent: any
-  tableHeadings: string[]
-}
-
-export interface ConfirmModalProps {
-  type: string
-  prop?: UserObject | NoteObject | StructureObject | undefined | any
-  handleModal: () => void
-  deleteType?: string
-}
-
-export interface CreateUpdateModalProps {
-  handleModal: () => void
-  type: string
-  prop?: UserObject | NoteObject | StructureObject | undefined | any
 }
 
 // INITIALCUSTOMERS ===========================================================================
@@ -630,46 +550,12 @@ export interface PlanStructuresFormSectionProps {
 }
 
 export interface DeletePlanProps {
-  plan: PlanObject | undefined
+  plan: PlanObject
   handleModal: () => void
 }
 
 // INITIALCUSTOMER ===========================================================================
 export interface DeleteInitialCustomerProps {
-  initialCustomer: InitialCustomerObject | undefined
+  initialCustomer: InitialCustomerObject
   handleModal: () => void
-}
-
-export interface CustomInputProps {
-  control: Control<any, any>
-  defaultValue?: string
-  name: string
-  label: string
-  required?: boolean
-  message?: string
-  pattern?: RegExp
-  patternMessage?: string
-  type: 'text' | 'number' | 'email' | 'password'
-  errors?: string
-  onChange?: any
-  placeholder?: string
-  ref?: any
-  key?: string
-  onWheel?: any
-}
-
-export interface SelectInputProps {
-  control: Control<any, any>;
-  defaultValue?: string;
-  name: string;
-  label: string;
-  required?: boolean;
-  options: any[];
-  errors?: string;
-}
-
-export interface TootlipProps { 
-  children: JSX.Element, 
-  tooltipText: string | undefined , 
-  orientation: string 
 }

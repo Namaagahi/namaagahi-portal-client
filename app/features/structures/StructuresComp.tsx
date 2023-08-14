@@ -1,14 +1,18 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/apiSlices/structuresApiSlice'
+import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
+import { BoxObject, StructureObject } from '@/app/lib/interfaces'
+import PageTitle from '@/app/components/main/PageTitle'
+import AllStructuresTable from './AllStructuresTable'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useState } from 'react'
-import { StructureObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
-import PageTitle from '@/app/components/main/PageTitle'
-import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
-import AllStructuresTable from './AllStructuresTable'
 
-const Structures = (props: any) => {
+type Props = {
+  page: string
+}
+
+const Structures = (props: Props) => {
 
     const { page } = props
 
@@ -26,8 +30,8 @@ const Structures = (props: any) => {
     })
 
     const allStructures: StructureObject[] | any = useSelector(state => selectAllStructures(state))
-    const allBoxes: any = useSelector(state => selectAllBoxes(state))
-    const [data, setData] = useState<StructureObject[] | unknown>([])
+    const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
+    const [data, setData] = useState<StructureObject[]>([])
     
     const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
 
@@ -73,6 +77,7 @@ const Structures = (props: any) => {
         data= {data}
         page={page}
         allBoxes={allBoxes}
+        handleData={(val: StructureObject[]) => setData(val)}
       />
 
     </>

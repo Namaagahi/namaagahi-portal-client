@@ -1,7 +1,12 @@
-import moment from "jalali-moment"
+import { BoxObject } from "@/app/lib/interfaces"
 import Loading from "../loading/Loading"
+import moment from "jalali-moment"
 
-const SingleBoxHeading = (props : any) => {
+type Props = {
+    box: BoxObject
+}
+
+const SingleBoxHeading = (props : Props) => {
 
     const { box } = props
 

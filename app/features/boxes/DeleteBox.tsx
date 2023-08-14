@@ -1,7 +1,7 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useDeleteBoxMutation } from '../../apiSlices/boxesApiSlice'
-import { DeleteBoxProps } from '@/app/lib/interfaces'
+import { BoxObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
@@ -9,7 +9,13 @@ const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
 )
-const DeleteBox = (props: DeleteBoxProps) => {
+
+type Props = {
+  box: BoxObject | undefined
+  handleModal: () => void
+}
+
+const DeleteBox = (props: Props) => {
 
   const {
     box,

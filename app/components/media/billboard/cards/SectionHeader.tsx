@@ -1,6 +1,12 @@
 import Title from '../../../main/Title'
 
-const SectionHeader = ({title}:{title: string}) => {
+type Props = {
+  title: string
+}
+
+const SectionHeader = (props: Props) => {
+
+  const { title } = props
 
   return (
     <div className='grid grid-cols-1'>

@@ -20,8 +20,8 @@ const SingleBox = () => {
 
     const { id } = useParams()
     const [newBox, setNewBox] = useState<any>({})
-    const [structures, setStructures] = useState<any>([])
-    const [loading, setLoading] = useState(true)
+    const [structures, setStructures] = useState<StructureObject[]>([])
+    const [loading, setLoading] = useState<boolean>(true)
 
     useGetAllBoxesQuery(undefined, {
         refetchOnFocus: false,
@@ -35,7 +35,7 @@ const SingleBox = () => {
 
     const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
     const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id) as BoxObject)
-    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
+    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
     useEffect(()=>{ 
         if(box?.duration.endDate < new Date().getTime()) {

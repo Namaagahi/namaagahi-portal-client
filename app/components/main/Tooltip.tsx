@@ -1,7 +1,12 @@
-import { TootlipProps } from '@/app/lib/interfaces'
 import { useRef } from 'react'
 
-const Tooltip = (props : TootlipProps) => {
+type Props = { 
+    children: JSX.Element, 
+    tooltipText: string | undefined , 
+    orientation: string 
+  }
+  
+const Tooltip = (props : Props) => {
 
     const { children, tooltipText, orientation = 'right' } = props
 

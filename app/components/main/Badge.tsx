@@ -1,6 +1,8 @@
-import { BadgeProps } from '@/app/lib/interfaces'
+type Props = {
+  index: number
+}
 
-const Badge = (props: BadgeProps) => {
+const Badge = (props: Props) => {
 
   const { index } = props
 

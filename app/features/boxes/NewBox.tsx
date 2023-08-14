@@ -6,11 +6,11 @@ import { newBoxDefaultValues } from "@/app/lib/constants"
 import { useForm, useFieldArray } from "react-hook-form"
 import { DateObject } from "react-multi-date-picker"
 import { useRouter } from "next/navigation"
+import { convertToNumber } from "@/app/utilities/convertToNumber"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import useAuth from "@/app/hooks/useAuth"
 import { toast } from "react-toastify"
-import { convertToNumber } from "@/app/utilities/convertToNumber"
 import dynamic from "next/dynamic"
 const BasicBoxInfoFormSection = dynamic(
   () => import('./BasicBoxInfoFormSection'),
@@ -21,7 +21,13 @@ const BoxStructuresFormSection = dynamic(
   { ssr: false }
 )
 
-const NewBox = ({ mark }: { mark: string }) => {
+type Props = {
+  mark: string
+}
+
+const NewBox = (props: Props) => {
+
+  const { mark } = props
 
   useGetAllBoxesQuery(undefined, {
       refetchOnFocus: false,

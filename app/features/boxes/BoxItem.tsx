@@ -1,4 +1,4 @@
-import { BoxItemProps, BoxObject } from "@/app/lib/interfaces"
+import {  BoxObject } from "@/app/lib/interfaces"
 import { selectBoxById } from "../../apiSlices/boxesApiSlice"
 import { useSelector } from "react-redux"
 import dynamic from 'next/dynamic'
@@ -7,7 +7,12 @@ const ListItem = dynamic(
   { ssr: false }
 )
 
-const BoxItem = (props: BoxItemProps) => {
+type Props = {
+  boxId: string
+  index: number 
+}
+
+const BoxItem = (props: Props) => {
   
   const {
     boxId,

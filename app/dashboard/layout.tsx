@@ -47,14 +47,14 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       // eslint-disable-next-line
   }, [trueSuccess])
 
-  // const cookies = new Cookies()
-  // const accessToken = cookies.get("jwt")
+  const cookies = new Cookies()
+  const accessToken = cookies.get("jwt")
 
-  // useEffect(() => {
-  //   if (!accessToken) {
-  //     push("/")
-  //   }
-  // }, [accessToken, push])
+  useEffect(() => {
+    if (!accessToken) {
+      push("/")
+    }
+  }, [accessToken, push])
 
   let content
 

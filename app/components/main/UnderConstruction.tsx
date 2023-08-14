@@ -1,4 +1,10 @@
-const UnderConstruction = ({ desc }: { desc:string }) => {
+type Props = {
+  desc: string
+}
+
+const UnderConstruction = (props: Props) => {
+  
+  const { desc } = props
   
   return (
     <section className="bg-white dark:bg-gray-900">

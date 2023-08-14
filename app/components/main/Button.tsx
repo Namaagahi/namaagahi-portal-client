@@ -1,6 +1,9 @@
-import { CreateButtonProps } from '@/app/lib/interfaces'
+type Props = {
+  onClickHandler: () => void
+  title: string
+}
 
-const Button = (props: CreateButtonProps) => {
+const Button = (props: Props) => {
 
   const {
     onClickHandler,

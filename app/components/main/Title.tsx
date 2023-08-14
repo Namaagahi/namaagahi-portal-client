@@ -1,6 +1,10 @@
-import { TitleProps } from '@/app/lib/interfaces'
+type Props = {
+  title: string
+  fontSize: string
+  bulletSize: number
+}
 
-const Title = (props: TitleProps) => {
+const Title = (props: Props) => {
 
   const {
     title,

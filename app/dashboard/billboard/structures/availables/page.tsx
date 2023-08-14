@@ -1,21 +1,21 @@
 'use client'
+import { StructureObject, BoxObject, BoxStructure, PlanObject, StructurePlanObject } from '@/app/lib/interfaces'
+import {  selectAllStructures ,useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { selectAllPlans, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
-import {  selectAllStructures ,useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
-import { StructureObject, BoxObject, BoxStructure, PlanObject, StructurePlanObject } from '@/app/lib/interfaces'
-import moment from 'jalali-moment'
-import React, { useState } from 'react'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
-import { useSelector } from 'react-redux'
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
-import Loading from '@/app/features/loading/Loading'
-import domtoimage from 'dom-to-image';
-import {jsPDF} from 'jspdf'
-import { FaFilePdf } from 'react-icons/fa'
 import PageTitle from '@/app/components/main/PageTitle'
+import Loading from '@/app/features/loading/Loading'
+import { FaFilePdf } from 'react-icons/fa'
+import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import domtoimage from 'dom-to-image'
+import moment from 'jalali-moment'
+import {jsPDF} from 'jspdf'
 
-interface InitialStructureDurations {
+type InitialStructureDurations = {
     [key:string]: {
     sellStart: number
     sellEnd:number
@@ -23,13 +23,12 @@ interface InitialStructureDurations {
     }[]
 }
 
-interface StructureDurations {
+type StructureDurations = {
     [key:string]: {
     start: number
     end:number
     }[]
 }
-
 
 const Availables = () => {
     const { 

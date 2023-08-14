@@ -1,12 +1,18 @@
 import NewInitialCustomerForm from "@/app/features/initialCustomers/NewInitialCustomerForm"
+import { NoteObject, StructureObject, UserObject } from "@/app/lib/interfaces"
 import EditStructure from "@/app/features/structures/EditStructure"
-import { CreateUpdateModalProps } from "@/app/lib/interfaces"
 import NewUserForm from "@/app/features/users/NewUserForm"
 import EditUser from "@/app/features/users/EditUser"
 import EditNote from "@/app/features/note/EditNote"
 import NewNote from "@/app/features/note/NewNote"
 
-const CreateUpdateModal = (props: CreateUpdateModalProps) => {
+type Props = {
+  handleModal: () => void
+  type: string
+  prop?: UserObject | NoteObject | StructureObject | undefined | any
+}
+
+const CreateUpdateModal = (props: Props) => {
 
   const {
     handleModal,

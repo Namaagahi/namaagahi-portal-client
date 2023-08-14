@@ -1,13 +1,19 @@
+import { InitialCustomerObject, NoteObject, PlanObject, StructureObject, UserObject } from "@/app/lib/interfaces"
 import DeleteInitialCustomer from "@/app/features/initialCustomers/DeleteInitialCustomer"
 import DeleteStructure from "@/app/features/structures/DeleteStructure"
-import { DeleteModalContentProps } from "@/app/lib/interfaces"
 import DeletePlan from "@/app/features/plans/DeletePlan"
 import DeleteUser from "@/app/features/users/DeleteUser"
 import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteBox from "@/app/features/boxes/DeleteBox"
 import { AiOutlineClose } from 'react-icons/ai'
 
-const DeleteModalContent = (props: DeleteModalContentProps) => {
+interface Props {
+    handleModal: () => void
+    prop?: UserObject | NoteObject | StructureObject | PlanObject | InitialCustomerObject | any
+    deleteType: string
+  }
+
+const DeleteModalContent = (props: Props) => {
 
     const {
         handleModal,
@@ -35,7 +41,7 @@ const DeleteModalContent = (props: DeleteModalContentProps) => {
                     handleModal={handleModal}
                 />
                 :
-                deleteType === 'user'?
+                deleteType === 'note'?
                 <DeleteNote
                     note={prop}
                     handleModal={handleModal}

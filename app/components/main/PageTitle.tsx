@@ -1,6 +1,8 @@
-import { PageTitleProps } from "@/app/lib/interfaces"
+type Props = {
+  name: string
+}
 
-const PageTitle = (props: PageTitleProps) => {
+const PageTitle = (props: Props) => {
 
   const { name } = props
 

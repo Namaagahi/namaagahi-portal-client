@@ -1,8 +1,11 @@
-import { LogoutModalContentProps } from "@/app/lib/interfaces"
 import Logout from "@/app/features/logout/Logout"
 import { AiOutlineClose } from "react-icons/ai"
 
-const LogoutModalContent = (props: LogoutModalContentProps) => {
+type Props = {
+  handleModal: () => void
+}
+
+const LogoutModalContent = (props: Props) => {
 
   const { handleModal } = props
 

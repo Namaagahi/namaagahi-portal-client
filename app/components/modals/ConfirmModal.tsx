@@ -1,8 +1,15 @@
+import { NoteObject, StructureObject, UserObject } from "@/app/lib/interfaces"
 import LogoutModalContent from "../main/LogoutModalContent"
 import DeleteModalContent from "../main/DeleteModalContent"
-import { ConfirmModalProps } from "@/app/lib/interfaces"
 
-const ConfirmModal = (props: ConfirmModalProps) => {
+type Props = {
+  type: string
+  prop?: UserObject | NoteObject | StructureObject | undefined | any
+  handleModal: () => void
+  deleteType?: string
+}
+
+const ConfirmModal = (props: Props) => {
 
   const {
     handleModal,
