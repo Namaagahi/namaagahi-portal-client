@@ -1,5 +1,6 @@
 import { FieldError } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
+import useNumberFormatter from '@/app/hooks/useNumberFormatter'
 
 const DiscountedMonthlyFee = (props: any) => {
 
@@ -15,7 +16,6 @@ const DiscountedMonthlyFee = (props: any) => {
         setValue,
         numberDiscountInputRef,
         percentageDiscountInputRef,
-        formatNumber 
     } = props
 
     const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
@@ -37,13 +37,13 @@ const DiscountedMonthlyFee = (props: any) => {
             >
                 {
                     selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && changeInput && discountType ==='percentage' ? 
-                    formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
+                    useNumberFormatter(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && changeInput && discountType ==='number' ? 
-                    formatNumber(convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount), ',')
+                    useNumberFormatter(convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount), ',')
                     : selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && !changeInput && discountType ==='percentage' ? 
-                    formatNumber(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount) ) / 100, ',')
+                    useNumberFormatter(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount) ) / 100, ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
-                    formatNumber(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
+                    useNumberFormatter(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
                     : ''
                 }
             </p>

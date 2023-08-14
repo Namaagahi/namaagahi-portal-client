@@ -1,7 +1,7 @@
 import { Document, Page, StyleSheet, Font, Text, Image, View } from '@react-pdf/renderer'
-import React, { useEffect, useState } from 'react'
 import Loading from '../loading/Loading'
 import moment from 'jalali-moment'
+import useNumberFormatter from '@/app/hooks/useNumberFormatter'
 
 const PlanPdfDoc = (props: any) => {
 
@@ -116,16 +116,6 @@ const PlanPdfDoc = (props: any) => {
     }
   })
 
-  function formatNumber(number: number, separator: string): string {
-    const options = {
-      useGrouping: true,
-      minimumFractionDigits: 0,
-    }
-    return number?.toLocaleString(undefined, options).replace(/,/g, separator);
-}
-
-// console.log(plan)
-
   if(!plan || !customer) return <Loading />
 
   return (
@@ -161,12 +151,12 @@ const PlanPdfDoc = (props: any) => {
                     <View style={styles.tableRow} key={structureIndex}>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.totalPeriodCost, ',')}
+                          {useNumberFormatter(strucuture.totalPeriodCost, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
+                          {useNumberFormatter(strucuture.monthlyFeeWithDiscount, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
@@ -176,7 +166,7 @@ const PlanPdfDoc = (props: any) => {
                       </View>
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFee, ',')}
+                          {useNumberFormatter(strucuture.monthlyFee, ',')}
                         </Text>
                       </View>
                       <View style={[styles.tableCol, { width: '3%' }]}>
@@ -231,7 +221,7 @@ const PlanPdfDoc = (props: any) => {
                   <View style={styles.tableRow}>
                     <View style={[styles.tableCol, { width: '7%' }]}>
                       <Text style={styles.tableCell}>
-                        {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
+                        {useNumberFormatter(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
                       </Text> 
                     </View>
                     <View style={[styles.tableCol, { width: '93%' }]}>

@@ -3,18 +3,11 @@ import { PlanStructure } from '@/app/lib/interfaces'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'jalali-moment'
 import React, { useMemo } from 'react'
+import useNumberFormatter from '@/app/hooks/useNumberFormatter'
 
 const SinglePlanTable = (props: any) => {
 
     const { data } = props
-
-    function formatNumber(number: number, separator: string): string {
-        const options = {
-          useGrouping: true,
-          minimumFractionDigits: 0,
-        }
-        return number?.toLocaleString(undefined, options).replace(/,/g, separator);
-    }
         
       const columns = useMemo<ColumnDef<PlanStructure, any>[]>(() => {
         return(
@@ -62,13 +55,13 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.monthlyFee,
                 id: 'تعرفه ماهیانه',
-                cell: info => formatNumber(info.getValue(),','),
+                cell: info => useNumberFormatter(info.getValue(),','),
                 header: () => <span>تعرفه ماهیانه</span>,
                 },
                 {
                 accessorFn: row => row?.monthlyFeeWithDiscount,
                 id: 'قیمت ماهانه پس از تخفیف',
-                cell: info => formatNumber(info.getValue(),','),
+                cell: info => useNumberFormatter(info.getValue(),','),
                 header: () => <span>قیمت ماهانه پس از تخفیف</span>,
                 },
                 {
@@ -108,12 +101,12 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.totalPeriodCost,
                 id: 'جمع دوره',
-                cell: info => formatNumber(info.getValue(), ','),
+                cell: info => useNumberFormatter(info.getValue(), ','),
                 header: () => <span>جمع دوره</span>,
                 footer: (info: any, rows: any) => {
                   return (
                     <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
-                      {formatNumber(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
+                      {useNumberFormatter(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
                     </div>
                   )
                 },

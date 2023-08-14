@@ -60,14 +60,6 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
     ...(chosenStructuresLookup[boxStructure.structureId]),
     }))
 
-    function formatNumber(number: number, separator: string): string {
-        const options = {
-          useGrouping: true,
-          minimumFractionDigits: 0,
-        }
-        return number?.toLocaleString(undefined, options).replace(/,/g, separator)
-    }
-
     function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
         const newValue = event.target.value.replace(/,/g, '')
         const numberValue = convertToNumber(newValue)
@@ -229,7 +221,6 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                             handleTextbox1Change={handleTextbox1Change}
                                             errors={errors}
                                             setValue={setValue}
-                                            formatNumber={formatNumber}
                                         />
                                     )
                                 })}
@@ -354,7 +345,6 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                     errors={errors}
                                     fieldIndex={fieldIndex}
                                     setValue={setValue}
-                                    formatNumber={formatNumber}
                                     numberDiscountInputRef={numberDiscountInputRef}
                                     percentageDiscountInputRef={percentageDiscountInputRef}
                                 />
