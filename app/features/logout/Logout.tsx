@@ -1,13 +1,17 @@
 "use client"
 import { useSendLogoutMutation } from '../../apiSlices/authApiSlice'
-import { LogoutModalContentProps } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('../loading/Loading'),
   { ssr: false }
 )
-const Logout = (props: LogoutModalContentProps) => {
+
+type Props = {
+  handleModal: () => void
+}
+
+const Logout = (props: Props) => {
 
   const { handleModal } = props
 
