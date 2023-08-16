@@ -128,7 +128,11 @@ const NewBox = (props: Props) => {
           fixedCosts: {
             ...structure.costs.fixedCosts,
             squareCost: convertToNumber(structure.costs.fixedCosts.squareCost),
-          }
+          },
+          variableCosts: structure.costs.variableCosts.map((varCost: any) => {
+            return(
+              ({ ...varCost, figures: { monthlyCost: convertToNumber(varCost.figures.monthlyCost) } })
+            )})
         },
         monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
       })),
@@ -154,17 +158,7 @@ const NewBox = (props: Props) => {
         startDate: Number(newData.startDate),
         endDate: Number(newData.endDate),
       },
-      structures: newData.structures.map((structure: any) => {
-        return(
-          ({ ...structure, costs: {
-              ...structure.costs, variableCosts: structure.costs.variableCosts.map((varCost: any) => {
-                return(
-                  ({ ...varCost, figures: { monthlyCost: convertToNumber(varCost.figures.monthlyCost) } })
-                )})
-            } 
-          })
-        )
-      })
+      structures: newData.structures
     })
 
     newData.structures.forEach(async(structure) => {

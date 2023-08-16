@@ -10,11 +10,12 @@ import { useSelector } from 'react-redux'
 
 type Props = {
   page: string
+  allBoxes: BoxObject[]
 }
 
 const Structures = (props: Props) => {
 
-    const { page } = props
+    const { page, allBoxes } = props
 
     const { 
       isLoading,
@@ -24,13 +25,8 @@ const Structures = (props: Props) => {
       refetchOnMountOrArgChange: false
     })
 
-    useGetAllBoxesQuery(undefined, {
-      refetchOnFocus: false,
-      refetchOnMountOrArgChange: false,
-    })
-
     const allStructures: StructureObject[] | any = useSelector(state => selectAllStructures(state))
-    const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
+
     const [data, setData] = useState<StructureObject[]>([])
     
     const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
@@ -40,27 +36,30 @@ const Structures = (props: Props) => {
     refetchOnMountOrArgChange: false
   })
 
-    useEffect(()=>{ 
-      if(!allBoxes[0]) {
-          allStructures.forEach(async(structure: StructureObject) => {
-            if(structure.isChosen || structure.parent.length) {
-              await updateStructure({
-                id: structure.id,
-                userId: structure.userId,
-                name: structure.name,
-                location: structure.location,
-                isAvailable: structure.isAvailable,
-                isChosen: false,
-                parent: ''
-              })
-            }
-          })
-      }
-    }, [])
+  useEffect(()=>{ 
+    if(!allBoxes[0]) {
+        allStructures.forEach(async(structure: StructureObject) => {
+          if(structure.isChosen || structure.parent.length) {
+            await updateStructure({
+              id: structure.id,
+              userId: structure.userId,
+              name: structure.name,
+              location: structure.location,
+              isAvailable: structure.isAvailable,
+              isChosen: false,
+              parent: ''
+            })
+          }
+        })
+    }
+  }, [])
   
     useEffect(() =>{
       setData(allStructures)
     }, [allStructures])
+
+  console.log("ALLBOXES", allBoxes)
+
   
   if(isLoading || !allStructures[0]) return <Loading />
   

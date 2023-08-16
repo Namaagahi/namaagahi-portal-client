@@ -12,7 +12,7 @@ const LogoutModalContent = (props: Props) => {
   return (
     <div className="confirm-modal-content">
       <div className="flex justify-between items-center">
-        <p className="md:text-2xl text-xl font-bold">تایید حذف</p>
+        <p className="md:text-2xl text-xl font-bold">تایید</p>
         <AiOutlineClose className="cursor-pointer text-xl hover:text-2xl transition-all" onClick={handleModal}/>
       </div>
 

@@ -37,23 +37,23 @@ const SingleBox = () => {
     const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id) as BoxObject)
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
-    useEffect(()=>{ 
-        if(box?.duration.endDate < new Date().getTime()) {
-            allStructures?.forEach(async(structure: StructureObject) => {
-              if(structure.isChosen || structure.parent.length) {
-                await updateStructure({
-                  id: structure.id,
-                  userId: structure.userId,
-                  name: structure.name,
-                  location: structure.location,
-                  isAvailable: structure.isAvailable,
-                  isChosen: false,
-                  parent: ''
-                })
-              }
-            })
-        }
-    }, [])
+    // useEffect(()=>{ 
+    //     if(box?.duration.endDate < new Date().getTime()) {
+    //         allStructures?.forEach(async(structure: StructureObject) => {
+    //           if(structure.isChosen || structure.parent.length) {
+    //             await updateStructure({
+    //               id: structure.id,
+    //               userId: structure.userId,
+    //               name: structure.name,
+    //               location: structure.location,
+    //               isAvailable: structure.isAvailable,
+    //               isChosen: false,
+    //               parent: ''
+    //             })
+    //           }
+    //         })
+    //     }
+    // }, [])
 
     const calcVariableCosts = () => {
         const clone: any = []

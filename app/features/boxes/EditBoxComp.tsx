@@ -39,8 +39,8 @@ const EditBoxComp = (props: Props) => {
 
   const structures = useSelector(state => selectAllStructures(state))
 
-  const [startDate, setStartDate] = useState<number>(new Date().getTime())
-  const [endDate, setEndDate] = useState<number>(new Date().getTime())
+  const [startDate, setStartDate] = useState<number>(box.duration.startDate)
+  const [endDate, setEndDate] = useState<number>(box.duration.endDate)
 
   const [data, setData] = useState<any>(null)
 
@@ -48,6 +48,8 @@ const EditBoxComp = (props: Props) => {
       defaultValues: data,
       mode: 'onSubmit' 
     })
+
+    console.log("BOX", box)
   
   const { register, control, handleSubmit, formState: {errors}, getValues, setValue, reset, watch } = editBoxForm
 
@@ -129,7 +131,7 @@ const EditBoxComp = (props: Props) => {
       })),
     }
   
-    const abc = await updateBox({
+    const HEY = await updateBox({
         id: box?.id,
         boxId: newData.boxId,
         userId: currentUserId,
@@ -147,6 +149,7 @@ const EditBoxComp = (props: Props) => {
             endDate: Number(newData.endDate),
         },
         structures: newData.structures.map((structure: any) => {
+          console.log("STRUCTUREEEE", structure)
             return(
             ({ ...structure, costs: {
                 ...structure.costs, variableCosts: structure.costs.variableCosts.map((varCost: any) => {
@@ -158,7 +161,8 @@ const EditBoxComp = (props: Props) => {
             )
         })
     })      
-    console.log(abc)  
+    console.log("newData", newData)
+    console.log("ABC",HEY)  
   
     newData.structures.forEach(async(structure) => {
       structures.forEach(async(nonBoxStructure: any) => {

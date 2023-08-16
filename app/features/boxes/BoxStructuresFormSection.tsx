@@ -1,16 +1,21 @@
 import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
 import { StructureObject, BoxStructuresFormSectionProps } from "@/app/lib/interfaces"
 import { selectAllStructures, useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
-import { AiFillPlusSquare, AiFillMinusSquare } from 'react-icons/ai'
+import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
 import SelectInput from "@/app/components/inputs/SelectInput"
 import CustomInput from "@/app/components/inputs/CustomInput"
 import { FieldError } from "react-hook-form"
 import { useSelector } from "react-redux" 
+import moment from "jalali-moment"
+import persian_fa from "react-date-object/locales/persian_fa"
+import persian from "react-date-object/calendars/persian"
+import DatePicker, { DateObject } from "react-multi-date-picker" 
 
 const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
 
   const {
+    page,
     register,
     errors,
     structuresField,
@@ -33,9 +38,10 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
     const newValue = event.target.value.replace(/,/g, '')
     const numberValue = convertToNumber(newValue)
     const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
+    console.log("formattedValue", formattedValue)
     setValue(prop, formattedValue)
   }
-
+console.log("structuresField", structuresField)
   return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
@@ -165,13 +171,55 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
                   />
                 )
               })}
+              {
+                page === 'edit' &&
+                  <>
+                   <div className='flex flex-col gap-3'>
+                    <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
+                    <DatePicker
+                        inputClass='input-primary'
+                        format='YYYY-MM-DD'
+                        value={page === 'edit' ? moment(new Date(item.duration.startDate).toISOString()).format('jYYYY-jM-jD') : undefined}
+                        calendar={persian}
+                        locale={persian_fa}
+                        calendarPosition="bottom-right"
+                        onChange={(e) => {
+                          if (e instanceof DateObject) {
+                            setValue(`structures.${fieldIndex}.duration.startDate` , e.unix * 1000)
+                          }
+                        } 
+                      }
+                    />
+                    <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
+                </div>
 
-              <AiFillMinusSquare
-                className={`${fieldIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-700 transition-all`}
+                <div className='flex flex-col gap-3'>
+                    <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
+                    <DatePicker
+                        inputClass='input-primary'
+                        format='YYYY-MM-DD'
+                        value={page === 'edit' ? moment(new Date(item.duration.endDate).toISOString()).format('jYYYY-jM-jD') : undefined}
+                        calendar={persian}
+                        locale={persian_fa}
+                        calendarPosition="bottom-right"
+                        onChange={(e) => {
+                          if (e instanceof DateObject) {
+                            setValue(`structures.${fieldIndex}.duration.endDate` , e.unix * 1000)
+                          }
+                        } 
+                        }
+                    />
+                    <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
+                </div>
+                  </>
+              }
+
+              <AiFillMinusCircle
+                className={`absolute left-0 ${fieldIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-700 transition-all`}
                 onClick={() => removeStructure(fieldIndex)} 
               />
-
             </div>
+
 
             <VariableCostsFormSection 
               errors={errors}
@@ -185,7 +233,7 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
       } 
       )}
 
-        <AiFillPlusSquare 
+        <AiFillPlusCircle 
           className="cursor-pointer text-2xl hover:text-green-700 transition-all"
           onClick={() => appendStructure(boxStructureFormValues)}
         />

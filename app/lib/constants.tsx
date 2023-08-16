@@ -218,6 +218,11 @@ export const boxMarksObject = {
 
 export const boxStructureFormValues = {
   structureId: '',
+  duration: {
+    diff:0,
+    startDate: 0,
+    endDate: 0
+  },
   marks: {
     name: '',
     markOptions: {

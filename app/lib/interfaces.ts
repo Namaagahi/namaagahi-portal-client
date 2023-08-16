@@ -184,6 +184,11 @@ export interface AddBoxForm {
   endDate:  number
   structures: {
     structureId:string
+    duration: {
+      diff: number
+      startDate: number
+      endDate: number
+    },
     marks: {
       name: string
       markOptions: {
@@ -221,6 +226,11 @@ export interface EditBoxForm {
   endDate:  number
   structures: {
     structureId:string
+    duration: {
+      diff: number
+      startDate: number
+      endDate: number
+    },
     marks: {
       name: string
       markOptions: {
@@ -324,13 +334,13 @@ export interface BasicBoxInfoFormSectionProps {
 
 export interface BoxStructuresFormSectionProps { 
   page: string
-  register: UseFormRegister<AddBoxForm>
+  register: UseFormRegister<AddBoxForm> | UseFormRegister<EditBoxForm> 
   errors: FieldErrors<AddBoxForm>
-  structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[]
-  appendStructure: UseFieldArrayAppend<AddBoxForm, "structures">
+  structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[] | FieldArrayWithId<EditBoxForm, "structures", "id">[]
+  appendStructure: UseFieldArrayAppend<AddBoxForm, "structures"> | UseFieldArrayAppend<EditBoxForm, "structures">
   removeStructure:  UseFieldArrayRemove
-  control: Control<AddBoxForm, any>
-  setValue: UseFormSetValue<AddBoxForm>
+  control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
+  setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>
   convertToNumber: (value: string) => number | null
 }
 
