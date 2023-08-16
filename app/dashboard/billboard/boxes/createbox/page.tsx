@@ -9,7 +9,7 @@ const NewBox = dynamic(
 
 const CreateBox = () => {
 
-  const [boxMark, setBoxMark] = useState('')
+  const [boxMark, setBoxMark] = useState<string>('')
 
   return (
       <main className="min-h-screen">
@@ -23,19 +23,19 @@ const CreateBox = () => {
                 onClick={() => setBoxMark('owner')} 
                 className={`${boxMark === 'owner' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
               >
-                باکس owner
+                 مزایده ای
               </button>
               <button
                 onClick={() => setBoxMark('buyShort')} 
                 className={`${boxMark === 'buyShort' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
               >
-                باکس buy کوتاه مدت
+                 خرید کوتاه مدت
               </button>
               <button
                 onClick={() => setBoxMark('buyLong')}
                 className={`${boxMark === 'buyLong' && 'bg-[#833841] text-white shadow-md'} btn-form-select`}
               >
-                باکس buy بلند مدت
+                 خرید بلند مدت
               </button>
             </div>
           </div>

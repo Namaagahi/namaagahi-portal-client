@@ -55,6 +55,7 @@ const NewBox = (props: Props) => {
   const [endDate, setEndDate] = useState<number>(new Date().getTime())
   
   const handleStartDate = (value: DateObject | DateObject[] | null) => {
+
     if (value instanceof DateObject) {
       setStartDate(value.unix * 1000);
     } else if (Array.isArray(value) && value.length > 0) {
@@ -107,6 +108,7 @@ const NewBox = (props: Props) => {
     setValue('endDate', endDate)
   }, [startDate, endDate])
 
+
   const onSubmit = async(data: AddBoxForm) => {
 
     const newData = {
@@ -143,7 +145,10 @@ const NewBox = (props: Props) => {
         'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
     }
 
-    const abc = await createNewBox({
+  if(endDate - startDate < 0) {
+    toast.error("تاریخ پایان نمی تواند عقب تر از تاریخ شروع باشد.")
+  } else {
+    await createNewBox({
       boxId: newData.boxId,
       userId: id,
       name: newData.name,
@@ -160,7 +165,7 @@ const NewBox = (props: Props) => {
       },
       structures: newData.structures
     })
-
+  
     newData.structures.forEach(async(structure) => {
       structures.forEach(async(nonBoxStructure: any) => {
         if(structure.structureId === nonBoxStructure.id){
@@ -177,12 +182,13 @@ const NewBox = (props: Props) => {
       })
     })
   }
+  }
 
   if(isSuccess) {
     toast.success(`باکس جدید با موفقیت ساخته شد.`)
     push('/dashboard/billboard/boxes')
   }
-
+  
     return (
       <form
         noValidate

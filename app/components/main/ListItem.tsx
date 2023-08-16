@@ -46,7 +46,7 @@ const ListItem = (props: Props) => {
                 {/* <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#f04a17] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
                     <AiFillDelete onClick={handleDeleteModal}/>
                 </div> */}
-                <Link href={`/dashboard/billboard/boxes/editbox/${param}`} target="_blank">
+                <Link href={`/dashboard/billboard/boxes/editbox/${param}`}>
                     <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
                         <AiFillEdit />
                     </div>
