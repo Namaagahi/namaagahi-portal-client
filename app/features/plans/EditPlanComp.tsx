@@ -81,7 +81,7 @@ const EditPlanComp = (props: any) => {
       useEffect(() => {
         setTimeout(() => setData({
             name: plan?.name,
-            customerName: plan?.customerName,
+            initialCustomerId: plan?.initialCustomerId,
             brand: plan?.brand,
             status: plan?.status,
             structures: JSON.parse(JSON.stringify(plan?.structures))
@@ -127,7 +127,7 @@ const EditPlanComp = (props: any) => {
             userId: currentUserId,
             username: plan?.username,
             name: newData.name,
-            customerName: newData.customerName,
+            initialCustomerId: newData.initialCustomerId,
             brand: newData.brand,
             status: newData.status,
             structures: newData.structures

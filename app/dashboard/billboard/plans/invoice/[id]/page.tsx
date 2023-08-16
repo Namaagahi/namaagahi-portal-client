@@ -23,7 +23,7 @@ const Invoice = () => {
   })
   
   const plan: PlanObject | undefined | any = useSelector((state) =>selectPlanById(state as PlanObject, id))
-  const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.customerName))
+  const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId))
 
   // console.log(plan)
 

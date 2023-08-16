@@ -90,7 +90,7 @@ const PlansComp = (props: Props) => {
               header: () => <span>شماره پلن</span>,
             },
             {
-              accessorFn: row => row.customerName,
+              accessorFn: row => row.initialCustomerId,
               id: 'مشتری',
               cell: info => {
                 const customer: InitialCustomerObject | any = allInitialCustomers.find((customer: any) => customer.id === info.getValue());
@@ -224,7 +224,7 @@ const PlansComp = (props: Props) => {
                 header: () => <span></span>,
                 cell: ({row}) => {
                   return (
-                    <Link href={`/dashboard/billboard/plans/${row.original.id}`} target="_blank">
+                    <Link href={`/dashboard/billboard/plans/${row.original.id}`}>
                         <td className=" cursor-pointer transition-all">
                             <Status
                                 status = {'مشاهده '}

@@ -261,7 +261,7 @@ export const structureVariableCostsFormValues = {
 // NEW PLAN =======================================================
 export const newPlanDefaultValues = {
   name: '',
-  customerName: '',
+  initialCustomerId: '',
   brand: '',
   structures: [{
     structureId:'',
@@ -334,4 +334,18 @@ export const initialCustomerTableHeadings = [
   'تاریخ ایجاد',
   'تاریخ به روزرسانی'
 ]
+
+// NEW FINAL CUSTOMER =======================================================
+export const newFinalCustomerDefaultValues = {
+  finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
+  agentName: '',
+  companyName: '',
+  post: '',
+  ecoCode: '',
+  regNum: '',
+  nationalId: '',
+  address: '',
+  phone: '',
+  postalCode: ''
+}
 

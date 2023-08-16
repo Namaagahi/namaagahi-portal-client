@@ -23,10 +23,10 @@ const PlanBasicInfo = (props: any) => {
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
                 <SelectInput
                     control={control}
-                    name={'customerName'}
+                    name={'initialCustomerId'}
                     label={'نام مشتری'}
                     required={true}
-                    errors={errors.customerName?.message}
+                    errors={errors.initialCustomerId?.message}
                     options={allInitialCustomers}
                 />
                 <CustomInput 

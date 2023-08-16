@@ -74,11 +74,13 @@ const allBoxes: any = useSelector(state => selectAllBoxes(state))
   const abc = await createNewPlan({
       userId: id,
       name: newData.name,
-      customerName: newData.customerName,
+      initialCustomerId: newData.initialCustomerId,
+      finalCustomerId: newData.finalCustomerId,
       brand: newData.brand,
       structures: newData.structures
     })
     console.log("ABC", abc)
+    console.log("newData", newData)
   }
 
   if(isError) {

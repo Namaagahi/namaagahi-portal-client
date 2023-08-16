@@ -373,16 +373,6 @@ export interface CustomError {
   status?: number
 }
 
-// INITIALCUSTOMERS ===========================================================================
-export interface InitialCustomerObject {
-  _id? : string
-  id?: string
-  userId: string
-  username?: string
-  name: string
-  createdAt: string
-  updatedAt: string
-}
 
 // PLANS ===========================================================================
 export interface StructurePlanObject {
@@ -404,11 +394,12 @@ export interface PlanObject {
   id? : string
   _id?: string
   __v?: number
-  planId: string
+  planId: number
   userId: string
   username?: string
   name: string
-  customerName: string
+  initialCustomerId: string
+  finalCustomerId: string
   brand: string
   status?: string
   structures: StructurePlanObject[]
@@ -475,7 +466,7 @@ export interface CombinedStructure {
 
 export interface AddPlanForm {
   name: string
-  customerName: string
+  initialCustomerId: string
   brand: string
   status: string
   structures: {
@@ -493,7 +484,7 @@ export interface AddPlanForm {
 
 export interface EditPlanForm {
   name: string
-  customerName: string
+  initialCustomerId: string
   brand: string
   status: string
   structures: {
@@ -568,4 +559,44 @@ export interface DeletePlanProps {
 export interface DeleteInitialCustomerProps {
   initialCustomer: InitialCustomerObject
   handleModal: () => void
+}
+
+export interface InitialCustomerObject {
+  _id? : string
+  id?: string
+  userId: string
+  username?: string
+  name: string
+  createdAt: string
+  updatedAt: string
+}
+
+// FINALCUSTOMER ===========================================================================
+export interface FinalCustomerObject {
+  _id? : string
+  id?: string
+  userId: string
+  agentName: string,
+  companyName: string,
+  post: string,
+  ecoCode: string,
+  regNum: string,
+  nationalId: string,
+  address: string,
+  phone: string,
+  postalCode: string
+}
+
+export interface AddFinalCustomerForm {
+  userId: string,
+  finalCustomerId: string
+  agentName: string,
+  companyName: string,
+  post: string,
+  ecoCode: string,
+  regNum: string,
+  nationalId: string,
+  address: string,
+  phone: string,
+  postalCode: string
 }

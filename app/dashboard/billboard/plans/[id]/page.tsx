@@ -8,9 +8,12 @@ import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
+import FinalCustomerForm from '@/app/features/initialCustomers/FinalCustomerForm'
+import useAuth from '@/app/hooks/useAuth'
 
 const SinglePlan = () => {
- 
+
+  const { isAdmin, isMediaManager } = useAuth()
   const { id } = useParams()
   
   const { isLoading }=useGetAllPlansQuery(undefined, {
@@ -23,8 +26,8 @@ const SinglePlan = () => {
     refetchOnMountOrArgChange: false
   })
 
-  const plan: PlanObject | any = useSelector(state => selectPlanById(state as PlanObject , id))
-  const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.customerName))
+  const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
+  const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId))
 
   if(isLoading || !plan) return <Loading />
 
@@ -41,6 +44,7 @@ const SinglePlan = () => {
             <div className="max-h-[30%] bg-cyan-200 dark:bg-cyan-900 overflow-y-auto  w-full p-2">
               <SinglePlanTable data ={plan?.structures} />
             </div>
+            { (plan.status === 'suggested' && (isAdmin || isMediaManager)) && <FinalCustomerForm plan={plan} /> }
           </div>
         </div>
       </main>

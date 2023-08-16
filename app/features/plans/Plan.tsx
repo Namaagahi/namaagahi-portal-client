@@ -34,7 +34,7 @@ const Plan = (props: any) => {
 
     const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
     const plan: PlanObject | any = useSelector(state => selectPlanById(state, planId!))
-    const foundCustomer: InitialCustomerObject | any = allInitialCustomers.find((customer: any) => customer.id === plan.customerName)
+    const foundCustomer: InitialCustomerObject | any = allInitialCustomers.find((customer: any) => customer.id === plan.initialCustomerId)
 
     const [isEditPlan, setIsEditPlan] = useState(false)
     const [isDeletePlan, setIsDeletePlan] = useState(false)
@@ -108,7 +108,7 @@ const Plan = (props: any) => {
                     </td>
                         <td className="px-6 py-4">{moment(plan.createdAt).format('jYYYY/jM/jD')}</td>
                         <td className="px-6 py-4">{moment(plan.updatedAt).format('jYYYY/jM/jD')}</td>
-                        <Link href={`/dashboard/billboard/plans/${plan.id}`} target="_blank">
+                        <Link href={`/dashboard/billboard/plans/${plan.id}`}>
                             <td className=" py-4 cursor-pointer transition-all hover:text-white">
                                 <Status
                                     status = {'مشاهده '}

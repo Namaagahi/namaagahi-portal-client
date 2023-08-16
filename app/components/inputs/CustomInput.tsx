@@ -9,7 +9,7 @@ import { Control, Controller } from 'react-hook-form'
     message?: string
     pattern?: RegExp
     patternMessage?: string
-    type: 'text' | 'number' | 'email' | 'password'
+    type: string
     errors?: string
     onChange?: any
     placeholder?: string
