@@ -5,7 +5,6 @@ import { BoxObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
 
 const Structures = () => {
-
   
   useGetAllBoxesQuery(undefined, {
     refetchOnFocus: false,
