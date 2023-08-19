@@ -1,12 +1,14 @@
-import { useCreateNewFinalCustomerMutation } from '@/app/apiSlices/finalCustomerApiSlice'
+import { selectAllFinalCustomers, useCreateNewFinalCustomerMutation, useGetAllFinalCustomersQuery } from '@/app/apiSlices/finalCustomerApiSlice'
 import { useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
 import CustomInput from '@/app/components/inputs/CustomInput'
+import SelectInput from '@/app/components/inputs/SelectInput'
 import useAuth from '@/app/hooks/useAuth'
 import { newFinalCustomerDefaultValues } from '@/app/lib/constants'
-import { AddFinalCustomerForm, PlanObject } from '@/app/lib/interfaces'
+import { AddFinalCustomerForm, FinalCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 
 type Props = {
@@ -25,7 +27,14 @@ const FinalCustomerForm = (props: Props) => {
         error
     }] = useCreateNewFinalCustomerMutation()
 
+    useGetAllFinalCustomersQuery(undefined, {
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false
+    })
+
     const [updatePlan] = useUpdatePlanMutation()
+
+    const allFinalCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[]) 
 
     const createFinalCustomerForm = useForm<AddFinalCustomerForm>({
         defaultValues: newFinalCustomerDefaultValues,
@@ -36,12 +45,24 @@ const FinalCustomerForm = (props: Props) => {
         control,
         handleSubmit,
         formState: {errors},
-        setValue,
-        watch
     } = createFinalCustomerForm
 
     const onSubmit = async(data: any) => {
         console.log("DATA", data)
+        const abc = await createNewFinalCustomer({
+            finalCustomerId: data.finalCustomerId,
+            userId: id,
+            agentName: data.agentName,
+            companyName: data.companyName,
+            post: data.post,
+            ecoCode: parseFloat(data.ecoCode),
+            regNum: parseFloat(data.regNum),
+            nationalId: parseFloat(data.nationalId),
+            address: data.address,
+            phone: parseFloat(data.phone),
+            postalCode: parseFloat(data.postalCode)
+        })
+
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این کد اقتصادی قبلا ثبت شده است')
             'status' in error! && error.status === 400 && toast.error('فیلدهای مورد نیاز را تکمیل کنید')
@@ -56,31 +77,20 @@ const FinalCustomerForm = (props: Props) => {
             brand: plan.brand,
             status: 'done',
             structures: plan.structures,
-            finalCustomerId: data.finalCustomerId,
+            finalCustomerId: isDisabled ? data.finalCustomerId : data.finalCustomerId,
         })
         console.log("ABC2", abc2)
         console.log("PLAN", plan)
-        
-        const abc = await createNewFinalCustomer({
-            finalCustomerId: data.finalCustomerId,
-            userId: id,
-            agentName: data.agentName,
-            companyName: data.companyName,
-            post: data.post,
-            ecoCode: parseFloat(data.ecoCode),
-            regNum: parseFloat(data.regNum),
-            nationalId: parseFloat(data.nationalId),
-            address: data.address,
-            phone: parseFloat(data.phone),
-            postalCode: parseFloat(data.postalCode)
-        })
         console.log("ABC", abc)
     }
 
     if(isSuccess) {
         toast.success(`مشتری جدید با موفقیت ساخته شد.`)
-        push('/dashboard/billboard/plans')
+        // push('/dashboard/billboard/plans')
       }
+
+    const [isDisabled, setIsDisabled] = useState<boolean>(false)
+    const [customerId, setCustomerId] = useState<string>('')
 
     const customInputs = [
         {
@@ -105,6 +115,7 @@ const FinalCustomerForm = (props: Props) => {
             name: 'companyName',
             type:'text',
             required: true,
+            message: 'نام شرکت الزامیست',
             errors: (errors.companyName?.message)
         },
         {
@@ -160,6 +171,32 @@ const FinalCustomerForm = (props: Props) => {
   return (
     <div className='w-full h-full bg-teal-200 dark:bg-neutral-300 p-2 rounded-lg text-gray-700 mt-5 flex flex-col items-start justify-center'>
         <p>مشتری نهایی</p>
+        <div className="flex items-center gap-3">
+            <label htmlFor="chooseCustomer">انتخاب از مشتریان قبلی</label>
+            <input
+                type='checkbox'
+                id='chooseCustomer'
+                onChange={() => setIsDisabled(!isDisabled)}
+                className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+            />
+            {
+                isDisabled &&
+                <select className='p-4 rounded-[50px] bg-white outline-none'>
+                    <option value="" disabled hidden>
+                        انتخاب
+                    </option>
+
+                    {allFinalCustomers.map((finalCustomer, index) => {
+                        return(
+                            <option key={finalCustomer.id} value={finalCustomer.id} className='text-black'>
+                                {finalCustomer.companyName}
+                            </option>
+                        )
+                    })}
+
+                </select>
+            }
+        </div>
         <form
             noValidate
             onSubmit={handleSubmit(onSubmit)}
@@ -175,7 +212,9 @@ const FinalCustomerForm = (props: Props) => {
                                         label={customInput.label}
                                         type={customInput.type}
                                         required={customInput.required}
-                                        errors={customInput.errors!!}
+                                        message={customInput.message && customInput.message}
+                                        errors={customInput.errors && customInput.errors}
+                                        disabled={isDisabled}
                                     />
                                     )
                                 })

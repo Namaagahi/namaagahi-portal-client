@@ -8,7 +8,7 @@ import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import FinalCustomerForm from '@/app/features/initialCustomers/FinalCustomerForm'
+import FinalCustomerForm from '@/app/features/finalCustomers/FinalCustomerForm'
 import useAuth from '@/app/hooks/useAuth'
 
 const SinglePlan = () => {
@@ -27,7 +27,7 @@ const SinglePlan = () => {
   })
 
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
-  const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId))
+  const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
 
   if(isLoading || !plan) return <Loading />
 

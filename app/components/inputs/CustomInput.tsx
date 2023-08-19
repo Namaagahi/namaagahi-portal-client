@@ -16,6 +16,7 @@ import { Control, Controller } from 'react-hook-form'
     ref?: any
     key?: string
     onWheel?: any
+    disabled?: boolean
   }
   
 const CustomInput = (props: CustomInputProps) => {
@@ -35,7 +36,8 @@ const CustomInput = (props: CustomInputProps) => {
         onWheel,
         placeholder,
         ref,
-        key
+        key,
+        disabled
     } = props
 
     return (
@@ -54,16 +56,17 @@ const CustomInput = (props: CustomInputProps) => {
                 }}
                 render={({ field }) => {
                     return (
-                        onChange || ref || onWheel || placeholder ? 
+                        onChange || ref || onWheel || placeholder || disabled ? 
                             <input 
                                 type={type} 
                                 {...field} 
-                                className='p-4 rounded-[50px] bg-white outline-none'
+                                className={`${disabled ? "bg-gray-400" :"bg-white"} p-4 rounded-[50px] outline-none`}
                                 onChange={onChange} 
                                 placeholder={placeholder}
                                 ref={ref}
                                 key={key}
                                 onWheel={onWheel}
+                                disabled={disabled}
                             />
                             :
                             <input 

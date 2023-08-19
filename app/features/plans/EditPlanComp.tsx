@@ -149,7 +149,7 @@ const EditPlanComp = (props: any) => {
 
     return (
         <main className="min-h-screen">
-            <PageTitle name={`ویرایش پلن ${plan?.name}`} />
+            <PageTitle name={`ویرایش پلن ${plan?.planId}`} />
             <div className='flex flex-col gap-9 justify-center'>
                 <form 
                     noValidate
