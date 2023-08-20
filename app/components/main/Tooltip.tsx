@@ -8,7 +8,11 @@ type Props = {
   
 const Tooltip = (props : Props) => {
 
-    const { children, tooltipText, orientation = 'right' } = props
+    const { 
+        children, 
+        tooltipText, 
+        orientation = 'right' 
+    } = props
 
     const tipRef: any = useRef(null)
 
@@ -91,8 +95,7 @@ const Tooltip = (props : Props) => {
             style={{ opacity: 0 }} 
             ref={tipRef}
         >
-            <div 
-                className={pointerClasses} />
+            <div className={pointerClasses} />
                 {tooltipText}
             </div>
         {children}

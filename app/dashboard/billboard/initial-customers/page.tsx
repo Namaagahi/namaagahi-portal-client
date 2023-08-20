@@ -27,16 +27,16 @@ const InitialCustomers = () => {
     refetchOnMountOrArgChange: false
   }) 
 
-  const allInitialCustomers: InitialCustomerObject[] | unknown = useSelector(state => selectAllInitialCustomers(state))
-  const [isNewInitialCustomer, setIsNewInitialCustomer] = useState(false)
-  const [isDeleteInitialCustomer, setIsDeleteInitialCustomer] = useState(false)
+  const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
+  const [isNewInitialCustomer, setIsNewInitialCustomer] = useState<boolean>(false)
+  const [isDeleteInitialCustomer, setIsDeleteInitialCustomer] = useState<boolean>(false)
   const handleNewInitialCustomerModal = () => setIsNewInitialCustomer(!isNewInitialCustomer)
   const handleDeleteInitialCustomer = () => setIsDeleteInitialCustomer(!isDeleteInitialCustomer)
   const [data, setData] = useState<InitialCustomerObject[] | unknown>([])
   const [initialCustomerId, setInitialCustomerId] = useState<string | any | EntityId>('')
-  const initialCustomer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, initialCustomerId))
+  const initialCustomer: InitialCustomerObject  = useSelector(state => selectInitialCustomerById(state, initialCustomerId) as InitialCustomerObject)
   
-  useEffect(() =>{
+  useEffect(() => {
     setData(allInitialCustomers)
   }, [allInitialCustomers])
 
@@ -129,7 +129,9 @@ if(isLoading) return <Loading />
 if(isError) return (
 
   <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-    <p className='text-xl'>هیچ مشتری اولیه ای وجود ندارد</p>
+    <p className='text-xl'>
+      هیچ مشتری اولیه ای وجود ندارد
+    </p>
   </div>
 )
 
@@ -164,7 +166,6 @@ if(isError) return (
 
       }
     </>
-
   )
 }
 

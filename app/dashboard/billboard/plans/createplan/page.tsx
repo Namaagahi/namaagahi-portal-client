@@ -4,10 +4,10 @@ import { useCreateNewPlanMutation } from '@/app/apiSlices/plansApiSlice'
 import PlanStructuresInfo from '@/app/features/plans/PlanStructuresInfo'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
 import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
+import { AddPlanForm, BoxObject } from '@/app/lib/interfaces'
 import { newPlanDefaultValues } from '@/app/lib/constants'
 import { useFieldArray, useForm } from 'react-hook-form'
 import PageTitle from '@/app/components/main/PageTitle'
-import { AddPlanForm } from '@/app/lib/interfaces'
 import { useRouter } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
@@ -32,7 +32,7 @@ useGetAllBoxesQuery(undefined, {
   refetchOnFocus: false,
   refetchOnMountOrArgChange: false,
 })
-const allBoxes: any = useSelector(state => selectAllBoxes(state))
+const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
 
   const createPlanForm = useForm<AddPlanForm>({
     defaultValues: newPlanDefaultValues,
@@ -56,8 +56,6 @@ const allBoxes: any = useSelector(state => selectAllBoxes(state))
     control,
     name: "structures",
   })
-
-
 
   const onSubmit = async(data: any) => {
 
@@ -95,10 +93,15 @@ const allBoxes: any = useSelector(state => selectAllBoxes(state))
 
   if(!allBoxes[0]) return (
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>برای ایجاد پلن باید سازه ها در باکس ثبت شده باشند. در حال حاضر هیچ باکسی وجود ندارد.</p>
-      <p>برای ایجاد باکس جدید 
+      <p className='text-xl'>
+        برای ایجاد پلن باید سازه ها در باکس ثبت شده باشند. در حال حاضر هیچ باکسی وجود ندارد.
+      </p>
+      <p>
+        برای ایجاد باکس جدید 
         <Link href={'/dashboard/billboard/boxes/createbox'}>
-          <span className='text-cyan-300'>کلیک کنید</span>
+          <span className='text-cyan-300'>
+            کلیک کنید
+          </span>
         </Link>
       </p>
     </div>
@@ -134,7 +137,9 @@ const allBoxes: any = useSelector(state => selectAllBoxes(state))
               register={register}
             />
 
-            <button className="btn-primary">افزودن پلن</button>
+            <button className="btn-primary">
+              افزودن پلن
+            </button>
           </form>
         </div>
       </main>

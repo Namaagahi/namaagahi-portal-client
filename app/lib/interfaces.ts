@@ -1,12 +1,6 @@
-import { SerializedError } from "@reduxjs/toolkit"
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query"
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormGetValues, UseFormRegister, UseFormSetValue, UseFormWatch } from "react-hook-form"
-import { DateObject, Value } from "react-multi-date-picker"
-
 // USER ===========================================================================
 export interface GlobalState {
   user: UserObject | null
-
   token: string | null
 }
 
@@ -31,32 +25,6 @@ export interface UserObject {
     active?: boolean
 }
 
-export interface UserFormProps {
-  error: FetchBaseQueryError | SerializedError | undefined | CustomError | any
-  isError: boolean
-  name: string
-  username: string
-  password: string
-  roles: string[]
-  active?: boolean
-  type: string
-  onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onUserameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onActiveChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onRolesChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
-}
-
-export interface EditUserProps {
-  user: UserObject | undefined
-  handleModal: () => void
-}
-
-export interface DeleteUserProps {
-  user: UserObject 
-  handleModal: () => void
-} 
-
 // NOTE ===========================================================================
 export interface NoteObject {
   id? : string,
@@ -75,31 +43,6 @@ export interface NoteData {
   text?: string,
   completed?: boolean
   userId?:string
-}
-
-export interface NoteFormProps {
-  title: string 
-  text: string
-  userId: string
-  completed: boolean
-  options: JSX.Element[]
-  error: FetchBaseQueryError | SerializedError | undefined | CustomError | any
-  isError: boolean
-  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onTextChange: ((e: React.ChangeEvent<HTMLInputElement>) => void) | ((e: React.ChangeEventHandler<HTMLTextAreaElement>) => void) | any
-  onCompletedChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
-  onUserIdChange: ((e: React.ChangeEvent<HTMLInputElement>) => void) | ((e: React.ChangeEventHandler<HTMLSelectElement>) => void) | any
-}
-
-export interface EditNoteProps {
-  note: NoteObject | undefined
-  users?: UserObject[] | undefined
-  handleModal: () => void
-}
-
-export interface DeleteNoteProps {
-  note: NoteObject 
-  handleModal: () => void
 }
 
 // BOX ===========================================================================
@@ -257,12 +200,6 @@ export interface EditBoxForm {
   }[]
 }
 
-export interface EditBoxProps {
-  box: BoxObject | undefined
-  handleModal: () => void
-}
-
-
 // STRUCTURE ===========================================================================
 export interface StructureObject {
   id? : string
@@ -289,11 +226,6 @@ export interface StructureObjectForm {
   isChosen: boolean
 }
 
-export interface DeleteStructureProps {
-  structure: StructureObject 
-  handleModal: () => void
-}
-
 export interface StructureData {
   sysCode? : string
   kind? : string
@@ -309,60 +241,22 @@ export interface StructureData {
   userId?:string
 }
 
-export interface EditStructureProps {
-  structure: StructureObject | undefined
-  handleModal: () => void
-}
-
-// COMPONENT PROPS ===========================================================================
-
-export interface DeleteModalContentProps {
-  handleModal: () => void
-  prop?: UserObject | NoteObject | StructureObject | undefined | any
-  deleteType: string
-}
-
-export interface BasicBoxInfoFormSectionProps {
-  page: string
-  control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
-  box?: BoxObject
-  handleStartDate: (value: DateObject | DateObject[] | null) => void
-  handleEndDate: (value: DateObject | DateObject[] | null) => void
-  errors: FieldErrors<AddBoxForm> | FieldErrors<EditBoxForm>
-  mark: string 
-}
-
-export interface BoxStructuresFormSectionProps { 
-  page: string
-  register: UseFormRegister<AddBoxForm> | UseFormRegister<EditBoxForm> 
-  errors: FieldErrors<AddBoxForm>
-  structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[] | FieldArrayWithId<EditBoxForm, "structures", "id">[]
-  appendStructure: UseFieldArrayAppend<AddBoxForm, "structures"> | UseFieldArrayAppend<EditBoxForm, "structures">
-  removeStructure:  UseFieldArrayRemove
-  control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
-  setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>
-  convertToNumber: (value: string) => number | null
-}
-
-export interface VariableCostsFormSectionProps { 
-  register: UseFormRegister<AddBoxForm>
-  fieldIndex: number
-  control: Control<AddBoxForm, any>
-  errors: FieldErrors<AddBoxForm>
-  handleTextbox1Change: (event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) => void
-}
-
-export interface NewNoteFormProps {
-  users: UserObject[]
-  handleModal: () => void
-}
-
 // OTHER ===========================================================================
 export interface MenuItemsObj {
   name: string
   path: string
   icon: JSX.Element
 }
+
+export interface SubMenuItemsObj {
+  name: string;
+  icon: JSX.Element;
+  menus: {
+      name: string;
+      icon: JSX.Element;
+      path: string;
+  }[];
+}[]
 
 export interface CustomError {
   data: {
@@ -372,7 +266,6 @@ export interface CustomError {
   }
   status?: number
 }
-
 
 // PLANS ===========================================================================
 export interface StructurePlanObject {
@@ -515,52 +408,7 @@ export interface PlanStructure {
   totalPeriodCost: string
 }[]
 
-export interface BasicPlanInfoSectionProps {
-  register: UseFormRegister<AddPlanForm>
-  errors: FieldErrors<AddPlanForm>
-}
-
-export interface PlanStructuresInfoProps {
-  page: string
-  control: Control<EditPlanForm, any> | Control<AddPlanForm, any>
-  plan?: PlanObject | any
-  errors: FieldErrors<EditPlanForm>
-  field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
-  discountType: string
-  convertToNumber: (value: string | number) => number | any
-  handleDiscountType: (val: string) =>void 
-  setValue: UseFormSetValue<EditPlanForm> |  UseFormSetValue<AddPlanForm>
-  appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
-  removeStructure: UseFieldArrayRemove 
-  watch: any
-  register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
-}
-
-export interface PlanStructuresFormSectionProps {
-  register: UseFormRegister<AddPlanForm>
-  errors: FieldErrors<AddPlanForm>
-  field: FieldArrayWithId<AddPlanForm, "structures", "id">[]
-  removeStructure: UseFieldArrayRemove
-  appendStructure:  UseFieldArrayAppend<AddPlanForm, "structures">
-  watch: UseFormWatch<AddPlanForm>
-  convertToNumber: (value: string) => number 
-  getValues: UseFormGetValues<AddPlanForm>
-  setValue: UseFormSetValue<AddPlanForm>
-  discountType: string
-  handleDiscountType: (val: string) =>void
-}
-
-export interface DeletePlanProps {
-  plan: PlanObject
-  handleModal: () => void
-}
-
 // INITIALCUSTOMER ===========================================================================
-export interface DeleteInitialCustomerProps {
-  initialCustomer: InitialCustomerObject
-  handleModal: () => void
-}
-
 export interface InitialCustomerObject {
   _id? : string
   id?: string

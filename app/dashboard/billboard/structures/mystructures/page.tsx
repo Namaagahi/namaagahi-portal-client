@@ -13,9 +13,7 @@ const MyStructures = () => {
 
   const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
 
-  return (
-    <StructuresComp page={'my'} allBoxes={allBoxes} />
-  )
+  return <StructuresComp page={'my'} allBoxes={allBoxes} />
 }
 
 export default MyStructures

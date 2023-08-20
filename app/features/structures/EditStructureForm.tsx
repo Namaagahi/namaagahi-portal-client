@@ -1,5 +1,5 @@
 import { useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
-import { EditStructureProps, UserObject } from '@/app/lib/interfaces'
+import { StructureObject, UserObject } from '@/app/lib/interfaces'
 import { AiOutlineClose } from 'react-icons/ai'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
@@ -11,8 +11,13 @@ const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
   )
+
+  type Props = {
+    structure: StructureObject | undefined
+    handleModal: () => void
+  }  
   
-const EditStructureForm = (props: EditStructureProps) => {
+const EditStructureForm = (props: Props) => {
 
     const { handleModal, structure } = props
 
@@ -22,17 +27,13 @@ const EditStructureForm = (props: EditStructureProps) => {
         error
     }] = useUpdateStructureMutation()
 
-    const {
-        data: users, 
-      } = useGetUsersQuery(undefined, { 
+    useGetUsersQuery(undefined, { 
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
       }) 
 
-    const allUsers: UserObject[] | any  = useSelector(selectAllUsers)
-
+    const allUsers: UserObject[]  = useSelector(selectAllUsers) as UserObject[] 
     const { isAdmin } = useAuth()
-
     const [structureData, setStructureData] = useState<any>({
         userId: structure?.userId,
         name: structure?.name,
@@ -41,7 +42,13 @@ const EditStructureForm = (props: EditStructureProps) => {
         address: structure?.location.address
     })
 
-    const { userId, name, district, path, address } = structureData
+    const {
+        userId,
+        name,
+        district,
+        path,
+        address
+    } = structureData
 
     const onUserChange = (e: React.ChangeEventHandler<HTMLSelectElement> | any) => setStructureData({...structureData, userId: e.target.value})
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setStructureData({...structureData, name: e.target.value})
@@ -70,15 +77,22 @@ const EditStructureForm = (props: EditStructureProps) => {
                 onSubmit={onSaveStructureClick}
             >
                 <div className="flex justify-between items-center">
-                    <p className="md:text-2xl text-xl font-bold">ویرایش سازه</p>
+                    <p className="md:text-2xl text-xl font-bold">
+                        ویرایش سازه
+                    </p>
+
                     <AiOutlineClose 
                         className="cursor-pointer text-xl hover:text-2xl transition-all" 
-                        onClick={handleModal}/>
+                        onClick={handleModal}
+                    />
                 </div>
 
                 { isAdmin &&
                     <div className="flex items-center justify-between w-full pt-12">
-                        <label htmlFor="userId">کاربر</label>
+                        <label htmlFor="userId">
+                            کاربر
+                        </label>
+
                         <select 
                             onChange={onUserChange}
                             className="select select-bordered form-input w-[80%] ">
@@ -102,7 +116,10 @@ const EditStructureForm = (props: EditStructureProps) => {
 
                 <div className="flex flex-col pb-7">
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="name">نام سازه</label>
+                        <label htmlFor="name">
+                            نام سازه
+                        </label>
+
                         <input
                             id='name'
                             value={name}
@@ -111,8 +128,12 @@ const EditStructureForm = (props: EditStructureProps) => {
                             onChange={onNameChange}
                         />
                     </div>
+
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="district">منطقه</label>
+                        <label htmlFor="district">
+                            منطقه
+                        </label>
+
                         <input
                             id='district'
                             value={district}
@@ -121,8 +142,12 @@ const EditStructureForm = (props: EditStructureProps) => {
                             onChange={onDistrictChange}
                         />
                     </div>
+
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="path">مسیر</label>
+                        <label htmlFor="path">
+                            مسیر
+                        </label>
+
                         <input
                             id='path'
                             value={path}
@@ -131,8 +156,12 @@ const EditStructureForm = (props: EditStructureProps) => {
                             onChange={onPathChange}
                         />
                     </div>
+
                     <div className="flex items-center gap-4 justify-between w-full">
-                        <label htmlFor="address">آدرس</label>
+                        <label htmlFor="address">
+                            آدرس
+                        </label>
+
                         <input
                             id='address'
                             value={address}
@@ -146,11 +175,16 @@ const EditStructureForm = (props: EditStructureProps) => {
                 <div className="flex items-center gap-6">
                     <button
                         className={` bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
-                    >ذخیره</button>
+                    >
+                        ذخیره
+                    </button>
+
                     <button 
                         onClick={handleModal}
                         className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
-                    >لغو</button>
+                    >
+                        لغو
+                    </button>
                 </div>
             </form>
         </div>

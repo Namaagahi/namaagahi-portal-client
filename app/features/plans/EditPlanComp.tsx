@@ -1,21 +1,25 @@
-import useAuth from '@/app/hooks/useAuth'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { useUpdatePlanMutation } from '../../apiSlices/plansApiSlice'
-import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { selectAllStructures, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
-import { EditPlanForm, UserObject } from '@/app/lib/interfaces'
-import { useSelector } from 'react-redux'
+import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
+import { EditPlanForm, PlanObject, UserObject } from '@/app/lib/interfaces'
+import { useUpdatePlanMutation } from '../../apiSlices/plansApiSlice'
+import { convertToNumber } from '@/app/utilities/convertToNumber'
 import { selectUserById } from '../../apiSlices/usersApiSlice'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
-import Loading from '../loading/Loading'
 import PageTitle from '@/app/components/main/PageTitle'
-import PlanBasicInfo from './PlanBasicInfo'
 import PlanStructuresInfo from './PlanStructuresInfo'
-import { convertToNumber } from '@/app/utilities/convertToNumber'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import PlanBasicInfo from './PlanBasicInfo'
+import useAuth from '@/app/hooks/useAuth'
+import { useSelector } from 'react-redux'
+import Loading from '../loading/Loading'
+import { toast } from 'react-toastify'
 
-const EditPlanComp = (props: any) => {
+type Props = {
+    plan: PlanObject
+}
+
+const EditPlanComp = (props: Props) => {
     
     const { plan } = props 
     const { id: currentUserId } = useAuth()
@@ -34,7 +38,7 @@ const EditPlanComp = (props: any) => {
         error
     }] = useUpdatePlanMutation()
     
-    const user: UserObject | any = useSelector(state => selectUserById(state as UserObject , currentUserId))
+    const user: UserObject = useSelector(state => selectUserById(state as UserObject , currentUserId) as UserObject)
     const structures = useSelector(state => selectAllStructures(state))
     
     const planStructures: any = plan?.structures.map((structure: any) => ({
@@ -179,7 +183,9 @@ const EditPlanComp = (props: any) => {
                         register={register}
                     />
 
-                    <button className="btn-primary">ویرایش پلن</button>
+                    <button className="btn-primary">
+                        ویرایش پلن
+                    </button>
                 </form>
             </div>
         </main>

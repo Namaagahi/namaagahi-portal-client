@@ -1,8 +1,8 @@
-import {  BoxObject } from "@/app/lib/interfaces"
 import { selectBoxById } from "../../apiSlices/boxesApiSlice"
+import {  BoxObject } from "@/app/lib/interfaces"
+import useAuth from "@/app/hooks/useAuth"
 import { useSelector } from "react-redux"
 import dynamic from 'next/dynamic'
-import useAuth from "@/app/hooks/useAuth"
 const ListItem = dynamic(
   () => import('@/app/components/main/ListItem'),
   { ssr: false }
@@ -24,7 +24,7 @@ const BoxItem = (props: Props) => {
 
   const { id } = useAuth()
   
-  const box: BoxObject | any = useSelector(state => selectBoxById(state, boxId))
+  const box: BoxObject = useSelector(state => selectBoxById(state, boxId) as BoxObject)
 
   return (
     page === 'my' && box.userId === id ?

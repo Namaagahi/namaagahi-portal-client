@@ -1,7 +1,7 @@
 import TableComponent from '@/app/components/table/TableComponent'
 import { formatNumber } from '@/app/utilities/formatNumber'
 import { variableCostNames2 } from '@/app/lib/constants'
-import { BoxStructure } from '@/app/lib/interfaces'
+import { BoxStructure, StructureObject } from '@/app/lib/interfaces'
 import Tooltip from '@/app/components/main/Tooltip'
 import { ColumnDef } from '@tanstack/react-table'
 import useAuth from '@/app/hooks/useAuth'
@@ -9,10 +9,11 @@ import React, { useMemo } from 'react'
 import moment from 'jalali-moment'
 
 type Props = {
-    
+    data: BoxStructure
+    allStructures: StructureObject[]
 }
 
-const SingleBoxTable = (props: any) => {
+const SingleBoxTable = (props: Props) => {
 
     const {
         data,

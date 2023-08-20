@@ -1,4 +1,4 @@
-import { EditUserProps } from '@/app/lib/interfaces'
+import {  UserObject } from '@/app/lib/interfaces'
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
@@ -9,9 +9,17 @@ const EditUserForm = dynamic(
   { ssr: false }
 )
 
-const EditUser = (props: EditUserProps) => {
+type Props = {
+  user: UserObject 
+  handleModal: () => void
+} 
 
-  const { user, handleModal } = props
+const EditUser = (props: Props) => {
+
+  const {
+    user,
+    handleModal
+  } = props
 
   return (
     user ? <EditUserForm user={user} handleModal={handleModal} /> : <Loading />

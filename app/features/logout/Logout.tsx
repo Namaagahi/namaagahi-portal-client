@@ -28,7 +28,6 @@ const Logout = (props: Props) => {
   }
 
   if(isLoading) return <Loading />
-  
   return (
     <div className="flex items-center gap-6">
       <button
@@ -41,7 +40,9 @@ const Logout = (props: Props) => {
       <button 
           onClick={handleModal}
           className="btn-cancel"
-      >لغو</button>
+      >
+        لغو
+      </button>
     </div>
   )
 }

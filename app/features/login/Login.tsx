@@ -1,13 +1,13 @@
 "use client"
-import { setCredentials } from "../../apiSlices/authSlice"
 import { useLoginMutation } from "../../apiSlices/authApiSlice"
+import { setCredentials } from "../../apiSlices/authSlice"
 import LogoSmall from "@/app/components/main/LogoSmall"
-import { useDispatch } from "react-redux"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
+import { useDispatch } from "react-redux"
+import Cookies from "universal-cookie"
 import { toast } from 'react-toastify'
 import Image from "next/image"
-import Cookies from "universal-cookie";
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
   () => import('../loading/Loading'),
@@ -94,13 +94,23 @@ const Login = () => {
                 </div>
 
                 <div className="flex flex-col w-full text-center">
-                    <p className="md:text-5xl text-3xl font-bold text-primary dark:text-yellow-400 ">{process.env.TITLE}</p> 
+                    <p className="md:text-5xl text-3xl font-bold text-primary dark:text-yellow-400 ">
+                        {process.env.TITLE}
+                    </p> 
+
                     <div className="flex flex-col items-center mt-10 xl:mt-20 relative mb-16">
-                        <p className="text-4xl font-bold mb-2">ورود</p>
+                        <p className="text-4xl font-bold mb-2">
+                            ورود
+                        </p>
+
                         <hr className="w-48 h-0.5 bg-[#FA9E93] border-0 rounded mb-2  "></hr>
-                        <p className="text-xl text-[#C91416] dark:text-pink-300 mb-2">وارد پنل کاربری خود شوید</p>
+
+                        <p className="text-xl text-[#C91416] dark:text-pink-300 mb-2">
+                            وارد پنل کاربری خود شوید
+                        </p>
+
                         <p className={`${loginInfo.errMsg?.length? 'error-container absolute top-28 left-1/2': 'invisible '}  `}>
-                        {loginInfo.errMsg? loginInfo.errMsg : ''}
+                            {loginInfo.errMsg? loginInfo.errMsg : ''}
                         </p>
                     </div>
 
@@ -130,10 +140,9 @@ const Login = () => {
                             />
 
                         <button className="btn-primary">
-                        ورود
+                            ورود
                         </button>
                     </form>
-
                 </div>
             </div>
         </div>

@@ -1,9 +1,17 @@
+import { Control, FieldError, FieldErrors, UseFormRegister, useFieldArray } from 'react-hook-form'
 import { structureVariableCostsFormValues, variableCostNames } from '@/app/lib/constants'
 import { AiFillMinusSquare, AiFillPlusSquare } from 'react-icons/ai'
-import { VariableCostsFormSectionProps } from '@/app/lib/interfaces'
-import { FieldError, useFieldArray } from 'react-hook-form'
+import { AddBoxForm } from '@/app/lib/interfaces'
 
-const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
+type Props = { 
+    register: UseFormRegister<AddBoxForm>
+    fieldIndex: number
+    control: Control<AddBoxForm, any>
+    errors: FieldErrors<AddBoxForm>
+    handleTextbox1Change: (event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) => void
+  }
+
+const VariableCostsFormSection = (props: Props) => {
 
     const {
         register,
@@ -27,7 +35,13 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                         key={variableCost.id}
                     >
                         <div className='flex flex-col gap-3' >
-                            <label htmlFor="varCostName" className='font-bold text-white'>نام هزینه</label>
+                            <label 
+                                htmlFor="varCostName" 
+                                className='font-bold text-white'
+                            >
+                                نام هزینه
+                            </label>
+
                             <select 
                                 {...register(`structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.name`, {
                                     required: {
@@ -50,13 +64,20 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                             ))
                             }
                             </select>
+
                             <small className="text-xs text-rose-200 ">
                                 {(errors?.structures?.[fieldIndex]?.costs?.variableCosts?.[variableCostIndex]?.name as FieldError)?.message}
                             </small>
                         </div>
 
                         <div  className='flex flex-col gap-3'>
-                            <label htmlFor="varCost" className='font-bold text-white'>هزینه ماهیانه</label>
+                            <label 
+                                htmlFor="varCost" 
+                                className='font-bold text-white'
+                            >
+                                هزینه ماهیانه
+                            </label>
+
                             <input
                                 {...register(`structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.monthlyCost`, {
                                     required: {
@@ -72,6 +93,7 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                                 onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.monthlyCost`)}
 
                             />
+
                             <small className="text-xs text-rose-200 ">
                                 {(errors?.structures?.[fieldIndex]?.costs?.variableCosts?.[variableCostIndex]?.figures?.monthlyCost as FieldError)?.message}
                             </small>
@@ -79,9 +101,9 @@ const VariableCostsFormSection = (props: VariableCostsFormSectionProps) => {
                         
                     </div> 
 
-                <AiFillMinusSquare
-                    className={`${variableCostIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-900 transition-all dark:text-white`}
-                    onClick={() => removeVariableCost(variableCostIndex)} 
+                    <AiFillMinusSquare
+                        className={`${variableCostIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-900 transition-all dark:text-white`}
+                        onClick={() => removeVariableCost(variableCostIndex)} 
                     />
                 </>
             ))}  

@@ -1,11 +1,26 @@
-import { FieldError } from 'react-hook-form'
+import { FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
 import { formatNumber } from '@/app/utilities/formatNumber'
+import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
 
-const DiscountedMonthlyFee = (props: any) => {
+type Props = {
+    selectedStructure?: CombinedStructure 
+    changeInput: boolean
+    discountType: string
+    convertToNumber: (value: string | number) => any
+    selectedMonthlyFee: any
+    selectedDiscount: string
+    errors: FieldErrors<EditPlanForm>
+    fieldIndex: number
+    setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
+    numberDiscountInputRef: React.RefObject<HTMLInputElement>
+    percentageDiscountInputRef: React.RefObject<HTMLInputElement>
+}
+
+const DiscountedMonthlyFee = (props: Props) => {
 
     const { 
-        selectedStructure,
+        selectedStructure, 
         changeInput,
         discountType,
         convertToNumber,
@@ -23,13 +38,19 @@ const DiscountedMonthlyFee = (props: any) => {
     useEffect(() => {
         if(discountedMonthlyFeeRef.current) {
             const discountedMonthlyFee = discountedMonthlyFeeRef.current.textContent
-            setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee), 100)
+            setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 100)
         }
     }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
 
     return (
         <div className='flex flex-col gap-3'>
-            <label htmlFor="discountedMothlyFee" className='text-[#767676] font-bold'>تعرفه ماهیانه نهایی</label>
+            <label
+                htmlFor="discountedMothlyFee"
+                className='text-[#767676] font-bold'
+            >
+                تعرفه ماهیانه نهایی
+            </label>
+
             <p
                 className='p-4' 
                 id='discountedMothlyFee'
@@ -47,8 +68,9 @@ const DiscountedMonthlyFee = (props: any) => {
                     : ''
                 }
             </p>
+            
             <small className="text-xs text-rose-600 ">
-            {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
+                {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
             </small>
         </div> 
   )

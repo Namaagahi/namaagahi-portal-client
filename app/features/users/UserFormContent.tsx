@@ -1,8 +1,26 @@
-import { UserFormProps } from '@/app/lib/interfaces';
-import { ROLES } from '@/app/config/roles';
-import useAuth from '@/app/hooks/useAuth';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
+import { SerializedError } from '@reduxjs/toolkit'
+import { CustomError } from '@/app/lib/interfaces'
+import { ROLES } from '@/app/config/roles'
+import useAuth from '@/app/hooks/useAuth'
 
-const UserFormContent = (props: UserFormProps) => {
+type Props = {
+    error: FetchBaseQueryError | SerializedError | undefined | CustomError | any
+    isError: boolean
+    name: string
+    username: string
+    password: string
+    roles: string[]
+    active?: boolean
+    type: string
+    onNameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onUserameChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onActiveChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onRolesChange: (e: React.ChangeEvent<HTMLSelectElement>) => void
+  }
+
+const UserFormContent = (props: Props) => {
 
     const { isAdmin } = useAuth()
 
@@ -36,7 +54,10 @@ const UserFormContent = (props: UserFormProps) => {
 
   return (
     <div className="flex flex-col pt-12 pb-7">
-        <label htmlFor="name">نام</label>
+        <label htmlFor="name">
+            نام
+        </label>
+
         <input
             type="text"
             placeholder="نام فارسی"
@@ -47,7 +68,13 @@ const UserFormContent = (props: UserFormProps) => {
             className={`${isError && 'border-rose-700'} form-input`}
         />
 
-        <label className="mt-7" htmlFor="username">نام کاربری</label>
+        <label
+            className="mt-7"
+            htmlFor="username"
+        >
+            نام کاربری
+        </label>
+
         <input
             type="username"
             placeholder="نام کاربری انگلیسی"
@@ -58,7 +85,13 @@ const UserFormContent = (props: UserFormProps) => {
             className={`${isError && 'border-rose-700'} form-input`}
         />
 
-        <label className="mt-7" htmlFor="password">رمز عبور</label>
+        <label
+            className="mt-7"
+            htmlFor="password"
+        >
+            رمز عبور
+        </label>
+
         <input
             type="text"
             placeholder="رمز عبور ترکیبی از اعداد و حروف انگلیسی"
@@ -72,7 +105,13 @@ const UserFormContent = (props: UserFormProps) => {
         {
             isAdmin &&
             <>
-                <label className="mt-7" htmlFor="roles">سطح دسترسی</label>
+                <label
+                    className="mt-7"
+                    htmlFor="roles"
+                >
+                    سطح دسترسی
+                </label>
+
                 <select 
                     className="outline-none text-sm text-center rounded-xl p-3 mt-1 text-gray-700 bg-gray-200"
                     name="roles"
@@ -85,7 +124,13 @@ const UserFormContent = (props: UserFormProps) => {
 
                 {type === 'edit' && 
                 <>   
-                <label className="mt-7" htmlFor="status">وضعیت</label>
+                <label
+                    className="mt-7"
+                    htmlFor="status"
+                >
+                    وضعیت
+                </label>
+
                 <div className='flex items-center gap-3'>
                     <input
                         id='status'
@@ -95,7 +140,9 @@ const UserFormContent = (props: UserFormProps) => {
                         onChange={onActiveChange}
                         className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
                     />
-                    <p>فعال</p>
+                    <p>
+                        فعال
+                    </p>
                 </div></>
                 }
             </>

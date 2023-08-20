@@ -20,11 +20,10 @@ const Status = dynamic(
 
 const Note = ({ noteId }: { noteId: string }) => {
 
-    const note: NoteObject | any = useSelector(state => selectNoteById(state, noteId))
+    const note: NoteObject = useSelector(state => selectNoteById(state, noteId) as NoteObject)
     
-    const [isEditTask, setIsEditTask] = useState(false)
-
-    const [isDeleteNote, setIsDeleteNote] = useState(false)
+    const [isEditTask, setIsEditTask] = useState<boolean>(false)
+    const [isDeleteNote, setIsDeleteNote] = useState<boolean>(false)
 
     if(note) {
 
@@ -38,9 +37,18 @@ const Note = ({ noteId }: { noteId: string }) => {
                 key={note._id}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
             >
-                <td className="px-6 py-4">{note.username}</td>
-                <td className="px-6 py-4">{note.title}</td>
-                <td className="px-6 py-4">{note.text}</td>
+                <td className="px-6 py-4">
+                    {note.username}
+                </td>
+
+                <td className="px-6 py-4">
+                    {note.title}
+                </td>
+
+                <td className="px-6 py-4">
+                    {note.text}
+                </td>
+
                 <td className="px-6 py-4">
                     {note.completed? 
                     <Status 
@@ -56,6 +64,7 @@ const Note = ({ noteId }: { noteId: string }) => {
                     />    
                 }
                 </td>
+
                 <td className="px-6 py-4 flex items-center gap-5">
                     <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit 
@@ -63,6 +72,7 @@ const Note = ({ noteId }: { noteId: string }) => {
                             onClick={handleEditTask}
                         />
                     </div>
+
                     <div className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillDelete 
                             className="text-orange-600 dark:text-white hover:scale-125 transition-all" size={20}
@@ -70,8 +80,14 @@ const Note = ({ noteId }: { noteId: string }) => {
                         />
                     </div>
                 </td>
-                <td className="px-6 py-4">{moment(note.createdAt).format("MMM Do YYYY")}</td>
-                <td className="px-6 py-4">{moment(note.updatedAt).format("MMM Do YYYY")}</td>
+
+                <td className="px-6 py-4">
+                    {moment(note.createdAt).format("MMM Do YYYY")}
+                </td>
+
+                <td className="px-6 py-4">
+                    {moment(note.updatedAt).format("MMM Do YYYY")}
+                </td>
             </tr>
 
             {

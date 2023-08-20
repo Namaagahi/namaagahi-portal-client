@@ -22,7 +22,11 @@ const Note = dynamic(
 
 const Tasks = () => {
 
-  const { username, isAdmin, isMediaManager } = useAuth()
+  const {
+    username,
+    isAdmin,
+    isMediaManager
+  } = useAuth()
 
   const {
     data: notes,

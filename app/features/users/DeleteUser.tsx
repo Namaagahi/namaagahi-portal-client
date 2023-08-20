@@ -1,6 +1,6 @@
 "use client"
 import { useDeleteUserMutation } from "@/app/apiSlices/usersApiSlice"
-import {  DeleteUserProps } from "@/app/lib/interfaces"
+import {  UserObject } from "@/app/lib/interfaces"
 import { toast } from "react-toastify"
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
@@ -8,9 +8,17 @@ const Loading = dynamic(
   { ssr: false }
 )
 
-const DeleteUser = (props: DeleteUserProps) => {
+type Props = {
+    user: UserObject 
+    handleModal: () => void
+  } 
 
-    const { user, handleModal } = props
+const DeleteUser = (props: Props) => {
+
+    const {
+        user,
+        handleModal
+    } = props
     
     const [deleteUser, {
         isLoading,
@@ -41,7 +49,9 @@ const DeleteUser = (props: DeleteUserProps) => {
             <button 
                 onClick={handleModal}
                 className="btn-cancel"
-            >لغو</button>
+            >
+                لغو
+            </button>
         </div>
     )
 }

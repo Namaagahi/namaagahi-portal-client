@@ -10,20 +10,20 @@ import { useRouter } from 'next/navigation'
 import { useSelector } from "react-redux"
 import { ROLES } from '../config/roles'
 import useAuth from '../hooks/useAuth'
+import Cookies from 'universal-cookie'
 import Link from "next/link"
 import dynamic from 'next/dynamic'
-import Cookies from 'universal-cookie'
 const Loading = dynamic(
   () => import('../features/loading/Loading'),
   { ssr: false }
 )
 
-const MainLayout = ({children}: {children: React.ReactNode}) => {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { roles } = useAuth()
   const token = useSelector(selectCurrentToken)
-  const effectRan = useRef(false)
-  const [trueSuccess, setTrueSuccess] = useState(false)
+  const effectRan = useRef<boolean>(false)
+  const [trueSuccess, setTrueSuccess] = useState<boolean>(false)
   const{ push } = useRouter()
 
   const [refresh, {
@@ -65,7 +65,9 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
     } else if(isError) { 
       content = (
           <p>
-            <Link href={"/"}>دوباره وارد شوید</Link>.
+            <Link href={"/"}>
+              دوباره وارد شوید
+            </Link>
           </p>
       )
     } else if (isSuccess && trueSuccess) {
@@ -79,7 +81,10 @@ const MainLayout = ({children}: {children: React.ReactNode}) => {
       <div className="p-4 md:p-8">
         <Header/> 
         <div className=" flex flex-col xl:flex-row gap-8 ">
-          <Menu menuItems = {menuItems} subMenusList={subMenusList} />
+          <Menu 
+            menuItems = {menuItems} 
+            subMenusList={subMenusList} 
+          />
           <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-screen ">
             {content}
             <Footer />

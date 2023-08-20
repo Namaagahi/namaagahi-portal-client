@@ -1,10 +1,15 @@
-import { DeleteInitialCustomerProps } from '@/app/lib/interfaces'
+import { InitialCustomerObject } from '@/app/lib/interfaces'
 import React from 'react'
 import { useDeleteInitialCustomerMutation } from '../../apiSlices/initialCustomersApiSlice'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 
-const DeleteInitialCustomer = (props: DeleteInitialCustomerProps) => {
+type Props = {
+  initialCustomer: InitialCustomerObject
+  handleModal: () => void
+}
+
+const DeleteInitialCustomer = (props: Props) => {
 
     const {
       initialCustomer,

@@ -1,4 +1,4 @@
-import { EditStructureProps } from "@/app/lib/interfaces"
+import { StructureObject } from "@/app/lib/interfaces"
 import EditStructureForm from "./EditStructureForm"
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
@@ -6,7 +6,12 @@ const Loading = dynamic(
   { ssr: false }
 )
 
-const EditStructure = (props: EditStructureProps) => {
+type Props = {
+  structure: StructureObject | undefined
+  handleModal: () => void
+}
+
+const EditStructure = (props: Props) => {
 
   const {
     handleModal,

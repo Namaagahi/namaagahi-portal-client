@@ -22,13 +22,10 @@ const Invoice = () => {
     refetchOnMountOrArgChange: false
   })
   
-  const plan: PlanObject | undefined | any = useSelector((state) =>selectPlanById(state as PlanObject, id))
-  const customer: InitialCustomerObject | any = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId))
-
-  // console.log(plan)
+  const plan: PlanObject = useSelector((state) =>selectPlanById(state as PlanObject, id) as PlanObject)
+  const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
 
   if ( isLoading || !plan) return <Loading />
-
   return (
     <>
       <PDFViewer height={800}>

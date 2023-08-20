@@ -1,8 +1,10 @@
-import { CombinedStructure, PlanStructuresInfoProps, StructureObject } from '@/app/lib/interfaces'
+import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { AddPlanForm, BoxObject, CombinedStructure, EditPlanForm, PlanObject, StructureObject } from '@/app/lib/interfaces'
 import { selectAllStructures, useGetStructuresQuery } from '../../apiSlices/structuresApiSlice'
 import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { selectAllBoxes, useGetAllBoxesQuery } from '../../apiSlices/boxesApiSlice'
 import { AiFillMinusCircle, AiFillPlusCircle } from 'react-icons/ai'
+import DatePicker, { DateObject } from 'react-multi-date-picker'
 import SelectInput from '@/app/components/inputs/SelectInput'
 import { planStructureFormValues } from '@/app/lib/constants'
 import CustomInput from '@/app/components/inputs/CustomInput'
@@ -11,15 +13,29 @@ import { FaDollarSign, FaPercentage } from 'react-icons/fa'
 import React, { useEffect, useRef, useState } from 'react'
 import persian from "react-date-object/calendars/persian"
 import DiscountedMonthlyFee from './DiscountedMonthlyFee'
-import DatePicker, { DateObject } from 'react-multi-date-picker'
 import MonthlyFeeInput from './MonthlyFeeInput'
-import { FieldError } from 'react-hook-form'
 import StructureInfo from './StructureInfo'
 import { useSelector } from 'react-redux'
 import Loading from '../loading/Loading'
 import SummaryBox from './SummaryBox'
 
-const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
+type Props = {
+    page: string
+    control: Control<EditPlanForm, any> | Control<AddPlanForm, any>
+    plan?: PlanObject | any
+    errors: FieldErrors<EditPlanForm>
+    field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
+    discountType: string
+    convertToNumber: (value: string | number) => number | any
+    handleDiscountType: (val: string) =>void 
+    setValue: UseFormSetValue<EditPlanForm> |  UseFormSetValue<AddPlanForm>
+    appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
+    removeStructure: UseFieldArrayRemove 
+    watch: any
+    register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
+  }
+  
+const PlanStructuresInfo = (props: Props) => {
 
     const {
         page,
@@ -37,8 +53,8 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
         register
     } = props
 
-    const [changeInput, setChangeInput] = useState(false)
-    const [showStructureInfo, setShowStructureInfo] = useState(false)
+    const [changeInput, setChangeInput] = useState<boolean>(false)
+    const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false)
     const percentageDiscountInputRef = useRef<HTMLInputElement>(null)
     const numberDiscountInputRef = useRef<HTMLInputElement>(null)
     
@@ -48,8 +64,8 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
     useGetStructuresQuery(undefined)
     useGetAllInitialCustomersQuery(undefined)
 
-    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state))
-    const allBoxes = useSelector(state => selectAllBoxes(state))
+    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
+    const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state)as BoxObject[])
     const chosenStructures = allStructures.filter((structure: any) => structure.isChosen)
     const boxStructures = allBoxes.flatMap((box: any) => box.structures)
     const chosenStructuresLookup = chosenStructures.reduce(
@@ -76,7 +92,6 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
     }, [discountType])
 
     if((page=== 'edit' && !plan) || !boxStructures) return <Loading />
-
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
@@ -86,10 +101,14 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                         type="checkbox"
                         onChange={() => setChangeInput(!changeInput)}
                     />
-                    <p>ویرایش تعرفه های ماهیانه</p>
+                    <p>
+                        ویرایش تعرفه های ماهیانه
+                    </p>
                 </div>
                 <div className="flex gap-3 items-center">
-                    <p>مقیاس تخفیف</p>
+                    <p>
+                        مقیاس تخفیف
+                    </p>
                     <FaPercentage
                         className={`${discountType === 'percentage' ? 'text-purple-950': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer `}
                         onClick={() =>handleDiscountType('percentage')}
@@ -170,7 +189,7 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                     return (
                                         <SummaryBox
                                             structure={structure}
-                                            selectedStructure={selectedStructure}
+                                            selectedStructure={selectedStructure!}
                                             setValue={setValue}
                                             fieldIndex={fieldIndex}
                                         />
@@ -215,7 +234,7 @@ const PlanStructuresInfo = (props: PlanStructuresInfoProps) => {
                                         structure.structureId === selectedStructureId &&
                                         <MonthlyFeeInput 
                                             changeInput={changeInput}
-                                            selectedStructure={selectedStructure}
+                                            selectedStructure={selectedStructure!}
                                             control={control}
                                             fieldIndex={fieldIndex}
                                             handleTextbox1Change={handleTextbox1Change}

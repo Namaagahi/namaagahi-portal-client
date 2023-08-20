@@ -1,5 +1,7 @@
 "use client"
-import React, { useReducer } from 'react'
+import { AiOutlineDoubleLeft, AiOutlineLeft, AiOutlineDoubleRight, AiOutlineRight } from 'react-icons/ai'
+import { useEffect, useMemo, useState, useReducer } from 'react'
+import { rankItem } from '@tanstack/match-sorter-utils'
 import {
     Column,
     Table,
@@ -14,11 +16,8 @@ import {
     getSortedRowModel,
     FilterFn,
     flexRender,
+    ColumnDef,
   } from '@tanstack/react-table'
-
-  import { rankItem } from '@tanstack/match-sorter-utils'
-  import { useEffect, useMemo, useState } from 'react'
-  import { AiOutlineDoubleLeft, AiOutlineLeft, AiOutlineDoubleRight, AiOutlineRight } from 'react-icons/ai'
 
   const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     const itemRank = rankItem(row.getValue(columnId), value)
@@ -125,13 +124,18 @@ import {
     )
   }
 
-const TableComponent = (props: any) => {
+  type Props = {
+    columns:  ColumnDef<any, any>[]
+    data: any
+  }
+
+const TableComponent = (props: Props) => {
 
   const { columns, data } = props
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [globalFilter, setGlobalFilter] = useState('')
-  const [columnVisibility, setColumnVisibility] = React.useState({})
+  const [globalFilter, setGlobalFilter] = useState<string>('')
+  const [columnVisibility, setColumnVisibility] = useState({})
   const rerender = useReducer(() => ({}), {})[1]
   
   const table = useReactTable({

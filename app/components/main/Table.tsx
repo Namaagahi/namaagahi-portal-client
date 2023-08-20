@@ -17,7 +17,6 @@ const Table = (props: Props) => {
           <tr>
             {tableHeadings && tableHeadings.map((prop:string, i:number) => (
               <th
-                 
                 key={`${prop}${i}`} 
                 scope="col" 
                 className="px-6 py-3"
@@ -29,7 +28,7 @@ const Table = (props: Props) => {
         </thead>
 
         <tbody>
-          { tableContent }
+          {tableContent}
         </tbody>
       </table>
     </div>

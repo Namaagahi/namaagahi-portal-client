@@ -29,16 +29,16 @@ const Users = () => {
     refetchOnMountOrArgChange: false
   }) 
 
-  const allUsers: UserObject[] | unknown = useSelector(state => selectAllUsers(state))
-  const [isNewUser, setIsNewUser] = useState(false)
-  const [isEditUser, setIsEditUser] = useState(false)
-  const [isDeleteUser, setIsDeleteUser] = useState(false)
+  const allUsers: UserObject[] = useSelector(state => selectAllUsers(state) as UserObject[])
+  const [isNewUser, setIsNewUser] = useState<boolean>(false)
+  const [isEditUser, setIsEditUser] = useState<boolean>(false)
+  const [isDeleteUser, setIsDeleteUser] = useState<boolean>(false)
   const handleNewUserModal = () => setIsNewUser(!isNewUser)
   const handleEditUser = () => setIsEditUser(!isEditUser)
   const handleDeleteUser = () => setIsDeleteUser(!isDeleteUser)
-  const [data, setData] = useState<UserObject[] | unknown>([])
+  const [data, setData] = useState<UserObject[]>([])
   const [userId, setUserId] = useState<string | any | EntityId>('')
-  const user: UserObject | any = useSelector(state => selectUserById(state, userId))
+  const user: UserObject | any = useSelector(state => selectUserById(state, userId) as UserObject)
 
   useEffect(() =>{
     setData(allUsers)
@@ -118,7 +118,11 @@ const Users = () => {
                     )
                   }
                 } else {
-                  return <p>دسترسی محدود شده</p>
+                  return (
+                    <p>
+                      دسترسی محدود شده
+                    </p>
+                  )
                 }
                
               },
@@ -150,8 +154,12 @@ const Users = () => {
                     </td>
                     :
                     <>
-                      <td>دسترسی محدود شده</td>
-                      <td>دسترسی محدود شده</td>
+                      <td>
+                        دسترسی محدود شده
+                      </td>
+                      <td>
+                        دسترسی محدود شده
+                      </td>
                     </>
                 }
                   </>

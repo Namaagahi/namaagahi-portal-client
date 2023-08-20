@@ -15,7 +15,10 @@ type Props = {
 
 const Structures = (props: Props) => {
 
-    const { page, allBoxes } = props
+    const {
+      page,
+      allBoxes
+    } = props
 
     const { 
       isLoading,
@@ -25,11 +28,11 @@ const Structures = (props: Props) => {
       refetchOnMountOrArgChange: false
     })
 
-    const allStructures: StructureObject[] | any = useSelector(state => selectAllStructures(state))
+    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
     const [data, setData] = useState<StructureObject[]>([])
     
-    const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
+    const [updateStructure] = useUpdateStructureMutation()
 
   useGetStructuresQuery(undefined, {
     refetchOnFocus: false,
@@ -66,19 +69,21 @@ const Structures = (props: Props) => {
   if(isError) return (
   
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>هیچ سازه ای وجود ندارد</p>
+      <p className='text-xl'>
+        هیچ سازه ای وجود ندارد
+      </p>
     </div>
   )
   return (
     <>
       <PageTitle name={'سازه ها'} /> 
+
       <AllStructuresTable 
         data= {data}
         page={page}
         allBoxes={allBoxes}
         handleData={(val: StructureObject[]) => setData(val)}
       />
-
     </>
   )
 }

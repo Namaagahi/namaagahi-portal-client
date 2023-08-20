@@ -1,18 +1,30 @@
-import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
-import { StructureObject, BoxStructuresFormSectionProps } from "@/app/lib/interfaces"
+import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from "react-hook-form"
 import { selectAllStructures, useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
+import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
+import { StructureObject, AddBoxForm, EditBoxForm } from "@/app/lib/interfaces"
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
+import DatePicker, { DateObject } from "react-multi-date-picker" 
 import SelectInput from "@/app/components/inputs/SelectInput"
 import CustomInput from "@/app/components/inputs/CustomInput"
-import { FieldError } from "react-hook-form"
-import { useSelector } from "react-redux" 
-import moment from "jalali-moment"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
-import DatePicker, { DateObject } from "react-multi-date-picker" 
+import { useSelector } from "react-redux" 
+import moment from "jalali-moment"
 
-const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
+type Props = { 
+  page: string
+  register: UseFormRegister<AddBoxForm> | UseFormRegister<EditBoxForm> 
+  errors: FieldErrors<AddBoxForm>
+  structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[] | FieldArrayWithId<EditBoxForm, "structures", "id">[]
+  appendStructure: UseFieldArrayAppend<AddBoxForm, "structures"> | UseFieldArrayAppend<EditBoxForm, "structures">
+  removeStructure:  UseFieldArrayRemove
+  control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
+  setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>
+  convertToNumber: (value: string) => number | null
+}
+
+const BoxStructuresFormSection = (props: Props) => {
 
   const {
     page,
@@ -41,7 +53,7 @@ const BoxStructuresFormSection = (props: BoxStructuresFormSectionProps) => {
     console.log("formattedValue", formattedValue)
     setValue(prop, formattedValue)
   }
-console.log("structuresField", structuresField)
+
   return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
@@ -175,7 +187,13 @@ console.log("structuresField", structuresField)
                 page === 'edit' &&
                   <>
                    <div className='flex flex-col gap-3'>
-                    <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
+                    <label 
+                      htmlFor="startDate" 
+                      className='text-[#767676] font-bold'
+                    >
+                      تاریخ شروع
+                    </label>
+
                     <DatePicker
                         inputClass='input-primary'
                         format='YYYY-MM-DD'
@@ -190,11 +208,20 @@ console.log("structuresField", structuresField)
                         } 
                       }
                     />
-                    <small className="text-xs text-rose-600 ">{errors.startDate?.message}</small>
+
+                    <small className="text-xs text-rose-600 ">
+                      {errors.startDate?.message}
+                    </small>
                 </div>
 
                 <div className='flex flex-col gap-3'>
-                    <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
+                    <label 
+                      htmlFor="endDate" 
+                      className='text-[#767676] font-bold'
+                    >
+                      تاریخ پایان
+                    </label>
+
                     <DatePicker
                         inputClass='input-primary'
                         format='YYYY-MM-DD'
@@ -209,7 +236,10 @@ console.log("structuresField", structuresField)
                         } 
                         }
                     />
-                    <small className="text-xs text-rose-600 ">{errors.endDate?.message}</small>
+
+                    <small className="text-xs text-rose-600 ">
+                      {errors.endDate?.message}
+                    </small>
                 </div>
                   </>
               }

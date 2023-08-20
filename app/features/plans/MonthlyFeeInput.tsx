@@ -1,11 +1,22 @@
+import { Control, FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
+import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
 import CustomInput from '@/app/components/inputs/CustomInput'
-import React, { useEffect } from 'react'
-import { FieldError } from 'react-hook-form'
 import { formatNumber } from '@/app/utilities/formatNumber'
+import { useEffect } from 'react'
 
-const MonthlyFeeInput = (props: any) => {
+type Props = {
+    changeInput: boolean
+    selectedStructure: CombinedStructure
+    control:  Control<EditPlanForm, any> | Control<AddPlanForm, any>
+    fieldIndex: number
+    handleTextbox1Change: (event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) => void
+    errors: FieldErrors<EditPlanForm>
+    setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
+}
 
-    const { 
+const MonthlyFeeInput = (props: Props) => {
+
+    const {  
         changeInput,
         selectedStructure,
         control,
@@ -23,8 +34,16 @@ const MonthlyFeeInput = (props: any) => {
         <div className='flex flex-col gap-3'>
             {!changeInput ?
                 <>
-                    <label htmlFor={`structures.${fieldIndex}.monthlyFee`} className='text-[#767676] font-bold'>تعرفه ماهیانه سازه</label>
-                    <p className='p-4'>{formatNumber(selectedStructure?.monthlyBaseFee, ',')}</p>
+                    <label
+                        htmlFor={`structures.${fieldIndex}.monthlyFee`}
+                        className='text-[#767676] font-bold'
+                    >
+                        تعرفه ماهیانه سازه
+                    </label>
+
+                    <p className='p-4'>
+                        {formatNumber(selectedStructure?.monthlyBaseFee, ',')}
+                    </p>
                 </>
                 : 
                 <CustomInput

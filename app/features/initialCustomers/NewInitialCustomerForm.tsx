@@ -26,11 +26,11 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     }) 
-    const initialCustomers: InitialCustomerObject[] | any = useSelector(state => selectAllInitialCustomers(state))
+    const initialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
 
     const { push } = useRouter()
 
-    const [searchQuery, setSearchQuery] = useState("")
+    const [searchQuery, setSearchQuery] = useState<string>("")
     const [newInitialCustomerData, setNewInitialCustomerData] = useState({
         name:'',
         errorMsg:''
@@ -69,12 +69,17 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
                 onSubmit={onSaveInitialCustomerClick}
             >
                 <div className="flex justify-between items-center">
-                    <p className="md:text-2xl text-xl font-bold">مشتری اولیه جدید</p>
+                    <p className="md:text-2xl text-xl font-bold">
+                        مشتری اولیه جدید
+                    </p>
+
                     <AiOutlineClose className="cursor-pointer text-xl hover:text-2xl transition-all" onClick={handleModal}/>
                 </div>
 
                 <div className="flex flex-col pt-12 pb-7">
-                    <label htmlFor="name">نام</label>
+                    <label htmlFor="name">
+                        نام
+                    </label>
                     <input
                         type="text"
                         placeholder="نام مشتری"
@@ -84,7 +89,10 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
                         onChange={onNameChange}
                         className={`${isError && 'border-rose-700'} form-input`}
                     />
-                    <small className="text-xs text-rose-600 ">{errorMsg}</small>
+
+                    <small className="text-xs text-rose-600 ">
+                        {errorMsg}
+                    </small>
                 </div>
 
                 <input
@@ -96,7 +104,9 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
                 />
                 <ul className='mb-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[50px] overflow-y-auto'>
                     {getInitalCustomersIsError ? 
-                        <p>هیچ مشتری اولیه ای تعریف نشده است</p>
+                        <p>
+                            هیچ مشتری اولیه ای تعریف نشده است
+                        </p>
                     :
                     filteredCustomers && filteredCustomers.map((customer: InitialCustomerObject) => (
                         <li key={customer._id}>{customer.name}</li>
@@ -106,11 +116,16 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
                 <div className="flex items-center gap-6">
                     <button
                         className="bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white"
-                    >ذخیره</button>
+                    >
+                        ذخیره
+                    </button>
+
                     <button 
                         onClick={handleModal}
                         className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
-                    >لغو</button>
+                    >
+                        لغو
+                    </button>
                 </div>
             </form>
         </div>

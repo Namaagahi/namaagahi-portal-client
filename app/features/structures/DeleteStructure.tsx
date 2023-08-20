@@ -1,6 +1,6 @@
 "use client"
 import { useDeleteStructureMutation } from '../../apiSlices/structuresApiSlice'
-import { DeleteStructureProps } from '@/app/lib/interfaces'
+import { StructureObject } from '@/app/lib/interfaces'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
@@ -8,7 +8,12 @@ const Loading = dynamic(
   { ssr: false }
 )
 
-const DeleteStructure = (props: DeleteStructureProps) => {
+type Props = {
+    structure: StructureObject 
+    handleModal: () => void
+  }
+
+const DeleteStructure = (props: Props) => {
 
     const {
         structure,

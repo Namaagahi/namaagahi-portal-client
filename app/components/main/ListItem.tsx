@@ -10,9 +10,9 @@ type Props = {
     number: number
     param: string
     prop: BoxObject
-    startDate: string
-    endDate: string
-    diff: number
+    startDate: number
+    endDate: number
+    diff: number | undefined
     titles: Object
   }
 
@@ -70,18 +70,26 @@ const ListItem = (props: Props) => {
 
             <div className='lg:w-2/3 w-full dark:bg-slate-300 bg-white rounded-lg p-3 my-10'>
                 {Object.entries(titles).map(([key, val]:any) => (
-                    <div key={key} className=' flex justify-between '>
-                        <p>{val && key}</p>
+                    <div 
+                        key={key} 
+                        className='flex justify-between '
+                    >
+                        <p>
+                            {val && key}
+                        </p>
+
                         {
                             key === 'نوع باکس' ? 
                                 <p>
-                                {val === 'owner'?
-                                 'مزایده ای': 
-                                 val === 'buyShort'?
-                                  'کوتاه مدت' : 'بلند مدت'}
+                                    {val === 'owner'?
+                                    'مزایده ای': 
+                                    val === 'buyShort'?
+                                    'کوتاه مدت' : 'بلند مدت'}
                                 </p> 
                                 : 
-                                <p>{val}</p>    
+                                <p>
+                                    {val}
+                                </p>    
                         }
                     </div>
                 ))}

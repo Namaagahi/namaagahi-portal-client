@@ -1,5 +1,5 @@
-import { EditNoteProps, UserObject } from "@/app/lib/interfaces"
 import { selectAllUsers, useGetUsersQuery } from "../../apiSlices/usersApiSlice"
+import { NoteObject, UserObject } from "@/app/lib/interfaces"
 import EditNoteForm from "./EditNoteForm"
 import { useSelector } from "react-redux"
 import dynamic from 'next/dynamic'
@@ -8,7 +8,13 @@ const Loading = dynamic(
   { ssr: false }
 )
 
-const EditNote = (props: EditNoteProps) => {
+type Props = {
+  note: NoteObject | undefined
+  users?: UserObject[] | undefined
+  handleModal: () => void
+}
+
+const EditNote = (props: Props) => {
 
   const {
     note,
@@ -20,7 +26,7 @@ const EditNote = (props: EditNoteProps) => {
     refetchOnMountOrArgChange: false
   }) 
 
-  const users: UserObject[] | any  = useSelector(selectAllUsers)
+  const users: UserObject[]  = useSelector(selectAllUsers) as UserObject[]
 
   return note && users ? <EditNoteForm note={note} users={users} handleModal={handleModal} /> : <Loading />
   

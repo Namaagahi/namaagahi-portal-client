@@ -1,4 +1,4 @@
-import { EditNoteProps, NoteData, UserObject } from '@/app/lib/interfaces'
+import { NoteData, NoteObject, UserObject } from '@/app/lib/interfaces'
 import { useUpdateNoteMutation } from '../../apiSlices/notesApiSlice'
 import React, { useEffect, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -11,7 +11,13 @@ const Loading = dynamic(
   { ssr: false }
 )
 
-const EditNoteForm = (props: EditNoteProps) => {
+type Props = {
+    note: NoteObject | undefined
+    users?: UserObject[] | undefined
+    handleModal: () => void
+  }
+
+const EditNoteForm = (props: Props) => {
 
     const {
         note,

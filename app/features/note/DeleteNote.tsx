@@ -1,5 +1,5 @@
 "use client"
-import { DeleteNoteProps, NoteData } from "@/app/lib/interfaces"
+import { NoteData, NoteObject } from "@/app/lib/interfaces"
 import { useDeleteNoteMutation } from "../../apiSlices/notesApiSlice"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -10,7 +10,12 @@ const Loading = dynamic(
   { ssr: false }
 )
 
-const DeleteNote = (props: DeleteNoteProps) => {
+type Props = {
+    note: NoteObject 
+    handleModal: () => void
+  }
+  
+const DeleteNote = (props: Props) => {
 
     const {
         note,
@@ -58,7 +63,9 @@ const DeleteNote = (props: DeleteNoteProps) => {
             <button 
                 onClick={handleModal}
                 className="btn-cancel"
-            >لغو</button>
+            >
+                لغو
+            </button>
         </div>
     )
 }

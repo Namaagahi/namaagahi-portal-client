@@ -40,7 +40,9 @@ const Loading = () => {
             strokeLinejoin="round"
             strokeWidth="24"></line>
         </svg>
-        <span className="text-xl font-medium text-gray-500">در حال بارگزاری</span>
+        <span className="text-xl font-medium text-gray-500">
+          در حال بارگزاری
+        </span>
     </div>
   )
 }

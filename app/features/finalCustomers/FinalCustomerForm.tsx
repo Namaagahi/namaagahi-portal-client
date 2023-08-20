@@ -1,14 +1,13 @@
 import { selectAllFinalCustomers, useCreateNewFinalCustomerMutation, useGetAllFinalCustomersQuery } from '@/app/apiSlices/finalCustomerApiSlice'
-import { useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
-import CustomInput from '@/app/components/inputs/CustomInput'
-import SelectInput from '@/app/components/inputs/SelectInput'
-import useAuth from '@/app/hooks/useAuth'
-import { newFinalCustomerDefaultValues } from '@/app/lib/constants'
 import { AddFinalCustomerForm, FinalCustomerObject, PlanObject } from '@/app/lib/interfaces'
+import { useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
+import { newFinalCustomerDefaultValues } from '@/app/lib/constants'
+import CustomInput from '@/app/components/inputs/CustomInput'
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import useAuth from '@/app/hooks/useAuth'
 import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 
 type Props = {
@@ -48,7 +47,6 @@ const FinalCustomerForm = (props: Props) => {
     } = createFinalCustomerForm
 
     const onSubmit = async(data: any) => {
-        console.log("DATA", data)
         const abc = await createNewFinalCustomer({
             finalCustomerId: data.finalCustomerId,
             userId: id,
@@ -79,14 +77,11 @@ const FinalCustomerForm = (props: Props) => {
             structures: plan.structures,
             finalCustomerId: isDisabled ? data.finalCustomerId : data.finalCustomerId,
         })
-        console.log("ABC2", abc2)
-        console.log("PLAN", plan)
-        console.log("ABC", abc)
     }
 
     if(isSuccess) {
         toast.success(`مشتری جدید با موفقیت ساخته شد.`)
-        // push('/dashboard/billboard/plans')
+        push('/dashboard/billboard/plans')
       }
 
     const [isDisabled, setIsDisabled] = useState<boolean>(false)
@@ -167,12 +162,17 @@ const FinalCustomerForm = (props: Props) => {
             errors: undefined
         },
     ]
-// console.log("VALUES", createFinalCustomerForm.getValues())
-  return (
+
+    return (
     <div className='w-full h-full bg-teal-200 dark:bg-neutral-300 p-2 rounded-lg text-gray-700 mt-5 flex flex-col items-start justify-center'>
-        <p>مشتری نهایی</p>
+        <p>
+            مشتری نهایی
+        </p>
         <div className="flex items-center gap-3">
-            <label htmlFor="chooseCustomer">انتخاب از مشتریان قبلی</label>
+            <label htmlFor="chooseCustomer">
+                انتخاب از مشتریان قبلی
+            </label>
+
             <input
                 type='checkbox'
                 id='chooseCustomer'
@@ -197,6 +197,7 @@ const FinalCustomerForm = (props: Props) => {
                 </select>
             }
         </div>
+
         <form
             noValidate
             onSubmit={handleSubmit(onSubmit)}
@@ -220,7 +221,9 @@ const FinalCustomerForm = (props: Props) => {
                                 })
                             }
                             </div>
-            <button className='btn-primary'>ثبت مشتری نهایی و تایید پلن</button>
+            <button className='btn-primary'>
+                ثبت مشتری نهایی و تایید پلن
+            </button>
         </form>
     </div>
   )

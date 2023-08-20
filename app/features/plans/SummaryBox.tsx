@@ -1,9 +1,23 @@
-import React, { useEffect } from 'react'
+import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
+import { UseFormSetValue } from 'react-hook-form'
 import Loading from '../loading/Loading'
+import { useEffect } from 'react'
 
-const SummaryBox = (props: any) => {
+type Props = {
+    structure: CombinedStructure
+    selectedStructure: CombinedStructure
+    setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
+    fieldIndex: number
+}
 
-    const { structure, selectedStructure, setValue, fieldIndex } = props
+const SummaryBox = (props: Props) => {
+
+    const {
+        structure,
+        selectedStructure,
+        setValue,
+        fieldIndex
+    } = props
 
     useEffect(() => {
         setValue(`structures.${fieldIndex}.structureRecord`, selectedStructure)
@@ -13,16 +27,42 @@ const SummaryBox = (props: any) => {
   return (
     <>
         <div className='flex gap-3'>
-            <label htmlFor="typeName" className='text-[#767676] font-bold'>مسیر</label>
-            <p>{structure?.location?.path}</p>
+            <label
+                htmlFor="typeName"
+                className='text-[#767676] font-bold'
+            >
+                مسیر
+            </label>
+
+            <p>
+                {structure?.location?.path}
+            </p>
         </div>
+
         <div className='flex gap-3'>
-            <label htmlFor="typeName" className='text-[#767676] font-bold'>نشانی</label>
-            <p>{structure?.location?.address}</p>
+            <label
+                htmlFor="typeName"
+                className='text-[#767676] font-bold'
+            >
+                نشانی
+            </label>
+
+            <p>
+                {structure?.location?.address}
+            </p>
         </div>
+
         <div className='flex gap-3'>
-            <label htmlFor="typeName" className='text-[#767676] font-bold'>مساحت</label>
-            <p>{structure?.marks?.markOptions?.printSize}</p>
+            <label
+                htmlFor="typeName"
+                className='text-[#767676] font-bold'
+            >
+                مساحت
+            </label>
+
+            <p>
+                {structure?.marks?.markOptions?.printSize}
+            </p>
         </div>
     </>
   )

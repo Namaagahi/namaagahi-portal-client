@@ -15,13 +15,14 @@ import Link from "next/link"
 const Account = () => {
 
   const { id, name, status, avatar  } = useAuth()  
-  const user: UserObject | any = useSelector(state => selectUserById(state, id))
+  const user: UserObject = useSelector(state => selectUserById(state, id) as UserObject)
 
-  const [showAccountMenu, setShowAccountMenu] = useState(false)
-  const [isLogout, setIsLogout] = useState(false)
-  const [isEditProfile, setIsEditProfile] = useState(false)
+  const [showAccountMenu, setShowAccountMenu] = useState<boolean>(false)
+  const [isLogout, setIsLogout] = useState<boolean>(false)
+  const [isEditProfile, setIsEditProfile] = useState<boolean>(false)
 
   const handleLogout = () => setIsLogout(!isLogout)
+
   const handleEditProfile = () => setIsEditProfile(!isEditProfile)
 
   return (
@@ -49,7 +50,9 @@ const Account = () => {
                 onClick={handleEditProfile}
               >
                 <BiUser className="text-2xl"/>
-                <p>پروفایل</p>
+                <p>
+                  پروفایل
+                </p>
               </div>
             </li>
 

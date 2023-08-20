@@ -3,7 +3,7 @@ import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../..
 import CustomInput from '@/app/components/inputs/CustomInput'
 import SelectInput from '@/app/components/inputs/SelectInput'
 import useAuth from '@/app/hooks/useAuth'
-import { AddPlanForm, EditPlanForm, PlanObject } from '@/app/lib/interfaces'
+import { AddPlanForm, EditPlanForm, InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import { Control, FieldErrors } from 'react-hook-form'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -35,7 +35,7 @@ const PlanBasicInfo = (props: Props) => {
         refetchOnMountOrArgChange: false 
     })
 
-    const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
+    const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
 
     const handleSuspendPlan = async() => {
         await updatePlan({
@@ -52,7 +52,7 @@ const PlanBasicInfo = (props: Props) => {
         toast.success(`پلن ${plan?.planId} معلق شد.`)
         push('/dashboard/billboard/plans')
     }
-console.log("PLAN", plan) 
+
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
@@ -65,6 +65,7 @@ console.log("PLAN", plan)
                     errors={errors.initialCustomerId?.message}
                     options={allInitialCustomers}
                 />
+
                 <CustomInput 
                     control={control}
                     name={'brand'}
@@ -73,6 +74,7 @@ console.log("PLAN", plan)
                     required={true}
                     type={'text'}
                 />
+                
                 {
                     page === 'edit' && (isAdmin || isMediaManager) && plan?.status === 'done' && 
                     <button

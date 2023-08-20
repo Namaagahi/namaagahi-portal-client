@@ -7,7 +7,13 @@ import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
-const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
+type Props = {
+    handleModal: () => void
+}
+
+const NewUserForm = (props: Props) => {
+
+    const { handleModal } = props
 
     const [addNewUser, {
         isLoading,
@@ -27,7 +33,15 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
         roles: ['پذیرشگر'],
         active: true
     })
-    const { name, username, password, validUserName, validPassWord, roles, active } = newUserData
+    const {
+        name,
+        username,
+        password,
+        validUserName,
+        validPassWord,
+        roles,
+        active
+    } = newUserData
 
     useEffect(() => {
         setNewUserData({...newUserData, validUserName:USER_REGEX.test(username)})
@@ -82,8 +96,14 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
             onSubmit={onSaveUserClick}
         >
             <div className="flex justify-between items-center">
-                <p className="md:text-2xl text-xl font-bold">کاربر جدید</p>
-                <AiOutlineClose className="cursor-pointer text-xl hover:text-2xl transition-all" onClick={handleModal}/>
+                <p className="md:text-2xl text-xl font-bold">
+                    کاربر جدید
+                </p>
+
+                <AiOutlineClose 
+                    className="cursor-pointer text-xl hover:text-2xl transition-all" 
+                    onClick={handleModal}
+                />
             </div>
 
             <UserFormContent
@@ -104,11 +124,16 @@ const NewUserForm = ({handleModal}: {handleModal: () => void}) => {
                 <button
                     disabled={!canSave}
                     className={`${!canSave && 'bg-[#afafd2] text-gray-500 border-[#afafd2]'} bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
-                 >ذخیره</button>
+                 >
+                    ذخیره
+                </button>
+
                 <button 
                     onClick={handleModal}
                     className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
-                >لغو</button>
+                >
+                    لغو
+                </button>
             </div>
         </form>
     </div>

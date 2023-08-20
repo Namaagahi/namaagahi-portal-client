@@ -1,7 +1,7 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useDeleteBoxMutation } from '../../apiSlices/boxesApiSlice'
-import { BoxObject } from '@/app/lib/interfaces'
+import { BoxObject, StructureObject } from '@/app/lib/interfaces'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
@@ -27,7 +27,7 @@ const DeleteBox = (props: Props) => {
     refetchOnMountOrArgChange: false
 })
 
-  const structures = useSelector(state => selectAllStructures(state))
+  const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
   const [deleteBox, {
       isLoading, 

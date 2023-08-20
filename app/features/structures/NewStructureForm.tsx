@@ -29,7 +29,11 @@ const NewStructureForm = () => {
     mode: 'onSubmit'
   })
   
-  const { register, handleSubmit, formState: {errors} } = createStructureForm
+  const {
+    register,
+    handleSubmit,
+    formState: {errors} 
+  } = createStructureForm
   
   const onSubmit = async(data: any) => {
     if(isError) {
@@ -64,7 +68,13 @@ const NewStructureForm = () => {
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
 
           <div className='flex flex-col gap-3 col-span-6 lg:col-span-1'>
-            <label htmlFor="name" className='text-[#767676] font-bold'>کد سامانه</label>
+            <label
+              htmlFor="name"
+              className='text-[#767676] font-bold'
+            >
+              کد سامانه
+            </label>
+
             <input
               {...register("name", {
                 required: {
@@ -82,11 +92,20 @@ const NewStructureForm = () => {
                 id='name'
                 className='input-create-page'
             />
-          <small className="error-page-forms ">{errors.name && errors.name?.message}</small>
+
+            <small className="error-page-forms ">
+              {errors.name && errors.name?.message}
+            </small>
           </div>   
 
           <div className='flex flex-col gap-3 col-span-6 lg:col-span-1'>
-            <label htmlFor="district" className='text-[#767676] font-bold'>منطقه</label>
+            <label
+              htmlFor="district"
+              className='text-[#767676] font-bold'
+            >
+              منطقه
+            </label>
+
             <input
               {...register("district", {
                 required: {
@@ -99,11 +118,20 @@ const NewStructureForm = () => {
                 id='district'
                 className='input-create-page'
             />
-          <small className="error-page-forms ">{errors.district && errors.district?.message}</small>
+
+            <small className="error-page-forms ">
+              {errors.district && errors.district?.message}
+            </small>
           </div>
 
           <div className='flex flex-col gap-3 col-span-6  lg:col-span-2'>
-            <label htmlFor="path" className='text-[#767676] font-bold'>مسیر</label>
+            <label
+              htmlFor="path"
+              className='text-[#767676] font-bold'
+            >
+              مسیر
+            </label>
+
             <input
               {...register("path", {
                 required: {
@@ -116,11 +144,20 @@ const NewStructureForm = () => {
                 id='path'
                 className='input-create-page'
             />
-          <small className="error-page-forms ">{errors.path && errors.path?.message}</small>
+
+            <small className="error-page-forms ">
+              {errors.path && errors.path?.message}
+            </small>
           </div>
 
           <div className='flex flex-col gap-3 col-span-6 lg:col-span-4'>
-            <label htmlFor="address" className='text-[#767676] font-bold'>نشانی</label>
+            <label
+              htmlFor="address"
+              className='text-[#767676] font-bold'
+            >
+              نشانی
+            </label>
+
             <input
               {...register("address", {
                 required: {
@@ -133,11 +170,16 @@ const NewStructureForm = () => {
                 id='address'
                 className='input-create-page'
             />
-          <small className="error-page-forms ">{errors.address && errors.address?.message}</small>
+            <small className="error-page-forms ">
+              {errors.address && errors.address?.message}
+            </small>
           </div>
 
         </div>
-      <button className="btn-primary ">افزودن سازه</button>
+        
+        <button className="btn-primary ">
+          افزودن سازه
+        </button>
       </div>
     </form>
   )

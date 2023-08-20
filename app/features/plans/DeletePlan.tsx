@@ -1,9 +1,14 @@
 import { useDeletePlanMutation } from '../../apiSlices/plansApiSlice'
-import { DeletePlanProps } from '@/app/lib/interfaces'
+import { PlanObject } from '@/app/lib/interfaces'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 
-const DeletePlan = (props: DeletePlanProps) => {
+type Props = {
+    plan: PlanObject
+    handleModal: () => void
+  }
+
+const DeletePlan = (props: Props) => {
 
     const {
         plan,

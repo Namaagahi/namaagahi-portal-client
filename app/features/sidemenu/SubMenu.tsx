@@ -3,12 +3,13 @@ import { IoIosArrowDown } from "react-icons/io"
 import { usePathname } from "next/navigation"
 import { motion } from "framer-motion"
 import { useState } from "react"
-import Link from "next/link";
+import Link from "next/link"
 
  const SubMenu = ({ data } :any) => {
+
   const path = usePathname()
   const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
-  const [subMenuOpen, setSubMenuOpen] = useState(false)
+  const [subMenuOpen, setSubMenuOpen] = useState<boolean>(false)
   
   return (
     <>
@@ -18,12 +19,14 @@ import Link from "next/link";
       >
         <div className="flex gap-2 items-center">
             {data.icon}
-            <p className="text-2xl font-bold">{data.name}</p>
+            <p className="text-2xl font-bold">
+              {data.name}
+            </p>
         </div>
-        <IoIosArrowDown
-          className={` ${subMenuOpen && "rotate-180"} duration-200 `}
-        />
+
+        <IoIosArrowDown className={` ${subMenuOpen && "rotate-180"} duration-200 `} />
       </li>
+
       <motion.ul
         animate={
           subMenuOpen
@@ -46,7 +49,9 @@ import Link from "next/link";
                     style={path === menu.path ? activeStyle : {}}
                 >
                     {menu.icon}
-                    <p className="text-xl">{menu.name}</p>
+                    <p className="text-xl">
+                      {menu.name}
+                    </p>
                 </li>
             </Link>
         ))}

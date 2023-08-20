@@ -1,9 +1,9 @@
 import TableComponent from '@/app/components/table/TableComponent'
+import { formatNumber } from '@/app/utilities/formatNumber'
 import { PlanStructure } from '@/app/lib/interfaces'
 import { ColumnDef } from '@tanstack/react-table'
 import moment from 'jalali-moment'
-import React, { useMemo } from 'react'
-import { formatNumber } from '@/app/utilities/formatNumber'
+import { useMemo } from 'react'
 
 const SinglePlanTable = (props: any) => {
 
@@ -118,8 +118,6 @@ const SinglePlanTable = (props: any) => {
       },
       []
       )
-
-      // console.log("data", data)
 
   return (
     <TableComponent 

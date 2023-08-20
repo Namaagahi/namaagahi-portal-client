@@ -15,10 +15,9 @@ const EditBox = () => {
     refetchOnMountOrArgChange: false
   })
 
-  const box: BoxObject | any = useSelector(state => selectBoxById(state as BoxObject , id))
+  const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id) as BoxObject)
 
   if(isLoading || !box) return <Loading />
-
   return <EditBoxComp box={box} />
 }
 

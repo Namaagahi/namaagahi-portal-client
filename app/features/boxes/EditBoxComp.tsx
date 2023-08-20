@@ -1,18 +1,18 @@
-import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/apiSlices/structuresApiSlice'
-import useAuth from '@/app/hooks/useAuth'
-import { BoxObject, EditBoxForm } from '@/app/lib/interfaces'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import Loading from '../loading/Loading'
-import PageTitle from '@/app/components/main/PageTitle'
-import { DateObject } from 'react-multi-date-picker'
-import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
+import { BoxObject, EditBoxForm, StructureObject } from '@/app/lib/interfaces'
+import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import BoxStructuresFormSection from './BoxStructuresFormSection'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
+import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
+import { useFieldArray, useForm } from 'react-hook-form'
+import PageTitle from '@/app/components/main/PageTitle'
+import { DateObject } from 'react-multi-date-picker'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
+import useAuth from '@/app/hooks/useAuth'
+import Loading from '../loading/Loading'
+import { toast } from 'react-toastify'
 
 type Props = {
   box: BoxObject
@@ -37,7 +37,7 @@ const EditBoxComp = (props: Props) => {
       error
   }] = useUpdateBoxMutation() 
 
-  const structures = useSelector(state => selectAllStructures(state))
+  const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
   const [startDate, setStartDate] = useState<number>(box.duration.startDate)
   const [endDate, setEndDate] = useState<number>(box.duration.endDate)
@@ -48,12 +48,22 @@ const EditBoxComp = (props: Props) => {
       defaultValues: data,
       mode: 'onSubmit' 
     })
-
-    console.log("BOX", box)
   
-  const { register, control, handleSubmit, formState: {errors}, getValues, setValue, reset, watch } = editBoxForm
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState:{errors},
+    getValues,
+    setValue,
+    reset
+  } = editBoxForm
 
-  const { fields, append: appendStructure, remove: removeStructure } = useFieldArray({
+  const {
+    fields,
+    append: appendStructure,
+    remove: removeStructure
+  } = useFieldArray({
       control,
       name: "structures",
   })
@@ -105,7 +115,6 @@ const EditBoxComp = (props: Props) => {
   }
 
   const onSubmit = async(data: EditBoxForm) => {
-
     const newData = {
       ...data,
       structures: data.structures.map((structure) => ({
@@ -149,7 +158,6 @@ const EditBoxComp = (props: Props) => {
             endDate: Number(newData.endDate),
         },
         structures: newData.structures.map((structure: any) => {
-          console.log("STRUCTUREEEE", structure)
             return(
             ({ ...structure, costs: {
                 ...structure.costs, variableCosts: structure.costs.variableCosts.map((varCost: any) => {
@@ -161,8 +169,6 @@ const EditBoxComp = (props: Props) => {
             )
         })
     })      
-    console.log("newData", newData)
-    console.log("ABC",HEY)  
   
     newData.structures.forEach(async(structure) => {
       structures.forEach(async(nonBoxStructure: any) => {
@@ -176,7 +182,6 @@ const EditBoxComp = (props: Props) => {
             isAvailable: nonBoxStructure?.isAvailable,
             parent: newData.boxId
           })
-          console.log("abc", abc)
         }
       })
     })
@@ -192,11 +197,7 @@ const EditBoxComp = (props: Props) => {
       push('/dashboard/billboard/boxes')
   }
 
-// console.log("editBoxForm", editBoxForm.getValues())
-// console.log("box", box)
-
-if(!box) return <Loading />
-
+  if(!box) return <Loading />
   return (
     <main className="min-h-screen">
       <PageTitle name={`ویرایش باکس ${box?.name}`} />
@@ -228,7 +229,9 @@ if(!box) return <Loading />
             convertToNumber={convertToNumber}
           />
 
-          <button className="btn-primary">ویرایش باکس</button>
+          <button className="btn-primary">
+            ویرایش باکس
+          </button>
         </form>
       </div>
     </main>

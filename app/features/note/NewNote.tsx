@@ -10,9 +10,11 @@ const Loading = dynamic(
 
 const NewNote = ({handleModal}: {handleModal: () => void}) => {
 
-    const users: UserObject[] | any = useSelector(selectAllUsers)
+    const users: UserObject[] = useSelector(selectAllUsers) as UserObject[]
 
-    if(!users.length) return <p>در حال حاضر در دسترس نیست.</p>
+    if(!users.length) return <p>
+      در حال حاضر در دسترس نیست.
+    </p>
 
     return users ? <NewNoteForm users={users!} handleModal={handleModal} /> : <Loading />
     

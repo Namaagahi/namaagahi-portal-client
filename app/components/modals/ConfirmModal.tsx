@@ -20,7 +20,11 @@ const ConfirmModal = (props: Props) => {
 
   return (
     <div className="modal-container">
-      <div onClick={handleModal} className="backdrop-container"></div>
+      <div 
+        onClick={handleModal} 
+        className="backdrop-container"
+      ></div>
+
       <div className="confirm-modal-content-container">
         {
           type === 'delete' ? 

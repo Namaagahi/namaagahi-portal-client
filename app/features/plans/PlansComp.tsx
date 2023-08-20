@@ -25,7 +25,6 @@ type Props = {
 const PlansComp = (props: Props) => {
 
   const { page } = props
-
   const { isAdmin, isMediaManager, id } = useAuth()
 
   const { 
@@ -49,8 +48,8 @@ const PlansComp = (props: Props) => {
   const [planId, setPlanId] = useState<string | any | EntityId>('')
   const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[]) 
   const plan: PlanObject = useSelector(state => selectPlanById(state, planId!) as PlanObject)
-  const allInitialCustomers = useSelector(state => selectAllInitialCustomers(state))
-  const [isDeletePlan, setIsDeletePlan] = useState(false)
+  const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
+  const [isDeletePlan, setIsDeletePlan] = useState<boolean>(false)
   const handleDeletePlan = () => setIsDeletePlan(!isDeletePlan)
   const [data, setData] = useState<PlanObject[] | []>([])
 
@@ -93,9 +92,11 @@ const PlansComp = (props: Props) => {
               accessorFn: row => row.initialCustomerId,
               id: 'مشتری',
               cell: info => {
-                const customer: InitialCustomerObject | any = allInitialCustomers.find((customer: any) => customer.id === info.getValue());
+                const customer: InitialCustomerObject | undefined = allInitialCustomers.find((customer: InitialCustomerObject) => customer.id === info.getValue());
                 return(
-                    <div>{customer?.name}</div>
+                    <div>
+                      {customer?.name}
+                    </div>
                 )
               },
               header: () => <span>نام مشتری</span>,
@@ -242,13 +243,18 @@ const PlansComp = (props: Props) => {
   },[])
 
   if(isLoading) return <Loading /> 
-  
   if(!data[0]) return (
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>شما هیچ پلنی ثبت نکرده اید</p>
-      <p>برای ایجاد پلن جدید 
+      <p className='text-xl'>
+        شما هیچ پلنی ثبت نکرده اید
+      </p>
+
+      <p>
+        برای ایجاد پلن جدید 
         <Link href={'/dashboard/billboard/plans/createplan'}>
-          <span className='text-cyan-300'>کلیک کنید</span>
+          <span className='text-cyan-300'>
+            کلیک کنید
+          </span>
         </Link>
       </p>
     </div>
@@ -256,10 +262,16 @@ const PlansComp = (props: Props) => {
 
   if(isError) return (
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>هیچ پلنی وجود ندارد</p>
-      <p>برای ایجاد پلن جدید 
+      <p className='text-xl'>
+        هیچ پلنی وجود ندارد
+      </p>
+
+      <p>
+        برای ایجاد پلن جدید 
         <Link href={'/dashboard/billboard/plans/createplan'}>
-          <span className='text-cyan-300'>کلیک کنید</span>
+          <span className='text-cyan-300'>
+            کلیک کنید
+          </span>
         </Link>
       </p>
     </div>
@@ -272,6 +284,7 @@ const PlansComp = (props: Props) => {
           columns={columns}
           data={data}
       />
+      
       {
           isDeletePlan && 
           <ConfirmModal 

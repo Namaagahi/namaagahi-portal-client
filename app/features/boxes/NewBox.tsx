@@ -1,7 +1,7 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from "../../apiSlices/structuresApiSlice"
 import { useCreateNewBoxMutation, useGetAllBoxesQuery } from "../../apiSlices/boxesApiSlice"
-import { AddBoxForm } from "@/app/lib/interfaces"
+import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
 import { newBoxDefaultValues } from "@/app/lib/constants"
 import { useForm, useFieldArray } from "react-hook-form"
 import { DateObject } from "react-multi-date-picker"
@@ -39,7 +39,7 @@ const NewBox = (props: Props) => {
     refetchOnMountOrArgChange: false
   })
 
-  const structures = useSelector(state => selectAllStructures(state))
+  const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
   const { id } = useAuth()  
 
@@ -216,7 +216,9 @@ const NewBox = (props: Props) => {
           convertToNumber={convertToNumber}
         />
 
-        <button className="btn-primary">افزودن باکس</button>
+        <button className="btn-primary">
+          افزودن باکس
+        </button>
       </form>
     )
 }

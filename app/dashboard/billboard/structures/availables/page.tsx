@@ -31,6 +31,7 @@ type StructureDurations = {
 }
 
 const Availables = () => {
+
     const { 
         isLoading,
         isError,
@@ -53,8 +54,8 @@ const Availables = () => {
     const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[])
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
-    const [startDate, setStartDate] = useState(new Date().getTime())
-    const [endDate, setEndDate] = useState(new Date().getTime())
+    const [startDate, setStartDate] = useState<number>(new Date().getTime())
+    const [endDate, setEndDate] = useState<number>(new Date().getTime())
     const [filtered, setFiltetred] = useState({
         initial: {} as StructureDurations,
         edited: {} as StructureDurations
@@ -72,7 +73,6 @@ const Availables = () => {
     }
 
     const filterStructures = (startDate:number, endDate:number) => {
-
         const structuresBox: BoxStructure[] = []
         allBoxes.forEach(box => {
             box.structures.forEach(structure => {
@@ -170,18 +170,16 @@ const Availables = () => {
 
         const generatePDF = () => captureContent()
 
-
-    console.log("FILTERED", filtered)
-    console.log("selectedPaths", selectedPaths)
-
 if(isLoading || !paths[0]) return <Loading />
 return (
-    
     <main className="min-h-screen w-full">
         <PageTitle name='گزارش سازه های خالی' />
         <div className="flex items-center justify-center gap-3 mb-10">
             <div className='flex items-center gap-3 w-1/3'>
-                <label htmlFor="startDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
+                <label htmlFor="startDate" className='text-[#767676] font-bold'>
+                    تاریخ شروع
+                </label>
+
                 <DatePicker
                     inputClass='input-primary'
                     format='YYYY-MM-DD'
@@ -191,8 +189,12 @@ return (
                     onChange={(e : DateObject) => setStartDate(e.unix * 1000)}
                 />
             </div>
+
             <div className='flex items-center gap-3 w-1/3'>
-                <label htmlFor="endDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
+                <label htmlFor="endDate" className='text-[#767676] font-bold'>
+                    تاریخ پایان
+                </label>
+
                 <DatePicker
                     inputClass='input-primary'
                     format='YYYY-MM-DD'
@@ -202,11 +204,15 @@ return (
                     onChange={(e : DateObject) => setEndDate(e.unix * 1000)}
                 />
             </div>
-            <button className='btn-primary w-1/5' onClick={handleButtonClick}>اعمال فیلتر</button>
-                <FaFilePdf 
-                    onClick={generatePDF}
-                    className='text-5xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'
-                />
+
+            <button className='btn-primary w-1/5' onClick={handleButtonClick}>
+                اعمال فیلتر
+            </button>
+
+            <FaFilePdf 
+                onClick={generatePDF}
+                className='text-5xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'
+            />
         </div>
         
       <div className="max-w-full flex flex-wrap gap-2 my-3">
@@ -227,27 +233,46 @@ return (
             style={{color: '#8a8a8a'}}
         >
             <div className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-lg my-2 grid grid-cols-12'>
-                <p className='col-span-1'>شماره</p>
-                <p className='col-span-2'>کد سامانه</p>
-                <p className='col-span-2'>مسیر</p>
-                <p className='col-span-3'>آدرس</p>
-                <p className='col-span-2 text-left'>شروع</p>
-                <p className='col-span-2 text-left'>پایان</p>
+                <p className='col-span-1'>
+                    شماره
+                </p>
+                <p className='col-span-2'>
+                    کد سامانه
+                </p>
+                <p className='col-span-2'>
+                    مسیر
+                </p>
+                <p className='col-span-3'>
+                    آدرس
+                </p>
+                <p className='col-span-2 text-left'>
+                    شروع
+                </p>
+                <p className='col-span-2 text-left'>
+                    پایان
+                </p>
             </div>
             {endDate - startDate >= 0 ?
             Object.entries(filtered.edited).map(([key, val], index) => {
                 const structureFound :any = allStructures.find(str => str.id === key)
                 return val.map((availables) => {
-                    // console.log(availables.start === startDate )
                 return (
                     <div
                         key={`${key}${Math.random()}`}
                         className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-lg my-2 grid grid-cols-12'
                     >
-                        <p className='col-span-1'>{index + 1}</p>
-                        <p className='col-span-2'>{structureFound?.name}</p>
-                        <p className='col-span-2'>{structureFound?.location.path}</p>
-                        <p className='col-span-3'>{structureFound?.location.address}</p>
+                        <p className='col-span-1'>
+                            {index + 1}
+                        </p>
+                        <p className='col-span-2'>
+                            {structureFound?.name}
+                        </p>
+                        <p className='col-span-2'>
+                            {structureFound?.location.path}
+                        </p>
+                        <p className='col-span-3'>
+                            {structureFound?.location.address}
+                        </p>
                         <p className='col-span-2 text-left'>
                             {
                             availables.start === startDate ?
@@ -269,7 +294,9 @@ return (
                 })
             })
             :
-            <p className='bg-red-500 text-white'>تاریخ شروع باید قبل آغاز باشد.</p>
+            <p className='bg-red-500 text-white'>
+                تاریخ شروع باید قبل آغاز باشد.
+                </p>
         }
         </div>
     </main>

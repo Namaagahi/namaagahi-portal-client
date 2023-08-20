@@ -1,9 +1,15 @@
 import { Document, Page, StyleSheet, Font, Text, Image, View } from '@react-pdf/renderer'
+import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
+import { formatNumber } from '@/app/utilities/formatNumber'
 import Loading from '../loading/Loading'
 import moment from 'jalali-moment'
-import { formatNumber } from '@/app/utilities/formatNumber'
 
-const PlanPdfDoc = (props: any) => {
+type Props = {
+  plan: PlanObject
+  customer: InitialCustomerObject
+}
+
+const PlanPdfDoc = (props: Props) => {
 
   const { plan, customer } = props
 
@@ -122,16 +128,24 @@ const PlanPdfDoc = (props: any) => {
     <Document>
       <Page style={styles.body} orientation='landscape'>
         <View style={styles.headerContainer}>
-          <Text style={styles.subtitle}>{moment(Date.now()).format('jYYYY/jM/jD')}تاریخ : </Text>
-          <Text style={styles.title}>پلن پیشنهادی</Text>
+          <Text style={styles.subtitle}>
+            {moment(Date.now()).format('jYYYY/jM/jD')}تاریخ : 
+          </Text>
+
+          <Text style={styles.title}>
+            پلن پیشنهادی
+          </Text>
+
           <Image src='/images/Logo.png' style={styles.image}/>
         </View>
+
         {plan && (
           <>
             <View style={styles.subHeaderContainer}>
               <Text style={styles.smallText} fixed>
                 {`نام برند: ${plan.brand} `}
               </Text>
+
               <Text style={styles.smallText} fixed>
                 {`نام مشتری: ${customer.name} `}
               </Text>
@@ -141,7 +155,9 @@ const PlanPdfDoc = (props: any) => {
               <View style={styles.tableRow}> 
                 {columnsHeader.map((heading, colIndex) => (
                   <View style={[styles.tableCol, { width: heading.width }]} key={colIndex}> 
-                    <Text style={styles.tableCell}>{heading.content}</Text> 
+                    <Text style={styles.tableCell}>
+                      {heading.content}
+                    </Text> 
                   </View> 
                 ))}
               </View>
@@ -154,61 +170,73 @@ const PlanPdfDoc = (props: any) => {
                           {formatNumber(strucuture.totalPeriodCost, ',')}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {`${strucuture.discountFee} ${strucuture.discountType === 'percentage'? "درصد" : "ریال"}`}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {formatNumber(strucuture.monthlyFee, ',')}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '3%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.duration.diff}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.duration.sellEnd}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.duration.sellStart}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '3%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.marks.markOptions.docSize}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '7%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.marks.name}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '30%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.location.address}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '8%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.location.path}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '5%' }]}>
                         <Text style={styles.tableCell}>
                           {strucuture.structureRecord.name}
                         </Text>
                       </View>
+
                       <View style={[styles.tableCol, { width: '2%' }]}>
                         <Text style={styles.tableCell}>
                           {structureIndex + 1}
@@ -224,8 +252,11 @@ const PlanPdfDoc = (props: any) => {
                         {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
                       </Text> 
                     </View>
+
                     <View style={[styles.tableCol, { width: '93%' }]}>
-                      <Text style={styles.tableCell}>جمع</Text> 
+                      <Text style={styles.tableCell}>
+                        جمع
+                      </Text> 
                     </View>
                   </View>
 
@@ -241,7 +272,9 @@ const PlanPdfDoc = (props: any) => {
             </View>
           </>
         )}
-        <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
+        <Text
+          style={styles.pageNumber}
+          render={({ pageNumber, totalPages }) => (
         `${pageNumber} / ${totalPages}`
       )} fixed />
       </Page>
