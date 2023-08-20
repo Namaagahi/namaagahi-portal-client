@@ -65,7 +65,7 @@ const PlanStructuresInfo = (props: Props) => {
     useGetAllInitialCustomersQuery(undefined)
 
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
-    const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state)as BoxObject[])
+    const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
     const chosenStructures = allStructures.filter((structure: any) => structure.isChosen)
     const boxStructures = allBoxes.flatMap((box: any) => box.structures)
     const chosenStructuresLookup = chosenStructures.reduce(

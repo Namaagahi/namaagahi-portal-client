@@ -9,6 +9,7 @@ const ToggleButton = () => {
     theme,
     setTheme
   } = useTheme()
+  console.log("THEME", theme)
   
   const currentTheme = theme === 'system' ? systemTheme : theme
 

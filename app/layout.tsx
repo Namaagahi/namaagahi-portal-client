@@ -28,7 +28,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
     <>
       <html lang="en" dir='rtl'>
       <head>
-        <title>{process.env.TITLE}</title>
+        <title>
+          {process.env.TITLE}
+        </title>
           <meta charSet="UTF-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         </head>

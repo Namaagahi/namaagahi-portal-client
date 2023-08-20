@@ -43,7 +43,7 @@ const BoxStructuresFormSection = (props: Props) => {
     refetchOnMountOrArgChange: false
 })
 
-  const structures: StructureObject[] = useSelector(state => selectAllStructures(state))
+  const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
   const filtered = structures.filter((structure) => structure.isChosen === false)
 
   function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
