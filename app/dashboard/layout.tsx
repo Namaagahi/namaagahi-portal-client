@@ -59,7 +59,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   let content
 
   if(roles.some((role: string) => Object.values(ROLES).includes(role))) {
-    
     if (isLoading) {
       content = <Loading />
     } else if(isError) { 
