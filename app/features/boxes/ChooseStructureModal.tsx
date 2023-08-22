@@ -8,6 +8,8 @@ type Props = {
     data: StructureObject[]
     fieldIndex: number
     setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>
+    handleThisStructuresChange: (index: number, val: string) => void
+    thisStructures: string[]
 }
 
 const ChooseStructureModal = (props: Props) => {
@@ -17,6 +19,8 @@ const ChooseStructureModal = (props: Props) => {
         data,
         fieldIndex,
         setValue,
+        handleThisStructuresChange,
+        thisStructures
     } = props
 
     const [searchText, setSearchText] = useState<string>("")
@@ -39,7 +43,8 @@ const ChooseStructureModal = (props: Props) => {
     const handleConfirmSelection = () => {
         if (selectedItem && selectedItem.id) {
             setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
-            handleModal()
+            handleThisStructuresChange(fieldIndex, selectedItem.name)
+            handleModal() 
         }
     }
 

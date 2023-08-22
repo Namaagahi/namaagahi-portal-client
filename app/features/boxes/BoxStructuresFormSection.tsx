@@ -10,7 +10,7 @@ import CustomInput from "@/app/components/inputs/CustomInput"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
 import ChooseStructureModal from "./ChooseStructureModal"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import moment from "jalali-moment"
 
 type Props = { 
@@ -58,15 +58,21 @@ const BoxStructuresFormSection = (props: Props) => {
     setIsStructureChoose(updatedState)
   }
 
+  const handleThisStructuresChange = (index: number, val: string) => setThisStructures((prevState) => {
+    const updatedState = [...prevState]
+    updatedState[index] = val
+    return updatedState
+  })
+
   useEffect(() => {
-    if(formVals) {
+    if (formVals) {
       const updatedStructures = formVals.map((item: BoxStructure) => {
         const structure = structures.find((str) => str.id === item.structureId)
         return structure ? structure.name : 'انتخاب سازه'
       })
       setThisStructures(updatedStructures)
-    }
-  }, [thisStructures])
+    } 
+  }, [formVals])  
 
   function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
     const newValue = event.target.value.replace(/,/g, '')
@@ -74,6 +80,7 @@ const BoxStructuresFormSection = (props: Props) => {
     const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
     setValue(prop, formattedValue)
   }
+  console.log("thisStructures", thisStructures) 
 
 return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
@@ -169,7 +176,7 @@ return (
 
               <div className="flex flex-col gap-3">
                 <label
-                  htmlFor={"strChoose"}
+                  htmlFor={"strChoose"} 
                   className='text-[#767676] font-bold'
                 >
                   کد سامانه
@@ -180,7 +187,7 @@ return (
                   id="strChoose"
                   className="bg-black p-4 text-white rounded-[50px] hover:text-black hover:bg-white transition-colors"
                 >
-                  {thisStructures? thisStructures[fieldIndex] : 'انتخاب سازه' }
+                  {thisStructures[fieldIndex] || 'انتخاب سازه'}
                 </button>
                 {isStructureChoose[fieldIndex] && (
                   <ChooseStructureModal
@@ -188,6 +195,8 @@ return (
                     data={filtered!}
                     fieldIndex={fieldIndex}
                     setValue={setValue}
+                    handleThisStructuresChange={handleThisStructuresChange}
+                    thisStructures={thisStructures}
                   />
                 )}
               </div>

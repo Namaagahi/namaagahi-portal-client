@@ -46,7 +46,7 @@ const EditBoxComp = (props: Props) => {
 
   const editBoxForm = useForm<EditBoxForm>({
       defaultValues: data,
-      mode: 'onChange' 
+      mode: 'onSubmit' 
     })
   
   const {
@@ -69,6 +69,7 @@ const EditBoxComp = (props: Props) => {
     control,
     name: "structures",
   })
+  
   
   useEffect(() => { 
     setTimeout(() => setData({
@@ -216,8 +217,7 @@ const EditBoxComp = (props: Props) => {
   }
 
   const formVals = watch('structures')
-
-  if(!box) return <Loading />
+  if(!box || !structures[0]) return <Loading />
   return (
     <main className="min-h-screen">
       <PageTitle name={`ویرایش باکس ${box?.name}`} /> 

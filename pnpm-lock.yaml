@@ -64,6 +64,9 @@ dependencies:
   jwt-decode:
     specifier: ^3.1.2
     version: 3.1.2
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   moment:
     specifier: ^2.29.4
     version: 2.29.4
@@ -326,7 +329,7 @@ packages:
     dependencies:
       '@emotion/react': 11.11.1(@types/react@18.2.6)(react@18.2.0)
       '@emotion/styled': 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.6)(react@18.2.0)
-      '@types/lodash': 4.14.195
+      '@types/lodash': 4.14.197
       little-state-machine: 4.8.0(react@18.2.0)
       lodash: 4.17.21
       react: 18.2.0
@@ -713,8 +716,8 @@ packages:
       '@types/geojson': 7946.0.10
     dev: true
 
-  /@types/lodash@4.14.195:
-    resolution: {integrity: sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==}
+  /@types/lodash@4.14.197:
+    resolution: {integrity: sha512-BMVOiWs0uNxHVlHBgzTIqJYmj+PgCo4euloGF+5m4okL3rEYzM2EEv78mw8zWSMM57dM7kVIgJ2QDvwHSoCI5g==}
     dev: false
 
   /@types/moment@2.13.0:
