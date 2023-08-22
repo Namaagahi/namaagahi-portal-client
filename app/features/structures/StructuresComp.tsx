@@ -39,23 +39,21 @@ const Structures = (props: Props) => {
     refetchOnMountOrArgChange: false
   })
 
-  useEffect(()=>{ 
-    if(!allBoxes[0]) {
-        allStructures.forEach(async(structure: StructureObject) => {
-          if(structure.isChosen || structure.parent.length) {
-            await updateStructure({
-              id: structure.id,
-              userId: structure.userId,
-              name: structure.name,
-              location: structure.location,
-              isAvailable: structure.isAvailable,
-              isChosen: false,
-              parent: ''
-            })
-          }
-        })
-    }
-  }, [])
+  // useEffect(()=>{ 
+  //       allStructures.forEach(async(structure: StructureObject) => {
+  //         if(structure.isChosen || structure.parent.length) {
+  //           await updateStructure({
+  //             id: structure.id,
+  //             userId: structure.userId,
+  //             name: structure.name,
+  //             location: structure.location,
+  //             isAvailable: structure.isAvailable,
+  //             isChosen: false,
+  //             parent: ''
+  //           })
+  //         }
+  //       })
+  // }, [])
   
     useEffect(() =>{
       setData(allStructures)

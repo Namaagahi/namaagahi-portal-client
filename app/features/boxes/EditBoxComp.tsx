@@ -46,7 +46,7 @@ const EditBoxComp = (props: Props) => {
 
   const editBoxForm = useForm<EditBoxForm>({
       defaultValues: data,
-      mode: 'onSubmit' 
+      mode: 'onChange' 
     })
   
   const {
@@ -56,18 +56,20 @@ const EditBoxComp = (props: Props) => {
     formState:{errors},
     getValues,
     setValue,
-    reset
+    reset,
+    watch
   } = editBoxForm
 
+  
   const {
     fields,
     append: appendStructure,
     remove: removeStructure
   } = useFieldArray({
-      control,
-      name: "structures",
+    control,
+    name: "structures",
   })
-
+  
   useEffect(() => { 
     setTimeout(() => setData({
         boxId: box?.boxId,
@@ -139,6 +141,38 @@ const EditBoxComp = (props: Props) => {
         monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
       })),
     }
+
+    newData.structures.forEach(async(structure) => {
+      structures.forEach(async(nonBoxStructure: any) => {
+        if(structure.structureId === nonBoxStructure.id){
+        const abc = await updateStructure({
+            userId: nonBoxStructure?.userId,
+            id: nonBoxStructure?.id,
+            name: nonBoxStructure?.name,
+            location: nonBoxStructure?.location,
+            isChosen: false,
+            isAvailable: nonBoxStructure?.isAvailable,
+            parent: ""
+          })
+        }
+      })
+    })
+
+    newData.structures.forEach(async(structure) => {
+      structures.forEach(async(nonBoxStructure: any) => {
+        if(structure.structureId === nonBoxStructure.id){
+        const abc = await updateStructure({
+            userId: nonBoxStructure?.userId,
+            id: nonBoxStructure?.id,
+            name: nonBoxStructure?.name,
+            location: nonBoxStructure?.location,
+            isChosen: true,
+            isAvailable: nonBoxStructure?.isAvailable,
+            parent: newData.boxId
+          })
+        }
+      })
+    })
   
     const HEY = await updateBox({
         id: box?.id,
@@ -168,23 +202,7 @@ const EditBoxComp = (props: Props) => {
             })
             )
         })
-    })      
-  
-    newData.structures.forEach(async(structure) => {
-      structures.forEach(async(nonBoxStructure: any) => {
-        if(structure.structureId === nonBoxStructure.id){
-        const abc = await updateStructure({
-            userId: nonBoxStructure?.userId,
-            id: nonBoxStructure?.id,
-            name: nonBoxStructure?.name,
-            location: nonBoxStructure?.location,
-            isChosen: true,
-            isAvailable: nonBoxStructure?.isAvailable,
-            parent: newData.boxId
-          })
-        }
-      })
-    })
+    })   
   }
 
   if(isError) {
@@ -197,12 +215,14 @@ const EditBoxComp = (props: Props) => {
       push('/dashboard/billboard/boxes')
   }
 
+  const formVals = watch('structures')
+
   if(!box) return <Loading />
   return (
     <main className="min-h-screen">
-      <PageTitle name={`ویرایش باکس ${box?.name}`} />
+      <PageTitle name={`ویرایش باکس ${box?.name}`} /> 
       <div className='flex flex-col gap-9 justify-center'>
-        <form 
+        <form  
           noValidate
           onSubmit={handleSubmit(onSubmit)}
           className='w-full flex flex-col gap-9 justify-center'
@@ -227,6 +247,8 @@ const EditBoxComp = (props: Props) => {
             control={control}
             setValue={setValue}
             convertToNumber={convertToNumber}
+            structures={structures}
+            formVals={formVals}
           />
 
           <button className="btn-primary">

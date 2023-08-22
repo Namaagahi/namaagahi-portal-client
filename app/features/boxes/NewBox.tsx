@@ -214,6 +214,7 @@ const NewBox = (props: Props) => {
           control={control}
           setValue={setValue}
           convertToNumber={convertToNumber}
+          structures={structures}
         />
 
         <button className="btn-primary">

@@ -1,7 +1,7 @@
 import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from "react-hook-form"
-import { selectAllStructures, useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
+import { useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
 import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
-import { StructureObject, AddBoxForm, EditBoxForm } from "@/app/lib/interfaces"
+import { StructureObject, AddBoxForm, EditBoxForm, BoxStructure } from "@/app/lib/interfaces"
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
 import DatePicker, { DateObject } from "react-multi-date-picker" 
@@ -9,7 +9,8 @@ import SelectInput from "@/app/components/inputs/SelectInput"
 import CustomInput from "@/app/components/inputs/CustomInput"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
-import { useSelector } from "react-redux" 
+import ChooseStructureModal from "./ChooseStructureModal"
+import { useEffect, useState } from "react"
 import moment from "jalali-moment"
 
 type Props = { 
@@ -21,7 +22,9 @@ type Props = {
   removeStructure:  UseFieldArrayRemove
   control: Control<AddBoxForm, any> | Control<EditBoxForm, any>
   setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>
+  structures: StructureObject[]
   convertToNumber: (value: string) => number | null
+  formVals?: any
 }
 
 const BoxStructuresFormSection = (props: Props) => {
@@ -35,7 +38,9 @@ const BoxStructuresFormSection = (props: Props) => {
     removeStructure,
     control,
     setValue,
-    convertToNumber
+    structures,
+    convertToNumber,
+    formVals
   } = props
 
   useGetStructuresQuery(undefined, { 
@@ -43,30 +48,38 @@ const BoxStructuresFormSection = (props: Props) => {
     refetchOnMountOrArgChange: false
 })
 
-  const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
-  const filtered = structures.filter((structure) => structure.isChosen === false)
+  const filtered = structures?.filter((structure) => structure.isChosen === false)
+  const [isStructureChoose, setIsStructureChoose] = useState(Array(structuresField.length).fill(false))
+  const [thisStructures, setThisStructures] = useState<string[]>([])
+
+  const handleModalToggle = (fieldIndex: number) => {
+    const updatedState = [...isStructureChoose]
+    updatedState[fieldIndex] = !updatedState[fieldIndex]
+    setIsStructureChoose(updatedState)
+  }
+
+  useEffect(() => {
+    if(formVals) {
+      const updatedStructures = formVals.map((item: BoxStructure) => {
+        const structure = structures.find((str) => str.id === item.structureId)
+        return structure ? structure.name : 'انتخاب سازه'
+      })
+      setThisStructures(updatedStructures)
+    }
+  }, [thisStructures])
 
   function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
     const newValue = event.target.value.replace(/,/g, '')
     const numberValue = convertToNumber(newValue)
     const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
-    console.log("formattedValue", formattedValue)
     setValue(prop, formattedValue)
   }
 
-  return ( 
+return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
       {structuresField.map((item, fieldIndex) =>{
           const selectInputs = [
-            {
-              id: 1,
-              label: "کد سامانه سازه",
-              name: `structures.${fieldIndex}.structureId`,
-              options: filtered,
-              errors: errors?.['structures']?.[fieldIndex]?.['structureId']?.['message'],
-              defaultValue:{}
-            },
             {
               id: 2,
               label: "نوع سازه",
@@ -149,9 +162,34 @@ const BoxStructuresFormSection = (props: Props) => {
             className=" border-[1px] rounded-2xl flex flex-col items-end overflow-hidden border-primary bg-secondary w-full"
             key={item.id}
           >
-            <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-10 gap-4 lg:gap-2">
+            <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-10 gap-4 lg:gap-2 ">
               <div className='absolute right-0 top-0 min-h-[24px] w-4 rounded-b-[20px] bg-primary flex justify-center items-center font-bold text-white hover:scale-125 cursor-pointer transition-all'>
                 {fieldIndex + 1}
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <label
+                  htmlFor={"strChoose"}
+                  className='text-[#767676] font-bold'
+                >
+                  کد سامانه
+                </label>
+                <button
+                  type="button"
+                  onClick={() => handleModalToggle(fieldIndex)}
+                  id="strChoose"
+                  className="bg-black p-4 text-white rounded-[50px] hover:text-black hover:bg-white transition-colors"
+                >
+                  {thisStructures? thisStructures[fieldIndex] : 'انتخاب سازه' }
+                </button>
+                {isStructureChoose[fieldIndex] && (
+                  <ChooseStructureModal
+                    handleModal={() => handleModalToggle(fieldIndex)}
+                    data={filtered!}
+                    fieldIndex={fieldIndex}
+                    setValue={setValue}
+                  />
+                )}
               </div>
               
               {selectInputs.map((selectInput: any, index: number)=> {
@@ -185,7 +223,7 @@ const BoxStructuresFormSection = (props: Props) => {
               })}
               {
                 page === 'edit' &&
-                  <>
+                  <div className="flex items-center gap-2">
                    <div className='flex flex-col gap-3'>
                     <label 
                       htmlFor="startDate" 
@@ -195,7 +233,7 @@ const BoxStructuresFormSection = (props: Props) => {
                     </label>
 
                     <DatePicker
-                        inputClass='input-primary'
+                        inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
                         value={page === 'edit' ? moment(new Date(item.duration.startDate).toISOString()).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
@@ -223,7 +261,7 @@ const BoxStructuresFormSection = (props: Props) => {
                     </label>
 
                     <DatePicker
-                        inputClass='input-primary'
+                        inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
                         value={page === 'edit' ? moment(new Date(item.duration.endDate).toISOString()).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
@@ -241,7 +279,7 @@ const BoxStructuresFormSection = (props: Props) => {
                       {errors.endDate?.message}
                     </small>
                 </div>
-                  </>
+                  </div>
               }
 
               <AiFillMinusCircle

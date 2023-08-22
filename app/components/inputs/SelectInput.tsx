@@ -35,7 +35,7 @@ const SelectInput = (props: SelectInputProps) => {
                 render={({ field }) => 
                 <select 
                     {...field} 
-                    className='p-4 rounded-[50px] bg-white outline-none'
+                    className='p-3 rounded-[50px] bg-white outline-none'
                 >
                     <option value="" disabled hidden>
                     انتخاب

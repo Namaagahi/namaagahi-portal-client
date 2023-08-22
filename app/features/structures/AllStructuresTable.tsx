@@ -111,7 +111,7 @@ const AllStructuresTable = (props: Props) => {
                     } else {
                       return (
                         <Status
-                          status = {'پر'}
+                          status = {'در اجاره'}
                           bgColor = {'#d96f85'}
                           textColor = {'#2e030c'}
                       />     

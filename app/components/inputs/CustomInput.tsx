@@ -42,7 +42,13 @@ const CustomInput = (props: CustomInputProps) => {
 
     return (
         <div className='flex flex-col gap-3'>
-            <label htmlFor={name} className='text-[#767676] font-bold'>{label}</label>
+            <label
+                htmlFor={name}
+                className='text-[#767676] font-bold'
+            >
+                {label}
+            </label>
+
             <Controller
                 control={control}
                 name={name} 
@@ -80,7 +86,10 @@ const CustomInput = (props: CustomInputProps) => {
                 }
                 }
             />
-            <small className="text-xs text-rose-600 ">{errors}</small>
+
+            <small className="text-xs text-rose-600 ">
+                {errors}
+            </small>
         </div>
     )
 }
