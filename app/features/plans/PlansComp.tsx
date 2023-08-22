@@ -189,7 +189,7 @@ const PlansComp = (props: Props) => {
                   <div className="flex items-center justify-center gap-2" onClick={() => setPlanId(row.id)}>
                       {(isMediaManager || isAdmin) && page === 'all' ?
                       <>
-                        <Link href={`/dashboard/billboard/plans/editplan/${row.id}`} target="_blank">
+                        <Link href={`/dashboard/billboard/plans/editplan/${row.id}`}>
                           <AiFillEdit
                             className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
                           />
@@ -205,7 +205,7 @@ const PlansComp = (props: Props) => {
                       }
                       {page === 'my' &&
                       <>
-                        <Link href={`/dashboard/billboard/plans/editplan/${row.id}`} target="_blank">
+                        <Link href={`/dashboard/billboard/plans/editplan/${row.id}`}>
                           <AiFillEdit
                             className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
                           />

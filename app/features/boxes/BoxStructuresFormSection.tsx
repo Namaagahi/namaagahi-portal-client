@@ -196,7 +196,6 @@ return (
                     fieldIndex={fieldIndex}
                     setValue={setValue}
                     handleThisStructuresChange={handleThisStructuresChange}
-                    thisStructures={thisStructures}
                   />
                 )}
               </div>

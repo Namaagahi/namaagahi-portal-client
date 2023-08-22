@@ -1,5 +1,5 @@
 import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { AddPlanForm, BoxObject, CombinedStructure, EditPlanForm, PlanObject, StructureObject } from '@/app/lib/interfaces'
+import { AddPlanForm, BoxObject, BoxStructure, CombinedStructure, EditPlanForm, PlanObject, StructureObject } from '@/app/lib/interfaces'
 import { selectAllStructures, useGetStructuresQuery } from '../../apiSlices/structuresApiSlice'
 import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
 import { selectAllBoxes, useGetAllBoxesQuery } from '../../apiSlices/boxesApiSlice'
@@ -18,6 +18,7 @@ import StructureInfo from './StructureInfo'
 import { useSelector } from 'react-redux'
 import Loading from '../loading/Loading'
 import SummaryBox from './SummaryBox'
+import ChooseStructureModal from '../boxes/ChooseStructureModal'
 
 type Props = {
     page: string
@@ -33,11 +34,12 @@ type Props = {
     removeStructure: UseFieldArrayRemove 
     watch: any
     register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
+    formVals?: any
   }
   
 const PlanStructuresInfo = (props: Props) => {
 
-    const {
+    const { 
         page,
         control,
         plan,
@@ -50,13 +52,22 @@ const PlanStructuresInfo = (props: Props) => {
         appendStructure,
         removeStructure,
         watch,
-        register
+        register,
+        formVals
     } = props
 
     const [changeInput, setChangeInput] = useState<boolean>(false)
     const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false)
     const percentageDiscountInputRef = useRef<HTMLInputElement>(null)
     const numberDiscountInputRef = useRef<HTMLInputElement>(null)
+    const [isStructureChoose, setIsStructureChoose] = useState(Array(field.length).fill(false))
+    const [thisStructures, setThisStructures] = useState<string[]>([])
+
+    const handleModalToggle = (fieldIndex: number) => {
+      const updatedState = [...isStructureChoose]
+      updatedState[fieldIndex] = !updatedState[fieldIndex]
+      setIsStructureChoose(updatedState)
+    }
     
     const handleStructureInfoModal = () => setShowStructureInfo(!showStructureInfo)
 
@@ -76,6 +87,12 @@ const PlanStructuresInfo = (props: Props) => {
     ...(chosenStructuresLookup[boxStructure.structureId]),
     }))
 
+    const handleThisStructuresChange = (index: number, val: string) => setThisStructures((prevState) => {
+        const updatedState = [...prevState]
+        updatedState[index] = val
+        return updatedState
+      })
+
     function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
         const newValue = event.target.value.replace(/,/g, '')
         const numberValue = convertToNumber(newValue)
@@ -83,6 +100,16 @@ const PlanStructuresInfo = (props: Props) => {
             new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
         setValue(prop, formattedValue)
     }
+
+    useEffect(() => {
+        if (formVals) {
+          const updatedStructures = formVals.map((item: BoxStructure) => {
+            const structure = allStructures.find((str) => str.id === item.structureId)
+            return structure ? structure.name : 'انتخاب سازه'
+          })
+          setThisStructures(updatedStructures)
+        } 
+      }, [formVals])  
 
     useEffect(() => {
         if(percentageDiscountInputRef.current && numberDiscountInputRef.current){
@@ -165,24 +192,31 @@ const PlanStructuresInfo = (props: Props) => {
                                     {fieldIndex + 1}
                                 </div>
 
-                                <div className='flex flex-col'>
-                                    <SelectInput
-                                        control={control}
-                                        name={`structures.${fieldIndex}.structureId`}
-                                        label='کد سامانه سازه'
-                                        required={true}
-                                        options={combinedStructures}
-                                        errors={errors?.['structures']?.[fieldIndex]?.['structureId']?.['message']}
-                                    />
-                                    <button 
-                                        type='button' 
-                                        className='bg-black text-white rounded-md hover:text-black hover:bg-white transition-colors'
-                                        onClick={handleStructureInfoModal}
+                                <div className="flex flex-col gap-3">
+                                    <label
+                                    htmlFor={"strChoose"} 
+                                    className='text-[#767676] font-bold'
                                     >
-                                        اطلاعات سازه
+                                    کد سامانه
+                                    </label>
+                                    <button
+                                    type="button"
+                                    onClick={() => handleModalToggle(fieldIndex)}
+                                    id="strChoose"
+                                    className="bg-black p-4 text-white rounded-[50px] hover:text-black hover:bg-white transition-colors"
+                                    >
+                                    {thisStructures[fieldIndex] || 'انتخاب سازه'}
                                     </button>
+                                    {isStructureChoose[fieldIndex] && (
+                                    <ChooseStructureModal
+                                        handleModal={() => handleModalToggle(fieldIndex)}
+                                        data={combinedStructures!}
+                                        fieldIndex={fieldIndex}
+                                        setValue={setValue}
+                                        handleThisStructuresChange={handleThisStructuresChange}
+                                    />
+                                    )}
                                 </div>
-                                
                                 <div className='flex flex-col gap-3 col-span-3 bg-white bg-opacity-40 p-2 rounded-lg overflow-x-auto'>
                                 {combinedStructures.map((structure) => {
                                     if(structure.structureId === selectedStructureId)

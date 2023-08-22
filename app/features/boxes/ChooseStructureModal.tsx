@@ -1,4 +1,4 @@
-import { AddBoxForm, EditBoxForm, StructureObject } from '@/app/lib/interfaces'
+import { AddBoxForm, AddPlanForm, EditBoxForm, EditPlanForm, StructureObject } from '@/app/lib/interfaces'
 import React, { useState } from 'react'
 import { UseFormSetValue } from 'react-hook-form'
 import { AiOutlineClose } from 'react-icons/ai'
@@ -7,9 +7,8 @@ type Props = {
     handleModal: () => void
     data: StructureObject[]
     fieldIndex: number
-    setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>
+    setValue: any
     handleThisStructuresChange: (index: number, val: string) => void
-    thisStructures: string[]
 }
 
 const ChooseStructureModal = (props: Props) => {
@@ -20,7 +19,6 @@ const ChooseStructureModal = (props: Props) => {
         fieldIndex,
         setValue,
         handleThisStructuresChange,
-        thisStructures
     } = props
 
     const [searchText, setSearchText] = useState<string>("")

@@ -129,7 +129,7 @@ const AllStructuresTable = (props: Props) => {
                   // console.log("structureBox", structureBox)
                   return (
                     (isChosen) ?
-                    <Link href={`/dashboard/billboard/boxes/${structureBox?.id}`}  target="_blank">
+                    <Link href={`/dashboard/billboard/boxes/${structureBox?.id}`}>
                       <Status
                         status = {structureBox ? structureBox?.name : "در باکس"}
                         bgColor = {'#00ff37'}

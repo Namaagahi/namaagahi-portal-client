@@ -149,8 +149,8 @@ const EditPlanComp = (props: Props) => {
         push('/dashboard/billboard/plans')
     }
 
+    const formVals = watch('structures')
     if(!plan) return <Loading />
-
     return (
         <main className="min-h-screen">
             <PageTitle name={`ویرایش پلن ${plan?.planId}`} />
@@ -181,6 +181,7 @@ const EditPlanComp = (props: Props) => {
                         removeStructure={removeStructure}
                         watch={watch}
                         register={register}
+                        formVals={formVals}
                     />
 
                     <button className="btn-primary">
