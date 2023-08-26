@@ -84,6 +84,8 @@ const Users = () => {
                 const roles = info.getValue();
                 if (roles?.includes('ادمین')) {
                   return <p>ادمین</p>;
+                } else if (roles?.includes('مستر')) {
+                  return <p>مستر</p> 
                 } else if (roles?.includes('مدیررسانه')) {
                   return <p>مدیر رسانه</p>;
                 } else if (roles?.includes('پذیرشگر')) {

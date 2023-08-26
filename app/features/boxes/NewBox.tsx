@@ -188,7 +188,7 @@ const NewBox = (props: Props) => {
 
   if(isSuccess) {
     toast.success(`باکس جدید با موفقیت ساخته شد.`)
-    // push('/dashboard/billboard/boxes')
+    push('/dashboard/billboard/boxes')
   }
   
     return (

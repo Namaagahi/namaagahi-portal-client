@@ -28,11 +28,11 @@ const ListItem = (props: Props) => {
         titles
     } = props
 
-    const { isAdmin } = useAuth()
+    const { isAdmin, isMaster } = useAuth()
 
-    // const [isDeleteBox, setIsDeleteBox] = useState(false)
+    const [isDeleteBox, setIsDeleteBox] = useState(false)
 
-    // const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
+    const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
 
     return (
     <>
@@ -40,12 +40,14 @@ const ListItem = (props: Props) => {
             <div className="absolute right-7 top-0 min-h-[48px] w-10 rounded-b-[20px] bg-[#18A661] flex justify-center items-center font-bold text-xl">
                 {number + 1}
             </div>
+            { isMaster &&
+                <div className='absolute left-16 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#f04a17] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
+                    <AiFillDelete onClick={handleDeleteModal}/>
+                </div> 
+            }
 
             { isAdmin && 
             <>
-                {/* <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#f04a17] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
-                    <AiFillDelete onClick={handleDeleteModal}/>
-                </div> */}
                 <Link href={`/dashboard/billboard/boxes/editbox/${param}`}>
                     <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
                         <AiFillEdit />
@@ -102,7 +104,7 @@ const ListItem = (props: Props) => {
             </Link>
             </div>
 
-        {/* {
+        {
             isDeleteBox && 
                 <ConfirmModal
                     prop={prop} 
@@ -110,7 +112,7 @@ const ListItem = (props: Props) => {
                     type={'delete'} 
                     deleteType="box"
                 />
-        }  */}
+        } 
     </>
   )
 }

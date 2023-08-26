@@ -62,18 +62,18 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
                 body: { ...initialBox }
             }),
 
-            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id }]
+            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id, boxId: arg.boxId }]
         }),
 
         deleteBox: builder.mutation({
 
-            query:({ id }) => ({
+            query:({ id, boxId }) => ({
                 url: '/boxes',
                 method: 'DELETE',
-                body: { id }
+                body: { id, boxId }
             }),
 
-            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id }]
+            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id, boxId: arg.boxId }]
         })
     }),
 })

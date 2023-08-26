@@ -1,8 +1,6 @@
 "use client"
-import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useDeleteBoxMutation } from '../../apiSlices/boxesApiSlice'
-import { BoxObject, StructureObject } from '@/app/lib/interfaces'
-import { useSelector } from 'react-redux'
+import { BoxObject } from '@/app/lib/interfaces'
 import { toast } from 'react-toastify'
 import dynamic from 'next/dynamic'
 const Loading = dynamic(
@@ -22,38 +20,13 @@ const DeleteBox = (props: Props) => {
     handleModal
   } = props
   
-  useGetStructuresQuery(undefined, { 
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-})
-
-  const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
-
   const [deleteBox, {
       isLoading, 
   }] = useDeleteBoxMutation()
 
-  const [updateStructure, { isError:iserror, error: Error }] = useUpdateStructureMutation()
-
   const onDeleteBoxClick = async () => {
-    box?.structures?.forEach((str: any) => {
-      structures.forEach(async(structure: any) => {
-        if(structure.isChosen && structure.parent.length && structure.id === str.structureId) {
-          const abc = await updateStructure({
-            userId: structure?.userId,
-            id: structure?.id,
-            name: structure?.name,
-            location: structure?.location,
-            isChosen: false,
-            isAvailable: true,
-            parent: ''
-          })
-          console.log("abc", abc)
-        }
-      })
-    })
-    
-    await deleteBox({ id: box?.id })
+    const abc = await deleteBox({ id: box?.id, boxId: box?.boxId })
+    console.log("ABC", abc)
     handleModal()
     toast.success(`باکس ${box?.name} با موفقیت حذف شد`)
   }
