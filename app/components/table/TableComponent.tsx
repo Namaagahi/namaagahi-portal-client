@@ -160,6 +160,7 @@ const TableComponent = (props: Props) => {
       getFacetedRowModel: getFacetedRowModel(),
       getFacetedUniqueValues: getFacetedUniqueValues(),
       getFacetedMinMaxValues: getFacetedMinMaxValues(),
+      
       debugTable: true,
       debugHeaders: true,
       debugColumns: false,
@@ -205,8 +206,10 @@ const TableComponent = (props: Props) => {
         <thead className="table-heading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
           {table.getHeaderGroups().map(headerGroup => (
             <tr key={headerGroup.id}>
+              <th>{}</th>
               {headerGroup.headers.map(header => {
                 return (
+                  <>
                   <th key={header.id} colSpan={header.colSpan}  className="px-2">
                     {header.isPlaceholder ? null : (
                       <>
@@ -235,6 +238,7 @@ const TableComponent = (props: Props) => {
                       </>
                     )}
                   </th>
+                  </>
                 )
               })}
             </tr>
@@ -244,6 +248,7 @@ const TableComponent = (props: Props) => {
           {table.getRowModel().rows.map((row, index) => {
             return (
               <tr key={row.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-center">
+                <td>{index + 1}</td>
                 {row.getVisibleCells().map(cell => {
                   return (
                     <>

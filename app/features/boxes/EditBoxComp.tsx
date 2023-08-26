@@ -69,6 +69,26 @@ const EditBoxComp = (props: Props) => {
     control,
     name: "structures",
   })
+
+  // useEffect(() => {
+  //   if(data[0]) {
+  //     data.structures.forEach(async(structure: any) => {
+  //       structures.forEach(async(nonBoxStructure: any) => {
+  //         if(structure.structureId === nonBoxStructure.id){
+  //         const abc = await updateStructure({
+  //             userId: nonBoxStructure?.userId,
+  //             id: nonBoxStructure?.id,
+  //             name: nonBoxStructure?.name,
+  //             location: nonBoxStructure?.location,
+  //             isChosen: false,
+  //             isAvailable: nonBoxStructure?.isAvailable,
+  //             parent: ""
+  //           })
+  //         }
+  //       })
+  //     })
+  //   }
+  // },[])
   
   
   useEffect(() => { 
@@ -143,37 +163,21 @@ const EditBoxComp = (props: Props) => {
       })),
     }
 
-    newData.structures.forEach(async(structure) => {
-      structures.forEach(async(nonBoxStructure: any) => {
-        if(structure.structureId === nonBoxStructure.id){
-        const abc = await updateStructure({
-            userId: nonBoxStructure?.userId,
-            id: nonBoxStructure?.id,
-            name: nonBoxStructure?.name,
-            location: nonBoxStructure?.location,
-            isChosen: false,
-            isAvailable: nonBoxStructure?.isAvailable,
-            parent: ""
-          })
-        }
-      })
-    })
-
-    newData.structures.forEach(async(structure) => {
-      structures.forEach(async(nonBoxStructure: any) => {
-        if(structure.structureId === nonBoxStructure.id){
-        const abc = await updateStructure({
-            userId: nonBoxStructure?.userId,
-            id: nonBoxStructure?.id,
-            name: nonBoxStructure?.name,
-            location: nonBoxStructure?.location,
-            isChosen: true,
-            isAvailable: nonBoxStructure?.isAvailable,
-            parent: newData.boxId
-          })
-        }
-      })
-    })
+    // newData.structures.forEach(async(structure) => {
+    //   structures.forEach(async(nonBoxStructure: any) => {
+    //     if(structure.structureId === nonBoxStructure.id){
+    //     const abc = await updateStructure({
+    //         userId: nonBoxStructure?.userId,
+    //         id: nonBoxStructure?.id,
+    //         name: nonBoxStructure?.name,
+    //         location: nonBoxStructure?.location,
+    //         isChosen: true,
+    //         isAvailable: nonBoxStructure?.isAvailable,
+    //         parent: newData.boxId
+    //       })
+    //     }
+    //   })
+    // })
   
     const HEY = await updateBox({
         id: box?.id,

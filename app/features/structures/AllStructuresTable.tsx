@@ -124,7 +124,7 @@ const AllStructuresTable = (props: Props) => {
                 accessorFn: row => row.isChosen,
                 id: 'باکس',
                 cell: info => {
-                  const isChosen = info.getValue();
+                  const isChosen = info.getValue()
                   const structureBox: any = allBoxes.find((box: any) => box.boxId === info.row.original.parent)
                   // console.log("structureBox", structureBox)
                   return (

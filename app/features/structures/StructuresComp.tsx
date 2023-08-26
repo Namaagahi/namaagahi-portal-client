@@ -1,6 +1,5 @@
 "use client"
-import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/apiSlices/structuresApiSlice'
-import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
+import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { BoxObject, StructureObject } from '@/app/lib/interfaces'
 import PageTitle from '@/app/components/main/PageTitle'
 import AllStructuresTable from './AllStructuresTable'
@@ -24,43 +23,19 @@ const Structures = (props: Props) => {
       isLoading,
       isError,
     } = useGetStructuresQuery(undefined, {
-      refetchOnFocus: false,
-      refetchOnMountOrArgChange: false
+      refetchOnFocus: true,
+      refetchOnMountOrArgChange: true,
+      refetchOnReconnect: true,
+      pollingInterval: 5000
     })
 
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
     const [data, setData] = useState<StructureObject[]>([])
-    
-    const [updateStructure] = useUpdateStructureMutation()
 
-  useGetStructuresQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-  })
-
-  // useEffect(()=>{ 
-  //       allStructures.forEach(async(structure: StructureObject) => {
-  //         if(structure.isChosen || structure.parent.length) {
-  //           await updateStructure({
-  //             id: structure.id,
-  //             userId: structure.userId,
-  //             name: structure.name,
-  //             location: structure.location,
-  //             isAvailable: structure.isAvailable,
-  //             isChosen: false,
-  //             parent: ''
-  //           })
-  //         }
-  //       })
-  // }, [])
-  
     useEffect(() =>{
       setData(allStructures)
     }, [allStructures])
-
-  console.log("ALLBOXES", allBoxes)
-
   
   if(isLoading || !allStructures[0]) return <Loading />
   
