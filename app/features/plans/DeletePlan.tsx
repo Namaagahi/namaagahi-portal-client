@@ -20,13 +20,13 @@ const DeletePlan = (props: Props) => {
     }] = useDeletePlanMutation()
 
     const onDeletePlanClick = async () => {
-        if(plan.status !== 'suggested') {
-            toast.error('فقط برای پلن های پیشنهادی امکان حذف وجود دارد.')
-            handleModal()
-        } else {
+        if(plan.status === 'suggested' || plan.status === 'pending') {
             await deletePlan({ id: plan?.id })
             handleModal()
             toast.success(`پلن  ${plan?.name} با موفقیت حذف شد`)
+        } else {
+            toast.error('فقط برای پلن های پیشنهادی یا معلق امکان حذف وجود دارد.')
+            handleModal()
         }
     }
 

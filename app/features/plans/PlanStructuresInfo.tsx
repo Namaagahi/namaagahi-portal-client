@@ -5,9 +5,7 @@ import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomers
 import { selectAllBoxes, useGetAllBoxesQuery } from '../../apiSlices/boxesApiSlice'
 import { AiFillMinusCircle, AiFillPlusCircle } from 'react-icons/ai'
 import DatePicker, { DateObject } from 'react-multi-date-picker'
-import SelectInput from '@/app/components/inputs/SelectInput'
 import { planStructureFormValues } from '@/app/lib/constants'
-import CustomInput from '@/app/components/inputs/CustomInput'
 import persian_fa from "react-date-object/locales/persian_fa"
 import { FaDollarSign, FaPercentage } from 'react-icons/fa'
 import React, { useEffect, useRef, useState } from 'react'
@@ -342,51 +340,6 @@ const PlanStructuresInfo = (props: Props) => {
                                     {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
                                     </small>
                                 </div> 
-                                
-                                {/* {
-                                    discountType === 'percentage' ?
-                                    <CustomInput
-                                        control={control}
-                                        name={`structures.${fieldIndex}.discountFee`}
-                                        type='text'
-                                        placeholder='تخفیف به درصد'
-                                        label='تخفیف'
-                                        defaultValue={page === 'edit' ? item.discountFee : undefined}
-                                        required={true}
-                                        message='در صورت نداشتن تخفیف مقدار 0 را وارد کنید'
-                                        errors={errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
-                                        onChange={(event: any) => {
-                                            const newValue = event.target.value;
-                                            if (discountType === 'percentage' && parseFloat(newValue) > 100) 
-                                                event.target.value = '100'
-                                            handleTextbox1Change(event, 0, `structures.${fieldIndex}.discountFee`)
-                                        }}
-                                        ref={percentageDiscountInputRef.current}
-                                        key={discountType}
-                                        onWheel={(e: any) => e.target.blur()} 
-                                    />
-                                    :
-                                    <CustomInput
-                                        control={control}
-                                        name={`structures.${fieldIndex}.discountFee`}
-                                        type='text'
-                                        placeholder='تخفیف به ریال'
-                                        label='تخفیف'
-                                        defaultValue={page === 'edit' ? item.discountFee : undefined}
-                                        required={true}
-                                        message='در صورت نداشتن تخفیف مقدار 0 را وارد کنید'
-                                        errors={errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
-                                        onChange={(event: any) => {
-                                            const newValue = event.target.value;
-                                            if (discountType !== 'percentage' && convertToNumber(newValue) > selectedStructure?.monthlyBaseFee!)
-                                                event.target.value = String(selectedStructure?.monthlyBaseFee)
-                                            handleTextbox1Change(event, 0, `structures.${fieldIndex}.discountFee`)
-                                        }}
-                                        ref={numberDiscountInputRef}
-                                        key={discountType}
-                                        onWheel={(e: any) => e.target.blur()} 
-                                    />
-                                } */}
 
                                 <DiscountedMonthlyFee 
                                     selectedStructure={selectedStructure}

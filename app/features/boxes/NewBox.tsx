@@ -49,8 +49,6 @@ const NewBox = (props: Props) => {
       error
   }] = useCreateNewBoxMutation()
 
-  // const [updateStructure] = useUpdateStructureMutation()
-
   const [startDate, setStartDate] = useState<number>(new Date().getTime())
   const [endDate, setEndDate] = useState<number>(new Date().getTime())
   
@@ -148,7 +146,7 @@ const NewBox = (props: Props) => {
   if(endDate - startDate < 0) {
     toast.error("تاریخ پایان نمی تواند عقب تر از تاریخ شروع باشد.")
   } else {
-    const abc = await createNewBox({
+    await createNewBox({
       boxId: newData.boxId,
       userId: id,
       name: newData.name,
@@ -165,24 +163,6 @@ const NewBox = (props: Props) => {
       },
       structures: newData.structures
     })
-
-    console.log("ABC", abc)
-  
-    // newData.structures.forEach(async(structure) => {
-    //   structures.forEach(async(nonBoxStructure: any) => {
-    //     if(structure.structureId === nonBoxStructure.id){
-    //     await updateStructure({
-    //         userId: nonBoxStructure?.userId,
-    //         id: nonBoxStructure?.id,
-    //         name: nonBoxStructure?.name,
-    //         location: nonBoxStructure?.location,
-    //         isChosen: true,
-    //         isAvailable: true,
-    //         parent: newData.boxId
-    //       })
-    //     }
-    //   })
-    // })
   }
   }
 

@@ -25,7 +25,7 @@ type Props = {
 const PlansComp = (props: Props) => {
 
   const { page } = props
-  const { isAdmin, isMediaManager, id } = useAuth()
+  const { isMaster, isAdmin, isMediaManager, id } = useAuth()
 
   const { 
     isLoading,
@@ -131,7 +131,14 @@ const PlansComp = (props: Props) => {
                         status = {'تایید شده'}
                         bgColor = {'#439400'}
                         textColor = {'#2e030c'}
-                    /> : status === 'rejected' &&
+                    /> 
+                    : status === 'pending'?
+                    <Status
+                        status = {'معلق'}
+                        bgColor = {'#b56a35'}
+                        textColor = {'#2e030c'}
+                    /> 
+                    : status === 'rejected' &&
                     <Status
                     status = {'رد شده'}
                     bgColor = {'#942300'}
@@ -187,7 +194,7 @@ const PlansComp = (props: Props) => {
                 const row = info.row.original;
                 return (
                   <div className="flex items-center justify-center gap-2" onClick={() => setPlanId(row.id)}>
-                      {(isMediaManager || isAdmin) && page === 'all' ?
+                      {(isMediaManager || isAdmin || isMaster) && page === 'all' ?
                       <>
                         <Link href={`/dashboard/billboard/plans/editplan/${row.id}`}>
                           <AiFillEdit

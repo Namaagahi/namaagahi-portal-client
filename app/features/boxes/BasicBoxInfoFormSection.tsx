@@ -77,7 +77,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                     </label>
 
                     <DatePicker
-                        inputClass='input-primary'
+                        inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
                         value={page === 'edit' ? moment(box?.duration.startDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
@@ -100,7 +100,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                     </label>
 
                     <DatePicker
-                        inputClass='input-primary'
+                        inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
                         value={page === 'edit' ? moment(box?.duration.endDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}

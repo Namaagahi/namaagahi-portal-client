@@ -423,6 +423,7 @@ export interface InitialCustomerObject {
 export interface FinalCustomerObject {
   _id? : string
   id?: string
+  finalCustomerId:string
   userId: string
   agentName: string,
   companyName: string,
@@ -439,9 +440,9 @@ export interface AddFinalCustomerForm {
   userId: string,
   finalCustomerId: string
   agentName: string,
-  companyName: string,
+  companyName?: string,
   post: string,
-  ecoCode: string,
+  ecoCode?: string,
   regNum: string,
   nationalId: string,
   address: string,

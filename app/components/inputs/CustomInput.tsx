@@ -73,14 +73,15 @@ const CustomInput = (props: CustomInputProps) => {
                                 key={key}
                                 onWheel={onWheel}
                                 disabled={disabled}
+                                defaultValue={defaultValue}
                             />
                             :
                             <input 
-                            type={type} 
-                            {...field} 
-                            className='p-4 rounded-[50px] bg-white outline-none'
-                            key={key}
-                        />
+                                type={type} 
+                                {...field} 
+                                className='p-4 rounded-[50px] bg-white outline-none'
+                                key={key}
+                            />
                         )
                     
                 }

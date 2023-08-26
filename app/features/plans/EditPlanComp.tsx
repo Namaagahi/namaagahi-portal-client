@@ -146,7 +146,7 @@ const EditPlanComp = (props: Props) => {
     
     if(isSuccess) {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
-        push('/dashboard/billboard/plans')
+        // push('/dashboard/billboard/plans')
     }
 
     const formVals = watch('structures')

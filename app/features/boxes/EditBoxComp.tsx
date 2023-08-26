@@ -29,8 +29,6 @@ const EditBoxComp = (props: Props) => {
       refetchOnMountOrArgChange: false
   })
 
-  const [updateStructure] = useUpdateStructureMutation()
-
   const [updateBox, { 
       isSuccess, 
       isError,
@@ -68,28 +66,7 @@ const EditBoxComp = (props: Props) => {
   } = useFieldArray({
     control,
     name: "structures",
-  })
-
-  // useEffect(() => {
-  //   if(data[0]) {
-  //     data.structures.forEach(async(structure: any) => {
-  //       structures.forEach(async(nonBoxStructure: any) => {
-  //         if(structure.structureId === nonBoxStructure.id){
-  //         const abc = await updateStructure({
-  //             userId: nonBoxStructure?.userId,
-  //             id: nonBoxStructure?.id,
-  //             name: nonBoxStructure?.name,
-  //             location: nonBoxStructure?.location,
-  //             isChosen: false,
-  //             isAvailable: nonBoxStructure?.isAvailable,
-  //             parent: ""
-  //           })
-  //         }
-  //       })
-  //     })
-  //   }
-  // },[])
-  
+  }) 
   
   useEffect(() => { 
     setTimeout(() => setData({
@@ -162,24 +139,8 @@ const EditBoxComp = (props: Props) => {
         monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
       })),
     }
-
-    // newData.structures.forEach(async(structure) => {
-    //   structures.forEach(async(nonBoxStructure: any) => {
-    //     if(structure.structureId === nonBoxStructure.id){
-    //     const abc = await updateStructure({
-    //         userId: nonBoxStructure?.userId,
-    //         id: nonBoxStructure?.id,
-    //         name: nonBoxStructure?.name,
-    //         location: nonBoxStructure?.location,
-    //         isChosen: true,
-    //         isAvailable: nonBoxStructure?.isAvailable,
-    //         parent: newData.boxId
-    //       })
-    //     }
-    //   })
-    // })
   
-    const HEY = await updateBox({
+    await updateBox({
         id: box?.id,
         boxId: newData.boxId,
         userId: currentUserId,

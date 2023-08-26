@@ -38,7 +38,7 @@ const PlanBasicInfo = (props: Props) => {
     const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
 
     const handleSuspendPlan = async() => {
-        await updatePlan({
+        const abc = await updatePlan({
             id: plan?.id,
             planId: plan?.planId,
             userId: plan?.userId,
@@ -49,6 +49,7 @@ const PlanBasicInfo = (props: Props) => {
             structures: plan?.structures,
             finalCustomerId: plan?.finalCustomerId,
         })
+        console.log("ABC", abc)
         toast.success(`پلن ${plan?.planId} معلق شد.`)
         push('/dashboard/billboard/plans')
     }
@@ -78,6 +79,7 @@ const PlanBasicInfo = (props: Props) => {
                 {
                     page === 'edit' && (isAdmin || isMediaManager) && plan?.status === 'done' && 
                     <button
+                        type='button'
                         className='btn-primary'
                         onClick={handleSuspendPlan}
                      >
