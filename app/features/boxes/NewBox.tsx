@@ -1,5 +1,5 @@
 "use client"
-import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from "../../apiSlices/structuresApiSlice"
+import { selectAllStructures, useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
 import { useCreateNewBoxMutation, useGetAllBoxesQuery } from "../../apiSlices/boxesApiSlice"
 import { AddBoxForm, StructureObject } from "@/app/lib/interfaces"
 import { newBoxDefaultValues } from "@/app/lib/constants"
@@ -55,9 +55,9 @@ const NewBox = (props: Props) => {
   const handleStartDate = (value: DateObject | DateObject[] | null) => {
 
     if (value instanceof DateObject) {
-      setStartDate(value.unix * 1000);
+      setStartDate(value.unix);
     } else if (Array.isArray(value) && value.length > 0) {
-      const timestamps = value.map((date) => date.unix * 1000);
+      const timestamps = value.map((date) => date.unix);
       setStartDate(timestamps[0]);
     } else {
       setStartDate(new Date().getTime());
@@ -65,9 +65,9 @@ const NewBox = (props: Props) => {
   }
   const handleEndDate = (value: DateObject | DateObject[] | null) => {
     if (value instanceof DateObject) {
-      setEndDate(value.unix * 1000);
+      setEndDate(value.unix);
     } else if (Array.isArray(value) && value.length > 0) {
-      const timestamps = value.map((date) => date.unix * 1000);
+      const timestamps = value.map((date) => date.unix);
       setEndDate(timestamps[0]);
     } else {
       setEndDate(new Date().getTime());

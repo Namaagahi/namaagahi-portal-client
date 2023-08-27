@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import Loading from '../loading/Loading'
 import SummaryBox from './SummaryBox'
 import ChooseStructureModal from '../boxes/ChooseStructureModal'
+import moment from 'jalali-moment'
 
 type Props = {
     page: string
@@ -116,7 +117,8 @@ const PlanStructuresInfo = (props: Props) => {
         }
     }, [discountType])
 
-    if((page=== 'edit' && !plan) || !boxStructures) return <Loading />
+    if((page=== 'edit' && !plan) || !boxStructures[0] || !chosenStructures[0]) return <Loading />
+    console.log("chosenStructures", chosenStructures)
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
@@ -153,9 +155,9 @@ const PlanStructuresInfo = (props: Props) => {
 
                 const handleStartDate = (value: DateObject | DateObject[] | null) => {
                     if (value instanceof DateObject) {
-                    setValue(`structures.${fieldIndex}.duration.sellStart`, value.unix * 1000)
+                    setValue(`structures.${fieldIndex}.duration.sellStart`, value.unix)
                     } else if (Array.isArray(value) && value.length > 0) {
-                    const timestamps = value.map((date) => date.unix * 1000)
+                    const timestamps = value.map((date) => date.unix)
                     setValue(`structures.${fieldIndex}.duration.sellStart`, timestamps[0])
                 } else {
                     setValue(`structures.${fieldIndex}.duration.sellStart`, new Date().getTime())
@@ -164,9 +166,9 @@ const PlanStructuresInfo = (props: Props) => {
                 
                 const handleEndDate = (value: DateObject | DateObject[] | null) => {
                     if (value instanceof DateObject) {
-                    setValue(`structures.${fieldIndex}.duration.sellEnd`, value.unix * 1000)
+                    setValue(`structures.${fieldIndex}.duration.sellEnd`, value.unix)
                 } else if (Array.isArray(value) && value.length > 0) {
-                    const timestamps = value.map((date) => date.unix * 1000)
+                    const timestamps = value.map((date) => date.unix)
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, timestamps[0])
                 } else {
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, new Date().getTime())
@@ -234,7 +236,7 @@ const PlanStructuresInfo = (props: Props) => {
                                     <DatePicker
                                         inputClass='p-4 rounded-[50px] bg-white outline-none w-full'
                                         format='YYYY-MM-DD'
-                                        value={page === 'edit' ? item.duration.sellStart : undefined}
+                                        value={page === 'edit' ? moment.unix(item.duration.sellStart).format('jYYYY-jMM-jDD') : undefined}
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"
@@ -250,7 +252,7 @@ const PlanStructuresInfo = (props: Props) => {
                                     <DatePicker
                                         inputClass='p-4 rounded-[50px] bg-white outline-none w-full'
                                         format='YYYY-MM-DD'
-                                        value={page === 'edit' ? item.duration.sellEnd : undefined}
+                                        value={page === 'edit' ?moment.unix(item.duration.sellEnd).format('jYYYY-jMM-jDD') : undefined}
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"

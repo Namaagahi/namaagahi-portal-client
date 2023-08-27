@@ -25,7 +25,7 @@ const BoxItem = (props: Props) => {
   const { id } = useAuth()
   
   const box: BoxObject = useSelector(state => selectBoxById(state, boxId) as BoxObject)
-
+  // console.log("BOX", box)
   return (
     page === 'my' && box.userId === id ?
       <ListItem 
@@ -45,20 +45,20 @@ const BoxItem = (props: Props) => {
       />
       :
       <ListItem 
-      number={index}
-      param={boxId}
-      prop={box}
-      startDate={box.duration.startDate}
-      endDate={box.duration.endDate}
-      diff={box.duration.diff}
-      titles={{
-          'نام باکس': box.name,
-          'نوع باکس': box.mark.name,
-          'کاربر ایجاد کننده': box.username,
-          'کد پروژه': box.mark.markOptions?.projectNumber,
-          'برند': box.mark.markOptions?.brand
-      }}
-    />
+        number={index}
+        param={boxId}
+        prop={box}
+        startDate={box.duration.startDate}
+        endDate={box.duration.endDate}
+        diff={box.duration.diff}
+        titles={{
+            'نام باکس': box.name,
+            'نوع باکس': box.mark.name,
+            'کاربر ایجاد کننده': box.username,
+            'کد پروژه': box.mark.markOptions?.projectNumber,
+            'برند': box.mark.markOptions?.brand
+        }}
+      />
   )
 } 
 

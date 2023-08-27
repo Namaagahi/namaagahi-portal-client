@@ -89,7 +89,7 @@ const EditPlanComp = (props: Props) => {
             brand: plan?.brand,
             status: plan?.status,
             structures: JSON.parse(JSON.stringify(plan?.structures))
-          }), 1000);
+          }), 3000);
     }, [])
 
       useEffect(() => {

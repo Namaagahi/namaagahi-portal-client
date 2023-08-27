@@ -193,7 +193,7 @@ const FinalCustomerForm = (props: Props) => {
             errors: undefined,
         },
     ]
-console.log("CUST ID", customerId)
+// console.log("CUST ID", customerId)
     return (
     <div className='w-full h-full bg-teal-200 dark:bg-neutral-300 p-2 rounded-lg text-gray-700 mt-5 flex flex-col items-start justify-center'>
         <p>

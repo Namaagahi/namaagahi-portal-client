@@ -49,7 +49,7 @@ const PlanBasicInfo = (props: Props) => {
             structures: plan?.structures,
             finalCustomerId: plan?.finalCustomerId,
         })
-        console.log("ABC", abc)
+        // console.log("ABC", abc)
         toast.success(`پلن ${plan?.planId} معلق شد.`)
         push('/dashboard/billboard/plans')
     }

@@ -80,7 +80,7 @@ const BoxStructuresFormSection = (props: Props) => {
     const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
     setValue(prop, formattedValue)
   }
-  console.log("thisStructures", thisStructures) 
+  // console.log("thisStructures", thisStructures) 
 
 return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
@@ -243,13 +243,13 @@ return (
                     <DatePicker
                         inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment(new Date(item.duration.startDate).toISOString()).format('jYYYY-jM-jD') : undefined}
+                        value={page === 'edit' ? moment.unix(item.duration.startDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
                         locale={persian_fa}
                         calendarPosition="bottom-right"
                         onChange={(e) => {
                           if (e instanceof DateObject) {
-                            setValue(`structures.${fieldIndex}.duration.startDate` , e.unix * 1000)
+                            setValue(`structures.${fieldIndex}.duration.startDate` , e.unix)
                           }
                         } 
                       }
@@ -271,13 +271,13 @@ return (
                     <DatePicker
                         inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment(new Date(item.duration.endDate).toISOString()).format('jYYYY-jM-jD') : undefined}
+                        value={page === 'edit' ? moment.unix(item.duration.endDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
                         locale={persian_fa}
                         calendarPosition="bottom-right"
                         onChange={(e) => {
                           if (e instanceof DateObject) {
-                            setValue(`structures.${fieldIndex}.duration.endDate` , e.unix * 1000)
+                            setValue(`structures.${fieldIndex}.duration.endDate` , e.unix)
                           }
                         } 
                         }

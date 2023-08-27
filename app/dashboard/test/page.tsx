@@ -19,7 +19,7 @@ const Test = () => {
     })
 
     const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[])
-    console.log("PLANS", allPlans)
+    // console.log("PLANS", allPlans)
 
     return (
        <main className="min-h-screen">

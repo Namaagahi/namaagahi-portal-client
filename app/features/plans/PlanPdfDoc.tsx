@@ -164,111 +164,101 @@ const PlanPdfDoc = (props: Props) => {
 
               {plan.structures.map((strucuture: any, structureIndex: number) => {
                 return(
-                    <View style={styles.tableRow} key={structureIndex}>
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.totalPeriodCost, ',')}
-                        </Text>
-                      </View>
+                  <View style={styles.tableRow} key={structureIndex}>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {formatNumber(strucuture.totalPeriodCost, ',')}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {`${strucuture.discountFee} ${strucuture.discountType === 'percentage'? "درصد" : "ریال"}`}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {`${strucuture.discountFee} ${strucuture.discountType === 'percentage'? "درصد" : "ریال"}`}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFee, ',')}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {formatNumber(strucuture.monthlyFee, ',')}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '3%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.duration.diff}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '3%' }]}>
+                      <Text style={styles.tableCell}>
+                        {strucuture.duration.diff}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.duration.sellEnd}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {moment.unix(strucuture.duration.sellEnd).format('jYYYY-jMM-jDD')}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.duration.sellStart}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {moment.unix(strucuture.duration.sellStart).format('jYYYY-jMM-jDD')}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '3%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.marks.markOptions.docSize}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '3%' }]}>
+                      <Text style={styles.tableCell}>
+                        {strucuture.structureRecord.marks.markOptions.docSize}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '7%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.marks.name}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '7%' }]}>
+                      <Text style={styles.tableCell}>
+                        {strucuture.structureRecord.marks.name}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '30%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.location.address}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '30%' }]}>
+                      <Text style={styles.tableCell}>
+                        {strucuture.structureRecord.location.address}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '8%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.location.path}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '8%' }]}>
+                      <Text style={styles.tableCell}>
+                        {strucuture.structureRecord.location.path}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '5%' }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.name}
-                        </Text>
-                      </View>
+                    <View style={[styles.tableCol, { width: '5%' }]}>
+                      <Text style={styles.tableCell}>
+                        {strucuture.structureRecord.name}
+                      </Text>
+                    </View>
 
-                      <View style={[styles.tableCol, { width: '2%' }]}>
-                        <Text style={styles.tableCell}>
-                          {structureIndex + 1}
-                        </Text>
-                      </View>
-                    </View >
+                    <View style={[styles.tableCol, { width: '2%' }]}>
+                      <Text style={styles.tableCell}>
+                        {structureIndex + 1}
+                      </Text>
+                    </View>
+                  </View >
                 )
               })}
 
-                  <View style={styles.tableRow}>
-                    <View style={[styles.tableCol, { width: '7%' }]}>
-                      <Text style={styles.tableCell}>
-                        {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
-                      </Text> 
-                    </View>
-
-                    <View style={[styles.tableCol, { width: '93%' }]}>
-                      <Text style={styles.tableCell}>
-                        جمع
-                      </Text> 
-                    </View>
+                <View style={styles.tableRow}>
+                  <View style={[styles.tableCol, { width: '7%' }]}>
+                    <Text style={styles.tableCell}>
+                      {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
+                    </Text> 
                   </View>
 
-              {/* <View style={styles.tableRow}>
-                <View style={[styles.tableCol, { width: '10%' }]}>
-                  <Text style={styles.tableCell}>10101010</Text> 
+                  <View style={[styles.tableCol, { width: '93%' }]}>
+                    <Text style={styles.tableCell}>
+                      جمع
+                    </Text> 
+                  </View>
                 </View>
-                <View style={[styles.tableCol, { width: '90%' }]}>
-                  <Text style={styles.tableCell}>جمع</Text> 
-                </View>
-              </View> */}
-
             </View>
           </>
         )}

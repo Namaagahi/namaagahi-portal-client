@@ -36,11 +36,11 @@ const SinglePlan = () => {
   const allFinalCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[]) 
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
-  const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer.finalCustomerId === plan.finalCustomerId)
+  const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer?.finalCustomerId === plan?.finalCustomerId)
   
   if(isLoading || !plan) return <Loading />
 
-console.log(finalCustomer)
+console.log(plan)
   return (
       <main className='min-h-screen w-full'>
         <PageTitle name={`پلن ${plan?.planId}`} />
@@ -52,11 +52,11 @@ console.log(finalCustomer)
             />
             <small className=" mt-2 text-black px-2">فروش</small>
             <div className="max-h-[30%] bg-cyan-200 dark:bg-cyan-900 overflow-y-auto  w-full p-2">
-              <SinglePlanTable data ={plan?.structures} />
+              <SinglePlanTable data ={plan.structures} />
             </div>
             {
               (plan.status === 'pending' || plan.status === 'done') && 
-              <FinalCustomerInfo finalCustomer={finalCustomer} />
+                <FinalCustomerInfo finalCustomer={finalCustomer} />
             }
             { 
               ((plan.status === 'suggested' || plan.status === 'pending') && (isMaster || isAdmin || isMediaManager)) &&

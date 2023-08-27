@@ -27,7 +27,7 @@ const MonthlyFeeInput = (props: Props) => {
     } = props
 
     useEffect(() => {
-        if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 100)
+        if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
     }, [])
 
     return (

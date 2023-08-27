@@ -83,13 +83,13 @@ const SinglePlanTable = (props: any) => {
                 {
                 accessorFn: row => row?.duration.sellStart,
                 id: 'شروع اکران',
-                cell: info => <div>{moment(new Date(info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
+                cell: info => <div>{moment.unix(info.getValue()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>شروع اکران</span>,
                 },
                 {
                 accessorFn: row => row?.duration.sellEnd,
                 id: 'پایان اکران',
-                cell: info => <div>{moment(new Date(info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
+                cell: info => <div>{moment.unix(info.getValue()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>پایان اکران</span>,
                 },
                 {

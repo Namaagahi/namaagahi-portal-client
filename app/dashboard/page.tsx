@@ -5,7 +5,7 @@ import PageTitle from '../components/main/PageTitle'
 const Dashboard = () => {
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen flex flex-col gap-4">
       <PageTitle name={'داشبورد'} />
       <div className="w-full">
         <UnderConstruction 

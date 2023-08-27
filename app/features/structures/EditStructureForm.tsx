@@ -63,7 +63,7 @@ const EditStructureForm = (props: Props) => {
              parent: structure?.parent,
              name,
              location: { district, path, address },
-             isAvailable: true  
+             isAvailable: structure?.isAvailable  
         })
     
         handleModal()

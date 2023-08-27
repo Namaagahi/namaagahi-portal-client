@@ -38,7 +38,7 @@ const DiscountedMonthlyFee = (props: Props) => {
     useEffect(() => {
         if(discountedMonthlyFeeRef.current) {
             const discountedMonthlyFee = discountedMonthlyFeeRef.current.textContent
-            setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 100)
+            setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 1000)
         }
     }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
 

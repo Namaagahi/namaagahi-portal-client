@@ -366,8 +366,8 @@ export interface AddPlanForm {
     structureId:string
     structureRecord: CombinedStructure
     duration: {
-      sellStart: number | null
-      sellEnd: number | null
+      sellStart: number
+      sellEnd: number
     }
     monthlyFee: string
     monthlyFeeWithDiscount: string

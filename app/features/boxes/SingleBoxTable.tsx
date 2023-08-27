@@ -68,13 +68,13 @@ const SingleBoxTable = (props: Props) => {
                 {
                 accessorFn: row => row.duration.startDate,
                 id: 'تاریخ شروع',
-                cell: info => <div>{moment(new Date(info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
+                cell: info => <div>{moment.unix(info.getValue()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>تاریخ شروع</span>,
                 },
                 {
                 accessorFn: row => row.duration.endDate,
                 id: 'تاریخ پایان',
-                cell: info => <div>{moment(new Date( info.getValue()).toISOString()).format('jYYYY-jM-jD')}</div>,
+                cell: info => <div>{moment.unix(info.getValue()).format('jYYYY-jM-jD')}</div>,
                 header: () => <span>تاریخ پایان</span>,
                 },
                 {

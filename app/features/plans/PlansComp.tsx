@@ -293,13 +293,13 @@ const PlansComp = (props: Props) => {
       />
       
       {
-          isDeletePlan && 
-          <ConfirmModal 
+        isDeletePlan && 
+        <ConfirmModal 
           prop={plan} 
           handleModal={handleDeletePlan}
           type={'delete'} 
           deleteType="plan"
-          /> 
+        /> 
       }
     </>
   )

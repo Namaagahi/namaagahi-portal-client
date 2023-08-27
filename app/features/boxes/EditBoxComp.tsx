@@ -1,4 +1,4 @@
-import { selectAllStructures, useGetStructuresQuery, useUpdateStructureMutation } from '@/app/apiSlices/structuresApiSlice'
+import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { BoxObject, EditBoxForm, StructureObject } from '@/app/lib/interfaces'
 import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import BoxStructuresFormSection from './BoxStructuresFormSection'
@@ -77,7 +77,7 @@ const EditBoxComp = (props: Props) => {
         startDate: startDate,
         endDate: endDate,
         structures: JSON.parse(JSON.stringify(box?.structures))
-      }), 1000);
+      }), 3000);
   }, [])
 
   useEffect(() => {
@@ -94,9 +94,9 @@ const EditBoxComp = (props: Props) => {
 
   const handleStartDate = (value: DateObject | DateObject[] | null) => {
     if (value instanceof DateObject) {
-      setStartDate(value.unix * 1000)
+      setStartDate(value.unix)
     } else if (Array.isArray(value) && value.length > 0) {
-      const timestamps = value.map((date) => date.unix * 1000)
+      const timestamps = value.map((date) => date.unix)
       setStartDate(timestamps[0])
     } else {
       setStartDate(new Date().getTime())
@@ -105,9 +105,9 @@ const EditBoxComp = (props: Props) => {
 
   const handleEndDate = (value: DateObject | DateObject[] | null) => {
     if (value instanceof DateObject) {
-      setEndDate(value.unix * 1000)
+      setEndDate(value.unix)
     } else if (Array.isArray(value) && value.length > 0) {
-      const timestamps = value.map((date) => date.unix * 1000)
+      const timestamps = value.map((date) => date.unix)
       setEndDate(timestamps[0])
     } else {
       setEndDate(new Date().getTime())
@@ -195,7 +195,7 @@ const EditBoxComp = (props: Props) => {
           <BasicBoxInfoFormSection
             page={'edit'}
             control={control} 
-            box={box}
+            box={box!}
             mark={box?.mark.name}
             errors={errors}
             handleStartDate={(val) => handleStartDate(val)}

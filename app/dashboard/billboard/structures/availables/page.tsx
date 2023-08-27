@@ -104,14 +104,14 @@ const Availables = () => {
         })
         structuresBox.forEach(structure => {
             if(!obj2[structure.structureId]) {
-                console.log("IF 1")
+                // console.log("IF 1")
                 return obj2[structure.structureId] = [{
                     start: structure.duration.startDate >= startDate ?  structure.duration.startDate : startDate, 
                     end: structure.duration.endDate <= endDate ? structure.duration.endDate : endDate
                 }]
             }
             if(endDate > structure.duration.endDate) {
-                console.log("IF 2")
+                // console.log("IF 2")
                 obj2[structure.structureId][obj2[structure.structureId].length - 1].end = structure.duration.endDate
             }   
         })
@@ -186,7 +186,7 @@ return (
                     calendar={persian}
                     locale={persian_fa}
                     calendarPosition="bottom-right"
-                    onChange={(e : DateObject) => setStartDate(e.unix * 1000)}
+                    onChange={(e : DateObject) => setStartDate(e.unix)}
                 />
             </div>
 
@@ -201,7 +201,7 @@ return (
                     calendar={persian}
                     locale={persian_fa}
                     calendarPosition="bottom-right"
-                    onChange={(e : DateObject) => setEndDate(e.unix * 1000)}
+                    onChange={(e : DateObject) => setEndDate(e.unix)}
                 />
             </div>
 
@@ -276,7 +276,7 @@ return (
                         <p className='col-span-2 text-left'>
                             {
                             availables.start === startDate ?
-                                moment(new Date(availables.start)).format('jYYYY-jM-jD')
+                                moment.unix(availables.start).format('jYYYY-jMM-jDD')
                                 :
                                 moment(new Date(availables.start).setDate(new Date(availables.start).getDate() + 1)).format('jYYYY-jM-jD')
                             }
@@ -284,7 +284,7 @@ return (
                         <p className='col-span-2 text-left'>
                             {
                             availables.end === endDate ?
-                                moment(new Date(availables.end)).format('jYYYY-jM-jD')
+                                moment.unix(availables.end).format('jYYYY-jMM-jDD')
                                 :
                                 moment(new Date(availables.end).setDate(new Date(availables.end).getDate() - 1)).format('jYYYY-jM-jD')
                             }

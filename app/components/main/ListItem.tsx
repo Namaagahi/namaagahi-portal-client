@@ -34,6 +34,9 @@ const ListItem = (props: Props) => {
 
     const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
 
+    // console.log("startDate", startDate)
+    // console.log("endDate", endDate)
+
     return (
     <>
         <div className="relative p-7 pt-14 w-full min-h-[232px] flex flex-col justify-center items-center gap-2 rounded-3xl shadow-md bg-gray-300 dark:bg-white text-gray-800 overflow-hidden">
@@ -58,11 +61,11 @@ const ListItem = (props: Props) => {
 
             <div className='flex justify-between items-center gap-2 w-full font-bold mt-2 text-xs sm:text-sm md:text-base'>
                 <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
-                    {moment(new Date(startDate).toISOString()).format('jYYYY-jM-jD')}
+                    {moment.unix(startDate).format('jYYYY-jMM-jDD')}
                 </div>
 
                 <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
-                    {moment(new Date(endDate).toISOString()).format('jYYYY-jM-jD')}
+                    {moment.unix(endDate).format('jYYYY-jMM-jDD')}
                 </div>
 
                 <div className='w-[30%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>

@@ -28,6 +28,8 @@ const BasicBoxInfoFormSection = (props: Props) => {
         handleEndDate
     } = props
 
+    console.log(box)
+
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
@@ -79,7 +81,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                     <DatePicker
                         inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment(box?.duration.startDate).format('jYYYY-jM-jD') : undefined}
+                        value={page === 'edit' ? moment.unix(box!.duration.startDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
                         locale={persian_fa}
                         calendarPosition="bottom-right"
@@ -102,7 +104,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                     <DatePicker
                         inputClass='p-4 rounded-[50px] bg-white outline-none'
                         format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment(box?.duration.endDate).format('jYYYY-jM-jD') : undefined}
+                        value={page === 'edit' ? moment.unix(box!.duration.endDate).format('jYYYY-jM-jD') : undefined}
                         calendar={persian}
                         locale={persian_fa}
                         calendarPosition="bottom-right"
