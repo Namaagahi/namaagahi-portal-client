@@ -68,9 +68,9 @@ export interface BoxStructure {
     costs: {
       fixedCosts: {
         squareCost: string
-        dailyCost?: number
-        monthlyCost?: number
-        periodCost?: number
+        dailyCost: number
+        monthlyCost: number
+        periodCost: number
 
       }, 
       variableCosts: {
@@ -82,10 +82,10 @@ export interface BoxStructure {
           dailyCost?: number
         }
       }[]
-      dailyVariableCost?:number
-      totalDailyCost?: number
-      totalMonthlyCost?: number
-      totalPeriodCost?: number
+      dailyVariableCost:number
+      totalDailyCost: number
+      totalMonthlyCost: number
+      totalPeriodCost: number
     },
     myCustomCost?: {
       [key: string]: number

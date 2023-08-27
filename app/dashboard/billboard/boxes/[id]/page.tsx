@@ -2,7 +2,6 @@
 import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { selectBoxById, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { BoxObject, BoxStructure, StructureObject } from '@/app/lib/interfaces'
-import UnderConstruction from '@/app/components/main/UnderConstruction'
 import SingleBoxHeading from '@/app/features/boxes/SingleBoxHeading'
 import SingleBoxTable from '@/app/features/boxes/SingleBoxTable'
 import { variableCostNames2 } from '@/app/lib/constants'
@@ -11,6 +10,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
+import { formatNumber } from '@/app/utilities/formatNumber'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -68,44 +68,47 @@ const SingleBox = () => {
         setLoading(false)
       }, [box, allStructures])
 
+        const fixedCostsMonthlySum = box.structures.reduce((sum: number, structure) => {
+            return sum + structure.costs.fixedCosts.monthlyCost
+          }, 0)
+          
+        const totalMonthlyCostSum = box.structures.reduce((sum: number, structure) => {
+            return sum + structure.costs.totalMonthlyCost
+        }, 0)
+
     if(!newBox || !box || !structures[0] || loading) return <Loading />
+    console.log("fixedCostsMonthlySum", fixedCostsMonthlySum) 
+    console.log("totalMonthlyCostSum", totalMonthlyCostSum) 
     return (  
-        <>
-            <main className='min-h-screen w-full'>
-                <PageTitle name={`باکس ${newBox.name}`} />
-                <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
-                    <div className=" h-full duration-1000">
-                        <div className=" p-4 h-full bg-gray-100 overflow-hidden">
-                            <SingleBoxHeading box={newBox} />
-                            <small className=" mt-2 text-black px-2">
-                                خرید
-                            </small>
-                            <div className="max-h-[30%] bg-rose-200 dark:bg-[#7d332e] overflow-y-auto p-2 w-full">
-                                <SingleBoxTable
-                                    data={newBox.structures}
-                                    allStructures={structures} 
-                                />
+        <main className='min-h-screen w-full'>
+            <PageTitle name={`باکس ${newBox.name}`} />
+            <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
+                <div className=" h-full duration-1000">
+                    <div className=" p-4 h-full bg-gray-100 overflow-hidden">
+                        <SingleBoxHeading box={newBox} />
+                        <small className=" mt-2 text-black px-2">
+                            خرید
+                        </small>
+                        <div className="max-h-[30%] bg-rose-200 dark:bg-[#7d332e] overflow-y-auto p-2 w-full">
+                            <div className='flex flex-col items-end gap-2'>
+                                <div className='flex items-center gap-3'>
+                                    <p>جمع هزینه های تمام شده دوره</p>
+                                    <p>{formatNumber(fixedCostsMonthlySum, ',')} ریال</p>
+                                </div>
+                                <div className='flex items-center gap-3'>
+                                    <p>جمع هزینه های ماهیانه کل</p>
+                                    <p>{formatNumber(totalMonthlyCostSum, ',')} ریال</p>
+                                </div>
                             </div>
-
-                            <small className=" mt-2 text-black px-2">
-                                فروش
-                            </small>
-                                <UnderConstruction 
-                                    desc='این بخش از پنل مربوط به جدول فروش به تفکیک سازه ها و جداول تجمیعی سود و زیان است و به زودی اضافه خواهد شد.'
-                                />  
-
-                            <small className=" mt-2 text-black px-2">
-                                سود/ زیان جزئی 
-                            </small>
-
-                            <small className=" mt-2 text-black px-2">
-                                سود/ زیان تجمیعی 
-                            </small>
+                            <SingleBoxTable
+                                data={newBox.structures}
+                                allStructures={structures} 
+                            />
                         </div>
                     </div>
                 </div>
-            </main>
-        </>
+            </div>
+        </main>
     )
 }
 
