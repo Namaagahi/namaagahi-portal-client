@@ -97,22 +97,22 @@ const EditPlanComp = (props: Props) => {
       }, [data, reset])
        
     const onSubmit = async(data: any) => {
-        if(data.status === 'done') {
-            plan?.structures.forEach((str: any) => {
-                structures.forEach(async(structure: any) => {
-                if(structure.id === str.structureId) 
-                await updateStructure({
-                    userId: structure?.userId,
-                    id: structure?.id,
-                    name: structure?.name,
-                    location: structure?.location,
-                    isChosen: structure?.isChosen,
-                    isAvailable: false,
-                    parent: structure?.parent
-                  })
-                })
-            })
-        }
+        // if(data.status === 'done') {
+        //     plan?.structures.forEach((str: any) => {
+        //         structures.forEach(async(structure: any) => {
+        //         if(structure.id === str.structureId) 
+        //         await updateStructure({
+        //             userId: structure?.userId,
+        //             id: structure?.id,
+        //             name: structure?.name,
+        //             location: structure?.location,
+        //             isChosen: structure?.isChosen,
+        //             isAvailable: false,
+        //             parent: structure?.parent
+        //           })
+        //         })
+        //     })
+        // }
 
         const newData = {
             ...data, 

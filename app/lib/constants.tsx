@@ -222,8 +222,8 @@ export const boxStructureFormValues = {
   structureId: '',
   duration: {
     diff:0,
-    startDate: 0,
-    endDate: 0
+    startDate: new Date().getTime() / 1000,
+    endDate: new Date().getTime() / 1000
   },
   marks: {
     name: '',

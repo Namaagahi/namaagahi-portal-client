@@ -28,7 +28,7 @@ const ListItem = (props: Props) => {
         titles
     } = props
 
-    const { isAdmin, isMaster } = useAuth()
+    const { isAdmin, isMaster, isMediaManager } = useAuth()
 
     const [isDeleteBox, setIsDeleteBox] = useState(false)
 
@@ -49,7 +49,7 @@ const ListItem = (props: Props) => {
                 </div> 
             }
 
-            { isAdmin && 
+            { (isAdmin || isMediaManager) && 
             <>
                 <Link href={`/dashboard/billboard/boxes/editbox/${param}`}>
                     <div className='absolute left-6 top-0 min-h-[48px] w-8 rounded-b-[20px] bg-[#feb420] flex justify-center items-center font-bold text-xl text-white hover:scale-125 cursor-pointer transition-all'>
