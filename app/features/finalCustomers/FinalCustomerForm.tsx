@@ -251,6 +251,7 @@ const FinalCustomerForm = (props: Props) => {
                                 message={customInput.message && customInput.message}
                                 errors={customInput.errors && customInput.errors}
                                 disabled={isDisabled}
+                                className={`${isDisabled ? "bg-gray-400" :"bg-white"} p-4 rounded-[50px] outline-none`}
                             />
                         )
                     })

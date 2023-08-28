@@ -5,6 +5,7 @@ import NewUserForm from "@/app/features/users/NewUserForm"
 import EditUser from "@/app/features/users/EditUser"
 import EditNote from "@/app/features/note/EditNote"
 import NewNote from "@/app/features/note/NewNote"
+import EditFinalCustomer from "@/app/features/finalCustomers/EditFinalCustomer"
 
 type Props = {
   handleModal: () => void
@@ -41,6 +42,8 @@ const CreateUpdateModal = (props: Props) => {
                 <EditStructure handleModal={handleModal} structure={prop} />
                 : type === 'newInitialCustomer'? 
                 <NewInitialCustomerForm handleModal={handleModal} />
+                : type === 'editFinalCustomer'? 
+                <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
                 : null
         }
       </div>     

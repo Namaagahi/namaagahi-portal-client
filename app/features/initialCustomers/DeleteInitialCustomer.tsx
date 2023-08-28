@@ -31,19 +31,19 @@ const DeleteInitialCustomer = (props: Props) => {
 
   return (
     <div className="flex items-center gap-6">
-    <button
-        onClick={onDeleteInitialCustomerClick}
-        className="btn-confirm"
-    >
-        حذف مشتری اولیه
-    </button>
+      <button
+          onClick={onDeleteInitialCustomerClick}
+          className="btn-confirm"
+      >
+          حذف مشتری اولیه
+      </button>
 
-    <button 
-        onClick={handleModal}
-        className="btn-cancel"
-    >
-      لغو
-    </button>
+      <button 
+          onClick={handleModal}
+          className="btn-cancel"
+      >
+        لغو
+      </button>
   </div>
   )
 }

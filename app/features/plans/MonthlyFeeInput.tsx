@@ -54,6 +54,7 @@ const MonthlyFeeInput = (props: Props) => {
                     label='تعرفه ماهیانه سازه'
                     required={true}
                     errors={(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
+                    className='p-4 rounded-[50px] bg-white outline-none'
                 />
             }
         </div> 

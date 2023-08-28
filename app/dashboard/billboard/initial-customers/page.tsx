@@ -9,7 +9,7 @@ import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useMemo, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import Button from '@/app/components/main/Button'
+import Button from '@/app/components/main/Button' 
 import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
@@ -17,7 +17,7 @@ import moment from 'jalali-moment'
     
 const InitialCustomers = () => {
     
-  const { isAdmin } = useAuth()
+  const { isMaster, isAdmin } = useAuth()
     
   const {
     isLoading,
@@ -44,8 +44,7 @@ const InitialCustomers = () => {
     return(
       [
         {
-          header: 'جدول کاربران',
-          footer: props => props.column.id,
+          header: 'جدول مشتریان اولیه',
           columns: [
             {
               accessorKey: "_id",
@@ -66,17 +65,15 @@ const InitialCustomers = () => {
               id: 'نام',
               cell: info => info.getValue(),
               header: () => <span>نام</span>,
-              footer: props => props.column.id,
             },
             {
               id: 'عملیات',
               header: () => <span>عملیات</span>,
-              footer: props => props.column.id,
               cell: (info) => {
                 const row = info.row.original;
                 return (
                   <>
-                  {isAdmin?
+                  {isMaster || isAdmin?
                     <td className="px-6 flex items-center justify-center gap-5" onClick={() => setInitialCustomerId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillDelete
@@ -122,18 +119,18 @@ const InitialCustomers = () => {
     )
   },
   []
-)
+  )
 
-if(isLoading) return <Loading />
+  if(isLoading) return <Loading />
 
-if(isError) return (
+  if(isError) return (
 
-  <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-    <p className='text-xl'>
-      هیچ مشتری اولیه ای وجود ندارد
-    </p>
-  </div>
-)
+    <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
+      <p className='text-xl'>
+        هیچ مشتری اولیه ای وجود ندارد
+      </p>
+    </div>
+  )
 
   return (
     <>            

@@ -1,4 +1,4 @@
-import { Control, Controller } from 'react-hook-form'
+import { Control, Controller, FieldError } from 'react-hook-form'
 
  type CustomInputProps = {
     control: Control<any, any>
@@ -10,13 +10,15 @@ import { Control, Controller } from 'react-hook-form'
     pattern?: RegExp
     patternMessage?: string
     type: string
-    errors?: string
+    errors?: string | any
     onChange?: any
     placeholder?: string
     ref?: any
-    key?: string
+    key?: string | number
     onWheel?: any
     disabled?: boolean
+    className: string,
+    colSpan? : string
   }
   
 const CustomInput = (props: CustomInputProps) => {
@@ -37,11 +39,13 @@ const CustomInput = (props: CustomInputProps) => {
         placeholder,
         ref,
         key,
-        disabled
+        disabled,
+        className,
+        colSpan
     } = props
 
     return (
-        <div className='flex flex-col gap-3'>
+        <div className={`flex flex-col gap-3 ${colSpan}`}>
             <label
                 htmlFor={name}
                 className='text-[#767676] font-bold'
@@ -66,7 +70,7 @@ const CustomInput = (props: CustomInputProps) => {
                             <input 
                                 type={type} 
                                 {...field} 
-                                className={`${disabled ? "bg-gray-400" :"bg-white"} p-4 rounded-[50px] outline-none`}
+                                className={className}
                                 onChange={onChange} 
                                 placeholder={placeholder}
                                 ref={ref}
@@ -79,7 +83,7 @@ const CustomInput = (props: CustomInputProps) => {
                             <input 
                                 type={type} 
                                 {...field} 
-                                className='p-4 rounded-[50px] bg-white outline-none'
+                                className={className}
                                 key={key}
                             />
                         )

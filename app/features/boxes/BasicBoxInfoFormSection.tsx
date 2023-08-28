@@ -42,6 +42,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                     errors={errors.name?.message}
                     required={true}
                     message={'نام باکس را وارد کنید'}
+                    className='p-4 rounded-[50px] bg-white outline-none'
                 />
 
             {
@@ -57,6 +58,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                         message={'شماره پروژه را وارد کنید'}
                         pattern={/^[P][R][0-9]{4}$/}
                         patternMessage={'فرمت کد پروژه باید به صورت PR و چهار عدد بعد از آن باشد'}
+                        className='p-4 rounded-[50px] bg-white outline-none'
                     />
                     <CustomInput 
                         control={control}
@@ -66,6 +68,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                         errors={errors.brand?.message}
                         required={true}
                         message={'نام برند را وارد کنید'}
+                        className='p-4 rounded-[50px] bg-white outline-none'
                     />
                 </>
             }

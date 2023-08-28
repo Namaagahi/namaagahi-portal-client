@@ -43,14 +43,25 @@ export const finalCustomersApiSlice = finalCustomerApiSliceTag.injectEndpoints({
 
         createNewFinalCustomer: builder.mutation({ 
 
-            query: (finalBox: any) => (
+            query: (finalCustomer: any) => (
                 {
                 url: '/finalCustomers',
                 method: 'POST',
-                body: { ...finalBox }
+                body: { ...finalCustomer }
             }),
 
             invalidatesTags: [{ type: 'FinalCustomer', id:'LIST' }]
+        }),
+
+        updateFinalCustomer: builder.mutation({
+
+            query: (initialFinalCustomer: any) => ({
+                url: '/finalCustomers',
+                method: 'PATCH',
+                body: { ...initialFinalCustomer }
+            }),
+
+            invalidatesTags: (result: any, error: any, arg: any) => [{ type: 'FinalCustomer', id: arg.id }]
         }),
 
         deleteFinalCustomer: builder.mutation({
@@ -66,7 +77,7 @@ export const finalCustomersApiSlice = finalCustomerApiSliceTag.injectEndpoints({
     }),
 })
 
-export const { useGetAllFinalCustomersQuery, useCreateNewFinalCustomerMutation, useDeleteFinalCustomerMutation } = finalCustomersApiSlice
+export const { useGetAllFinalCustomersQuery, useCreateNewFinalCustomerMutation, useUpdateFinalCustomerMutation, useDeleteFinalCustomerMutation } = finalCustomersApiSlice
 
 export const selectFinalCustomersResult = finalCustomersApiSlice.endpoints.getAllFinalCustomers.select(undefined)
 

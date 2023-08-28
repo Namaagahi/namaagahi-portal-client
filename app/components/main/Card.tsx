@@ -57,6 +57,18 @@ const Card = (props: Props) => {
         </Link>
       }
 
+      {main2 === 'مشتریان نهایی' &&
+        <Link 
+          href={main2Link || ''}  
+          className='flex items-center gap-2 font-bold dark:hover:text-emerald-400 hover:text-lime-800 transition-all'
+        >
+          <FaDotCircle/>
+          <p>
+            {main2}
+          </p>
+        </Link>
+      }
+
       {subTitle &&      
         <Link 
           href={subTitleLink || ''} 

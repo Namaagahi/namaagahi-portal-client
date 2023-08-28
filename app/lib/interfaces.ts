@@ -434,6 +434,7 @@ export interface FinalCustomerObject {
   address: string,
   phone: string,
   postalCode: string
+  username?: string
 }
 
 export interface AddFinalCustomerForm {

@@ -61,7 +61,7 @@ const EditPlanComp = (props: Props) => {
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: data,
         mode: 'onSubmit'
-      })
+    })
 
     const {
         register,
@@ -71,7 +71,7 @@ const EditPlanComp = (props: Props) => {
         setValue,
         reset,
         watch
-} = editPlanForm
+    } = editPlanForm
 
     const {
         fields,
@@ -89,7 +89,7 @@ const EditPlanComp = (props: Props) => {
             brand: plan?.brand,
             status: plan?.status,
             structures: JSON.parse(JSON.stringify(plan?.structures))
-          }), 3000);
+          }), 3000)
     }, [])
 
       useEffect(() => {

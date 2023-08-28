@@ -226,6 +226,7 @@ return (
                     errors={customInput.errors}
                     onWheel={customInput.onWheel? customInput.onWheel : undefined}
                     onChange={customInput.onChange!!}
+                    className='p-4 rounded-[50px] bg-white outline-none'
                   />
                 )
               })}

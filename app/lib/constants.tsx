@@ -88,9 +88,11 @@ export const billboardPagePropsObject = [
     },
     {
         id:3,
-        title: 'مشتری اولیه',
-        main:'صفحه مشتریان اولیه ',
+        title: 'مشتریان',
+        main:'مشتریان اولیه ',
+        main2:'مشتریان نهایی',
         mainLink:'/dashboard/billboard/initial-customers', 
+        main2Link:'/dashboard/billboard/final-customers', 
     },
 ]
 
