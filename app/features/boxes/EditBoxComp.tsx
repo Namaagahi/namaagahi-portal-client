@@ -1,6 +1,6 @@
 import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { BoxObject, EditBoxForm, StructureObject } from '@/app/lib/interfaces'
-import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
+import { useGetAllBoxesQuery, useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import BoxStructuresFormSection from './BoxStructuresFormSection'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
 import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
@@ -23,6 +23,15 @@ const EditBoxComp = (props: Props) => {
   const { box } = props
   const { id: currentUserId } = useAuth()
   const { push } = useRouter()
+
+  const {
+    data: boxes,
+  } = useGetAllBoxesQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    pollingInterval: 5000
+  })
 
   useGetStructuresQuery(undefined, { 
       refetchOnFocus: false,
