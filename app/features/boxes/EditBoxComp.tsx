@@ -27,15 +27,6 @@ const EditBoxComp = (props: Props) => {
   const { id: currentUserId } = useAuth()
   const { push } = useRouter()
 
-  const {
-    data: boxes,
-  } = useGetAllBoxesQuery(undefined, {
-    refetchOnFocus: true,
-    refetchOnMountOrArgChange: true,
-    refetchOnReconnect: true,
-    pollingInterval: 5000
-  })
-
   useGetStructuresQuery(undefined, { 
       refetchOnFocus: false,
       refetchOnMountOrArgChange: false
@@ -52,10 +43,18 @@ const EditBoxComp = (props: Props) => {
   const [startDate, setStartDate] = useState<number>(box.duration.startDate)
   const [endDate, setEndDate] = useState<number>(box.duration.endDate)
 
-  const [data, setData] = useState<any>(null)
+  // const [data, setData] = useState<any>(null)
 
   const editBoxForm = useForm<EditBoxForm>({
-      defaultValues: data,
+      defaultValues: {
+        boxId: box?.boxId,
+        name: box?.name,
+        projectNumber: box?.mark.markOptions.projectNumber,
+        brand: box?.mark.markOptions.brand,
+        startDate: startDate,
+        endDate: endDate,
+        structures: JSON.parse(JSON.stringify(box?.structures))
+      },
       mode: 'onSubmit' 
     })
   
@@ -80,21 +79,21 @@ const EditBoxComp = (props: Props) => {
     name: "structures",
   }) 
   
-  useEffect(() => { 
-    setTimeout(() => setData({
-        boxId: box?.boxId,
-        name: box?.name,
-        projectNumber: box?.mark.markOptions.projectNumber,
-        brand: box?.mark.markOptions.brand,
-        startDate: startDate,
-        endDate: endDate,
-        structures: JSON.parse(JSON.stringify(box?.structures))
-      }), 3000)
-  }, [])
+  // useEffect(() => { 
+  //   setTimeout(() => setData({
+  //       boxId: box?.boxId,
+  //       name: box?.name,
+  //       projectNumber: box?.mark.markOptions.projectNumber,
+  //       brand: box?.mark.markOptions.brand,
+  //       startDate: startDate,
+  //       endDate: endDate,
+  //       structures: JSON.parse(JSON.stringify(box?.structures))
+  //     }), 3000)
+  // }, [])
 
-  useEffect(() => {
-    reset(data) 
-  }, [data, reset])
+  // useEffect(() => {
+  //   reset(data) 
+  // }, [data, reset])
 
   
   useEffect(() => {
