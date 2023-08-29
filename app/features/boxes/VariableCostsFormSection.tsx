@@ -33,7 +33,7 @@ const VariableCostsFormSection = (props: Props) => {
                         <div 
                             className={`${variableCostIndex === variableCostFields.length -1 && ' rounded-br-lg'} ${variableCostIndex === 0 && 'rounded-tr-lg'}
                             p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-3/4 xl:w-2/3 border-[1px] border-b-white mt-4`}
-                            key={`${variableCost.id}${Math.random()}`}
+                            key={`${variableCost.id}${variableCostIndex}`}
                         >
                             <div className='flex flex-col gap-3' >
                                 <label 

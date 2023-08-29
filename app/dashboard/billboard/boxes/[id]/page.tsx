@@ -69,11 +69,11 @@ const SingleBox = () => {
         setLoading(false)
       }, [box, allStructures])
 
-        const fixedCostsMonthlySum = box.structures.reduce((sum: number, structure) => {
+        const fixedCostsMonthlySum = box?.structures.reduce((sum: number, structure) => {
             return sum + structure.costs.fixedCosts.monthlyCost
           }, 0)
           
-        const totalMonthlyCostSum = box.structures.reduce((sum: number, structure) => {
+        const totalMonthlyCostSum = box?.structures.reduce((sum: number, structure) => {
             return sum + structure.costs.totalMonthlyCost
         }, 0)
 
