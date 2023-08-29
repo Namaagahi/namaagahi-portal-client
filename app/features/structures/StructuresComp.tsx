@@ -6,6 +6,10 @@ import AllStructuresTable from './AllStructuresTable'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import SearchContainer from '@/app/components/main/SearchContainer'
+import Button from '@/app/components/main/Button'
+import { useRouter } from 'next/navigation'
+import ScrollContainer from '@/app/components/main/ScrollContainer'
 
 type Props = {
   page: string
@@ -18,6 +22,8 @@ const Structures = (props: Props) => {
       page,
       allBoxes
     } = props
+
+    const { push } =useRouter()
 
     const { 
       isLoading,
@@ -36,7 +42,9 @@ const Structures = (props: Props) => {
     useEffect(() =>{
       setData(allStructures)
     }, [allStructures])
-  
+
+    const handleButtonClick = () => push('/dashboard/billboard/structures/createstructure')
+
   if(isLoading || !allStructures[0]) return <Loading />
   
   if(isError) return (
@@ -50,13 +58,20 @@ const Structures = (props: Props) => {
   return (
     <>
       <PageTitle name={'سازه ها'} /> 
-
+      <div className="flex items-center justify-between gap-3">
+        <SearchContainer />
+        <Button
+          onClickHandler={handleButtonClick}
+          title="سازه جدید"
+        />
+      </div>
       <AllStructuresTable 
         data= {data}
         page={page}
         allBoxes={allBoxes}
         handleData={(val: StructureObject[]) => setData(val)}
       />
+      <ScrollContainer />
     </>
   )
 }

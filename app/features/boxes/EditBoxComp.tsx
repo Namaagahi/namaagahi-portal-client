@@ -6,6 +6,7 @@ import { convertToNumber } from '@/app/utilities/convertToNumber'
 import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
 import { useFieldArray, useForm } from 'react-hook-form'
 import PageTitle from '@/app/components/main/PageTitle'
+import usePageSearch from '@/app/hooks/usePageSearch'
 import { DateObject } from 'react-multi-date-picker'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -13,6 +14,8 @@ import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
+import { RiFileSearchFill } from 'react-icons/ri'
+import SearchContainer from '@/app/components/main/SearchContainer'
 
 type Props = {
   box: BoxObject
@@ -195,6 +198,7 @@ const EditBoxComp = (props: Props) => {
   return (
     <main className="min-h-screen">
       <PageTitle name={`ویرایش باکس ${box?.name}`} /> 
+      <SearchContainer />
       <div className='flex flex-col gap-9 justify-center'>
         <form  
           noValidate

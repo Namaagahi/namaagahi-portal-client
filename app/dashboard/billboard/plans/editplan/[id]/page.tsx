@@ -1,5 +1,6 @@
 "use client"
 import { selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
+import ScrollContainer from '@/app/components/main/ScrollContainer'
 import EditPlanComp from '@/app/features/plans/EditPlanComp'
 import Loading from '@/app/features/loading/Loading'
 import { PlanObject } from '@/app/lib/interfaces'
@@ -18,7 +19,13 @@ const EditPlan = () => {
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
 
   if(isLoading || !plan || !plan?.structures) return <Loading />
-  return <EditPlanComp plan={plan} />
+  return (
+    <>
+      <EditPlanComp plan={plan} />
+      <ScrollContainer />
+    </>
+  )
+  
 }
 
 export default EditPlan

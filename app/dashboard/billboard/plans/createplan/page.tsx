@@ -2,6 +2,8 @@
 import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
 import { useCreateNewPlanMutation } from '@/app/apiSlices/plansApiSlice'
 import PlanStructuresInfo from '@/app/features/plans/PlanStructuresInfo'
+import SearchContainer from '@/app/components/main/SearchContainer'
+import ScrollContainer from '@/app/components/main/ScrollContainer'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
 import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
 import { AddPlanForm, BoxObject } from '@/app/lib/interfaces'
@@ -77,8 +79,6 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       brand: newData.brand,
       structures: newData.structures
     })
-    // console.log("ABC", abc)
-    // console.log("newData", newData)
   }
 
   if(isError) {
@@ -110,6 +110,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
   return (
       <main className="min-h-screen">
         <PageTitle name={'ایجاد پلن جدید'} />
+        <SearchContainer />
         <div className='flex flex-col gap-9 justify-center'>
           <form
             noValidate
@@ -142,6 +143,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
             </button>
           </form>
         </div>
+        <ScrollContainer />
       </main>
 
   )

@@ -166,9 +166,15 @@ const TableComponent = (props: Props) => {
       debugColumns: false,
     })
 
-    useEffect(() => {
+    const [selectedRowId, setSelectedRowId] = useState<string | null>(null)
 
-    },[])
+    const handleChangeRowColor = (rowId: string) => {
+      if (selectedRowId === rowId) {
+        setSelectedRowId(null)
+      } else {
+        setSelectedRowId(rowId)
+      }
+    }
 
   return (
     <>
@@ -247,12 +253,21 @@ const TableComponent = (props: Props) => {
         <tbody>
           {table.getRowModel().rows.map((row, index) => {
             return (
-              <tr key={row.id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700 text-center">
-                <td>{index + 1}</td>
+              <tr key={row.id} className={`${
+                selectedRowId === row.id
+                  ? 'bg-red-200'
+                  : 'bg-white border-b dark:bg-gray-900'
+              } dark:border-gray-700 text-center`}
+            >
+                <td>{row.index + 1}</td>
                 {row.getVisibleCells().map(cell => {
                   return (
                     <>
-                    <td key={cell.id} className='py-2 px-2' >
+                    <td
+                      key={cell.id} 
+                      className='py-2 px-2'
+                      onClick={() => handleChangeRowColor(row.id)} 
+                    >
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

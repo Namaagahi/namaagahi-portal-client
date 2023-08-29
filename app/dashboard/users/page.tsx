@@ -188,16 +188,16 @@ if(isAdmin) {
   return (
     <>    
       <PageTitle name={'کاربران'} /> 
-      <TableComponent 
-        columns={columns}
-        data={data}
-      />
       {isAdmin && 
         <Button 
           onClickHandler={handleNewUserModal}
           title="کاربر جدید"
         />
       }
+      <TableComponent 
+        columns={columns}
+        data={data}
+      />
       {
         isNewUser && 
           <CreateUpdateModal

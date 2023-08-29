@@ -1,4 +1,6 @@
 "use client"
+import SearchContainer from '@/app/components/main/SearchContainer'
+import ScrollContainer from '@/app/components/main/ScrollContainer'
 import PageTitle from '@/app/components/main/PageTitle'
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
@@ -6,7 +8,6 @@ const NewBox = dynamic(
   () => import('@/app/features/boxes/NewBox'),
   { ssr: false }
 )
-
 const CreateBox = () => {
 
   const [boxMark, setBoxMark] = useState<string>('')
@@ -14,6 +15,7 @@ const CreateBox = () => {
   return (
       <main className="min-h-screen">
         <PageTitle name={'ایجاد باکس جدید'} />
+        <SearchContainer />
         <div className='flex flex-col gap-9 justify-center'>
           <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">
@@ -52,6 +54,7 @@ const CreateBox = () => {
               <NewBox mark={boxMark}/>
           }
         </div>
+        <ScrollContainer />
       </main>
   )
 }

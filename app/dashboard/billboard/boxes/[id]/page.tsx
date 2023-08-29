@@ -11,6 +11,7 @@ import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 import { formatNumber } from '@/app/utilities/formatNumber'
+import SearchContainer from '@/app/components/main/SearchContainer'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -83,6 +84,7 @@ const SingleBox = () => {
     return (  
         <main className='min-h-screen w-full'>
             <PageTitle name={`باکس ${newBox.name}`} />
+            <SearchContainer />
             <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
                 <div className=" h-full duration-1000">
                     <div className=" p-4 h-full bg-gray-100 overflow-hidden">

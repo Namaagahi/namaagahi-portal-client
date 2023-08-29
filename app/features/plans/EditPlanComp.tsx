@@ -14,6 +14,7 @@ import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
+import SearchContainer from '@/app/components/main/SearchContainer'
 
 type Props = {
     plan: PlanObject
@@ -154,6 +155,7 @@ const EditPlanComp = (props: Props) => {
     return (
         <main className="min-h-screen">
             <PageTitle name={`ویرایش پلن ${plan?.planId}`} />
+            <SearchContainer />
             <div className='flex flex-col gap-9 justify-center'>
                 <form 
                     noValidate
