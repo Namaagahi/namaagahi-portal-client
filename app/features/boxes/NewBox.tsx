@@ -55,22 +55,22 @@ const NewBox = (props: Props) => {
   const handleStartDate = (value: DateObject | DateObject[] | null) => {
 
     if (value instanceof DateObject) {
-      setStartDate(value.unix);
+      setStartDate(value.unix)
     } else if (Array.isArray(value) && value.length > 0) {
-      const timestamps = value.map((date) => date.unix);
-      setStartDate(timestamps[0]);
+      const timestamps = value.map((date) => date.unix)
+      setStartDate(timestamps[0])
     } else {
-      setStartDate(new Date().getTime());
+      setStartDate(new Date().getTime())
     }
   }
   const handleEndDate = (value: DateObject | DateObject[] | null) => {
     if (value instanceof DateObject) {
-      setEndDate(value.unix);
+      setEndDate(value.unix)
     } else if (Array.isArray(value) && value.length > 0) {
-      const timestamps = value.map((date) => date.unix);
-      setEndDate(timestamps[0]);
+      const timestamps = value.map((date) => date.unix)
+      setEndDate(timestamps[0])
     } else {
-      setEndDate(new Date().getTime());
+      setEndDate(new Date().getTime())
     }
   }
 

@@ -79,6 +79,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       brand: newData.brand,
       structures: newData.structures
     })
+    console.log("ABC", abc)
   }
 
   if(isError) {

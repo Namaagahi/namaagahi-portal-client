@@ -78,8 +78,8 @@ import {
     ) : (
       <>
         <datalist id={column.id + 'list'}>
-          {sortedUniqueValues.slice(0, 5000).map((value: any) => (
-            <option value={value} key={value} />
+          {sortedUniqueValues.slice(0, 5000).map((value: any, index: number) => (
+            <option value={value} key={index} />
           ))}
         </datalist>
         <DebouncedInput
@@ -210,45 +210,47 @@ const TableComponent = (props: Props) => {
       </div>
       <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
         <thead className="table-heading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
-          {table.getHeaderGroups().map(headerGroup => (
-            <tr key={headerGroup.id}>
-              <th>{}</th>
-              {headerGroup.headers.map(header => {
-                return (
-                  <>
-                  <th key={header.id} colSpan={header.colSpan}  className="px-2">
-                    {header.isPlaceholder ? null : (
-                      <>
-                        <div
-                          {...{
-                            className: header.column.getCanSort()
-                              ? 'cursor-pointer select-none'
-                              : '',
-                            onClick: header.column.getToggleSortingHandler(),
-                          }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {{
-                            asc: ' 🔼',
-                            desc: ' 🔽',
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                        {header.column.getCanFilter() ? (
-                          <div>
-                            <Filter column={header.column} table={table} />
+          {table.getHeaderGroups().map(headerGroup => {
+            return(
+              <tr key={headerGroup.id}>
+                <th>{}</th>
+                {headerGroup.headers.map(header => {
+                  return (
+                    <>
+                    <th key={header.id} colSpan={header.colSpan}  className="px-2">
+                      {header.isPlaceholder ? null : (
+                        <>
+                          <div
+                            {...{
+                              className: header.column.getCanSort()
+                                ? 'cursor-pointer select-none'
+                                : '',
+                              onClick: header.column.getToggleSortingHandler(),
+                            }}
+                          >
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext()
+                            )}
+                            {{
+                              asc: ' 🔼',
+                              desc: ' 🔽',
+                            }[header.column.getIsSorted() as string] ?? null}
                           </div>
-                        ) : null}
-                      </>
-                    )}
-                  </th>
-                  </>
-                )
-              })}
-            </tr>
-          ))}
+                          {header.column.getCanFilter() ? (
+                            <div>
+                              <Filter column={header.column} table={table} />
+                            </div>
+                          ) : null}
+                        </>
+                      )}
+                    </th>
+                    </>
+                  )
+                })}
+              </tr>
+            )}
+          )}
         </thead>
         <tbody>
           {table.getRowModel().rows.map((row, index) => {

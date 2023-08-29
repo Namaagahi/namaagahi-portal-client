@@ -54,13 +54,12 @@ const Availables = () => {
     const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[])
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
-    const [startDate, setStartDate] = useState<number>(new Date().getTime())
-    const [endDate, setEndDate] = useState<number>(new Date().getTime())
+    const [startDate, setStartDate] = useState<number>(new Date().getTime() / 1000)
+    const [endDate, setEndDate] = useState<number>(new Date().getTime() / 1000)
     const [filtered, setFiltetred] = useState({
         initial: {} as StructureDurations,
         edited: {} as StructureDurations
     })
-    const [selectedPaths, setSelectedPaths] = useState<string[]>([]);
     const [paths, setPaths] = useState<{name:string, isSelected:boolean}[]>([])
 
     if(!paths[0] && allStructures[0]) {
@@ -104,14 +103,12 @@ const Availables = () => {
         })
         structuresBox.forEach(structure => {
             if(!obj2[structure.structureId]) {
-                // console.log("IF 1")
                 return obj2[structure.structureId] = [{
                     start: structure.duration.startDate >= startDate ?  structure.duration.startDate : startDate, 
                     end: structure.duration.endDate <= endDate ? structure.duration.endDate : endDate
                 }]
             }
             if(endDate > structure.duration.endDate) {
-                // console.log("IF 2")
                 obj2[structure.structureId][obj2[structure.structureId].length - 1].end = structure.duration.endDate
             }   
         })
@@ -157,16 +154,16 @@ const Availables = () => {
         const element = document.getElementById('content-to-capture')
       
         domtoimage.toPng(element!).then((dataUrl) => {
-          const pdf = new jsPDF();
+          const pdf = new jsPDF()
           const pdfWidth = pdf.internal.pageSize.getWidth()
-          const pdfHeight = (element!.offsetHeight * pdfWidth) / element!.offsetWidth;
+          const pdfHeight = (element!.offsetHeight * pdfWidth) / element!.offsetWidth
       
           pdf.addImage(dataUrl, 'PNG', 0, 0, pdfWidth, pdfHeight)
           pdf.save('document.pdf')
         }).catch((error) => {
           console.error('An error occurred while generating the PDF:', error)
-        });
-      };
+        })
+      }
 
         const generatePDF = () => captureContent()
 
@@ -205,7 +202,10 @@ return (
                 />
             </div>
 
-            <button className='btn-primary w-1/5' onClick={handleButtonClick}>
+            <button 
+                className='btn-primary w-1/5' 
+                onClick={handleButtonClick}
+            >
                 اعمال فیلتر
             </button>
 

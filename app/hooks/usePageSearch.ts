@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 const usePageSearch = () => {
 
   const [searchText, setSearchText] = useState('')
+  const [searchResult, setSearchResult] = useState(true)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -12,7 +13,7 @@ const usePageSearch = () => {
   const handleSearch = () => {
     if (searchText) {
       const found = (window as any).find(searchText, false, false, true)
-      if (!found) alert('Text not found')
+      setSearchResult(found)
     }
   }
 
@@ -22,7 +23,7 @@ const usePageSearch = () => {
     if (event.key === 'Enter') handleSearch()
   }
 
-  return { searchText, searchInputRef, handleSearch, handleSearchInputChange, handleKeyDown }
+  return { searchText, searchInputRef, searchResult, handleSearch, handleSearchInputChange, handleKeyDown }
 }
 
 export default usePageSearch

@@ -118,7 +118,7 @@ const PlanStructuresInfo = (props: Props) => {
     }, [discountType])
 
     if((page=== 'edit' && !plan) || !boxStructures[0] || !chosenStructures[0]) return <Loading />
-    console.log("chosenStructures", chosenStructures)
+    // console.log("chosenStructures", chosenStructures)
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
@@ -297,7 +297,7 @@ const PlanStructuresInfo = (props: Props) => {
                                                 onWheel={(e: any) => e.target.blur()} 
                                                 defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 onChange={(event) => {
-                                                    const newValue = event.target.value;
+                                                    const newValue = event.target.value
                                                     if (discountType === 'percentage' && parseFloat(newValue) > 100) 
                                                         event.target.value = '100'
                                                     handleTextbox1Change(event, 0, `structures.${fieldIndex}.discountFee`)
@@ -325,7 +325,7 @@ const PlanStructuresInfo = (props: Props) => {
                                                 onWheel={(e: any) => e.target.blur()} 
                                                 defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 onChange={(event) => {
-                                                    const newValue = event.target.value;
+                                                    const newValue = event.target.value
                                                     if (discountType !== 'percentage' && convertToNumber(newValue) > selectedStructure?.monthlyBaseFee!)
                                                         event.target.value = String(selectedStructure?.monthlyBaseFee)
                                                     handleTextbox1Change(event, 0, `structures.${fieldIndex}.discountFee`)

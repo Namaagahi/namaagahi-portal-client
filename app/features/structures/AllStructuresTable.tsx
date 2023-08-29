@@ -98,7 +98,7 @@ const AllStructuresTable = (props: Props) => {
                 accessorFn: row => row.isAvailable,
                 id: 'وضعیت',
                 cell: info => {
-                  const isAvailable = info.getValue();
+                  const isAvailable = info.getValue()
                   
                     if(isAvailable) {
                       return (
@@ -168,7 +168,7 @@ const AllStructuresTable = (props: Props) => {
                 id: 'عملیات',
                 header: () => <span>عملیات</span>,
                 cell: (info) => {
-                  const row = info.row.original;
+                  const row = info.row.original
                   return (
                     <div className="px-6 flex items-center gap-2" onClick={() => setStructureId(row.id)}>
                         {(isMediaManager || isAdmin) && page === 'all' ?

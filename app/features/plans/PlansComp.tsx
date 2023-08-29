@@ -92,7 +92,7 @@ const PlansComp = (props: Props) => {
               accessorFn: row => row.initialCustomerId,
               id: 'مشتری',
               cell: info => {
-                const customer: InitialCustomerObject | undefined = allInitialCustomers.find((customer: InitialCustomerObject) => customer.id === info.getValue());
+                const customer: InitialCustomerObject | undefined = allInitialCustomers.find((customer: InitialCustomerObject) => customer.id === info.getValue())
                 return(
                     <div>
                       {customer?.name}
@@ -117,7 +117,7 @@ const PlansComp = (props: Props) => {
               accessorFn: row => row.status,
               id: 'وضعیت',
               cell: info => {
-                const status = info.getValue();
+                const status = info.getValue()
                 return(
                     <div>
                     {status === 'suggested'?
@@ -178,7 +178,7 @@ const PlansComp = (props: Props) => {
               id: 'پیش فاکتور',
               header: () => <span>پیش فاکتور</span>,
               cell: (info) => {
-                const row = info.row.original;
+                const row = info.row.original
                 return (
                   <Link href={`/dashboard/billboard/plans/invoice/${row.id}`} target='_blank'>
                     <div className='flex justify-center text-xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'>
@@ -191,7 +191,7 @@ const PlansComp = (props: Props) => {
               id: 'عملیات',
               header: () => <span>عملیات</span>,
               cell: (info) => {
-                const row = info.row.original;
+                const row = info.row.original
                 return (
                   <div className="flex items-center justify-center gap-2" onClick={() => setPlanId(row.id)}>
                       {(isMediaManager || isAdmin || isMaster) && page === 'all' ?

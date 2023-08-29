@@ -65,8 +65,8 @@ const EditFinalCustomer = (props: Props) => {
             phone: parseFloat(data.phone),
             postalCode: parseFloat(data.postalCode)
         })
-        console.log("ABC", abc)
-        console.log("isError", isError)
+        // console.log("ABC", abc)
+        // console.log("isError", isError)
         if(isError) {
             'status' in error! && error.status === 409 && setErrMsg('این کد اقتصادی قبلا ثبت شده است')
             'status' in error! && error.status === 400 && setErrMsg('فیلدهای مورد نیاز را تکمیل کنید')
@@ -155,7 +155,7 @@ const EditFinalCustomer = (props: Props) => {
             errors: undefined,
         },
     ]
-    console.log(errors)
+    // console.log(errors)
     if(!finalCustomer) return <Loading />
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">

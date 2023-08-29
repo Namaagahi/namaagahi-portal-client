@@ -1,13 +1,13 @@
 import { Control, Controller } from 'react-hook-form'
 
 type SelectInputProps = {
-    control: Control<any, any>;
-    defaultValue?: string;
-    name: string;
-    label: string;
-    required?: boolean;
-    options: any[];
-    errors?: string;
+    control: Control<any, any>
+    defaultValue?: string
+    name: string
+    label: string
+    required?: boolean
+    options: any[]
+    errors?: string
   }
 
 const SelectInput = (props: SelectInputProps) => {

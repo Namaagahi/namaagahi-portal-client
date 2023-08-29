@@ -1,5 +1,5 @@
 // "use client"
-// import { selectAllStructures, selectStructureById } from "@/app/features/structures/structuresApiSlice";
+// import { selectAllStructures, selectStructureById } from "@/app/features/structures/structuresApiSlice"
 // import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet"
 // import { selectAllBoxes } from "@/app/features/boxes/boxesApiSlice"
 // import PageTitle from "@/app/components/main/PageTitle"
@@ -42,11 +42,11 @@
 //       iconAnchor: [38, 38],
 //       shadowAnchor: [38, 38],
 //       popupAnchor: [-20, -38],
-//     });
+//     })
 //   }
   
-//   LeafIcon.prototype = Object.create(L.Icon.prototype);
-//   LeafIcon.prototype.constructor = LeafIcon;
+//   LeafIcon.prototype = Object.create(L.Icon.prototype)
+//   LeafIcon.prototype.constructor = LeafIcon
   
 //   const purpleIcon = new LeafIcon({ iconUrl: '/images/Billboard-purple.png' })
 //   const yellowIcon = new LeafIcon({ iconUrl: '/images/Billboard-yellow.png' })
@@ -54,7 +54,7 @@
 //   const handleMapClick = (e) => {
 //     setCoords({ lat: e.latlng.lat, lng: e.latlng.lng })
 //     setMarkerPosition(e.latlng)
-//   };
+//   }
 
 
 //   function MapClickHandler() {
@@ -155,7 +155,7 @@
 //             scrollWheelZoom={true}
 //           >
 //             <TileLayer
-//               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//               attribution='&copy <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 //               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 //             />
 //             {markerPosition && <Marker position={markerPosition} icon={yellowIcon} />}

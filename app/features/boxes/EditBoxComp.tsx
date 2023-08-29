@@ -89,7 +89,7 @@ const EditBoxComp = (props: Props) => {
         startDate: startDate,
         endDate: endDate,
         structures: JSON.parse(JSON.stringify(box?.structures))
-      }), 3000);
+      }), 3000)
   }, [])
 
   useEffect(() => {

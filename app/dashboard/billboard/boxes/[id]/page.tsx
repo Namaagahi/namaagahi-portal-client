@@ -78,9 +78,9 @@ const SingleBox = () => {
         }, 0)
 
     if(!newBox || !box || !structures[0] || loading) return <Loading />
-    console.log("fixedCostsMonthlySum", fixedCostsMonthlySum) 
-    console.log("totalMonthlyCostSum", totalMonthlyCostSum) 
-    console.log("newBox", newBox) 
+    // console.log("fixedCostsMonthlySum", fixedCostsMonthlySum) 
+    // console.log("totalMonthlyCostSum", totalMonthlyCostSum) 
+    // console.log("newBox", newBox) 
     return (  
         <main className='min-h-screen w-full'>
             <PageTitle name={`باکس ${newBox.name}`} />

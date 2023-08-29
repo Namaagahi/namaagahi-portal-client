@@ -70,7 +70,7 @@ const InitialCustomers = () => {
               id: 'عملیات',
               header: () => <span>عملیات</span>,
               cell: (info) => {
-                const row = info.row.original;
+                const row = info.row.original
                 return (
                   <>
                   {isMaster || isAdmin?

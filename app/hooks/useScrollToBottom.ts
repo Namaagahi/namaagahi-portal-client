@@ -18,13 +18,11 @@ const useScrollToBottom = () => {
       const scrollPosition = window.scrollY
       const isBottomVisible = windowHeight + scrollPosition >= bodyHeight
       setShowScrollButtonToBottom(!isBottomVisible)
-    };
+    }
 
     window.addEventListener('scroll', handleScroll)
 
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    };
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return { showScrollButtonToBottom, handleScrollToBottom }

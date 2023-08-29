@@ -46,7 +46,7 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
 
     const filteredCustomers = initialCustomers.filter((customer: InitialCustomerObject) => customer.name.includes(searchQuery))
 
-    const onSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value);
+    const onSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)
     const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewInitialCustomerData({...newInitialCustomerData, name: e.target.value})
     const onSaveInitialCustomerClick = async(e: any) => {
         e.preventDefault()

@@ -249,13 +249,13 @@ export interface MenuItemsObj {
 }
 
 export interface SubMenuItemsObj {
-  name: string;
-  icon: JSX.Element;
+  name: string
+  icon: JSX.Element
   menus: {
-      name: string;
-      icon: JSX.Element;
-      path: string;
-  }[];
+      name: string
+      icon: JSX.Element
+      path: string
+  }[]
 }[]
 
 export interface CustomError {

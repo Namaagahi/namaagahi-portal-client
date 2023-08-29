@@ -3,5 +3,5 @@ export function formatNumber(number: number, separator: string): string {
     useGrouping: true,
     minimumFractionDigits: 0,
     }
-    return number?.toLocaleString(undefined, options).replace(/,/g, separator);
+    return number?.toLocaleString(undefined, options).replace(/,/g, separator)
 }

@@ -67,7 +67,7 @@ export const billboardPagePropsObject = [
         subTitleLink:'/dashboard/billboard/boxes/createbox'
     },
     {
-        id:1,
+        id:2,
         title: 'پلن',
         main:'مشاهده پلن ها',
         main2: 'مشاهده پلن های من',
@@ -77,7 +77,7 @@ export const billboardPagePropsObject = [
         subTitleLink:'/dashboard/billboard/plans/createplan'
     },
     {
-        id:2,
+        id:3,
         title: 'سازه',
         main:'مشاهده سازه ها',
         main2:'مشاهده سازه های من',
@@ -87,7 +87,7 @@ export const billboardPagePropsObject = [
         subTitleLink:'/dashboard/billboard/structures/createstructure',
     },
     {
-        id:3,
+        id:4,
         title: 'مشتریان',
         main:'مشتریان اولیه ',
         main2:'مشتریان نهایی',
@@ -157,7 +157,7 @@ export const subMenusList = [
       },
     ]
   },
-];
+]
  
 // NEW BOX =======================================================
 export const newBoxDefaultValues = {

@@ -40,7 +40,7 @@ const SinglePlan = () => {
   
   if(isLoading || !plan) return <Loading />
 
-console.log(plan)
+// console.log(plan)
   return (
       <main className='min-h-screen w-full'>
         <PageTitle name={`پلن ${plan?.planId}`} />

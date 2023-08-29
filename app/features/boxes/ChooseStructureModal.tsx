@@ -28,7 +28,6 @@ const ChooseStructureModal = (props: Props) => {
     const performSearch = (value: string) => {
         const searchText = value.toLowerCase()
         const filteredResults = data.filter((item: StructureObject) =>{
-            console.log("ITEMMMM", item)
             return (
                 item.name.toLowerCase().includes(searchText) ||
                 item.location.address.toLowerCase().includes(searchText) ||
@@ -37,7 +36,6 @@ const ChooseStructureModal = (props: Props) => {
         }
         )
     
-        console.log("filteredResults", filteredResults)
         setSearchResults(filteredResults)
     }
 
@@ -50,7 +48,7 @@ const ChooseStructureModal = (props: Props) => {
             handleModal() 
         }
     }
-console.log(data)
+    
     return (
         <div className="modal-container">
             <div 

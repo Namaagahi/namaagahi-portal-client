@@ -56,7 +56,7 @@ const Users = () => {
               accessorFn: row => row.avatar,
               id: 'آواتار',
               cell: info => {
-                const avatar = info.getValue();
+                const avatar = info.getValue()
                 return (
                   <div className='flex justify-center'>
                     <Image src={avatar} alt="avatar" width={35} height={35}  /> 
@@ -81,17 +81,17 @@ const Users = () => {
               accessorFn: row => row.roles,
               id: 'سطح دسترسی',
               cell: info => {
-                const roles = info.getValue();
+                const roles = info.getValue()
                 if (roles?.includes('ادمین')) {
-                  return <p>ادمین</p>;
+                  return <p>ادمین</p>
                 } else if (roles?.includes('مستر')) {
                   return <p>مستر</p> 
                 } else if (roles?.includes('مدیررسانه')) {
-                  return <p>مدیر رسانه</p>;
+                  return <p>مدیر رسانه</p>
                 } else if (roles?.includes('پذیرشگر')) {
-                  return <p>پذیرشگر</p>;
+                  return <p>پذیرشگر</p>
                 } else {
-                  return null;
+                  return null
                 }
               },
               header: () => <span>سطح دسترسی</span>,
@@ -100,7 +100,7 @@ const Users = () => {
               accessorFn: row => row.active,
               id: 'وضعیت',
               cell: info => {
-                const active = info.getValue();
+                const active = info.getValue()
                 if(isAdmin) {
                   if(active) {
                     return (
@@ -134,7 +134,7 @@ const Users = () => {
               id: 'عملیات',
               header: () => <span>عملیات</span>,
               cell: (info) => {
-                const row = info.row.original;
+                const row = info.row.original
                 return (
                   <>
                   {isAdmin?
