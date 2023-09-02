@@ -1,6 +1,5 @@
-import { AddBoxForm, AddPlanForm, EditBoxForm, EditPlanForm, StructureObject } from '@/app/lib/interfaces'
-import React, { useState } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
+import { StructureObject } from '@/app/lib/interfaces'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { AiOutlineClose } from 'react-icons/ai'
 
 type Props = {
@@ -9,6 +8,8 @@ type Props = {
     fieldIndex: number
     setValue: any
     handleThisStructuresChange: (index: number, val: string) => void
+    chosenStructures: string[]
+    setChosenStructures: any
 }
 
 const ChooseStructureModal = (props: Props) => {
@@ -19,11 +20,14 @@ const ChooseStructureModal = (props: Props) => {
         fieldIndex,
         setValue,
         handleThisStructuresChange,
+        chosenStructures,
+        setChosenStructures
     } = props
 
     const [searchText, setSearchText] = useState<string>("")
     const [searchResults, setSearchResults] = useState<StructureObject[]>([])
     const [selectedItem, setSelectedItem] = useState<StructureObject | null>(null)
+    const [isAlreadySelected, setIsAlreadySelected] = useState(false)
 
     const performSearch = (value: string) => {
         const searchText = value.toLowerCase()
@@ -35,7 +39,6 @@ const ChooseStructureModal = (props: Props) => {
             )
         }
         )
-    
         setSearchResults(filteredResults)
     }
 
@@ -43,12 +46,18 @@ const ChooseStructureModal = (props: Props) => {
 
     const handleConfirmSelection = () => {
         if (selectedItem && selectedItem.id) {
-            setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
-            handleThisStructuresChange(fieldIndex, selectedItem.name)
-            handleModal() 
+            if (chosenStructures.includes(selectedItem.id)) {
+            setIsAlreadySelected(true)
+            return
+        }
+      
+          setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
+          handleThisStructuresChange(fieldIndex, selectedItem.name)
+          setChosenStructures([...chosenStructures, selectedItem.id])
+          handleModal()
         }
     }
-    
+
     return (
         <div className="modal-container">
             <div 
@@ -69,6 +78,11 @@ const ChooseStructureModal = (props: Props) => {
                     </div>
 
                     <div className="flex flex-col py-12">
+                        {isAlreadySelected && (
+                        <small className="text-md text-red-500">
+                            این سازه قبلا انتخاب شده است!
+                        </small>
+                        )}
                         <div className="py-7 border-[1px] border-x-transparent border-y-[#FA9E93]">
                             <input
                                 type="text"

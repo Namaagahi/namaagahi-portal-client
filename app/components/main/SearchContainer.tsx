@@ -11,7 +11,7 @@ const SearchContainer = () => {
     handleSearchInputChange,
     handleKeyDown
   } = usePageSearch()
-// console.log("searchResult", searchResult)
+
   return (
     <div className="flex gap-3 items-center mb-3">
       <input
@@ -19,7 +19,7 @@ const SearchContainer = () => {
         ref={searchInputRef}
         type="text"
         value={searchText}
-        onChange={handleSearchInputChange}
+        onChange={handleSearchInputChange} 
         onKeyDown={handleKeyDown}
         placeholder="جستجو"
       />
@@ -27,7 +27,7 @@ const SearchContainer = () => {
         onClick={handleSearch}
         className='text-5xl hover:text-bgform transition-all duration-300 cursor-pointer'
       />
-      {!searchResult && <p className='text-red-500'>نتیجه ای یافت نشد</p>}
+      {!searchResult && <p className='text-red-500'>فیلد خالی است!</p>}
   </div>
   )
 }

@@ -40,6 +40,7 @@ const EditBoxComp = (props: Props) => {
 
   const [startDate, setStartDate] = useState<number>(box.duration.startDate)
   const [endDate, setEndDate] = useState<number>(box.duration.endDate)
+  const [chosenStructures, setChosenStructures] = useState([])
 
   const editBoxForm = useForm<EditBoxForm>({
     defaultValues: {
@@ -157,7 +158,6 @@ const EditBoxComp = (props: Props) => {
             )
         }),
     })   
-    console.log("ABC", abc)
     toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
     push('/dashboard/billboard/boxes')
   }
@@ -167,12 +167,6 @@ const EditBoxComp = (props: Props) => {
       'status' in error! && error.status === 418 && toast.warn('این باکس توسط کاربر دیگری ویرایش شده است')
       'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
   }
-
-  console.log("isSuccess", isSuccess)
-
-
-
-  console.log("ERROR!", error)
 
   const formVals = watch('structures')
   if(!box || !structures[0]) return <Loading />
@@ -184,7 +178,7 @@ const EditBoxComp = (props: Props) => {
         <form  
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          className='w-full flex flex-col gap-9 justify-center'
+          className='w-full flex flex-col gap-9 justify-center' 
         >
           <BasicBoxInfoFormSection
             page={'edit'}
@@ -208,6 +202,8 @@ const EditBoxComp = (props: Props) => {
             convertToNumber={convertToNumber}
             structures={structures}
             formVals={formVals}
+            chosenStructures={chosenStructures} 
+            setChosenStructures={setChosenStructures}
           />
 
           <button

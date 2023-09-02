@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 const usePageSearch = () => {
 
   const [searchText, setSearchText] = useState('')
-  const [searchResult, setSearchResult] = useState(true)
+  const [searchResult, setSearchResult] = useState(false)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -13,7 +13,10 @@ const usePageSearch = () => {
   const handleSearch = () => {
     if (searchText) {
       const found = (window as any).find(searchText, false, false, true)
+      console.log("FOUND",)
       setSearchResult(found)
+    } else {
+      setSearchResult(false)
     }
   }
 
