@@ -16,7 +16,7 @@ import StructureInfo from './StructureInfo'
 import { useSelector } from 'react-redux'
 import Loading from '../loading/Loading'
 import SummaryBox from './SummaryBox'
-import ChooseStructureModal from '../boxes/ChooseStructureModal'
+import ChooseStructureModal from '../../components/modals/ChooseStructureModal'
 import moment from 'jalali-moment'
 
 type Props = {
@@ -34,8 +34,8 @@ type Props = {
     watch: any
     register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
     formVals?: any
-    chosenStructures: string[]
-    setChosenStructures: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
+    chosenStructures?: string[]
+    setChosenStructures?: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
   }
   
 const PlanStructuresInfo = (props: Props) => {
@@ -218,7 +218,7 @@ const PlanStructuresInfo = (props: Props) => {
                                         fieldIndex={fieldIndex}
                                         setValue={setValue}
                                         handleThisStructuresChange={handleThisStructuresChange}
-                                        chosenStructures={chosenStructures} 
+                                        chosenStructures={chosenStructures!} 
                                         setChosenStructures={setChosenStructures}
                                     />
                                     )}

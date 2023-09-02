@@ -7,6 +7,7 @@ import dynamic from 'next/dynamic'
 import useAuth from '@/app/hooks/useAuth'
 import { selectAllUsers, useGetUsersQuery } from '../../apiSlices/usersApiSlice'
 import { useSelector } from 'react-redux'
+import CustomInput from '@/app/components/inputs/CustomInput'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
@@ -20,6 +21,7 @@ const Loading = dynamic(
 const EditStructureForm = (props: Props) => {
 
     const { handleModal, structure } = props
+    const { isMaster, isAdmin } = useAuth()
 
     const [updateStructure, {
         isLoading,
@@ -33,7 +35,6 @@ const EditStructureForm = (props: Props) => {
       }) 
 
     const allUsers: UserObject[]  = useSelector(selectAllUsers) as UserObject[] 
-    const { isAdmin } = useAuth()
     const [structureData, setStructureData] = useState<any>({
         userId: structure?.userId,
         name: structure?.name,
@@ -63,7 +64,8 @@ const EditStructureForm = (props: Props) => {
              parent: structure?.parent,
              name,
              location: { district, path, address },
-             isAvailable: structure?.isAvailable  
+             isAvailable: structure?.isAvailable, 
+             isChosen: structure?.isChosen 
         })
     
         handleModal()
@@ -87,7 +89,7 @@ const EditStructureForm = (props: Props) => {
                     />
                 </div>
 
-                { isAdmin &&
+                { (isMaster || isAdmin) &&
                     <div className="flex items-center justify-between w-full pt-12">
                         <label htmlFor="userId">
                             کاربر

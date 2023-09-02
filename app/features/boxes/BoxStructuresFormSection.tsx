@@ -1,7 +1,9 @@
 import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from "react-hook-form"
-import { useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
-import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
 import { StructureObject, AddBoxForm, EditBoxForm, BoxStructure } from "@/app/lib/interfaces"
+import { boxStructureFormValues, faces, styles, typeNames } from "@/app/lib/constants"
+import ChooseStructureModal from "../../components/modals/ChooseStructureModal"
+import { useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
+import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
 import DatePicker, { DateObject } from "react-multi-date-picker" 
@@ -9,8 +11,6 @@ import SelectInput from "@/app/components/inputs/SelectInput"
 import CustomInput from "@/app/components/inputs/CustomInput"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
-import ChooseStructureModal from "./ChooseStructureModal"
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react"
 import moment from "jalali-moment"
 
 type Props = { 
@@ -25,8 +25,8 @@ type Props = {
   structures: StructureObject[]
   convertToNumber: (value: string) => number | null
   formVals?: any
-  chosenStructures: string[]
-  setChosenStructures: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
+  chosenStructures?: string[]
+  setChosenStructures?: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
 }
 
 const BoxStructuresFormSection = (props: Props) => {
@@ -200,7 +200,7 @@ return (
                     fieldIndex={fieldIndex}
                     setValue={setValue}
                     handleThisStructuresChange={handleThisStructuresChange}
-                    chosenStructures={chosenStructures} 
+                    chosenStructures={chosenStructures!} 
                     setChosenStructures={setChosenStructures}
                   />
                 )}
