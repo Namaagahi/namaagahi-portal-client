@@ -1,12 +1,11 @@
 import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { BoxObject, EditBoxForm, StructureObject } from '@/app/lib/interfaces'
-import { useGetAllBoxesQuery, useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
+import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import BoxStructuresFormSection from './BoxStructuresFormSection'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
 import BasicBoxInfoFormSection from './BasicBoxInfoFormSection'
 import { useFieldArray, useForm } from 'react-hook-form'
 import PageTitle from '@/app/components/main/PageTitle'
-import usePageSearch from '@/app/hooks/usePageSearch'
 import { DateObject } from 'react-multi-date-picker'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -14,7 +13,6 @@ import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
-import { RiFileSearchFill } from 'react-icons/ri'
 import SearchContainer from '@/app/components/main/SearchContainer'
 
 type Props = {
@@ -35,7 +33,7 @@ const EditBoxComp = (props: Props) => {
   const [updateBox, { 
       isSuccess, 
       isError,
-      error
+      error,
   }] = useUpdateBoxMutation() 
 
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
@@ -43,20 +41,18 @@ const EditBoxComp = (props: Props) => {
   const [startDate, setStartDate] = useState<number>(box.duration.startDate)
   const [endDate, setEndDate] = useState<number>(box.duration.endDate)
 
-  // const [data, setData] = useState<any>(null)
-
   const editBoxForm = useForm<EditBoxForm>({
-      defaultValues: {
-        boxId: box?.boxId,
-        name: box?.name,
-        projectNumber: box?.mark.markOptions.projectNumber,
-        brand: box?.mark.markOptions.brand,
-        startDate: startDate,
-        endDate: endDate,
-        structures: JSON.parse(JSON.stringify(box?.structures))
-      },
-      mode: 'onSubmit' 
-    })
+    defaultValues: {
+      boxId: box?.boxId,
+      name: box?.name,
+      projectNumber: box?.mark.markOptions.projectNumber,
+      brand: box?.mark.markOptions.brand,
+      startDate: startDate,
+      endDate: endDate,
+      structures: JSON.parse(JSON.stringify(box?.structures))
+    },
+    mode: 'onSubmit' 
+  })
   
   const {
     register,
@@ -65,11 +61,9 @@ const EditBoxComp = (props: Props) => {
     formState:{errors},
     getValues,
     setValue,
-    reset,
     watch
   } = editBoxForm
 
-  
   const {
     fields,
     append: appendStructure,
@@ -78,23 +72,6 @@ const EditBoxComp = (props: Props) => {
     control,
     name: "structures",
   }) 
-  
-  // useEffect(() => { 
-  //   setTimeout(() => setData({
-  //       boxId: box?.boxId,
-  //       name: box?.name,
-  //       projectNumber: box?.mark.markOptions.projectNumber,
-  //       brand: box?.mark.markOptions.brand,
-  //       startDate: startDate,
-  //       endDate: endDate,
-  //       structures: JSON.parse(JSON.stringify(box?.structures))
-  //     }), 3000)
-  // }, [])
-
-  // useEffect(() => {
-  //   reset(data) 
-  // }, [data, reset])
-
   
   useEffect(() => {
     getValues("startDate")
@@ -151,7 +128,7 @@ const EditBoxComp = (props: Props) => {
       })),
     }
   
-    await updateBox({
+    const abc = await updateBox({
         id: box?.id,
         boxId: newData.boxId,
         userId: currentUserId,
@@ -178,19 +155,24 @@ const EditBoxComp = (props: Props) => {
                 } 
             })
             )
-        })
+        }),
     })   
+    console.log("ABC", abc)
+    toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
+    push('/dashboard/billboard/boxes')
   }
 
   if(isError) {
       'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')
+      'status' in error! && error.status === 418 && toast.warn('این باکس توسط کاربر دیگری ویرایش شده است')
       'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
   }
 
-  if(isSuccess) {
-      toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
-      push('/dashboard/billboard/boxes')
-  }
+  console.log("isSuccess", isSuccess)
+
+
+
+  console.log("ERROR!", error)
 
   const formVals = watch('structures')
   if(!box || !structures[0]) return <Loading />
@@ -228,7 +210,12 @@ const EditBoxComp = (props: Props) => {
             formVals={formVals}
           />
 
-          <button className="btn-primary">
+          <button
+            className="btn-primary"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.preventDefault()
+            }}
+          >
             ویرایش باکس
           </button>
         </form>

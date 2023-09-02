@@ -82,7 +82,9 @@ const Users = () => {
               id: 'سطح دسترسی',
               cell: info => {
                 const roles = info.getValue()
-                if (roles?.includes('ادمین')) {
+                if (roles?.includes('مستر')) {
+                  return <p>مستر</p>
+                } else if (roles?.includes('ادمین')) {
                   return <p>ادمین</p>
                 } else if (roles?.includes('مستر')) {
                   return <p>مستر</p> 

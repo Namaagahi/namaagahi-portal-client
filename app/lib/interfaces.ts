@@ -114,6 +114,7 @@ export interface BoxObject {
   structures: BoxStructure[]
   updatedAt: string
   username: string
+  version?: number
 }
 
 export interface AddBoxForm {

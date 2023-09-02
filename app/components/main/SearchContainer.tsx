@@ -11,7 +11,7 @@ const SearchContainer = () => {
     handleSearchInputChange,
     handleKeyDown
   } = usePageSearch()
-console.log("searchResult", searchResult)
+// console.log("searchResult", searchResult)
   return (
     <div className="flex gap-3 items-center mb-3">
       <input

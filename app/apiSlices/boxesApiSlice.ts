@@ -21,64 +21,78 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
     endpoints: (builder) => ({
 
         getAllBoxes: builder.query({
-            
-            query: () => '/boxes',
-
-            transformResponse: (responseData: BoxObject[]) => {
-                const loadedBoxes = responseData.map((box: BoxObject) => {
-                    box.id = box._id
-                    return box
-                })
-                return boxesAdapter.setAll(initialState, loadedBoxes)
-            },
-
-            providesTags: (result: any, error, arg) => { 
-                if (result?.ids) {
-                    return [
-                        { type: 'Box', id: 'LIST' },
-                        ...result.ids.map((id: string) => ({ type: 'Box', id }))
-                    ]
-                } else return [{ type: 'Box', id: 'LIST' }]
-            }
+    
+          query: () => '/boxes',
+    
+          transformResponse: (responseData: BoxObject[]) => {
+            const loadedBoxes = responseData.map((box: BoxObject) => {
+              box.id = box._id
+              return box
+            })
+            return boxesAdapter.setAll(initialState, loadedBoxes)
+          },
+    
+          providesTags: (result: any, error, arg) => {
+            if (result?.ids) {
+              return [
+                { type: 'Box', id: 'LIST' },
+                ...result.ids.map((id: string) => ({ type: 'Box', id }))
+              ]
+            } else return [{ type: 'Box', id: 'LIST' }]
+          }
         }),
-
+    
         createNewBox: builder.mutation({
-
-            query: initialBox => (
-                {
-                url: '/boxes',
-                method: 'POST',
-                body: { ...initialBox }
+    
+          query: initialBox => (
+            {
+              url: '/boxes',
+              method: 'POST',
+              body: { ...initialBox }
             }),
-
-            invalidatesTags: [{ type: 'Box', id:'LIST' }]
+    
+          invalidatesTags: [{ type: 'Box', id: 'LIST' }]
         }),
-
+    
         updateBox: builder.mutation({
-
-            query: initialBox => ({
-                url: 'boxes',
-                method: 'PATCH',
-                body: { ...initialBox }
-            }),
-
-            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id, boxId: arg.boxId }]
+    
+          query: initialBox => ({
+            url: 'boxes',
+            method: 'PATCH',
+            body: { ...initialBox }
+          }),
+    
+          invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id, boxId: arg.boxId }]
         }),
-
+    
         deleteBox: builder.mutation({
+    
+          query: ({ id, boxId }) => ({
+            url: '/boxes',
+            method: 'DELETE',
+            body: { id, boxId }
+          }),
+    
+          invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id, boxId: arg.boxId }]
+        }),
+    
+        getBoxById: builder.query({
 
-            query:({ id, boxId }) => ({
-                url: '/boxes',
-                method: 'DELETE',
-                body: { id, boxId }
-            }),
+            query: (id) => `/boxes/${id}`,
+      
+            transformResponse: (responseData: BoxObject) => {
+              responseData.id = responseData._id;
+              // console.log("responseData", responseData)
+              return boxesAdapter.upsertOne(initialState, responseData);
+            },
+      
+            // providesTags: (result, error, id) => [{ type: 'Box', id }],
 
-            invalidatesTags: (result, error, arg) => [{ type: 'Box', id: arg.id, boxId: arg.boxId }]
-        })
-    }),
-})
+          })
+      }),
+    })
  
-export const { useGetAllBoxesQuery, useCreateNewBoxMutation, useUpdateBoxMutation, useDeleteBoxMutation } = boxesApiSlice
+export const { useGetAllBoxesQuery, useCreateNewBoxMutation, useUpdateBoxMutation, useDeleteBoxMutation, useGetBoxByIdQuery } = boxesApiSlice
 
 export const selectBoxesResult = boxesApiSlice.endpoints.getAllBoxes.select(undefined)
 

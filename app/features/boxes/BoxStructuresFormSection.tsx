@@ -232,8 +232,8 @@ return (
               })}
               {
                 page === 'edit' &&
-                  <div className="flex items-center gap-2">
-                   <div className='flex flex-col gap-3'>
+                <div className="flex items-center gap-2">
+                   <div className='flex flex-col gap-3 '>
                     <label 
                       htmlFor="startDate" 
                       className='text-[#767676] font-bold'
@@ -242,16 +242,15 @@ return (
                     </label>
 
                     <DatePicker
-                        inputClass='p-4 rounded-[50px] bg-white outline-none'
-                        format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment.unix(item.duration.startDate).format('jYYYY-jM-jD') : undefined}
-                        calendar={persian}
-                        locale={persian_fa}
-                        calendarPosition="bottom-right"
-                        onChange={(e) => {
-                          if (e instanceof DateObject) {
-                            setValue(`structures.${fieldIndex}.duration.startDate` , e.unix)
-                          }
+                      inputClass='p-4 rounded-[50px] bg-white outline-none max-w-[100px]'
+                      format='YYYY-MM-DD'
+                      value={page === 'edit' ? moment.unix(item.duration.startDate).format('jYYYY-jM-jD') : undefined}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-right"
+                      onChange={(e) => {
+                        if (e instanceof DateObject) 
+                          setValue(`structures.${fieldIndex}.duration.startDate` , e.unix)
                         } 
                       }
                     />
@@ -270,25 +269,24 @@ return (
                     </label>
 
                     <DatePicker
-                        inputClass='p-4 rounded-[50px] bg-white outline-none'
-                        format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment.unix(item.duration.endDate).format('jYYYY-jM-jD') : undefined}
-                        calendar={persian}
-                        locale={persian_fa}
-                        calendarPosition="bottom-right"
-                        onChange={(e) => {
-                          if (e instanceof DateObject) {
-                            setValue(`structures.${fieldIndex}.duration.endDate` , e.unix)
-                          }
+                      inputClass='p-4 rounded-[50px] bg-white outline-none  max-w-[100px]'
+                      format='YYYY-MM-DD'
+                      value={page === 'edit' ? moment.unix(item.duration.endDate).format('jYYYY-jM-jD') : undefined}
+                      calendar={persian}
+                      locale={persian_fa}
+                      calendarPosition="bottom-right"
+                      onChange={(e) => {
+                        if (e instanceof DateObject) 
+                          setValue(`structures.${fieldIndex}.duration.endDate` , e.unix)
                         } 
-                        }
+                      }
                     />
 
                     <small className="text-xs text-rose-600 ">
                       {errors.endDate?.message}
                     </small>
                 </div>
-                  </div>
+                </div>
               }
 
               <AiFillMinusCircle

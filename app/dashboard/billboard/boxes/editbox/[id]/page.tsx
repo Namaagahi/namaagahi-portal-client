@@ -1,32 +1,33 @@
 "use client"
-import { selectBoxById, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
+import { useGetBoxByIdQuery, useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
 import ScrollContainer from '@/app/components/main/ScrollContainer'
 import EditBoxComp from '@/app/features/boxes/EditBoxComp'
 import Loading from '@/app/features/loading/Loading'
 import { BoxObject } from '@/app/lib/interfaces'
 import { useParams } from 'next/navigation'
-
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react'
 
 const EditBox = () => { 
 
   const { id } = useParams()
+  const [box, setBox] = useState<unknown | null | BoxObject | any>(null)
 
-  const { isLoading }=useGetAllBoxesQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
+  const { data, isLoading, isFetching } = useGetBoxByIdQuery(id, {
+// pollingInterval: 5000
   })
 
-  const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id) as BoxObject)
+  useEffect(() => {
+    if(data)
+      setBox(data?.entities[id])
+  }, [data])
 
-  if(isLoading || !box) return <Loading />
+  if(isLoading || isFetching || !box) return <Loading />
   return (
     <>
       <EditBoxComp box={box} />
       <ScrollContainer />
     </>
   )
-  
 }
 
 export default EditBox 
