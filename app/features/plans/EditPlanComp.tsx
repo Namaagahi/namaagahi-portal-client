@@ -58,6 +58,7 @@ const EditPlanComp = (props: Props) => {
 
     const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
     const [data, setData] = useState<any>(null)
+    const [chosenStructures, setChosenStructures] = useState([])
     
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: data,
@@ -184,6 +185,8 @@ const EditPlanComp = (props: Props) => {
                         watch={watch}
                         register={register}
                         formVals={formVals}
+                        chosenStructures={chosenStructures} 
+                        setChosenStructures={setChosenStructures}
                     />
 
                     <button className="btn-primary">

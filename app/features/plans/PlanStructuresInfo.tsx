@@ -8,7 +8,7 @@ import DatePicker, { DateObject } from 'react-multi-date-picker'
 import { planStructureFormValues } from '@/app/lib/constants'
 import persian_fa from "react-date-object/locales/persian_fa"
 import { FaDollarSign, FaPercentage } from 'react-icons/fa'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import persian from "react-date-object/calendars/persian"
 import DiscountedMonthlyFee from './DiscountedMonthlyFee'
 import MonthlyFeeInput from './MonthlyFeeInput'
@@ -34,6 +34,8 @@ type Props = {
     watch: any
     register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
     formVals?: any
+    chosenStructures: string[]
+    setChosenStructures: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
   }
   
 const PlanStructuresInfo = (props: Props) => {
@@ -43,7 +45,7 @@ const PlanStructuresInfo = (props: Props) => {
         control,
         plan,
         errors,
-        field,
+        field, 
         discountType,
         convertToNumber,
         handleDiscountType,
@@ -52,7 +54,9 @@ const PlanStructuresInfo = (props: Props) => {
         removeStructure,
         watch,
         register,
-        formVals
+        formVals,
+        chosenStructures, 
+        setChosenStructures
     } = props
 
     const [changeInput, setChangeInput] = useState<boolean>(false)
@@ -76,14 +80,14 @@ const PlanStructuresInfo = (props: Props) => {
 
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
     const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
-    const chosenStructures = allStructures.filter((structure: any) => structure.isChosen)
+    const inBoxStructures = allStructures.filter((structure: any) => structure.isChosen)
     const boxStructures = allBoxes.flatMap((box: any) => box.structures)
-    const chosenStructuresLookup = chosenStructures.reduce(
+    const inBoxStructuresLookup = inBoxStructures.reduce(
     (acc: any, chosenStructure: any) => ({ ...acc, [chosenStructure.id]: chosenStructure }),{})
 
     const combinedStructures: CombinedStructure[] = boxStructures.map((boxStructure: CombinedStructure) => ({
     ...boxStructure,
-    ...(chosenStructuresLookup[boxStructure.structureId]),
+    ...(inBoxStructuresLookup[boxStructure.structureId]),
     }))
 
     const handleThisStructuresChange = (index: number, val: string) => setThisStructures((prevState) => {
@@ -117,7 +121,7 @@ const PlanStructuresInfo = (props: Props) => {
         }
     }, [discountType])
 
-    if((page=== 'edit' && !plan) || !boxStructures[0] || !chosenStructures[0]) return <Loading />
+    if((page=== 'edit' && !plan) || !boxStructures[0] || !inBoxStructures[0]) return <Loading />
     // console.log("chosenStructures", chosenStructures)
     return (
         <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
@@ -214,6 +218,8 @@ const PlanStructuresInfo = (props: Props) => {
                                         fieldIndex={fieldIndex}
                                         setValue={setValue}
                                         handleThisStructuresChange={handleThisStructuresChange}
+                                        chosenStructures={chosenStructures} 
+                                        setChosenStructures={setChosenStructures}
                                     />
                                     )}
                                 </div>
