@@ -194,16 +194,23 @@ const ChooseStructureModal = (props: Props) => {
     const handleSelectResult = (item: StructureObject) => setSelectedItem(item)
 
     const handleConfirmSelection = () => {
-        if (selectedItem && selectedItem.id) {
-            if (chosenStructures.includes(selectedItem.id)) {
-            setIsAlreadySelected(true)
-            return
-        }
-      
-          setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
-          handleThisStructuresChange(fieldIndex, selectedItem.name)
-          setChosenStructures([...chosenStructures, selectedItem.id])
-          handleModal()
+        if(chosenStructures[0]) {
+            if (selectedItem && selectedItem.id) {
+                if (chosenStructures.includes(selectedItem.id)) {
+                setIsAlreadySelected(true)
+                return
+            }
+                setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
+                handleThisStructuresChange(fieldIndex, selectedItem.name)
+                setChosenStructures([...chosenStructures, selectedItem.id])
+                handleModal()
+            }
+        } else {
+            if (selectedItem && selectedItem.id) {
+                setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
+                handleThisStructuresChange(fieldIndex, selectedItem.name)
+                handleModal() 
+            }
         }
     } 
 

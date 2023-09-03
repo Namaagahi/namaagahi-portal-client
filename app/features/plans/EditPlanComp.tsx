@@ -39,9 +39,6 @@ const EditPlanComp = (props: Props) => {
         error
     }] = useUpdatePlanMutation()
     
-    const user: UserObject = useSelector(state => selectUserById(state as UserObject , currentUserId) as UserObject)
-    const structures = useSelector(state => selectAllStructures(state))
-    
     const planStructures: any = plan?.structures.map((structure: any) => ({
         discountFee: structure?.discountFee,
         discountType: structure?.discountType,

@@ -17,7 +17,7 @@ const boxesApiSliceTag = apiSlice.enhanceEndpoints({addTagTypes: ['Box']})
 export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({ 
 
     overrideExisting: module.hot?.status() === "apply",
-
+    
     endpoints: (builder) => ({
 
         getAllBoxes: builder.query({
@@ -79,7 +79,7 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
         getBoxById: builder.query({
 
             query: (id) => `/boxes/${id}`,
-      
+            keepUnusedDataFor: 0,
             transformResponse: (responseData: BoxObject) => {
               responseData.id = responseData._id;
               // console.log("responseData", responseData)

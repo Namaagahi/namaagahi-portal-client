@@ -14,6 +14,7 @@ import useAuth from '@/app/hooks/useAuth'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 import SearchContainer from '@/app/components/main/SearchContainer'
+import useFormPersist from "react-hook-form-persist";
 
 type Props = {
   box: BoxObject
@@ -73,6 +74,8 @@ const EditBoxComp = (props: Props) => {
     control,
     name: "structures",
   }) 
+
+  useFormPersist("editBoxForm", { watch, setValue })
   
   useEffect(() => {
     getValues("startDate")

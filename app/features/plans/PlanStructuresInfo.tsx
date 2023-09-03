@@ -218,8 +218,8 @@ const PlanStructuresInfo = (props: Props) => {
                                         fieldIndex={fieldIndex}
                                         setValue={setValue}
                                         handleThisStructuresChange={handleThisStructuresChange}
-                                        chosenStructures={chosenStructures!} 
-                                        setChosenStructures={setChosenStructures}
+                                        chosenStructures={[]} 
+                                        setChosenStructures={() => console.log("HEY")}
                                     />
                                     )}
                                 </div>

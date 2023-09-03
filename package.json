@@ -37,6 +37,7 @@
     "react-date-object": "^2.1.7",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.2",
+    "react-hook-form-persist": "^3.0.0",
     "react-icons": "^4.10.1",
     "react-leaflet": "^4.2.1",
     "react-multi-date-picker": "^4.1.2",
