@@ -16,17 +16,17 @@ const FinalCustomerInfo = (props: Props) => {
             <div className='w-full grid grid-cols-12 gap-3 mt-3'>
                 <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
                     <p>نام نماینده:</p>
-                    <p className='font-bold'>{finalCustomer?.agentName ? finalCustomer?.agentName : 'تعیین نشده'}</p>
+                    <p className='font-bold'>{finalCustomer?.name ? finalCustomer?.name : 'تعیین نشده'}</p>
                 </div>
 
-                <div className='col-span-2 gap-3 backdrop-blur bg-white/30 border-[1px] border-gray-400 rounded-md p-2'>
+                {/* <div className='col-span-2 gap-3 backdrop-blur bg-white/30 border-[1px] border-gray-400 rounded-md p-2'>
                     <p>پست سازمانی</p>
-                    <p className='font-bold'>{finalCustomer?.post ? finalCustomer?.post : 'تعیین نشده'}</p>
-                </div>
+                    <p className='font-bold'>{finalCustomer?.agent.post ? finalCustomer?.agent.post : 'تعیین نشده'}</p>
+                </div> */}
 
                 <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
                     <p>نام شرکت:</p>
-                    <p className='font-bold'>{finalCustomer?.companyName ? finalCustomer?.companyName : 'تعیین نشده'}</p>
+                    <p className='font-bold'>{finalCustomer?.name ? finalCustomer?.name : 'تعیین نشده'}</p>
                 </div>
 
                 <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>

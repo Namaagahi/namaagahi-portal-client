@@ -114,7 +114,7 @@ export interface BoxObject {
   structures: BoxStructure[]
   updatedAt: string
   username: string
-  version?: number
+  version: number
 }
 
 export interface AddBoxForm {
@@ -424,30 +424,62 @@ export interface InitialCustomerObject {
 export interface FinalCustomerObject {
   _id? : string
   id?: string
-  finalCustomerId:string
+  finalCustomerId: string
   userId: string
-  agentName: string,
-  companyName: string,
-  post: string,
-  ecoCode: string,
-  regNum: string,
-  nationalId: string,
-  address: string,
-  phone: string,
-  postalCode: string
+  name: string
+  contractType: string
+  customerType: string
+  agent: {
+    agentName: string
+    post: string
+  }[]
+  nationalId: number
+  ecoCode: number
+  regNum: number
+  address: string
+  postalCode: number
+  phone: number
+  createdAt: string
+  updatedAt: string
   username?: string
 }
 
 export interface AddFinalCustomerForm {
-  userId: string,
   finalCustomerId: string
-  agentName: string,
-  companyName?: string,
-  post: string,
-  ecoCode?: string,
-  regNum: string,
-  nationalId: string,
-  address: string,
-  phone: string,
+  name: string
+  contractType: string
+  customerType: string
+  agent: {
+    agentName: string
+    post: string
+  }[]
+  nationalId: string
+  ecoCode: string
+  regNum: string
+  address: string
   postalCode: string
+  phone: string
+}
+
+export interface EditFinalCustomerForm {
+  finalCustomerId: string
+  name: string
+  contractType: string
+  customerType: string
+  agent: {
+    agentName: string
+    post: string
+  }[]
+  nationalId: number
+  ecoCode: number
+  regNum: number
+  address: string
+  postalCode: number
+  phone: number
+}
+
+export interface AgentObject {
+  agentName: string
+  post: string
+  _id?: string
 }

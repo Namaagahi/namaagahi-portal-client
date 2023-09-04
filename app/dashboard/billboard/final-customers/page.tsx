@@ -63,27 +63,7 @@ const FinalCustomers = () => {
                   header: () => <span>کاربر ایجاد کننده</span>,
                 },
                 {
-                  accessorFn: row => row.agentName,
-                  id: 'نام نماینده',
-                  cell: info => {
-                    return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
-                    )
-                  },
-                  header: () => <span>نام نماینده</span>,
-                },
-                {
-                  accessorFn: row => row.post,
-                  id: 'پست سازمانی',
-                  cell: info => {
-                    return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
-                    )
-                  },
-                  header: () => <span>پست سازمانی</span>,
-                },
-                {
-                  accessorFn: row => row.companyName,
+                  accessorFn: row => row.name,
                   id: 'نام شرکت',
                   cell: info => {
                     return (
@@ -92,6 +72,37 @@ const FinalCustomers = () => {
                   },
                   header: () => <span>نام شرکت</span>,
                 },
+                {
+                  accessorFn: row => row.nationalId,
+                  id: 'شناسه ملی',
+                  cell: info => {
+                    return (
+                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                    )
+                  },
+                  header: () => <span>شناسه ملی</span>,
+                },
+                {
+                  accessorFn: row => row.agent[0].agentName,
+                  id: 'نام نماینده اول',
+                  cell: info => {
+                    return (
+                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                    )
+                  },
+                  header: () => <span>نام نماینده</span>,
+                },
+                {
+                  accessorFn: row => row.agent[0].post,
+                  id: 'پست سازمانی نماینده اول',
+                  cell: info => {
+                    return (
+                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                    )
+                  },
+                  header: () => <span>پست سازمانی</span>,
+                },
+
                 {
                   accessorFn: row => row.ecoCode,
                   id: 'کد اقتصادی',
@@ -111,16 +122,6 @@ const FinalCustomers = () => {
                     )
                   },
                   header: () => <span>شماره ثبت</span>,
-                },
-                {
-                  accessorFn: row => row.nationalId,
-                  id: 'شناسه ملی',
-                  cell: info => {
-                    return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
-                    )
-                  },
-                  header: () => <span>شناسه ملی</span>,
                 },
                 {
                   accessorFn: row => row.address,

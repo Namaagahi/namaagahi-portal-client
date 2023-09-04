@@ -14,11 +14,11 @@ import useAuth from '@/app/hooks/useAuth'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 import SearchContainer from '@/app/components/main/SearchContainer'
-import useFormPersist from "react-hook-form-persist";
+// import useFormPersist from "react-hook-form-persist";
 
 type Props = {
   box: BoxObject
-}
+} 
 
 const EditBoxComp = (props: Props) => {
 
@@ -45,13 +45,13 @@ const EditBoxComp = (props: Props) => {
 
   const editBoxForm = useForm<EditBoxForm>({
     defaultValues: {
-      boxId: box?.boxId,
-      name: box?.name,
-      projectNumber: box?.mark.markOptions.projectNumber,
-      brand: box?.mark.markOptions.brand,
+      boxId: box.boxId,
+      name: box.name,
+      projectNumber: box.mark.markOptions.projectNumber,
+      brand: box.mark.markOptions.brand,
       startDate: startDate,
       endDate: endDate,
-      structures: JSON.parse(JSON.stringify(box?.structures))
+      structures: JSON.parse(JSON.stringify(box.structures))
     },
     mode: 'onSubmit' 
   })
@@ -75,7 +75,7 @@ const EditBoxComp = (props: Props) => {
     name: "structures",
   }) 
 
-  useFormPersist("editBoxForm", { watch, setValue })
+  // useFormPersist("editBoxForm", { watch, setValue, storage: localStorage })
   
   useEffect(() => {
     getValues("startDate")
@@ -164,6 +164,13 @@ const EditBoxComp = (props: Props) => {
     toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
     push('/dashboard/billboard/boxes')
   }
+
+  const values = editBoxForm.watch()
+  
+  useEffect(() => {
+    // console.log("USEEFFECT RUUUUUUUUUUUUUUUUUUUUUUUUUN",values)
+    localStorage.setItem('editBoxForm', JSON.stringify(values))
+  }, [values, box])
 
   if(isError) {
       'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')

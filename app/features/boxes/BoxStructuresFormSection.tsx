@@ -35,7 +35,7 @@ const BoxStructuresFormSection = (props: Props) => {
     page,
     register,
     errors,
-    structuresField,
+    structuresField, 
     appendStructure,
     removeStructure,
     control,
@@ -43,8 +43,6 @@ const BoxStructuresFormSection = (props: Props) => {
     structures,
     convertToNumber,
     formVals,
-    chosenStructures, 
-    setChosenStructures
   } = props
 
   useGetStructuresQuery(undefined, { 
@@ -84,9 +82,8 @@ const BoxStructuresFormSection = (props: Props) => {
     const formattedValue = numberValue !== null ? new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
     setValue(prop, formattedValue)
   }
-  // console.log("thisStructures", thisStructures) 
 
-return ( 
+  return ( 
     <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
       {structuresField.map((item, fieldIndex) =>{
@@ -248,7 +245,7 @@ return (
                     </label>
 
                     <DatePicker
-                      inputClass='p-4 rounded-[50px] bg-white outline-none max-w-[100px]'
+                      inputClass='p-4 rounded-[50px] bg-white outline-none max-w-[105px]'
                       format='YYYY-MM-DD'
                       value={page === 'edit' ? moment.unix(item.duration.startDate).format('jYYYY-jM-jD') : undefined}
                       calendar={persian}
@@ -275,7 +272,7 @@ return (
                     </label>
 
                     <DatePicker
-                      inputClass='p-4 rounded-[50px] bg-white outline-none  max-w-[100px]'
+                      inputClass='p-4 rounded-[50px] bg-white outline-none  max-w-[105px]'
                       format='YYYY-MM-DD'
                       value={page === 'edit' ? moment.unix(item.duration.endDate).format('jYYYY-jM-jD') : undefined}
                       calendar={persian}

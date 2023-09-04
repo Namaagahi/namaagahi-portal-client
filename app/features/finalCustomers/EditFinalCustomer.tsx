@@ -1,12 +1,13 @@
 import { useUpdateFinalCustomerMutation } from "@/app/apiSlices/finalCustomerApiSlice"
 import useAuth from "@/app/hooks/useAuth"
-import { FinalCustomerObject } from "@/app/lib/interfaces"
-import { useForm } from "react-hook-form"
+import { AddFinalCustomerForm, EditFinalCustomerForm, FinalCustomerObject } from "@/app/lib/interfaces"
+import { useFieldArray, useForm } from "react-hook-form"
 import { AiOutlineClose } from "react-icons/ai"
 import Loading from "../loading/Loading"
 import CustomInput from "@/app/components/inputs/CustomInput"
 import { toast } from "react-toastify"
 import { useState } from "react"
+import Agents from "./Agents"
 
 type Props = {
     handleModal: () => void
@@ -28,14 +29,15 @@ const EditFinalCustomer = (props: Props) => {
 
     const [errMsg, setErrMsg] = useState<string | null>(null)
 
-    const editFinalCustomerForm = useForm<any>({
+    const editFinalCustomerForm = useForm<EditFinalCustomerForm>({
         defaultValues: {
-            agentName: finalCustomer.agentName,
-            post: finalCustomer.post,
-            companyName: finalCustomer.companyName,
+            name: finalCustomer.name,
+            nationalId: finalCustomer.nationalId,
+            agent: JSON.parse(JSON.stringify(finalCustomer.agent)), 
+            contractType: finalCustomer.contractType,
+            customerType: finalCustomer.customerType,
             ecoCode: finalCustomer.ecoCode,
             regNum: finalCustomer.regNum,
-            nationalId: finalCustomer.nationalId,
             address: finalCustomer.address,
             postalCode: finalCustomer.postalCode,
             phone: finalCustomer.phone,
@@ -49,23 +51,32 @@ const EditFinalCustomer = (props: Props) => {
         formState: {errors},
     } = editFinalCustomerForm
 
+    const {
+        fields: agentField,
+        append: appendAgent,
+        remove: removeAgent
+      } = useFieldArray({
+        control,
+        name: "agent",
+      })
+
     const onSubmit = async(data: any) => {
         const abc = await updateFinalCustomer({
             id: finalCustomer.id,
             finalCustomerId: finalCustomer.finalCustomerId,
             userId: id,
             username: finalCustomer.username,
-            agentName: data.agentName,
-            companyName: data.companyName,
-            post: data.post,
-            ecoCode: parseFloat(data.ecoCode),
-            regNum: parseFloat(data.regNum),
+            name: data.name,
             nationalId: parseFloat(data.nationalId),
+            agent: data.agent,
+            contractType: data.contractType,
+            customerType: data.customerType,
+            regNum: parseFloat(data.regNum),
             address: data.address,
             phone: parseFloat(data.phone),
             postalCode: parseFloat(data.postalCode)
         })
-        // console.log("ABC", abc)
+        console.log("ABC", abc)
         // console.log("isError", isError)
         if(isError) {
             'status' in error! && error.status === 409 && setErrMsg('این کد اقتصادی قبلا ثبت شده است')
@@ -81,56 +92,41 @@ const EditFinalCustomer = (props: Props) => {
     const customInputs = [
         {
             id: 1,
-            label: "نام نماینده",
-            name: 'agentName',
-            type:'text',
-            required: false,
-            errors: undefined,
-        },
-        {
-            id: 2,
-            label: "پست سازمانی",
-            name: 'post',
-            type:'text',
-            required: false,
-            errors: undefined,
-        },
-        {
-            id: 3,
             label: "نام شرکت",
-            name: 'companyName',
+            name: 'name',
             type:'text',
             message: 'نام شرکت را وارد کنید',
             required: true,
-            errors:  (errors.companyName?.message),
+            errors:  (errors.name?.message),
         },
         {
-            id: 4,
+            id: 2,
+            label: "شناسه ملی",
+            name: 'nationalId',
+            type:'number',
+            required: true,
+            message: 'شناسه ملی را وارد کنید',
+            errors: (errors.nationalId?.message),
+        },
+        {
+            id: 3,
             label: "کد اقتصادی",
             name: 'ecoCode',
             type:'number',
-            message: 'کد اقتصادی را وارد کنید',
-            required: true,
-            errors:  (errors.ecoCode?.message),
+            required: false,
+            errors:  undefined,
         },
         {
-            id: 5,
+            id: 4,
             label: "شماره ثبت",
             name: 'regNum',
             type:'number',
             required: false,
             errors: undefined,
         },
+
         {
-            id: 6,
-            label: "شناسه ملی",
-            name: 'nationalId',
-            type:'number',
-            required: false,
-            errors: undefined,
-        },
-        {
-            id: 7,
+            id: 5,
             label: "آدرس",
             name: 'address',
             type:'text',
@@ -139,7 +135,7 @@ const EditFinalCustomer = (props: Props) => {
             colSpan: 'col-span-2'
         },
         {
-            id: 8,
+            id: 6,
             label: "کد پستی",
             name: 'postalCode',
             type:'number',
@@ -147,7 +143,7 @@ const EditFinalCustomer = (props: Props) => {
             errors: undefined,
         },
         {
-            id: 9,
+            id: 7,
             label: "تلفن",
             name: 'phone',
             type:'number',
@@ -155,7 +151,7 @@ const EditFinalCustomer = (props: Props) => {
             errors: undefined,
         },
     ]
-    // console.log(errors)
+    console.log(editFinalCustomerForm.getValues())
     if(!finalCustomer) return <Loading />
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">
@@ -190,6 +186,12 @@ const EditFinalCustomer = (props: Props) => {
                     ))}
                     <p className="text-red-500">{errMsg? errMsg : ' '}</p>
                 </div>
+                <Agents 
+                    agentField={agentField}
+                    control={control}
+                    appendAgent={appendAgent}
+                    removeAgent={removeAgent}
+                />
                 <div className="flex items-center gap-6">
                     <button
                         className={`bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}

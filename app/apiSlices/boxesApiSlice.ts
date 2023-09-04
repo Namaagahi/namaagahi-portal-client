@@ -78,15 +78,19 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
     
         getBoxById: builder.query({
 
-            query: (id) => `/boxes/${id}`,
+            query: (id: string) => ({
+              url: `/boxes/${id}`,
+              refetchOnMountOrArgChange: 5
+            }),
             keepUnusedDataFor: 0,
+            
             transformResponse: (responseData: BoxObject) => {
               responseData.id = responseData._id;
               // console.log("responseData", responseData)
               return boxesAdapter.upsertOne(initialState, responseData);
             },
       
-            // providesTags: (result, error, id) => [{ type: 'Box', id }],
+            providesTags: (result, error, id, boxVersion) => [{ type: 'Box', id, boxVersion }],
 
           })
       }),

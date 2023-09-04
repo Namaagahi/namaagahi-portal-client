@@ -19,6 +19,7 @@ import { Control, Controller, FieldError } from 'react-hook-form'
     disabled?: boolean
     className: string,
     colSpan? : string
+    autoComplete?: string
   }
   
 const CustomInput = (props: CustomInputProps) => {
@@ -41,7 +42,8 @@ const CustomInput = (props: CustomInputProps) => {
         key,
         disabled,
         className,
-        colSpan
+        colSpan,
+        autoComplete
     } = props
 
     return (
@@ -78,6 +80,7 @@ const CustomInput = (props: CustomInputProps) => {
                                 onWheel={onWheel}
                                 disabled={disabled}
                                 defaultValue={defaultValue}
+                                autoComplete={autoComplete}
                             />
                             :
                             <input 
@@ -85,6 +88,7 @@ const CustomInput = (props: CustomInputProps) => {
                                 {...field} 
                                 className={className}
                                 key={key}
+                                autoComplete={autoComplete}
                             />
                         )
                     
