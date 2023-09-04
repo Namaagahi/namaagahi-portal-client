@@ -23,7 +23,7 @@ const DeleteFinalCustomer = (props: Props) => {
         const abc = await deleteFinalCustomer({ id: finalCustomer?.id })
         // console.log('abc', abc)
         handleModal()
-        toast.success(`مشتری  ${finalCustomer?.companyName} با موفقیت حذف شد`)
+        toast.success(`مشتری  ${finalCustomer?.name} با موفقیت حذف شد`)
     }
 
     if(isLoading) return <Loading/>
