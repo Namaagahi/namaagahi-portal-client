@@ -24,7 +24,7 @@ const Agents = (props: Props) => {
 
     // console.log("agentField", agentField)
   return (
-    <div className="w-full backdrop-blur bg-white/30 border-[1px] dark:text-black border-gray-400 col-span-2 rounded-xl mb-2">
+    <div className="backdrop-blur bg-white/30 border-[1px] dark:text-black border-gray-400 col-span-2 rounded-xl mb-2 pl-2 pr-4">
         {
             agentField.map((item: any, fieldIndex: number) => {
                 return (
@@ -40,16 +40,18 @@ const Agents = (props: Props) => {
                             type="text"
                             name= {`agent.${fieldIndex}.agentName`}
                             control={control}
-                            className={`${isDisabled ? "bg-gray-400" :"bg-gray-300"} p-4 rounded-[50px] outline-none`}
+                            className={`${isDisabled ? "bg-gray-400" :"bg-gray-300"} w-full p-4 rounded-[50px] outline-none`}
                             disabled={isDisabled}
+                            autoComplete={'off'}
                         />
                         <CustomInput
                             label={'پست سازمانی'}
                             type="text"
                             name= {`agent.${fieldIndex}.post`}
                             control={control}
-                            className={`${isDisabled ? "bg-gray-400" :"bg-gray-300"} p-4 rounded-[50px] outline-none`}
+                            className={`${isDisabled ? "bg-gray-400" :"bg-gray-300"} w-full p-4 rounded-[50px] outline-none`}
                             disabled={isDisabled}
+                            autoComplete={'off'}
                         />
                         {
                         !isDisabled && 

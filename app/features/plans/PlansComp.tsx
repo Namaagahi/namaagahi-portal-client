@@ -66,7 +66,6 @@ const PlansComp = (props: Props) => {
       [
         {
           header: 'جدول پلن ها',
-          footer: props => props.column.id,
           columns: [
             {
               accessorKey: "_id",
@@ -157,9 +156,7 @@ const PlansComp = (props: Props) => {
               cell: (info) => {
                 const createdAt = info.getValue()
                 return (
-                <div className='flex justify-center'>
-                  <td className="px-6">{moment(createdAt).format('jYYYY/jM/jD')}</td>
-                </div>
+                  <p>{moment(createdAt).format('jYYYY/jM/jD')}</p>
                 )}
             },
             {
@@ -169,9 +166,7 @@ const PlansComp = (props: Props) => {
               cell: (info) => {
                 const updatedAt = info.getValue()
                 return (
-                <div className='flex justify-center'>
-                  <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
-                </div>
+                  <p>{moment(updatedAt).format('jYYYY/jM/jD')}</p>
                 )}
             },
             {
@@ -233,13 +228,13 @@ const PlansComp = (props: Props) => {
                 cell: ({row}) => {
                   return (
                     <Link href={`/dashboard/billboard/plans/${row.original.id}`}>
-                        <td className=" cursor-pointer transition-all">
+                        <p className=" cursor-pointer transition-all">
                             <Status
                                 status = {'مشاهده '}
                                 bgColor = {'#34ebc9'}
                                 textColor = {'#0a541e'}
                             />
-                        </td>
+                        </p>
                     </Link>
                   )}
               },

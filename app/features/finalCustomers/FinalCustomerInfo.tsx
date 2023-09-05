@@ -7,6 +7,7 @@ type Props = {
 const FinalCustomerInfo = (props: Props) => {
     
     const { finalCustomer } = props
+    console.log("finalCustomer", finalCustomer)
 
     return (
         <div className='w-full h-full bg-teal-300 dark:bg-neutral-300 p-2 rounded-lg text-gray-700 mt-5 flex flex-col items-start justify-center'>
@@ -14,19 +15,14 @@ const FinalCustomerInfo = (props: Props) => {
                 اطلاعات مشتری نهایی
             </p>
             <div className='w-full grid grid-cols-12 gap-3 mt-3'>
-                <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
-                    <p>نام نماینده:</p>
+                <div className='col-span-3 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
+                    <p>نام شرکت / شخص:</p>
                     <p className='font-bold'>{finalCustomer?.name ? finalCustomer?.name : 'تعیین نشده'}</p>
                 </div>
-
-                {/* <div className='col-span-2 gap-3 backdrop-blur bg-white/30 border-[1px] border-gray-400 rounded-md p-2'>
-                    <p>پست سازمانی</p>
-                    <p className='font-bold'>{finalCustomer?.agent.post ? finalCustomer?.agent.post : 'تعیین نشده'}</p>
-                </div> */}
-
+                
                 <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
-                    <p>نام شرکت:</p>
-                    <p className='font-bold'>{finalCustomer?.name ? finalCustomer?.name : 'تعیین نشده'}</p>
+                    <p>شناسه ملی:</p>
+                    <p className='font-bold'>{finalCustomer?.nationalId ? finalCustomer?.nationalId : 'تعیین نشده'}</p>
                 </div>
 
                 <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
@@ -39,10 +35,6 @@ const FinalCustomerInfo = (props: Props) => {
                     <p className='font-bold'>{finalCustomer?.regNum ? finalCustomer?.regNum : 'تعیین نشده'}</p>
                 </div>
 
-                <div className='col-span-2 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
-                    <p>شناسه ملی:</p>
-                    <p className='font-bold'>{finalCustomer?.nationalId ? finalCustomer?.nationalId : 'تعیین نشده'}</p>
-                </div>
 
                 <div className='col-span-4 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'>
                     <p>آدرس:</p>
@@ -58,6 +50,25 @@ const FinalCustomerInfo = (props: Props) => {
                     <p>تلفن:</p>
                     <p className='font-bold'>{finalCustomer?.phone ? finalCustomer?.phone : 'تعیین نشده'}</p>
                 </div>
+                {finalCustomer?.agent.map((item, index: number) => {
+                    return(
+                        <div 
+                            key={index}
+                            className='col-span-3 gap-3 backdrop-blur bg-white/30  border-[1px] border-gray-400 rounded-md p-2'
+                        >
+                            <div className='flex items-center gap-2'>
+                                <p>{`نام نماینده ${index + 1}:`}</p>
+                                <p>{item.agentName}</p>
+                            </div>
+                            <div
+                                className='flex items-center gap-2'
+                            >
+                                <p>{`پست سازمانی نماینده ${index + 1}:`}</p>
+                                <p>{item.post}</p>
+                            </div>
+                        </div>
+                    )
+                })}
             </div>
         </div>
     )

@@ -126,7 +126,6 @@ const AllStructuresTable = (props: Props) => {
                 cell: info => {
                   const isChosen = info.getValue()
                   const structureBox: any = allBoxes.find((box: any) => box.boxId === info.row.original.parent)
-                  // console.log("structureBox", structureBox)
                   return (
                     (isChosen) ?
                     <Link href={`/dashboard/billboard/boxes/${structureBox?.id}`}>
@@ -152,7 +151,7 @@ const AllStructuresTable = (props: Props) => {
                 cell: (info) => {
                   const createdAt = info.getValue()
                   return (
-                    <td className="px-6">{moment(createdAt).format('jYYYY/jM/jD')}</td>
+                    <p>{moment(createdAt).format('jYYYY/jM/jD')}</p>
                   )}
               },
               {
@@ -161,7 +160,7 @@ const AllStructuresTable = (props: Props) => {
                 cell: (info) => {
                   const updatedAt = info.getValue()
                   return (
-                    <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
+                    <p>{moment(updatedAt).format('jYYYY/jM/jD')}</p>
                   )}
               },
               {
@@ -170,7 +169,7 @@ const AllStructuresTable = (props: Props) => {
                 cell: (info) => {
                   const row = info.row.original
                   return (
-                    <div className="px-6 flex items-center gap-2" onClick={() => setStructureId(row.id)}>
+                    <div className="px-6 flex items-center justify-center gap-2" onClick={() => setStructureId(row.id)}>
                         {(isMediaManager || isAdmin) && page === 'all' ?
                         <>
                             <AiFillEdit 

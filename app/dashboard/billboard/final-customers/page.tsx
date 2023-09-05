@@ -127,8 +127,9 @@ const FinalCustomers = () => {
                   accessorFn: row => row.ecoCode,
                   id: 'کد اقتصادی',
                   cell: info => {
+                    console.log("ECO CODE", info.getValue() )
                     return (
-                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue() && 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
                   header: () => <span>کد اقتصادی</span>,
@@ -183,7 +184,7 @@ const FinalCustomers = () => {
                     return (
                       <>
                       {isMaster || isAdmin ?
-                        <td className="px-6 flex items-center justify-center gap-5" onClick={() => setFinalCustomerId(row.id)}>
+                        <p className="px-6 flex items-center justify-center gap-5" onClick={() => setFinalCustomerId(row.id)}>
                           <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer gap-3">
                             <AiFillEdit
                               className="text-black dark:text-white hover:scale-125 transition-all"
@@ -196,10 +197,10 @@ const FinalCustomers = () => {
                               onClick={handleDeleteFinalCustomer}
                             />
                           </div>
-                        </td>
+                        </p>
                         :
                         <>
-                          <td>دسترسی محدود شده</td>
+                          <p>دسترسی محدود شده</p>
                         </>
                     }
                       </>
@@ -211,9 +212,7 @@ const FinalCustomers = () => {
                   cell: (info) => {
                     const createdAt = info.getValue()
                     return (
-                      <div className='flex justify-center'>
-                        <td className="px-6">{moment(createdAt).format('jYYYY/jM/jD')}</td>
-                      </div>
+                        <p>{moment(createdAt).format('jYYYY/jM/jD')}</p>
                     )}
                 },
                 {
@@ -222,9 +221,7 @@ const FinalCustomers = () => {
                   cell: (info) => {
                     const updatedAt = info.getValue()
                     return (
-                      <div className='flex justify-center'>
-                        <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
-                      </div>
+                        <p>{moment(updatedAt).format('jYYYY/jM/jD')}</p>
                     )}
                 },
               ],

@@ -7,6 +7,7 @@ import {
     Table,
     useReactTable,
     ColumnFiltersState,
+    ColumnResizeMode,
     getCoreRowModel,
     getFilteredRowModel,
     getFacetedRowModel,
@@ -124,6 +125,10 @@ import {
     )
   }
 
+  // function ColumnSizingTableState({
+  //   st
+  // })
+
   type Props = {
     columns:  ColumnDef<any, any>[]
     data: any
@@ -136,11 +141,14 @@ const TableComponent = (props: Props) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState<string>('')
   const [columnVisibility, setColumnVisibility] = useState({})
+  const [selectedRowId, setSelectedRowId] = useState<string | null>(null)
+  const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange')
   const rerender = useReducer(() => ({}), {})[1]
   
   const table = useReactTable({
       data,
       columns,
+      columnResizeMode,
       filterFns: {
         fuzzy: fuzzyFilter,
       },
@@ -164,17 +172,18 @@ const TableComponent = (props: Props) => {
       debugTable: true,
       debugHeaders: true,
       debugColumns: false,
-    })
+  })
 
-    const [selectedRowId, setSelectedRowId] = useState<string | null>(null)
 
-    const handleChangeRowColor = (rowId: string) => {
-      if (selectedRowId === rowId) {
-        setSelectedRowId(null)
-      } else {
-        setSelectedRowId(rowId)
-      }
+  const handleChangeRowColor = (rowId: string) => {
+    if (selectedRowId === rowId) {
+      setSelectedRowId(null)
+    } else {
+      setSelectedRowId(rowId)
     }
+  }
+
+
 
   return (
     <>
@@ -208,7 +217,14 @@ const TableComponent = (props: Props) => {
         )
       })}
       </div>
-      <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
+      <table 
+        className="w-full text-sm text-right text-gray-500 dark:text-white"
+        {...{
+          style: {
+            width: table.getCenterTotalSize(),
+          },
+        }}
+      >
         <thead className="table-heading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
           {table.getHeaderGroups().map(headerGroup => {
             return(
@@ -217,7 +233,15 @@ const TableComponent = (props: Props) => {
                 {headerGroup.headers.map(header => {
                   return (
                     <>
-                    <th key={header.id} colSpan={header.colSpan}  className="px-2">
+                    <th 
+                      {...{
+                        key: header.id,
+                        colSpan: header.colSpan,
+                        style: {
+                          width: header.getSize(),
+                        },
+                      }}
+                    >
                       {header.isPlaceholder ? null : (
                         <>
                           <div
@@ -236,6 +260,15 @@ const TableComponent = (props: Props) => {
                               asc: ' 🔼',
                               desc: ' 🔽',
                             }[header.column.getIsSorted() as string] ?? null}
+                            <div
+                              {...{
+                                onMouseDown: header.getResizeHandler(),
+                                onTouchStart: header.getResizeHandler(),
+                                className: `resizer ${
+                                  header.column.getIsResizing() ? 'isResizing' : ''
+                                }`,
+                              }}
+                            />
                           </div>
                           {header.column.getCanFilter() ? (
                             <div>
@@ -252,10 +285,12 @@ const TableComponent = (props: Props) => {
             )}
           )}
         </thead>
-        <tbody>
+        <tbody className='w-full'>
           {table.getRowModel().rows.map((row, index) => {
             return (
-              <tr key={row.id} className={`${
+              <tr
+                key={row.id} 
+                className={`${
                 selectedRowId === row.id
                   ? 'bg-red-200'
                   : 'bg-white border-b dark:bg-gray-900'
@@ -264,9 +299,13 @@ const TableComponent = (props: Props) => {
                 <td>{row.index + 1}</td>
                 {row.getVisibleCells().map(cell => {
                   return (
-                    <>
                     <td
-                      key={cell.id} 
+                    {...{
+                      key: cell.id,
+                      style: {
+                        width: cell.column.getSize(),
+                      },
+                    }}
                       className='py-2 px-2'
                       onClick={() => handleChangeRowColor(row.id)} 
                     >
@@ -275,7 +314,6 @@ const TableComponent = (props: Props) => {
                         cell.getContext()
                       )}
                     </td>
-                    </>
                   )
                 })}
               </tr>
@@ -285,8 +323,9 @@ const TableComponent = (props: Props) => {
         <tfoot>
           {table.getFooterGroups().map(footerGroup => (
             <tr key={footerGroup.id}>
+              <th>{}</th>
               {footerGroup.headers.map(header => (
-                <th key={header.id} colSpan={header.colSpan}>
+                <th key={header.id} colSpan={header.colSpan} >
                   {header.isPlaceholder
                     ? null
                     : flexRender(

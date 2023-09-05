@@ -86,7 +86,7 @@ const Tooltip = (props : Props) => {
 
     return (
         <div 
-            className="relative flex items-center justify-center" 
+            className="relative flex items-center justify-center w-full" 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave}
         >

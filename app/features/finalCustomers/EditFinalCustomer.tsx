@@ -17,7 +17,7 @@ type Props = {
 const EditFinalCustomer = (props: Props) => {
 
     const { handleModal, finalCustomer } = props
-
+console.log("finalCustomer", finalCustomer)
     const { id } = useAuth()
     
     const [updateFinalCustomer, {
@@ -69,6 +69,7 @@ const EditFinalCustomer = (props: Props) => {
             username: finalCustomer.username,
             name: data.name,
             nationalId: parseFloat(data.nationalId),
+            ecoCode: parseFloat(data.ecoCode),
             agent: data.agent,
             contractType: data.contractType,
             customerType: data.customerType,

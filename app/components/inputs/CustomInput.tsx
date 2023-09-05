@@ -20,6 +20,7 @@ import { Control, Controller, FieldError } from 'react-hook-form'
     className: string,
     colSpan? : string
     autoComplete?: string
+    isHidden?: boolean
   }
   
 const CustomInput = (props: CustomInputProps) => {
@@ -43,11 +44,12 @@ const CustomInput = (props: CustomInputProps) => {
         disabled,
         className,
         colSpan,
-        autoComplete
+        autoComplete,
+        isHidden
     } = props
 
     return (
-        <div className={`flex flex-col gap-3 ${colSpan}`}>
+        <div className={`${!isHidden? 'block' : 'hidden'} flex flex-col gap-3 ${colSpan}`}>
             <label
                 htmlFor={name}
                 className='text-[#767676] font-bold'

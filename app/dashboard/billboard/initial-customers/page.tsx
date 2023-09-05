@@ -74,7 +74,7 @@ const InitialCustomers = () => {
                 return (
                   <>
                   {isMaster || isAdmin?
-                    <td className="px-6 flex items-center justify-center gap-5" onClick={() => setInitialCustomerId(row.id)}>
+                    <p className="px-6 flex items-center justify-center gap-5" onClick={() => setInitialCustomerId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillDelete
                           className="text-black dark:text-white hover:scale-125 transition-all"
@@ -82,7 +82,7 @@ const InitialCustomers = () => {
                           onClick={handleDeleteInitialCustomer}
                         />
                       </div>
-                    </td>
+                    </p>
                     :
                     <>
                       <td>دسترسی محدود شده</td>
@@ -97,9 +97,7 @@ const InitialCustomers = () => {
               cell: (info) => {
                 const createdAt = info.getValue()
                 return (
-                  <div className='flex justify-center'>
-                    <td className="px-6">{moment(createdAt).format('jYYYY/jM/jD')}</td>
-                  </div>
+                    <param>{moment(createdAt).format('jYYYY/jM/jD')}</param>
                 )}
             },
             {
@@ -108,9 +106,7 @@ const InitialCustomers = () => {
               cell: (info) => {
                 const updatedAt = info.getValue()
                 return (
-                  <div className='flex justify-center'>
-                    <td className="px-6">{moment(updatedAt).format('jYYYY/jM/jD')}</td>
-                  </div>
+                    <param>{moment(updatedAt).format('jYYYY/jM/jD')}</param>
                 )}
             },
           ],

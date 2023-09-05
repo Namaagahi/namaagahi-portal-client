@@ -80,7 +80,7 @@ const FinalCustomerForm = (props: Props) => {
     const onSubmit = async(data: any) => {
         if(!isDisabled) {
             const abc1 = await createNewFinalCustomer({
-                finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
+                finalCustomerId: data.finalCustomerId,
                 userId: id,
                 name: data.name,
                 contractType: contractType, 
@@ -121,6 +121,7 @@ const FinalCustomerForm = (props: Props) => {
                 username: finalCustomer?.username,
                 name: finalCustomer?.name,
                 nationalId: finalCustomer?.nationalId,
+                ecoCode: finalCustomer?.ecoCode,
                 agent: finalCustomer?.agent,
                 contractType: finalCustomer?.contractType,
                 customerType: finalCustomer?.customerType,
@@ -178,6 +179,7 @@ const FinalCustomerForm = (props: Props) => {
             type:'number',
             required: false,
             errors: undefined,
+            isHidden: customerType === 'personal' && true
         },
         {
             id: 4,
@@ -186,6 +188,7 @@ const FinalCustomerForm = (props: Props) => {
             type:'number',
             required: false,
             errors: undefined,
+            isHidden: customerType === 'personal' && true
         },
         {
             id: 5,
@@ -259,13 +262,17 @@ const FinalCustomerForm = (props: Props) => {
                         </select>
                     }
                 </div>
+                
+                {
+                    !isDisabled &&
+                        <FinalCustomerTypes 
+                            contractType={contractType}
+                            setContractType={setContractType}
+                            customerType={customerType}
+                            setCustomerType={setCustomerType}
+                        />
+                }
 
-                <FinalCustomerTypes 
-                    contractType={contractType}
-                    setContractType={setContractType}
-                    customerType={customerType}
-                    setCustomerType={setCustomerType}
-                />
                 <div className='relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-6 gap-4 lg:gap-2'>
                     {
                         customInputs.map((customInput) => {
@@ -279,19 +286,24 @@ const FinalCustomerForm = (props: Props) => {
                                     message={customInput.message && customInput.message}
                                     errors={customInput.errors && customInput.errors}
                                     disabled={isDisabled}
+                                    isHidden={customInput.isHidden}
                                     className={`${isDisabled ? "bg-gray-400" :"bg-white"} p-4 rounded-[50px] outline-none`}
                                     autoComplete={'off'}
                                 />
                             )
                         })
                     }
-                    <Agents
-                        agentField={agentField}
-                        control={control}
-                        isDisabled={isDisabled}
-                        appendAgent={appendAgent}
-                        removeAgent={removeAgent}
-                    />
+
+                    {
+                        (contractType === 'legal' || customerType === 'legal') && !isDisabled &&
+                            <Agents
+                                agentField={agentField}
+                                control={control}
+                                isDisabled={isDisabled}
+                                appendAgent={appendAgent}
+                                removeAgent={removeAgent}
+                            />
+                    }
                 </div>
 
                 <button className='btn-primary' >

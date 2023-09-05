@@ -49,7 +49,6 @@ const Users = () => {
       [
         {
           header: 'جدول کاربران',
-          footer: props => props.column.id,
           columns: [
             {
               accessorKey: 'avatar',
@@ -140,7 +139,7 @@ const Users = () => {
                 return (
                   <>
                   {isAdmin?
-                    <td className="px-6 flex items-center justify-center gap-5" onClick={() => setUserId(row.id)}>
+                    <p className="px-6 flex items-center justify-center gap-5" onClick={() => setUserId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit
                           className="text-black dark:text-white hover:scale-125 transition-all"
@@ -155,7 +154,7 @@ const Users = () => {
                           onClick={handleDeleteUser}
                         />
                       </div>
-                    </td>
+                    </p>
                     :
                     <>
                       <td>

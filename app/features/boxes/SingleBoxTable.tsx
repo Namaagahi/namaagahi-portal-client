@@ -43,6 +43,7 @@ const SingleBoxTable = (props: Props) => {
                     return <div>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.name}</div>
                 },
                 header: () => <span>کد سامانه</span>,
+                enableColumnFilter: false,
                 },
                 {
                 accessorFn: row => row.marks.name,
@@ -55,15 +56,20 @@ const SingleBoxTable = (props: Props) => {
                 id: 'مسیر',
                 cell: info => <div>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.path}</div>,
                 header: () => <span>مسیر</span>,
+                enableColumnFilter: false,
+                enableSorting: false
                 },
                 {
                 accessorFn: row => row.structureId,
                 id: 'آدرس',
-                cell: info => 
-                    <Tooltip tooltipText={allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.address} orientation='left'>
-                        <div>{(allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.address)?.slice(0,8)}...</div>
-                    </Tooltip>,
+                cell: info => {
+                    return(
+                        <p>{allStructures.find((rawStructure: any) => rawStructure.id === info.getValue())?.location.address}</p>
+                    )
+                },
                 header: () => <span>آدرس</span>,
+                enableColumnFilter: false,
+                enableSorting: false
                 },
                 {
                 accessorFn: row => row.duration.startDate,
