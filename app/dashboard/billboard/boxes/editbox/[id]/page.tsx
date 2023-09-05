@@ -36,7 +36,7 @@ const abc = localStorage.getItem('editBoxForm')
     <>
       <EditBoxComp box={box} key={box.version} />
       <ScrollContainer />
-      <button onClick={() => refetch()}>REFETCH</button>
+      {/* <button onClick={() => refetch()}>REFETCH</button> */}
     </>
   )
 }

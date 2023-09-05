@@ -1,4 +1,4 @@
-import { selectAllFinalCustomers, useCreateNewFinalCustomerMutation, useGetAllFinalCustomersQuery } from '@/app/apiSlices/finalCustomerApiSlice'
+import { selectAllFinalCustomers, useCreateNewFinalCustomerMutation, useGetAllFinalCustomersQuery, useUpdateFinalCustomerMutation } from '@/app/apiSlices/finalCustomerApiSlice'
 import { AddFinalCustomerForm, FinalCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import { useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
 import { newFinalCustomerDefaultValues } from '@/app/lib/constants'
@@ -28,6 +28,13 @@ const FinalCustomerForm = (props: Props) => {
         error
     }] = useCreateNewFinalCustomerMutation()
 
+    const [updateFinalCustomer, {
+        isLoading,
+        isSuccess: isEditSuccess,
+        isError: isEditError,
+        error: editError
+    }] = useUpdateFinalCustomerMutation()
+
     useGetAllFinalCustomersQuery(undefined, {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
@@ -40,7 +47,7 @@ const FinalCustomerForm = (props: Props) => {
     const [customerId, setCustomerId] = useState<string>('')
     const [contractType, setContractType] = useState('official')
     const [customerType, setCustomerType] = useState('legal')
-    const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer.finalCustomerId === plan.finalCustomerId) as FinalCustomerObject
+    const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer.finalCustomerId === customerId) as FinalCustomerObject
     
     useEffect(() => {
         if(isDisabled) {
@@ -72,8 +79,8 @@ const FinalCustomerForm = (props: Props) => {
 
     const onSubmit = async(data: any) => {
         if(!isDisabled) {
-            const abc = await createNewFinalCustomer({
-                finalCustomerId: data.finalCustomerId,
+            const abc1 = await createNewFinalCustomer({
+                finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
                 userId: id,
                 name: data.name,
                 contractType: contractType, 
@@ -85,48 +92,64 @@ const FinalCustomerForm = (props: Props) => {
                 address: data.address,
                 postalCode: parseFloat(data.postalCode),
                 phone: parseFloat(data.phone),
+                planId: plan._id
             })
-            console.log("ABC", abc)
-            
-            // const abc2 = await updatePlan({
-            //     id: plan.id,
-            //     planId: plan.planId,
-            //     userId: plan.userId,
-            //     username: plan.username,
-            //     initialCustomerId: plan.initialCustomerId,
-            //     brand: plan.brand,
-            //     status: 'done',
-            //     structures: plan.structures,
-            //     finalCustomerId: data.finalCustomerId ,
-            // })
+
+             const abc2 = await updatePlan({
+                id: plan.id,
+                planId: plan.planId,
+                userId: plan.userId,
+                username: plan.username,
+                initialCustomerId: plan.initialCustomerId,
+                brand: plan.brand,
+                status: 'done',
+                structures: plan.structures,
+                finalCustomerId: data.finalCustomerId ,
+            })
+
+            console.log("ABC1", abc1, "ABC2", abc2)
+
             if(isError) {
                 'status' in error! && error.status === 409 && toast.error('این شناسه / کد ملی قبلا ثبت شده است')
                 'status' in error! && error.status === 400 && toast.error('فیلدهای مورد نیاز را تکمیل کنید')
             }
-        } 
-    }
+        } else {
+            const abc3 = await updateFinalCustomer({
+                id: finalCustomer?.id,
+                finalCustomerId: finalCustomer?.finalCustomerId,
+                userId: id,
+                username: finalCustomer?.username,
+                name: finalCustomer?.name,
+                nationalId: finalCustomer?.nationalId,
+                agent: finalCustomer?.agent,
+                contractType: finalCustomer?.contractType,
+                customerType: finalCustomer?.customerType,
+                regNum: finalCustomer?.regNum,
+                address: data.address,
+                phone: finalCustomer?.phone,
+                postalCode: finalCustomer?.postalCode,
+                planId: plan._id,
+                planIds: finalCustomer?.planIds
+            })
 
-    // const handleUpdatePlan = async() => {
-    //     if(!customerId) {
-    //         toast.error("مشتری را انتخاب کنید")
-    //     } else {
-    //         const abc3 = await updatePlan({
-    //             id: plan.id,
-    //             planId: plan.planId,
-    //             userId: plan.userId,
-    //             username: plan.username,
-    //             initialCustomerId: plan.initialCustomerId,
-    //             brand: plan.brand,
-    //             status: 'done',
-    //             structures: plan.structures,
-    //             finalCustomerId: customerId,
-    //         })
-    //     }
-    // }
+            const abc4 = await updatePlan({
+                id: plan.id,
+                planId: plan.planId,
+                userId: plan.userId,
+                username: plan.username,
+                initialCustomerId: plan.initialCustomerId,
+                brand: plan.brand,
+                status: 'done',
+                structures: plan.structures,
+                finalCustomerId: finalCustomer?.finalCustomerId ,
+            })
+            console.log("ABC3", abc3, "ABC4", abc4)
+        }
+    }
 
     if(isSuccess) {
         toast.success(`مشتری جدید با موفقیت ساخته شد.`)
-        push('/dashboard/billboard/plans')
+        // push('/dashboard/billboard/plans')
     }
 
     const customInputs = [
@@ -189,7 +212,8 @@ const FinalCustomerForm = (props: Props) => {
             errors: undefined,
         },
     ]
-    console.log("iS error", isError)
+    // console.log("iS error", isError)
+    // console.log("finalCustomer", finalCustomer)
     return (
         <div className='w-full h-full bg-teal-200 dark:bg-neutral-300 p-2 rounded-lg text-gray-700 mt-5 flex flex-col items-start justify-center'>
             <p>
@@ -223,7 +247,11 @@ const FinalCustomerForm = (props: Props) => {
 
                             {allFinalCustomers.map((finalCustomer, index) => {
                                 return(
-                                    <option key={finalCustomer.finalCustomerId} value={finalCustomer.finalCustomerId} className='text-black'>
+                                    <option 
+                                        key={finalCustomer.finalCustomerId} 
+                                        value={finalCustomer.finalCustomerId} 
+                                        className='text-black'
+                                    >
                                         {finalCustomer.name}
                                     </option>
                                 )
@@ -231,64 +259,7 @@ const FinalCustomerForm = (props: Props) => {
                         </select>
                     }
                 </div>
-                {/* <div className='flex items-center gap-5 w-1/3 justify-between'>
-                    <div className='flex items-center gap-3'>
-                        <div className='flex items-center gap-1'>
-                            <input
-                                type="radio"
-                                id="official"
-                                name="contractType"
-                                value="official"
-                                checked={contractType === 'official'}
-                                onChange={() => setContractType('official')}
-                            />
-                            <label htmlFor="official">
-                                رسمی
-                            </label>
-                        </div>
-                        <div className='flex items-center gap-1'>
-                            <input
-                                type="radio"
-                                id="unofficial"
-                                name="contractType"
-                                value="unofficial"
-                                checked={contractType === 'unofficial'}
-                                onChange={() => setContractType('unofficial')}
-                            />
-                            <label htmlFor="unofficial">
-                                غیر رسمی
-                            </label>
-                        </div>
-                    </div>
-                    <div className='flex items-center gap-3'>
-                        <div className='flex items-center gap-1'>
-                            <input
-                                type="radio"
-                                id="legal"
-                                name="customerType"
-                                value="legal"
-                                checked={customerType === 'legal'}
-                                onChange={() => setCustomerType('legal')}
-                            />
-                            <label htmlFor="legal">
-                                حقوقی
-                            </label>
-                        </div>
-                        <div className='flex items-center gap-1'>
-                            <input
-                                type="radio"
-                                id="personal"
-                                name="customerType"
-                                value="personal"
-                                checked={customerType === 'personal'}
-                                onChange={() => setCustomerType('personal')}
-                            />
-                            <label htmlFor="personal">
-                                حقیقی
-                            </label>
-                        </div>
-                    </div>
-                </div> */}
+
                 <FinalCustomerTypes 
                     contractType={contractType}
                     setContractType={setContractType}

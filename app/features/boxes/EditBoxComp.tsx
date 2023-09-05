@@ -132,7 +132,7 @@ const EditBoxComp = (props: Props) => {
       })),
     }
   
-    const abc = await updateBox({
+    const editBoxABC = await updateBox({
         id: box?.id,
         boxId: newData.boxId,
         userId: currentUserId,
@@ -161,6 +161,7 @@ const EditBoxComp = (props: Props) => {
             )
         }),
     })   
+    console.log("editBoxABC", editBoxABC)
     toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
     push('/dashboard/billboard/boxes')
   }

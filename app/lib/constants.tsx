@@ -339,7 +339,7 @@ export const initialCustomerTableHeadings = [
 
 // NEW FINAL CUSTOMER =======================================================
 export const newFinalCustomerDefaultValues = {
-  finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
+  // finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
   name: '',
   contractType: 'official',
   customerType: 'legal',
@@ -352,7 +352,7 @@ export const newFinalCustomerDefaultValues = {
   regNum: '',
   address: '',
   postalCode: '',
-  phone: ''
+  phone: '',
 }
 
 export const finalCustomerAgentFormValues = {

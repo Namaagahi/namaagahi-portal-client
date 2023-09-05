@@ -20,7 +20,7 @@ const PlanBasicInfo = (props: Props) => {
 
     const {
         page,
-        control,
+        control, 
         errors,
         plan
     } = props

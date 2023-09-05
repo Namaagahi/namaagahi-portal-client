@@ -439,6 +439,7 @@ export interface FinalCustomerObject {
   address: string
   postalCode: number
   phone: number
+  planIds: string[]
   createdAt: string
   updatedAt: string
   username?: string
@@ -476,6 +477,7 @@ export interface EditFinalCustomerForm {
   address: string
   postalCode: number
   phone: number
+  planIds: string[]
 }
 
 export interface AgentObject {

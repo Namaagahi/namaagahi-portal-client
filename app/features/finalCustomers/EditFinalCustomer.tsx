@@ -41,6 +41,7 @@ const EditFinalCustomer = (props: Props) => {
             address: finalCustomer.address,
             postalCode: finalCustomer.postalCode,
             phone: finalCustomer.phone,
+            planIds: finalCustomer.planIds
         },
         mode: 'onSubmit'
     })
@@ -74,7 +75,8 @@ const EditFinalCustomer = (props: Props) => {
             regNum: parseFloat(data.regNum),
             address: data.address,
             phone: parseFloat(data.phone),
-            postalCode: parseFloat(data.postalCode)
+            postalCode: parseFloat(data.postalCode),
+            planIds: data.planIds
         })
         console.log("ABC", abc)
         // console.log("isError", isError)

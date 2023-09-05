@@ -67,7 +67,7 @@ const FinalCustomers = () => {
                   id: 'نام شرکت',
                   cell: info => {
                     return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
                   header: () => <span>نام شرکت</span>,
@@ -77,30 +77,50 @@ const FinalCustomers = () => {
                   id: 'شناسه ملی',
                   cell: info => {
                     return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
                   header: () => <span>شناسه ملی</span>,
+                },
+                {
+                  accessorFn: row => row.contractType,
+                  id: 'نوع قرارداد',
+                  cell: info => {
+                    return (
+                        <p>{info.getValue() === 'official'? 'رسمی' : 'غیر رسمی'}</p>
+                    )
+                  },
+                  header: () => <span>نوع قرارداد</span>,
+                },
+                {
+                  accessorFn: row => row.customerType,
+                  id: 'نوع مشتری',
+                  cell: info => {
+                    return (
+                        <p>{info.getValue() === 'legal'? 'حقوقی' : 'حقیقی'}</p>
+                    )
+                  },
+                  header: () => <span>نوع مشتری</span>,
                 },
                 {
                   accessorFn: row => row.agent[0].agentName,
                   id: 'نام نماینده اول',
                   cell: info => {
                     return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
-                  header: () => <span>نام نماینده</span>,
+                  header: () => <span>نام نماینده اول</span>,
                 },
                 {
                   accessorFn: row => row.agent[0].post,
                   id: 'پست سازمانی نماینده اول',
                   cell: info => {
                     return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
-                  header: () => <span>پست سازمانی</span>,
+                  header: () => <span>پست سازمانی نماینده اول</span>,
                 },
 
                 {
@@ -108,7 +128,7 @@ const FinalCustomers = () => {
                   id: 'کد اقتصادی',
                   cell: info => {
                     return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
                   header: () => <span>کد اقتصادی</span>,
@@ -118,7 +138,7 @@ const FinalCustomers = () => {
                   id: 'شماره ثبت',
                   cell: info => {
                     return (
-                        <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
                   },
                   header: () => <span>شماره ثبت</span>,
@@ -140,7 +160,7 @@ const FinalCustomers = () => {
                     id: 'کد پستی',
                     cell: info => {
                       return (
-                          <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                          <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                       )
                     },
                     header: () => <span>کد پستی</span>,
@@ -150,7 +170,7 @@ const FinalCustomers = () => {
                     id: 'تلفن',
                     cell: info => {
                       return (
-                          <p>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                          <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                       )
                     },
                     header: () => <span>تلفن</span>,
