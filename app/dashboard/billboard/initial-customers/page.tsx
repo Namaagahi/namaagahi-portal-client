@@ -14,8 +14,10 @@ import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import moment from 'jalali-moment'
+import usePageTitle from '@/app/hooks/usePageTitle'
     
 const InitialCustomers = () => {
+  usePageTitle('مشتریان اولیه')
     
   const { isMaster, isAdmin } = useAuth()
     

@@ -14,6 +14,7 @@ import React, { useState } from 'react'
 import domtoimage from 'dom-to-image'
 import moment from 'jalali-moment'
 import {jsPDF} from 'jspdf'
+import usePageTitle from '@/app/hooks/usePageTitle'
 
 type InitialStructureDurations = {
     [key:string]: {
@@ -31,6 +32,7 @@ type StructureDurations = {
 }
 
 const Availables = () => {
+    usePageTitle('سازه های خالی')
 
     const { 
         isLoading,

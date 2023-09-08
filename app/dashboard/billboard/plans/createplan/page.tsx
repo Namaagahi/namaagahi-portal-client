@@ -16,8 +16,10 @@ import { useSelector } from 'react-redux'
 import React, { useState } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
+import usePageTitle from '@/app/hooks/usePageTitle'
 
 const CreatePlan = () => {
+  usePageTitle('ایجاد پلن جدید')
 
   const { id } = useAuth()  
   const { push } = useRouter()

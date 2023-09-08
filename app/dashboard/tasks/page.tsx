@@ -7,6 +7,7 @@ import Button from "@/app/components/main/Button"
 import useAuth from "@/app/hooks/useAuth"
 import { useState } from "react"
 import dynamic from 'next/dynamic'
+import usePageTitle from "@/app/hooks/usePageTitle"
 const Loading = dynamic(
   () => import('@/app/features/loading/Loading'),
   { ssr: false }
@@ -21,6 +22,7 @@ const Note = dynamic(
 )
 
 const Tasks = () => {
+  usePageTitle('وظایف')
 
   const {
     username,

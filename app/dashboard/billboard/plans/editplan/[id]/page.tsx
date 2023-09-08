@@ -6,8 +6,10 @@ import Loading from '@/app/features/loading/Loading'
 import { PlanObject } from '@/app/lib/interfaces'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
+import usePageTitle from '@/app/hooks/usePageTitle'
 
 const EditPlan = () => {
+  usePageTitle('ویرایش پلن')
 
   const { id } = useParams()
   

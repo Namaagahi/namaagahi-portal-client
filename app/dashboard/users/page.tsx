@@ -16,8 +16,10 @@ import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Image from 'next/image'
+import usePageTitle from '@/app/hooks/usePageTitle'
 
 const Users = () => {
+  usePageTitle('کاربران')
 
   const { isAdmin } = useAuth()
 

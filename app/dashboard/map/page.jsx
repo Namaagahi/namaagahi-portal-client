@@ -183,6 +183,8 @@
 import React from 'react'
 
 const MapNama = () => {
+  usePageTitle('نقشه')
+
   return (
     <div>MapNama</div>
   )

@@ -4,11 +4,13 @@ import ScrollContainer from '@/app/components/main/ScrollContainer'
 import PageTitle from '@/app/components/main/PageTitle'
 import { useState } from 'react'
 import dynamic from 'next/dynamic'
+import usePageTitle from '@/app/hooks/usePageTitle'
 const NewBox = dynamic(
   () => import('@/app/features/boxes/NewBox'),
   { ssr: false }
 )
 const CreateBox = () => {
+  usePageTitle('ایجاد باکس جدید')
 
   const [boxMark, setBoxMark] = useState<string>('')
 

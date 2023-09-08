@@ -12,8 +12,10 @@ import FinalCustomerForm from '@/app/features/finalCustomers/FinalCustomerForm'
 import useAuth from '@/app/hooks/useAuth'
 import { selectAllFinalCustomers, useGetAllFinalCustomersQuery } from '@/app/apiSlices/finalCustomerApiSlice'
 import FinalCustomerInfo from '@/app/features/finalCustomers/FinalCustomerInfo'
+import usePageTitle from '@/app/hooks/usePageTitle'
 
 const SinglePlan = () => {
+  usePageTitle('مشاهده پلن')
 
   const { isMaster, isAdmin, isMediaManager } = useAuth()
   const { id } = useParams()

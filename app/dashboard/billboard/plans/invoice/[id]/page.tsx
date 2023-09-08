@@ -7,8 +7,10 @@ import Loading from '@/app/features/loading/Loading'
 import { PDFViewer } from '@react-pdf/renderer'
 import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
+import usePageTitle from '@/app/hooks/usePageTitle'
 
 const Invoice = () => {
+  usePageTitle('پیش فاکتور پلن')
 
   const { id } = useParams()
 

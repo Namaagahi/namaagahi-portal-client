@@ -1,9 +1,10 @@
 "use client"
 import UnderConstruction from '../components/main/UnderConstruction'
 import PageTitle from '../components/main/PageTitle'
+import usePageTitle from '../hooks/usePageTitle'
 
 const Dashboard = () => {
-
+  usePageTitle('داشبورد')
   return (
     <main className="min-h-screen flex flex-col gap-4">
       <PageTitle name={'داشبورد'} />

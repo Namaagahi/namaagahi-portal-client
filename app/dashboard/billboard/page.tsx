@@ -2,6 +2,7 @@
 import { billboardPagePropsObject } from '@/app/lib/constants'
 import Card from '@/app/components/main/Card'
 import dynamic from 'next/dynamic'
+import usePageTitle from '@/app/hooks/usePageTitle'
 const PageTitle = dynamic(
   () => import('@/app/components/main/PageTitle'),
   { ssr: false }
@@ -12,6 +13,7 @@ const SectionHeader = dynamic(
 )
 
 const Billboard = () => {
+  usePageTitle('رسانه | بیلبورد')
 
   return (
     <main className="min-h-screen w-full">

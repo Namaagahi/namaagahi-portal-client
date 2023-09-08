@@ -7,6 +7,7 @@ import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import TableComponent from "@/app/components/table/TableComponent"
 import Loading from "@/app/features/loading/Loading"
 import useAuth from "@/app/hooks/useAuth"
+import usePageTitle from "@/app/hooks/usePageTitle"
 import { FinalCustomerObject } from "@/app/lib/interfaces"
 import { EntityId } from "@reduxjs/toolkit"
 import { ColumnDef } from "@tanstack/react-table"
@@ -17,6 +18,7 @@ import { useSelector } from "react-redux"
 
 
 const FinalCustomers = () => {
+  usePageTitle('مشتریان نهایی')
 
     const { isAdmin, isMaster } = useAuth()
 

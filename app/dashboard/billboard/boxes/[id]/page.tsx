@@ -12,12 +12,14 @@ import { useSelector } from 'react-redux'
 import dynamic from 'next/dynamic'
 import { formatNumber } from '@/app/utilities/formatNumber'
 import SearchContainer from '@/app/components/main/SearchContainer'
+import usePageTitle from '@/app/hooks/usePageTitle'
 const Loading = dynamic(
     () => import('@/app/features/loading/Loading'),
     { ssr: false }
   )
 
 const SingleBox = () => { 
+    usePageTitle('مشاهده باکس')
 
     const { id } = useParams()
     const [newBox, setNewBox] = useState<any>({})

@@ -3,11 +3,13 @@ import { useGetBoxByIdQuery, boxesApiSlice } from '@/app/apiSlices/boxesApiSlice
 import ScrollContainer from '@/app/components/main/ScrollContainer'
 import EditBoxComp from '@/app/features/boxes/EditBoxComp'
 import Loading from '@/app/features/loading/Loading'
+import usePageTitle from '@/app/hooks/usePageTitle'
 import { BoxObject } from '@/app/lib/interfaces'
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 const EditBox = () => { 
+  usePageTitle('ویرایش باکس')
 
   const { id } = useParams()
   const [box, setBox] = useState<null | BoxObject>(null)
