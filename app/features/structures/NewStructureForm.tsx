@@ -64,7 +64,7 @@ const NewStructureForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       className='w-full flex flex-col gap-9 justify-center'
     >
-      <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
+      <div className='formContainer'>
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-8">
 
           <div className='flex flex-col gap-3 col-span-6 lg:col-span-1'>
@@ -90,10 +90,10 @@ const NewStructureForm = () => {
                 autoComplete='off'
                 type="text"
                 id='name'
-                className='input-create-page'
+                className='formInput'
             />
 
-            <small className="error-page-forms ">
+            <small className="errorPageForms ">
               {errors.name && errors.name?.message}
             </small>
           </div>   
@@ -116,10 +116,10 @@ const NewStructureForm = () => {
               }
                 type="number"
                 id='district'
-                className='input-create-page'
+                className='formInput'
             />
 
-            <small className="error-page-forms ">
+            <small className="errorPageForms ">
               {errors.district && errors.district?.message}
             </small>
           </div>
@@ -142,10 +142,10 @@ const NewStructureForm = () => {
               }
                 type="text"
                 id='path'
-                className='input-create-page'
+                className='formInput'
             />
 
-            <small className="error-page-forms ">
+            <small className="errorPageForms ">
               {errors.path && errors.path?.message}
             </small>
           </div>
@@ -168,16 +168,16 @@ const NewStructureForm = () => {
               }
                 type="text"
                 id='address'
-                className='input-create-page'
+                className='formInput'
             />
-            <small className="error-page-forms ">
+            <small className="errorPageForms ">
               {errors.address && errors.address?.message}
             </small>
           </div>
 
         </div>
         
-        <button className="btn-primary ">
+        <button className="primaryButton ">
           افزودن سازه
         </button>
       </div>

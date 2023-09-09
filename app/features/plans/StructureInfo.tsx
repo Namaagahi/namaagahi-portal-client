@@ -20,9 +20,9 @@ const StructureInfo = (props: Props) => {
     } = useAuth()
 
     return (
-        <div className="modal-container">
-            <div onClick={handleModal} className="backdrop-container"></div>
-            <div className="create-update-modal-content-container">
+        <div className="modalContainer">
+            <div onClick={handleModal} className="backdropContainer"></div>
+            <div className="createUpdateModalContentContainer">
                 <div className="flex flex-col text-lg text-center py-12">
                     <div className="p-7 border-[1px] border-x-transparent border-y-[#FA9E93]">
                         <p>

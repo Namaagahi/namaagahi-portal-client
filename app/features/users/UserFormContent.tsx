@@ -22,7 +22,7 @@ type Props = {
 
 const UserFormContent = (props: Props) => {
 
-    const { isAdmin } = useAuth()
+    const { isMaster } = useAuth()
 
     const {
             isError,
@@ -65,7 +65,7 @@ const UserFormContent = (props: Props) => {
             value={name}
             autoComplete="off"
             onChange={onNameChange}
-            className={`${isError && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} formInput2`}
         />
 
         <label
@@ -82,7 +82,7 @@ const UserFormContent = (props: Props) => {
             defaultValue={username}
             autoComplete="off"
             onChange={onUserameChange}
-            className={`${isError && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} formInput2`}
         />
 
         <label
@@ -99,11 +99,11 @@ const UserFormContent = (props: Props) => {
             value={password}
             autoComplete="off"
             onChange={onPasswordChange}
-            className={`${isError && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} formInput2`}
         />
 
         {
-            isAdmin &&
+            isMaster &&
             <>
                 <label
                     className="mt-7"

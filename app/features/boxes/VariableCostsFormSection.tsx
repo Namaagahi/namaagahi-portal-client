@@ -32,13 +32,13 @@ const VariableCostsFormSection = (props: Props) => {
                     <>
                         <div 
                             className={`${variableCostIndex === variableCostFields.length -1 && ' rounded-br-lg'} ${variableCostIndex === 0 && 'rounded-tr-lg'}
-                            p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-3/4 xl:w-2/3 border-[1px] border-b-white mt-4`}
+                            p-2 flex justify-start gap-3 bg-primary bg-opacity-60 w-full md:w-3/4 xl:w-2/3 border-[1px] border-b-gray-400 mt-4`}
                             key={`${variableCost.id}${variableCostIndex}`}
                         >
                             <div className='flex flex-col gap-3' >
                                 <label 
                                     htmlFor="varCostName" 
-                                    className='font-bold text-white'
+                                    className='font-bold text-gray-200'
                                 >
                                     نام هزینه
                                 </label>
@@ -50,7 +50,7 @@ const VariableCostsFormSection = (props: Props) => {
                                             message:  'نام هزینه را انتخاب کنید'
                                         }
                                     })}
-                                    className="select select-bordered max-w-xs w-full p-[2px] rounded-[50px] bg-white outline-none text-black"
+                                    className="select select-bordered max-w-xs w-full formInput p-[4.5px]"
                                 >
                                 {
                                 variableCostNames.map((variableCostName, i) => (
@@ -74,7 +74,7 @@ const VariableCostsFormSection = (props: Props) => {
                             <div  className='flex flex-col gap-3'>
                                 <label 
                                     htmlFor="varCost" 
-                                    className='font-bold text-white'
+                                    className='font-bold text-gray-200'
                                 >
                                     هزینه ماهیانه
                                 </label>
@@ -89,7 +89,7 @@ const VariableCostsFormSection = (props: Props) => {
                                     } 
                                     type="text"
                                     id='varCost'
-                                    className='p-1 rounded-[50px] w-full bg-white outline-none tracking-wide text-black'
+                                    className='formInput'
                                     onWheel={(e: any) => e.target.blur()}
                                     onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.costs.variableCosts.${variableCostIndex}.figures.monthlyCost`)}
     
@@ -103,7 +103,7 @@ const VariableCostsFormSection = (props: Props) => {
                         </div> 
     
                         <AiFillMinusSquare
-                            className={`${variableCostIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-900 transition-all dark:text-white`}
+                            className={`${variableCostIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-200 transition-all dark:text-white`}
                             onClick={() => removeVariableCost(variableCostIndex)} 
                         />
                     </>

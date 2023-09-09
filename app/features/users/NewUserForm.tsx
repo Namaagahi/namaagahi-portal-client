@@ -123,14 +123,14 @@ const NewUserForm = (props: Props) => {
             <div className="flex items-center gap-6">
                 <button
                     disabled={!canSave}
-                    className={`${!canSave && 'bg-[#afafd2] text-gray-500 border-[#afafd2]'} bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
+                    className={`${!canSave && 'bg-[#afafd2] text-gray-500 border-[#afafd2]'} confirmButton`}
                  >
                     ذخیره
                 </button>
 
                 <button 
                     onClick={handleModal}
-                    className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
+                    className="cancelButton"
                 >
                     لغو
                 </button>

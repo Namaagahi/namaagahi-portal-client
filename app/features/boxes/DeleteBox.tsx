@@ -37,14 +37,14 @@ const DeleteBox = (props: Props) => {
     <div className="flex items-center gap-6">
       <button
           onClick={onDeleteBoxClick}
-          className="btn-confirm"
+          className="deleteConfirmButton"
       >
           حذف باکس
       </button>
 
       <button 
           onClick={handleModal}
-          className="btn-cancel"
+          className="cancelButton"
       >
         لغو
       </button>

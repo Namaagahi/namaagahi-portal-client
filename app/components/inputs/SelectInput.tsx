@@ -24,7 +24,7 @@ const SelectInput = (props: SelectInputProps) => {
 
     return (
         <div className='flex flex-col gap-3'>
-            <label htmlFor={name} className='text-[#767676] font-bold'>{label}</label>
+            <label htmlFor={name} className='text-[#767676]  dark:text-gray-200 font-bold'>{label}</label>
             <Controller
                 control={control}
                 name={name}
@@ -35,7 +35,7 @@ const SelectInput = (props: SelectInputProps) => {
                 render={({ field }) => 
                 <select 
                     {...field} 
-                    className='p-3 rounded-[50px] bg-white outline-none'
+                    className='formInput p-[4.5px]'
                 >
                     <option value="" disabled hidden>
                     انتخاب
@@ -48,7 +48,7 @@ const SelectInput = (props: SelectInputProps) => {
                 </select>
                 }
             />
-            <small className="text-xs text-rose-600 ">{errors}</small>
+            <small className="text-xs dark:text-rose-200 text-rose-700 ">{errors}</small>
         </div>
     )
 }

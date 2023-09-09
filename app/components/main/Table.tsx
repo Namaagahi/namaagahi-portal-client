@@ -13,7 +13,7 @@ const Table = (props: Props) => {
   return (
     <div className="relative overflow-x-auto mt-5 max-w-full">
       <table className="w-full text-sm text-right text-gray-500 dark:text-gray-500">
-        <thead className="table-heading">
+        <thead className="tableHeading">
           <tr>
             {tableHeadings && tableHeadings.map((prop:string, i:number) => (
               <th

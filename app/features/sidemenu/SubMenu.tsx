@@ -8,13 +8,13 @@ import Link from "next/link"
  const SubMenu = ({ data } :any) => {
 
   const path = usePathname()
-  const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
+  const activeStyle = {background: "#faa75c", fontWeight: 500, color: "white", border:"#C91416"}
   const [subMenuOpen, setSubMenuOpen] = useState<boolean>(false)
   
   return (
     <>
       <li
-        className="flex w-full items-center justify-between gap-2 p-2 cursor-pointer hover:bg-[#C91416] hover:bg-opacity-60 hover:text-white rounded-2xl transition-all"
+        className="flex w-full items-center justify-between gap-2 p-2 cursor-pointer  hover:text-buttonHover hover:scale-110 rounded-2xl transition-all"
         onClick={() => setSubMenuOpen(!subMenuOpen)}
       >
         <div className="flex gap-2 items-center">
@@ -45,7 +45,7 @@ import Link from "next/link"
                 key={menu.name}
             >
                 <li 
-                    className="flex items-center justify-start gap-4 p-3 cursor-pointer hover:bg-[#C91416] hover:bg-opacity-60 hover:text-white rounded-2xl transition-all"
+                    className="flex items-center justify-start gap-4 p-3 cursor-pointer hover:text-buttonHover hover:scale-110 rounded-2xl transition-all"
                     style={path === menu.path ? activeStyle : {}}
                 >
                     {menu.icon}

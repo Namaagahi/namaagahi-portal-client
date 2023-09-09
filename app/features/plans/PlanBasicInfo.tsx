@@ -55,7 +55,7 @@ const PlanBasicInfo = (props: Props) => {
     }
 
     return (
-        <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
+        <div className='formContainer'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 items-center">
                 <SelectInput
@@ -74,14 +74,14 @@ const PlanBasicInfo = (props: Props) => {
                     errors={errors.brand?.message}
                     required={true}
                     type={'text'}
-                    className='p-4 rounded-[50px] bg-white outline-none'
+                    className='formInput'
                 />
                 
                 {
                     page === 'edit' && (isAdmin || isMediaManager) && plan?.status === 'done' && 
                     <button
                         type='button'
-                        className='btn-primary'
+                        className='primaryButton'
                         onClick={handleSuspendPlan}
                      >
                         تعلیق پلن

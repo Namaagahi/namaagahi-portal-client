@@ -55,14 +55,14 @@ const DeleteNote = (props: Props) => {
         <div className="flex items-center gap-6">
             <button
                 onClick={onDeleteNoteClick}
-                className="btn-confirm"
+                className="deleteConfirmButton"
             >
                 حذف
             </button>
 
             <button 
                 onClick={handleModal}
-                className="btn-cancel"
+                className="cancelButton"
             >
                 لغو
             </button>

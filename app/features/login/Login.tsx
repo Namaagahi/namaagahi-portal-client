@@ -109,7 +109,7 @@ const Login = () => {
                             وارد پنل کاربری خود شوید
                         </p>
 
-                        <p className={`${loginInfo.errMsg?.length? 'error-container absolute top-28 left-1/2': 'invisible '}  `}>
+                        <p className={`${loginInfo.errMsg?.length? 'errorContainer absolute top-28 left-1/2': 'invisible '}  `}>
                             {loginInfo.errMsg? loginInfo.errMsg : ''}
                         </p>
                     </div>
@@ -139,7 +139,7 @@ const Login = () => {
                             data-lpignore="true"
                             />
 
-                        <button className="btn-primary">
+                        <button className="primaryButton">
                             ورود
                         </button>
                     </form>

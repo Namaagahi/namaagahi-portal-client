@@ -56,7 +56,7 @@ import {
                 ? `(${column.getFacetedMinMaxValues()?.[0]})`
                 : ''
             }`}
-            className="table-input  w-[65px]"
+            className="tableInput w-[65px]"
           />
           <DebouncedInput
             type="number"
@@ -71,7 +71,7 @@ import {
                 ? `(${column.getFacetedMinMaxValues()?.[1]})`
                 : ''
             }`}
-            className="table-input  w-[65px]"
+            className="tableInput w-[65px]"
           />
         </div> */}
         <div className="h-1" />
@@ -88,7 +88,7 @@ import {
           value={(columnFilterValue ?? '') as string}
           onChange={value => column.setFilterValue(value)}
           placeholder={`جستجو... (${column.getFacetedUniqueValues().size})`}
-          className="table-input w-[65px]"
+          className="tableInputw-[65px]"
           list={column.id + 'list'}
         />
         <div className="h-1" />
@@ -225,7 +225,7 @@ const TableComponent = (props: Props) => {
           },
         }}
       >
-        <thead className="table-heading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
+        <thead className="tableHeading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
           {table.getHeaderGroups().map(headerGroup => {
             return(
               <tr key={headerGroup.id}>
@@ -388,7 +388,7 @@ const TableComponent = (props: Props) => {
             const page = e.target.value ? Number(e.target.value) - 1 : 0
             table.setPageIndex(page)
           }}
-          className="table-input w-[65px]"
+          className="tableInputw-[65px]"
         />
       </span>
       <select

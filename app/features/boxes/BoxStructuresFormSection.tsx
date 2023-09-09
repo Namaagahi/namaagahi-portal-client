@@ -84,7 +84,7 @@ const BoxStructuresFormSection = (props: Props) => {
   }
 
   return ( 
-    <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
+    <div className='formContainer'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
       {structuresField.map((item, fieldIndex) =>{
           const selectInputs = [
@@ -167,7 +167,7 @@ const BoxStructuresFormSection = (props: Props) => {
          
         return (
           <div
-            className=" border-[1px] rounded-2xl flex flex-col items-end border-primary bg-secondary dark:bg-primary w-full"
+            className=" border-[1px] rounded-2xl flex flex-col items-end border-secondary dark:bg-primary bg-secondary w-full"
             key={item.id}
           >
             <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-10 gap-4 lg:gap-2 ">
@@ -178,7 +178,7 @@ const BoxStructuresFormSection = (props: Props) => {
               <div className="flex flex-col gap-3">
                 <label
                   htmlFor={"strChoose"} 
-                  className='text-[#767676] font-bold'
+                  className='text-[#767676] dark:text-white font-bold'
                 >
                   کد سامانه
                 </label>
@@ -186,7 +186,7 @@ const BoxStructuresFormSection = (props: Props) => {
                   type="button"
                   onClick={() => handleModalToggle(fieldIndex)}
                   id="strChoose"
-                  className="bg-black p-4 text-white rounded-[50px] hover:text-black hover:bg-white transition-colors"
+                  className="bg-black p-2 text-white rounded-md hover:text-black hover:bg-white transition-colors"
                 >
                   {thisStructures[fieldIndex] || 'انتخاب سازه'}
                 </button>
@@ -229,7 +229,7 @@ const BoxStructuresFormSection = (props: Props) => {
                     errors={customInput.errors}
                     onWheel={customInput.onWheel? customInput.onWheel : undefined}
                     onChange={customInput.onChange!!}
-                    className='p-4 rounded-[50px] bg-white outline-none'
+                    className='formInput'
                   />
                 )
               })}
@@ -239,7 +239,7 @@ const BoxStructuresFormSection = (props: Props) => {
                    <div className='flex flex-col gap-3 '>
                     <label 
                       htmlFor="startDate" 
-                      className='text-[#767676] font-bold'
+                      className='text-[#767676] dark:text-white font-bold'
                     >
                       تاریخ شروع
                     </label>
@@ -266,7 +266,7 @@ const BoxStructuresFormSection = (props: Props) => {
                 <div className='flex flex-col gap-3'>
                     <label 
                       htmlFor="endDate" 
-                      className='text-[#767676] font-bold'
+                      className='text-[#767676] dark:text-white font-bold'
                     >
                       تاریخ پایان
                     </label>
@@ -293,7 +293,7 @@ const BoxStructuresFormSection = (props: Props) => {
               }
 
               <AiFillMinusCircle
-                className={`absolute left-0 ${fieldIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl hover:text-red-700 transition-all`}
+                className={`absolute left-0 ${fieldIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl dark:text-white hover:text-red-700 transition-all`}
                 onClick={() => removeStructure(fieldIndex)} 
               />
             </div>
@@ -312,7 +312,7 @@ const BoxStructuresFormSection = (props: Props) => {
       )}
 
         <AiFillPlusCircle 
-          className="cursor-pointer text-2xl hover:text-green-700 transition-all"
+          className="cursor-pointer text-2xl dark:text-white hover:text-green-700 transition-all"
           onClick={() => appendStructure(boxStructureFormValues)}
         />
     </div>

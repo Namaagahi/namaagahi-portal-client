@@ -122,7 +122,7 @@
 //           <label htmlFor="addToMap" className='text-[#767676] text-center font-bold'>ADD</label>
 //             <button 
 //               id="addToMap"
-//               className="btn-primary m-0 w-full"
+//               className="primaryButton m-0 w-full"
 //               onClick={(e) => {
 //                 e.preventDefault()
 //                 const boxStr = boxes.map(box => box.structures.find(str => 

@@ -10,7 +10,7 @@ const LogoutModalContent = (props: Props) => {
   const { handleModal } = props
 
   return (
-    <div className="confirm-modal-content">
+    <div className="confirmModalContent">
       <div className="flex justify-between items-center">
         <p className="md:text-2xl text-xl font-bold">
           تایید

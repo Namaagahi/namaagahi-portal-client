@@ -15,7 +15,7 @@ const SearchContainer = () => {
   return (
     <div className="flex gap-3 items-center mb-3">
       <input
-        className='form-input'
+        className='formInput2'
         ref={searchInputRef}
         type="text"
         value={searchText}

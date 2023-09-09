@@ -306,7 +306,7 @@ const FinalCustomerForm = (props: Props) => {
                     }
                 </div>
 
-                <button className='btn-primary' >
+                <button className='primaryButton' >
                     ثبت مشتری نهایی و تایید پلن
                 </button>
             </form>

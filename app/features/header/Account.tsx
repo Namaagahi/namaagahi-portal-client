@@ -34,7 +34,7 @@ const Account = () => {
   return (
    <>
     <div 
-      className="account-container"
+      className="accountContainer"
       onClick={() => setShowAccountMenu(!showAccountMenu)}
     >
       <Image 
@@ -48,11 +48,11 @@ const Account = () => {
       <p className="text-white dark:text-black">{status}</p>
         
       {showAccountMenu &&
-        <div className="account-menu-container z-[1000]">
+        <div className="accountMenuContainer z-[1000]">
           <ul className="space-y-3">
             <li className="font-medium">
               <div
-                className="account-menu-item"
+                className="accountMenuItem"
                 onClick={handleEditProfile}
               >
                 <BiUser className="text-2xl"/>
@@ -63,7 +63,7 @@ const Account = () => {
             </li>
 
             <li className="font-medium">
-              <Link href="#" className="account-menu-item">
+              <Link href="#" className="accountMenuItem">
                 <div className="text-2xl">
                   <AiOutlineSetting />
                 </div>

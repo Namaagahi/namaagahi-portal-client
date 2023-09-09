@@ -124,7 +124,7 @@ const PlanStructuresInfo = (props: Props) => {
     if((page=== 'edit' && !plan) || !boxStructures[0] || !inBoxStructures[0]) return <Loading />
     // console.log("chosenStructures", chosenStructures)
     return (
-        <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
+        <div className='formContainer'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
             <div className='flex justify-between gap-3 items-center w-full'>
                 <div className='flex gap-3 items-center'>
@@ -132,20 +132,20 @@ const PlanStructuresInfo = (props: Props) => {
                         type="checkbox"
                         onChange={() => setChangeInput(!changeInput)}
                     />
-                    <p>
+                    <p className='dark:text-white'>
                         ویرایش تعرفه های ماهیانه
                     </p>
                 </div>
-                <div className="flex gap-3 items-center">
+                <div className="flex gap-3 items-center dark:text-white">
                     <p>
                         مقیاس تخفیف
                     </p>
                     <FaPercentage
-                        className={`${discountType === 'percentage' ? 'text-purple-950': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer `}
+                        className={`${discountType === 'percentage' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer `}
                         onClick={() =>handleDiscountType('percentage')}
                     />
                     <FaDollarSign
-                        className={`${discountType === 'number' ? 'text-purple-950': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer`}
+                        className={`${discountType === 'number' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer`}
                         onClick={() =>handleDiscountType('number')}
                     />
                 </div>
@@ -199,7 +199,7 @@ const PlanStructuresInfo = (props: Props) => {
                                 <div className="flex flex-col gap-3">
                                     <label
                                     htmlFor={"strChoose"} 
-                                    className='text-[#767676] font-bold'
+                                    className='text-[#767676] dark:text-white font-bold'
                                     >
                                     کد سامانه
                                     </label>
@@ -207,7 +207,7 @@ const PlanStructuresInfo = (props: Props) => {
                                     type="button"
                                     onClick={() => handleModalToggle(fieldIndex)}
                                     id="strChoose"
-                                    className="bg-black p-4 text-white rounded-[50px] hover:text-black hover:bg-white transition-colors"
+                                    className="bg-black p-[4.5px] text-white rounded-md hover:text-black hover:bg-white transition-colors"
                                     >
                                     {thisStructures[fieldIndex] || 'انتخاب سازه'}
                                     </button>
@@ -240,7 +240,7 @@ const PlanStructuresInfo = (props: Props) => {
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="sellStartDate" className='text-[#767676] font-bold'>تاریخ شروع</label>
                                     <DatePicker
-                                        inputClass='p-4 rounded-[50px] bg-white outline-none w-full'
+                                        inputClass='formInput w-3/4'
                                         format='YYYY-MM-DD'
                                         value={page === 'edit' ? moment.unix(item.duration.sellStart).format('jYYYY-jMM-jDD') : undefined}
                                         calendar={persian}
@@ -256,7 +256,7 @@ const PlanStructuresInfo = (props: Props) => {
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="sellEndDate" className='text-[#767676] font-bold'>تاریخ پایان</label>
                                     <DatePicker
-                                        inputClass='p-4 rounded-[50px] bg-white outline-none w-full'
+                                        inputClass='formInput w-3/4'
                                         format='YYYY-MM-DD'
                                         value={page === 'edit' ?moment.unix(item.duration.sellEnd).format('jYYYY-jMM-jDD') : undefined}
                                         calendar={persian}
@@ -299,7 +299,7 @@ const PlanStructuresInfo = (props: Props) => {
                                                 type="text"
                                                 id="discountFee"
                                                 placeholder='تخفیف به درصد'
-                                                className="p-4 rounded-[50px] bg-white outline-none w-full"
+                                                className="formInput"
                                                 onWheel={(e: any) => e.target.blur()} 
                                                 defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 onChange={(event) => {
@@ -374,7 +374,7 @@ const PlanStructuresInfo = (props: Props) => {
             })}
 
             <AiFillPlusCircle 
-            className="cursor-pointer text-2xl hover:text-green-700 transition-all"
+            className="cursor-pointer text-2xl dark:text-white hover:text-green-700 transition-all"
             onClick={() => appendStructure(planStructureFormValues)}
             />
 

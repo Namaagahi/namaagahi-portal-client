@@ -218,7 +218,7 @@ const EditBoxComp = (props: Props) => {
           />
 
           <button
-            className="btn-primary"
+            className="primaryButton"
             onKeyDown={(e) => {
               if (e.key === "Enter") e.preventDefault()
             }}

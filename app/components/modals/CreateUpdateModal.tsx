@@ -22,13 +22,13 @@ const CreateUpdateModal = (props: Props) => {
   } = props
   
   return (
-    <div className="modal-container">
+    <div className="modalContainer">
       <div 
         onClick={handleModal} 
-        className="backdrop-container"
+        className="backdropContainer"
       ></div>
       
-      <div className={`create-update-modal-content-container ${type === 'editBox' && 'h-[80%]'}`}>
+      <div className={`createUpdateModalContentContainer ${type === 'editBox' && 'h-[80%]'}`}>
         { 
           type === 'newUser' ? 
             <NewUserForm handleModal={handleModal} />

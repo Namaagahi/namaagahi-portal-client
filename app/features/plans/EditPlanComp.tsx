@@ -186,7 +186,7 @@ const EditPlanComp = (props: Props) => {
                         setChosenStructures={setChosenStructures}
                     />
 
-                    <button className="btn-primary">
+                    <button className="primaryButton">
                         ویرایش پلن
                     </button>
                 </form>

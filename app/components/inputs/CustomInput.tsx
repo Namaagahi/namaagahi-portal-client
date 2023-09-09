@@ -52,7 +52,7 @@ const CustomInput = (props: CustomInputProps) => {
         <div className={`${!isHidden? 'block' : 'hidden'} flex flex-col gap-3 ${colSpan}`}>
             <label
                 htmlFor={name}
-                className='text-[#767676] font-bold'
+                className='formInputLabel'
             >
                 {label}
             </label>
@@ -98,7 +98,7 @@ const CustomInput = (props: CustomInputProps) => {
                 }
             />
 
-            <small className="text-xs text-rose-600 ">
+            <small className="text-xs dark:text-rose-200 text-rose-700  ">
                 {errors}
             </small>
         </div>

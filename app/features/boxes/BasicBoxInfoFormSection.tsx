@@ -29,9 +29,9 @@ const BasicBoxInfoFormSection = (props: Props) => {
     } = props
 
     return (
-        <div className='flex flex-col gap-8 items-start w-full p-8 bg-bgform rounded-[30px] text-black'>
+        <div className='formContainer'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8">
+            <div className="w-full grid grid-cols-4 md:grid-cols-2 lg:grid-cols-6 gap-4 lg:gap-8">
                 <CustomInput 
                     control={control}
                     label='نام باکس'
@@ -40,7 +40,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                     errors={errors.name?.message}
                     required={true}
                     message={'نام باکس را وارد کنید'}
-                    className='p-4 rounded-[50px] bg-white outline-none'
+                    className='formInput w-full'
                 />
 
             {
@@ -56,7 +56,7 @@ const BasicBoxInfoFormSection = (props: Props) => {
                         message={'شماره پروژه را وارد کنید'}
                         pattern={/^[P][R][0-9]{4}$/}
                         patternMessage={'فرمت کد پروژه باید به صورت PR و چهار عدد بعد از آن باشد'}
-                        className='p-4 rounded-[50px] bg-white outline-none'
+                        className='formInput'
                     />
                     <CustomInput 
                         control={control}
@@ -66,55 +66,53 @@ const BasicBoxInfoFormSection = (props: Props) => {
                         errors={errors.brand?.message}
                         required={true}
                         message={'نام برند را وارد کنید'}
-                        className='p-4 rounded-[50px] bg-white outline-none'
+                        className='formInput'
                     />
                 </>
             }
                                 
-                <div className='flex flex-col gap-3'>
-                    <label 
-                        htmlFor="startDate" 
-                        className='text-[#767676] font-bold'
-                    >
-                        تاریخ شروع
-                    </label>
-
-                    <DatePicker
-                        inputClass='p-4 rounded-[50px] bg-white outline-none'
-                        format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment.unix(box!.duration.startDate).format('jYYYY-jM-jD') : undefined}
-                        calendar={persian}
-                        locale={persian_fa}
-                        calendarPosition="bottom-right"
-                        onChange={(e) => handleStartDate(e)}
-                    />
-
-                    <small className="text-xs text-rose-600 ">
-                        {errors.startDate?.message}
-                    </small>
-                </div>
-
-                <div className='flex flex-col gap-3'>
-                    <label 
-                        htmlFor="endDate" 
-                        className='text-[#767676] font-bold'
-                    >
-                        تاریخ پایان
-                    </label>
-
-                    <DatePicker
-                        inputClass='p-4 rounded-[50px] bg-white outline-none'
-                        format='YYYY-MM-DD'
-                        value={page === 'edit' ? moment.unix(box!.duration.endDate).format('jYYYY-jM-jD') : undefined}
-                        calendar={persian}
-                        locale={persian_fa}
-                        calendarPosition="bottom-right"
-                        onChange={(e) => handleEndDate(e)}
-                    />
+                <div className="flex items-center gap-4 lg:gap-8">
+                    <div className='flex flex-col gap-3 '>
+                        <label
+                            htmlFor="startDate"
+                            className='formInputLabel'
+                        >
+                            تاریخ شروع
+                        </label>
+                        <DatePicker
+                            inputClass='formInput'
+                            format='YYYY-MM-DD'
+                            value={page === 'edit' ? moment.unix(box!.duration.startDate).format('jYYYY-jM-jD') : undefined}
+                            calendar={persian}
+                            locale={persian_fa}
+                            calendarPosition="bottom-right"
+                            onChange={(e) => handleStartDate(e)}
+                        />
+                        <small className="text-xs text-rose-600 ">
+                            {errors.startDate?.message}
+                        </small>
+                    </div>
+                    <div className='flex flex-col gap-3 col-span-4'>
+                        <label
+                            htmlFor="endDate"
+                            className='formInputLabel'
+                        >
+                            تاریخ پایان
+                        </label>
+                        <DatePicker
+                            inputClass='formInput'
+                            format='YYYY-MM-DD'
+                            value={page === 'edit' ? moment.unix(box!.duration.endDate).format('jYYYY-jM-jD') : undefined}
+                            calendar={persian}
+                            locale={persian_fa}
+                            calendarPosition="bottom-right"
+                            onChange={(e) => handleEndDate(e)}
+                        />
                     
-                    <small className="text-xs text-rose-600 ">
-                        {errors.endDate?.message}
-                    </small>
+                        <small className="text-xs text-rose-600 ">
+                            {errors.endDate?.message}
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>

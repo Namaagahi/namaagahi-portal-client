@@ -4,7 +4,7 @@ import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { InitialCustomerObject } from '@/app/lib/interfaces'
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+import { AiFillDelete } from 'react-icons/ai'
 import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useMemo, useState } from 'react'
@@ -99,7 +99,7 @@ const InitialCustomers = () => {
               cell: (info) => {
                 const createdAt = info.getValue()
                 return (
-                    <param>{moment(createdAt).format('jYYYY/jM/jD')}</param>
+                    <p>{moment(createdAt).format('jYYYY/jM/jD')}</p>
                 )}
             },
             {
@@ -108,7 +108,7 @@ const InitialCustomers = () => {
               cell: (info) => {
                 const updatedAt = info.getValue()
                 return (
-                    <param>{moment(updatedAt).format('jYYYY/jM/jD')}</param>
+                    <p>{moment(updatedAt).format('jYYYY/jM/jD')}</p>
                 )}
             },
           ],

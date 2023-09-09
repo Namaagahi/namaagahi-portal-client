@@ -9,7 +9,7 @@ const SubMenu = dynamic(
   { ssr: false }
 )
 
-type Props = {
+type Props = { 
   menuItems: MenuItemsObj[]
   subMenusList: any
 }
@@ -19,10 +19,10 @@ const Menu = (props : Props) => {
   const { menuItems, subMenusList } = props
   const [mobileMenu, setMobileMenu] = useState<boolean>(true)
   const path = usePathname()
-  const activeStyle = {background: "#C91416", fontWeight: 500, color: "white", border:"#C91416"}
+  const activeStyle = {background: "#faa75c", fontWeight: 500, color: "white", border:"#C91416"}
 
   return (
-    <div className={`${mobileMenu ? 'block' : 'hidden'} w-full xl:w-[300px] max-h-[800px] bg-[#E6E6E6] dark:bg-black p-4 rounded-2xl`}>
+    <div className={`${mobileMenu ? 'block' : 'hidden'} w-full xl:w-[300px] max-h-[800px] bg-lightModeBg backdrop-blur dark:bg-darkModeBg/30 p-4 rounded-2xl`}>
       <div className="border-y py-5 border-slate-500 dark:border-slate-300 ">
         <small className="pr-3 text-slate-500 inline-block mb-2">
           مدیریت
@@ -32,7 +32,7 @@ const Menu = (props : Props) => {
           {menuItems.map((item: MenuItemsObj) => (
             <Link href={item.path} key={item.name}>
               <li
-              className="flex items-center justify-start gap-2 p-3 cursor-pointer hover:bg-[#C91416] hover:bg-opacity-60 hover:text-white rounded-2xl transition-all"
+              className="flex items-center justify-start gap-2 p-3 cursor-pointer hover:text-buttonHover hover:scale-110  rounded-2xl transition-all"
               style={path === item.path ? activeStyle : {}}
               >
                 {item.icon}

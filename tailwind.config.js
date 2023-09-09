@@ -56,17 +56,19 @@ module.exports = {
         'fade-out-down': 'fade-out-down 0.5s ease-out',
         'fade-in-up': 'fade-in-up 0.5s ease-out',
         'fade-out-up': 'fade-out-up 0.5s ease-out'
-    },
+    }, 
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       colors: {
-        primary: "#55104F",
-        darkModeBg: '#1F0322',
-        secondary: '#D0BFFF',
-        bgform: '#d1c6d2', 
+        darkModeBg: '#000000',
+        lightModeBg: '#ffffff',
+        primary: "#4a4b69",
+        secondary: '#C9BBCF',
+        bgform: '#8B6B95',
+        buttonHover: "#faa75c",
         red: colors.red,
         blue: colors.blue,
         black: colors.black,

@@ -45,7 +45,7 @@ const NoteFormContent = (props: Props) => {
             value={title}
             autoComplete="off"
             onChange={onTitleChange}
-            className={`${isError && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} formInput2`}
         />
 
         <label
@@ -61,7 +61,7 @@ const NoteFormContent = (props: Props) => {
             value={text}
             autoComplete="off"
             onChange={onTextChange}
-            className={`${isError && 'border-rose-700'} form-input`}
+            className={`${isError && 'border-rose-700'} formInput2`}
         />
 
         <label

@@ -97,7 +97,7 @@ const EditStructureForm = (props: Props) => {
 
                         <select 
                             onChange={onUserChange}
-                            className="select select-bordered form-input w-[80%] ">
+                            className="select select-bordered formInput2 w-[80%] ">
                             {
                                 allUsers.map((user: any, index: number) => {
                                     return(  
@@ -126,7 +126,7 @@ const EditStructureForm = (props: Props) => {
                             id='name'
                             value={name}
                             type="text"
-                            className={`${isError && 'border-rose-700'} form-input w-[80%]`}
+                            className={`${isError && 'border-rose-700'} formInput2 w-[80%]`}
                             onChange={onNameChange}
                         />
                     </div>
@@ -140,7 +140,7 @@ const EditStructureForm = (props: Props) => {
                             id='district'
                             value={district}
                             type="text"
-                            className={`${isError && 'border-rose-700'} form-input w-[80%]`}
+                            className={`${isError && 'border-rose-700'} formInput2 w-[80%]`}
                             onChange={onDistrictChange}
                         />
                     </div>
@@ -154,7 +154,7 @@ const EditStructureForm = (props: Props) => {
                             id='path'
                             value={path}
                             type="text"
-                            className={`${isError && 'border-rose-700'} form-input w-[80%]`}
+                            className={`${isError && 'border-rose-700'} formInput2 w-[80%]`}
                             onChange={onPathChange}
                         />
                     </div>
@@ -168,7 +168,7 @@ const EditStructureForm = (props: Props) => {
                             id='address'
                             value={address}
                             type="text"
-                            className={`${isError && 'border-rose-700'} form-input w-[80%]`}
+                            className={`${isError && 'border-rose-700'} formInput2 w-[80%]`}
                             onChange={onAddressChange}
                         />
                     </div>
@@ -176,14 +176,14 @@ const EditStructureForm = (props: Props) => {
 
                 <div className="flex items-center gap-6">
                     <button
-                        className={` bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white`}
+                        className={`confirmButton`}
                     >
                         ذخیره
                     </button>
 
                     <button 
                         onClick={handleModal}
-                        className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
+                        className="cancelButton"
                     >
                         لغو
                     </button>

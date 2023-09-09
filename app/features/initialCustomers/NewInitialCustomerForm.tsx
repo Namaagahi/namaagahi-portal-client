@@ -87,7 +87,7 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
                         value={name}
                         autoComplete="off"
                         onChange={onNameChange}
-                        className={`${isError && 'border-rose-700'} form-input`}
+                        className={`${isError && 'border-rose-700'} formInput2`}
                     />
 
                     <small className="text-xs text-rose-600 ">
@@ -100,9 +100,9 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
                     placeholder="جستجوی مشتری"
                     value={searchQuery}
                     onChange={onSearchQueryChange}
-                    className='form-input my-4'
+                    className='formInput2 my-4'
                 />
-                <ul className='mb-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[50px] overflow-y-auto'>
+                <ul className='mb-4 bg-gray-200 text-gray-700 font-bold rounded-md p-3 h-[100px] overflow-y-auto'>
                     {getInitalCustomersIsError ? 
                         <p>
                             هیچ مشتری اولیه ای تعریف نشده است
@@ -115,14 +115,14 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
 
                 <div className="flex items-center gap-6">
                     <button
-                        className="bg-[#5858FA] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#5858FA] hover:border-[#3636a3] hover:bg-[#3636a3] transition-all text-white"
+                        className="confirmButton"
                     >
                         ذخیره
                     </button>
 
                     <button 
                         onClick={handleModal}
-                        className=" py-3 w-1/3 rounded-lg text-xl border-[1px] border-[#808080] dark:border-white hover:bg-black hover:text-white transition-all"
+                        className="cancelButton"
                     >
                         لغو
                     </button>

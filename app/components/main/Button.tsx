@@ -12,10 +12,10 @@ const Button = (props: Props) => {
   
   return (
     <button 
-      className="btn-create"
+      className="createButton"
       onClick={onClickHandler}
     >
-      <span className="btn-create-text"> {title} </span>
+      <span className="createButton-text"> {title} </span>
     </button>
   )
 }

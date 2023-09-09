@@ -205,7 +205,7 @@ return (
             </div>
 
             <button 
-                className='btn-primary w-1/5' 
+                className='primaryButton w-1/5' 
                 onClick={handleButtonClick}
             >
                 اعمال فیلتر
