@@ -1,3 +1,4 @@
+"use client"
 import PlansComp from '@/app/features/plans/PlansComp'
 import usePageTitle from '@/app/hooks/usePageTitle'
 

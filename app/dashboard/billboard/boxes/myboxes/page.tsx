@@ -1,3 +1,4 @@
+"use client"
 import BoxComp from '@/app/features/boxes/BoxComp'
 import usePageTitle from '@/app/hooks/usePageTitle'
 
