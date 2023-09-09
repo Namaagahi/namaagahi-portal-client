@@ -31,21 +31,21 @@ const CreateBox = () => {
             <div className='w-full grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-12 items-center'>
               <button
                 onClick={() => setBoxMark('owner')} 
-                className={`${boxMark === 'owner' && 'bg-primary text-white shadow-md'} formChooseButtonw-full`}
+                className={`${boxMark === 'owner' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
               >
                  مزایده ای
               </button>
 
               <button
                 onClick={() => setBoxMark('buyShort')} 
-                className={`${boxMark === 'buyShort' && 'bg-primary text-white shadow-md'} formChooseButtonw-full`}
+                className={`${boxMark === 'buyShort' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
               >
                  خرید کوتاه مدت
               </button>
 
               <button
                 onClick={() => setBoxMark('buyLong')}
-                className={`${boxMark === 'buyLong' && 'bg-primary text-white shadow-md'} formChooseButtonw-full`}
+                className={`${boxMark === 'buyLong' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
               >
                  خرید بلند مدت
               </button>

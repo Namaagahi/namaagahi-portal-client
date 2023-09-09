@@ -63,7 +63,7 @@
     @apply bg-[#C91416] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#C91416] hover:border-[#670809] hover:bg-[#670809] transition-all text-white
   }
   .formChooseButton{
-    @apply bg-secondary rounded-md py-2 hover:scale-110 text-white transition-all
+    @apply bg-secondary rounded-md py-2 hover:scale-110 text-black transition-all
   }
   .tableHeading {
     @apply font-bold py-2 text-gray-700 dark:text-gray-500 border-y-2 border-y-[#FA9E93]
