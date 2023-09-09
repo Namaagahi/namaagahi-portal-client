@@ -24,10 +24,10 @@
     @apply py-5 px-8 w-full text-black dark:text-white 
   }
   .confirmModalContentContainer {
-    @apply fixed flex flex-col justify-center items-center w-[80%] lg:w-[33%] min-h-[30%] bg-white dark:bg-gray-800  rounded-3xl z-[1000] 
+    @apply fixed flex flex-col justify-center items-center w-[80%] lg:w-[33%] min-h-[30%] bg-white dark:bg-gray-800  rounded-md z-[1000] 
   }
   .createUpdateModalContentContainer {
-    @apply fixed flex flex-col justify-center items-center w-[80%] xl:w-[33%] md:w-[66%] min-h-[50%] bg-white dark:bg-gray-800 dark:text-white rounded-3xl z-[1000]
+    @apply fixed flex flex-col justify-center items-center w-[80%] xl:w-[33%] md:w-[66%] min-h-[50%] bg-white dark:bg-gray-800 dark:text-white rounded-md z-[1000]
   }
   .backdropContainer {
     @apply fixed top-0 left-0 bottom-0 right-0 bg-black bg-opacity-70 z-[1000]
@@ -51,16 +51,16 @@
     @apply  text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080] text-center text-xs
   }
   .primaryButton {
-    @apply w-[30%] h-16 mx-auto bg-[#EC6453] rounded-xl text-white md:text-2xl text-lg font-bold hover:bg-[#741f12] transition-all
+    @apply bg-buttonHover text-black rounded-md p-2 font-bold border-buttonHover border-[2px] transition-all hover:bg-transparent hover:text-buttonHover hover:scale-110
   }
   .createButton {
-    @apply w-[150px] m-4 p-1 rounded-full from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r
+    @apply w-[150px] m-4 p-1 rounded-md from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r
   }
   .createButton-text {
-    @apply block text-black px-4 py-2 font-semibold rounded-full bg-white hover:bg-transparent hover:text-white transition
+    @apply block text-black px-4 py-2 font-semibold rounded-md bg-white hover:bg-transparent hover:text-white transition
   }
   .deleteConfirmButton {
-    @apply bg-[#C91416] py-3 w-2/3 rounded-lg text-xl border-[1px] border-[#C91416] hover:border-[#670809] hover:bg-[#670809] transition-all text-white
+    @apply bg-[#C91416] py-3 w-2/3 rounded-md text-xl border-[1px] border-[#C91416] hover:border-[#670809] hover:bg-[#670809] transition-all text-white
   }
   .formChooseButton{
     @apply bg-secondary rounded-md py-2 hover:scale-110 text-black transition-all
@@ -69,16 +69,16 @@
     @apply font-bold py-2 text-gray-700 dark:text-gray-500 border-y-2 border-y-[#FA9E93]
   }
   .errorContainer {
-    @apply bg-pink-200 font-bold text-fuchsia-600 p-1 rounded-xl transform -translate-x-1/2 md:w-[40%] w-full  animate-fade-in-down
+    @apply bg-pink-200 font-bold text-fuchsia-600 p-1 rounded-md transform -translate-x-1/2 md:w-[40%] w-full  animate-fade-in-down
   }
   .errorPageForms {
     @apply text-xs text-rose-600
   }
   .accountContainer {
-    @apply relative bg-black dark:bg-white p-3 rounded-[44px] flex justify-center items-center gap-3 text-white dark:text-black
+    @apply relative bg-black dark:bg-white p-3 rounded-md flex justify-center items-center gap-3 text-white dark:text-black
   }
   .accountMenuContainer {
-    @apply absolute bg-gray-700 dark:bg-gray-200 top-14 right-2  w-32 px-5 py-3 rounded-xl
+    @apply absolute bg-gray-700 dark:bg-gray-200 top-14 right-2  w-32 px-5 py-3 rounded-md
   }
   .accountMenuItem {
     @apply flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 cursor-pointer
@@ -87,7 +87,7 @@
     @apply font-medium flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4 cursor-pointer
   }
   .badge {
-    @apply absolute inline-flex items-center justify-center w-8 h-8 text-lg font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900
+    @apply absolute inline-flex items-center justify-center w-8 h-8 text-lg font-bold text-white bg-red-500 border-2 border-white rounded-md -top-2 -right-2 dark:border-gray-900
   }
 }
 
@@ -139,7 +139,7 @@ th,
 .th,
 td,
 .td {
-  box-shadow: inset 0 0 0 1px darkgray;
+  box-shadow: inset 0 0 0 1px gray;
   padding: 0.05rem;
 }
 

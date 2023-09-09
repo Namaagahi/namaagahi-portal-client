@@ -21,7 +21,7 @@ const FinalCustomerTypes = (props: any) => {
                 checked={contractType === 'official'}
                 onChange={() => setContractType('official')}
             />
-            <label htmlFor="official">
+            <label htmlFor="official" className='dark:text-gray-200'>
                 رسمی
             </label>
         </div>
@@ -34,7 +34,7 @@ const FinalCustomerTypes = (props: any) => {
                 checked={contractType === 'unofficial'}
                 onChange={() => setContractType('unofficial')}
             />
-            <label htmlFor="unofficial">
+            <label htmlFor="unofficial" className='dark:text-gray-200'>
                 غیر رسمی
             </label>
         </div>
@@ -49,7 +49,7 @@ const FinalCustomerTypes = (props: any) => {
                 checked={customerType === 'legal'}
                 onChange={() => setCustomerType('legal')}
             />
-            <label htmlFor="legal">
+            <label htmlFor="legal" className='dark:text-gray-200'>
                 حقوقی
             </label>
         </div>
@@ -62,7 +62,7 @@ const FinalCustomerTypes = (props: any) => {
                 checked={customerType === 'personal'}
                 onChange={() => setCustomerType('personal')}
             />
-            <label htmlFor="personal">
+            <label htmlFor="personal" className='dark:text-gray-200'>
                 حقیقی
             </label>
         </div>

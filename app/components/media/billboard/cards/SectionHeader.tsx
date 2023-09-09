@@ -10,7 +10,7 @@ const SectionHeader = (props: Props) => {
 
   return (
     <div className='grid grid-cols-1'>
-    <div className='bg-secondary dark:bg-primary flex flex-col gap-2 rounded-xl p-4'>
+    <div className='bg-secondary dark:bg-primary flex flex-col gap-2 rounded-md p-4'>
       <Title 
         title={title} 
         fontSize={'text-3xl'} 

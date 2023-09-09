@@ -186,7 +186,7 @@ const EditPlanComp = (props: Props) => {
                         setChosenStructures={setChosenStructures}
                     />
 
-                    <button className="primaryButton">
+                    <button className="primaryButton mx-auto w-1/3">
                         ویرایش پلن
                     </button>
                 </form>

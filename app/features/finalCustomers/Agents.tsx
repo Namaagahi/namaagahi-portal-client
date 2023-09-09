@@ -24,7 +24,7 @@ const Agents = (props: Props) => {
 
     // console.log("agentField", agentField)
   return (
-    <div className="backdrop-blur bg-white/30 border-[1px] dark:text-black border-gray-400 col-span-2 rounded-xl mb-2 pl-2 pr-4">
+    <div className="backdrop-blur bg-white/30 border-[1px] dark:text-black border-gray-400 col-span-2 rounded-md mb-2 pl-2 pr-4">
         {
             agentField.map((item: any, fieldIndex: number) => {
                 return (
@@ -32,7 +32,7 @@ const Agents = (props: Props) => {
                         className="flex items-center gap-2 justify-center"
                         key={item._id}
                     >
-                        <div className='absolute right-0 top-0 min-h-[10px] overflow-hidden w-4 rounded-[20px] bg-purple-200 flex justify-center items-center font-bold text-black hover:scale-125 cursor-pointer transition-all'>
+                        <div className='absolute right-0 top-0 min-h-[10px] overflow-hidden w-4 rounded-md bg-primary text-white flex justify-center items-center font-bold  hover:scale-125 cursor-pointer transition-all'>
                             {fieldIndex + 1}
                         </div>
                         <CustomInput
@@ -40,7 +40,7 @@ const Agents = (props: Props) => {
                             type="text"
                             name= {`agent.${fieldIndex}.agentName`}
                             control={control}
-                            className={`${isDisabled ? "bg-gray-400" :"bg-gray-300"} w-full p-4 rounded-[50px] outline-none`}
+                            className={`formInput dark:bg-white`}
                             disabled={isDisabled}
                             autoComplete={'off'}
                         />
@@ -49,7 +49,7 @@ const Agents = (props: Props) => {
                             type="text"
                             name= {`agent.${fieldIndex}.post`}
                             control={control}
-                            className={`${isDisabled ? "bg-gray-400" :"bg-gray-300"} w-full p-4 rounded-[50px] outline-none`}
+                            className={`formInput dark:bg-white`}
                             disabled={isDisabled}
                             autoComplete={'off'}
                         />

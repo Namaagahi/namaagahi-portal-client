@@ -57,35 +57,38 @@ const PlanBasicInfo = (props: Props) => {
     return (
         <div className='formContainer'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
-            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 items-center">
-                <SelectInput
-                    control={control}
-                    name={'initialCustomerId'}
-                    label={'نام مشتری'}
-                    required={true}
-                    errors={errors.initialCustomerId?.message}
-                    options={allInitialCustomers}
-                />
-
-                <CustomInput 
-                    control={control}
-                    name={'brand'}
-                    label={'برند'}
-                    errors={errors.brand?.message}
-                    required={true}
-                    type={'text'}
-                    className='formInput'
-                />
+            <div className="w-1/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 items-end">
+                <div className='flex items-center gap-3'>
+                    <SelectInput
+                        control={control}
+                        name={'initialCustomerId'}
+                        label={'نام مشتری'}
+                        required={true}
+                        errors={errors.initialCustomerId?.message}
+                        options={allInitialCustomers}
+                    />
+                    <CustomInput
+                        control={control}
+                        name={'brand'}
+                        label={'برند'}
+                        errors={errors.brand?.message}
+                        required={true}
+                        type={'text'}
+                        className='formInput'
+                    />
+                </div>
                 
                 {
                     page === 'edit' && (isAdmin || isMediaManager) && plan?.status === 'done' && 
-                    <button
-                        type='button'
-                        className='primaryButton'
-                        onClick={handleSuspendPlan}
-                     >
-                        تعلیق پلن
-                    </button>
+                    <div>
+                        <button
+                            type='button'
+                            className='primaryButton '
+                            onClick={handleSuspendPlan}
+                         >
+                            تعلیق پلن
+                        </button>
+                    </div>
                 }
             </div>
         </div>

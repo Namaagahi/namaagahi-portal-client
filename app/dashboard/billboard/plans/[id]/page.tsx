@@ -46,7 +46,7 @@ const SinglePlan = () => {
   return (
       <main className='min-h-screen w-full'>
         <PageTitle name={`پلن ${plan?.planId}`} />
-        <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
+        <div className="flex flex-col rounded-md min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
           <div className=" p-4 h-full bg-gray-100 overflow-hidden">
             <SinglePlanHeading
               plan={plan}

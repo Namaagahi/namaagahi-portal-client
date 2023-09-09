@@ -72,7 +72,7 @@ const Login = () => {
         <div className='pr-6 pt-6 '>
             <LogoSmall />
             <div className="grid xl:grid-cols-2 grid-cols-1 py-12 xl:py-48 px-10 xl:px-40 gap-24 place-items-center">
-                <div className="order-last opacity-60 block dark:hidden relative w-[740px] h-[292px]">
+                <div className="order-last block dark:hidden relative w-[540px] h-[213px]">
                     <Image
                         src={'/images/Logo-Black-text.webp'}
                         alt="hero"
@@ -83,7 +83,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="order-last opacity-60 relative w-[740px] h-[292px]">
+                <div className="order-last opacity-60 relative w-[540px] h-[213px]">
                     <Image
                         src={'/images/Logo-White-Text.webp'}
                         alt="hero"
@@ -94,22 +94,22 @@ const Login = () => {
                 </div>
 
                 <div className="flex flex-col w-full text-center">
-                    <p className="md:text-5xl text-3xl font-bold text-primary dark:text-yellow-400 ">
+                    <p className="md:text-5xl text-3xl font-bold text-primary dark:text-buttonHover ">
                         {process.env.TITLE}
                     </p> 
 
-                    <div className="flex flex-col items-center mt-10 xl:mt-20 relative mb-16">
-                        <p className="text-4xl font-bold mb-2">
+                    <div className="flex flex-col items-center mt-5 relative mb-16">
+                        {/* <p className="text-4xl font-bold mb-2">
                             ورود
-                        </p>
+                        </p> */}
 
-                        <hr className="w-48 h-0.5 bg-[#FA9E93] border-0 rounded mb-2  "></hr>
+                        <hr className="w-48 h-0.5 bg-primary border-0 rounded mb-2  "></hr>
 
                         <p className="text-xl text-[#C91416] dark:text-pink-300 mb-2">
                             وارد پنل کاربری خود شوید
                         </p>
 
-                        <p className={`${loginInfo.errMsg?.length? 'errorContainer absolute top-28 left-1/2': 'invisible '}  `}>
+                        <p className={`${loginInfo.errMsg?.length? 'errorContainer absolute top-12 left-1/2': 'invisible '}  `}>
                             {loginInfo.errMsg? loginInfo.errMsg : ''}
                         </p>
                     </div>
@@ -119,7 +119,7 @@ const Login = () => {
                         onSubmit={handleSubmit}
                     >
                         <input
-                            className="input-primary"
+                            className="formInput w-1/3 text-black"
                             type="text" 
                             placeholder="نام کاربری"
                             ref={userRef}
@@ -130,7 +130,7 @@ const Login = () => {
                         />
 
                         <input 
-                            className="input-primary" 
+                            className="formInput w-1/3 text-black" 
                             type="password" 
                             placeholder="رمز عبور" 
                             autoComplete="off"
@@ -139,7 +139,7 @@ const Login = () => {
                             data-lpignore="true"
                             />
 
-                        <button className="primaryButton">
+                        <button className="primaryButton w-1/3 mt-5">
                             ورود
                         </button>
                     </form>

@@ -74,7 +74,7 @@ const Account = () => {
             <hr className="dark:border-gray-700"/>
 
             <li
-              className="account-menu-logout-item"
+              className="accountMenuLogoutItem "
               onClick={handleLogout}
             >
               <div className="text-red-600 text-2xl">

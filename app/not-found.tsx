@@ -19,7 +19,7 @@ const NotFound = () => {
         </div>
         <Link href={'/dashboard'} className='mt-20'>
           <button 
-            className='flex items-center justify-center gap-2 w-52 py-4 bg-[#F5E8FF] rounded-[30px] text-black hover:bg-[#b554ff] transition-all text-2xl border-[3px] border-black shadow-inner'
+            className='flex items-center justify-center gap-2 w-52 py-4 bg-[#F5E8FF] rounded-md text-black hover:bg-[#b554ff] transition-all text-2xl border-[3px] border-black shadow-inner'
           >
             <p>داشبورد</p>
             <RiArrowGoBackLine />

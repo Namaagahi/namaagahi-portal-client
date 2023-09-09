@@ -10,7 +10,7 @@ const FinalCustomerInfo = (props: Props) => {
     console.log("finalCustomer", finalCustomer)
 
     return (
-        <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 rounded-lg text-gray-700 dark:text-white mt-5 flex flex-col items-start justify-center'>
+        <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 text-gray-700 dark:text-white mt-5 flex flex-col items-start justify-center'>
             <p>eut
                 اطلاعات مشتری نهایی
             </p>

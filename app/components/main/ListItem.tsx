@@ -39,7 +39,7 @@ const ListItem = (props: Props) => {
 
     return (
     <>
-        <div className="relative p-7 pt-14 w-full min-h-[232px] flex flex-col justify-center items-center gap-2 rounded-3xl shadow-md bg-gray-300 dark:bg-white text-gray-800 overflow-hidden">
+        <div className="relative p-7 pt-14 w-full min-h-[232px] flex flex-col justify-center items-center gap-2 rounded-md shadow-md bg-gray-300 dark:bg-white text-gray-800 overflow-hidden">
             <div className="absolute right-7 top-0 min-h-[48px] w-10 rounded-b-[20px] bg-[#18A661] flex justify-center items-center font-bold text-xl">
                 {number + 1}
             </div>
@@ -60,20 +60,20 @@ const ListItem = (props: Props) => {
             }
 
             <div className='flex justify-between items-center gap-2 w-full font-bold mt-2 text-xs sm:text-sm md:text-base'>
-                <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
+                <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-md border-2 border-yellow-400 p-1 text-white text-center'>
                     {moment.unix(startDate).format('jYYYY-jMM-jDD')}
                 </div>
 
-                <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
+                <div className='w-[60%] sm:w-[30%] bg-gray-700 rounded-md border-2 border-yellow-400 p-1 text-white text-center'>
                     {moment.unix(endDate).format('jYYYY-jMM-jDD')}
                 </div>
 
-                <div className='w-[30%] sm:w-[30%] bg-gray-700 rounded-3xl border-2 border-yellow-400 p-1 text-white text-center'>
+                <div className='w-[30%] sm:w-[30%] bg-gray-700 rounded-md border-2 border-yellow-400 p-1 text-white text-center'>
                     {diff} روز
                 </div>
             </div>
 
-            <div className='lg:w-2/3 w-full dark:bg-slate-300 bg-white rounded-lg p-3 my-10'>
+            <div className='lg:w-2/3 w-full dark:bg-slate-300 bg-white rounded-md p-3 my-10'>
                 {Object.entries(titles).map(([key, val]:any) => (
                     <div 
                         key={key} 

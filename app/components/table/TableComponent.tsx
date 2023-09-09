@@ -121,7 +121,7 @@ import {
     }, [value])
   
     return (
-      <input {...props} value={value} onChange={e => setValue(e.target.value)} />
+      <input {...props} value={value} onChange={e => setValue(e.target.value)} className='formInput text-black' />
     )
   }
 
@@ -197,8 +197,8 @@ const TableComponent = (props: Props) => {
       />
     </div>
     <div className="h-2" />
-    <div className="relative overflow-x-auto scroll-smooth mt-5 max-w-full">
-    <div className="w-full flex items-center justify-between border p-1 shadow rounded mb-3 text-xs">
+    <div className="relative overflow-x-auto scroll-smooth mt-5 max-w-full scrollbar scrollbar-thumb-primary scrollbar-track-gray-100">
+    <div className="w-full flex items-center justify-between border p-1 shadow rounded-md mb-3 text-xs">
       {table.getAllLeafColumns().map(column => {
         if(column.id === '_id' || column.id === 'parent') return
         return (
@@ -225,14 +225,13 @@ const TableComponent = (props: Props) => {
           },
         }}
       >
-        <thead className="tableHeading text-center bg-slate-50 dark:bg-gray-500 dark:text-white">
+        <thead className="tableHeading text-center bg-slate-50 dark:bg-primary dark:text-white">
           {table.getHeaderGroups().map(headerGroup => {
             return(
               <tr key={headerGroup.id}>
                 <th>{}</th>
                 {headerGroup.headers.map(header => {
                   return (
-                    <>
                     <th 
                       {...{
                         key: header.id,
@@ -278,7 +277,6 @@ const TableComponent = (props: Props) => {
                         </>
                       )}
                     </th>
-                    </>
                   )
                 })}
               </tr>
@@ -292,11 +290,11 @@ const TableComponent = (props: Props) => {
                 key={row.id} 
                 className={`${
                 selectedRowId === row.id
-                  ? 'bg-red-200'
+                  ? 'bg-buttonHover text-black'
                   : 'bg-white border-b dark:bg-gray-900'
               } dark:border-gray-700 text-center`}
             >
-                <td>{row.index + 1}</td>
+                <td className='px-2'>{row.index + 1}</td>
                 {row.getVisibleCells().map(cell => {
                   return (
                     <td
@@ -345,28 +343,28 @@ const TableComponent = (props: Props) => {
   </div>
     <div className="flex items-center gap-2 mt-2">
       <button
-        className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
+        className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded-md p-1 text-black`}
         onClick={() => table.setPageIndex(0)}
         disabled={!table.getCanPreviousPage()}
       >
         <AiOutlineDoubleRight />
       </button>
       <button
-        className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
+        className={`${!table.getCanPreviousPage()? 'bg-gray-400' : 'bg-white'} border rounded-md p-1 text-black`}
         onClick={() => table.previousPage()}
         disabled={!table.getCanPreviousPage()}
       >
         <AiOutlineRight />
       </button>
       <button
-        className={`${!table.getCanNextPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
+        className={`${!table.getCanNextPage()? 'bg-gray-400' : 'bg-white'} border rounded-md p-1 text-black`}
         onClick={() => table.nextPage()}
         disabled={!table.getCanNextPage()}
       >
         <AiOutlineLeft />
       </button>
       <button
-        className={`${!table.getCanNextPage()? 'bg-gray-400' : 'bg-white'} border rounded p-1 text-black`}
+        className={`${!table.getCanNextPage()? 'bg-gray-400' : 'bg-white'} border rounded-md p-1 text-black`}
         onClick={() => table.setPageIndex(table.getPageCount() - 1)}
         disabled={!table.getCanNextPage()}
       >
@@ -388,11 +386,11 @@ const TableComponent = (props: Props) => {
             const page = e.target.value ? Number(e.target.value) - 1 : 0
             table.setPageIndex(page)
           }}
-          className="tableInputw-[65px]"
+          className="formInput text-black w-[30px] py-[9px]"
         />
       </span>
       <select
-        className='select select-bordered table-input'
+        className='formInput text-black '
         value={table.getState().pagination.pageSize}
         onChange={e => {
           table.setPageSize(Number(e.target.value))

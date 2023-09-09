@@ -28,7 +28,7 @@ const Card = (props: Props) => {
   } = props
 
   return (
-    <div className='bg-secondary dark:bg-primary flex flex-col gap-4 rounded-xl p-4 hover:bg-slate-300 dark:hover:bg-slate-600 transition'>
+    <div className='bg-secondary dark:bg-primary flex flex-col gap-4 rounded-md p-4 hover:bg-slate-300 dark:hover:bg-slate-600 transition'>
       <Title
         title={title} 
         fontSize={'text-xl'} 

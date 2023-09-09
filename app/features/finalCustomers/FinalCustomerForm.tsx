@@ -218,8 +218,8 @@ const FinalCustomerForm = (props: Props) => {
     // console.log("iS error", isError)
     // console.log("finalCustomer", finalCustomer)
     return (
-        <div className='w-full h-full bg-teal-200 dark:bg-neutral-300 p-2 rounded-lg text-gray-700 mt-5 flex flex-col items-start justify-center'>
-            <p>
+        <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 text-gray-700 mt-5 flex flex-col items-start justify-center'>
+            <p className='dark:text-gray-200'>
                 مشتری نهایی
             </p>
 
@@ -229,7 +229,7 @@ const FinalCustomerForm = (props: Props) => {
                 className='w-full flex flex-col gap-9 justify-center mt-2'
             >
                 <div className="flex items-center gap-3">
-                    <label htmlFor="chooseCustomer">
+                    <label htmlFor="chooseCustomer" className='dark:text-gray-200'>
                         انتخاب از مشتریان قبلی
                     </label>
                     <input
@@ -241,7 +241,7 @@ const FinalCustomerForm = (props: Props) => {
                     {
                         isDisabled &&
                         <select 
-                            className='p-4 rounded-[50px] bg-white outline-none'
+                            className='formInput'
                             onChange={(e) => setCustomerId(e.target.value)}
                         >
                             <option value="" >
@@ -287,7 +287,7 @@ const FinalCustomerForm = (props: Props) => {
                                     errors={customInput.errors && customInput.errors}
                                     disabled={isDisabled}
                                     isHidden={customInput.isHidden}
-                                    className={`${isDisabled ? "bg-gray-400" :"bg-white"} p-4 rounded-[50px] outline-none`}
+                                    className={`${isDisabled ? "bg-gray-400" :"bg-white"} formInput`}
                                     autoComplete={'off'}
                                 />
                             )
@@ -306,7 +306,7 @@ const FinalCustomerForm = (props: Props) => {
                     }
                 </div>
 
-                <button className='primaryButton' >
+                <button className='primaryButton hover:text-black w-1/3 mx-auto' >
                     ثبت مشتری نهایی و تایید پلن
                 </button>
             </form>

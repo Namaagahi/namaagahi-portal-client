@@ -167,18 +167,18 @@ const BoxStructuresFormSection = (props: Props) => {
          
         return (
           <div
-            className=" border-[1px] rounded-2xl flex flex-col items-end border-secondary dark:bg-primary bg-secondary w-full"
+            className="rounded-md flex flex-col items-end dark:bg-primary bg-secondary w-full"
             key={item.id}
           >
             <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-10 gap-4 lg:gap-2 ">
-              <div className='absolute right-0 top-0 min-h-[24px] w-4 rounded-[20px] bg-primary flex justify-center items-center font-bold text-white hover:scale-125 cursor-pointer transition-all'>
+              <div className='absolute right-0 top-0 min-h-[24px] w-4 rounded-md bg-primary flex justify-center items-center font-bold text-white hover:scale-125 cursor-pointer transition-all'>
                 {fieldIndex + 1}
               </div>
 
               <div className="flex flex-col gap-3">
                 <label
                   htmlFor={"strChoose"} 
-                  className='text-[#767676] dark:text-white font-bold'
+                  className='text-[#767676] dark:text-white font-bold mr-3'
                 >
                   کد سامانه
                 </label>
@@ -245,7 +245,7 @@ const BoxStructuresFormSection = (props: Props) => {
                     </label>
 
                     <DatePicker
-                      inputClass='p-4 rounded-[50px] bg-white outline-none max-w-[105px]'
+                      inputClass='formInput'
                       format='YYYY-MM-DD'
                       value={page === 'edit' ? moment.unix(item.duration.startDate).format('jYYYY-jM-jD') : undefined}
                       calendar={persian}
@@ -272,7 +272,7 @@ const BoxStructuresFormSection = (props: Props) => {
                     </label>
 
                     <DatePicker
-                      inputClass='p-4 rounded-[50px] bg-white outline-none  max-w-[105px]'
+                      inputClass='formInput'
                       format='YYYY-MM-DD'
                       value={page === 'edit' ? moment.unix(item.duration.endDate).format('jYYYY-jM-jD') : undefined}
                       calendar={persian}

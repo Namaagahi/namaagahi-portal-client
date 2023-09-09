@@ -80,14 +80,11 @@ const SingleBox = () => {
         }, 0)
 
     if(!newBox || !box || !structures[0] || loading) return <Loading />
-    // console.log("fixedCostsMonthlySum", fixedCostsMonthlySum) 
-    // console.log("totalMonthlyCostSum", totalMonthlyCostSum) 
-    // console.log("newBox", newBox) 
     return (  
         <main className='min-h-screen w-full'>
             <PageTitle name={`باکس ${newBox.name}`} />
             <SearchContainer />
-            <div className="flex flex-col rounded-lg min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
+            <div className="flex flex-col rounded-md min-h-[750px] mb-48 bg-slate-300 dark:bg-slate-100 overflow-hidden shadow-md">
                 <div className=" h-full duration-1000">
                     <div className=" p-4 h-full bg-gray-100 overflow-hidden">
                         <SingleBoxHeading box={newBox} />

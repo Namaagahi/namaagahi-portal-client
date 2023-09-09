@@ -234,7 +234,7 @@ return (
             id="content-to-capture"
             style={{color: '#8a8a8a'}}
         >
-            <div className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-lg my-2 grid grid-cols-12'>
+            <div className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-md my-2 grid grid-cols-12'>
                 <p className='col-span-1'>
                     شماره
                 </p>
@@ -261,7 +261,7 @@ return (
                 return (
                     <div
                         key={`${key}${Math.random()}`}
-                        className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-lg my-2 grid grid-cols-12'
+                        className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-md my-2 grid grid-cols-12'
                     >
                         <p className='col-span-1'>
                             {index + 1}

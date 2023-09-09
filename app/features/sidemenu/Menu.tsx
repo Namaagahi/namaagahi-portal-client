@@ -19,7 +19,7 @@ const Menu = (props : Props) => {
   const { menuItems, subMenusList } = props
   const [mobileMenu, setMobileMenu] = useState<boolean>(true)
   const path = usePathname()
-  const activeStyle = {background: "#faa75c", fontWeight: 500, color: "white", border:"#C91416"}
+  const activeStyle = {background: "#faa75c", fontWeight: 500, color: "black", border:"#C91416"}
 
   return (
     <div className={`${mobileMenu ? 'block' : 'hidden'} w-full xl:w-[300px] max-h-[800px] bg-lightModeBg backdrop-blur dark:bg-darkModeBg/30 p-4 rounded-2xl`}>
