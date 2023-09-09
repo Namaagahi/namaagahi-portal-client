@@ -94,7 +94,7 @@ const SingleBox = () => {
                         <small className=" mt-2 text-black px-2">
                             خرید
                         </small>
-                        <div className="max-h-[30%] bg-rose-200 dark:bg-[#7d332e] overflow-y-auto p-2 w-full">
+                        <div className="max-h-[30%] bg-secondary dark:bg-darkModeBg overflow-y-auto p-2 w-full">
                             <div className='flex flex-col items-end gap-2'>
                                 <div className='flex items-center gap-3'>
                                     <p>جمع هزینه های تمام شده دوره</p>

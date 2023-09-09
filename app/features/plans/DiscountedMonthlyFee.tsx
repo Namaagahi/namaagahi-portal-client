@@ -52,7 +52,7 @@ const DiscountedMonthlyFee = (props: Props) => {
             </label>
 
             <p
-                className='p-4' 
+                className='p-4 text-primary dark:text-secondary' 
                 id='discountedMothlyFee'
                 ref={discountedMonthlyFeeRef}
             >

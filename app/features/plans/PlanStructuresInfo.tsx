@@ -188,7 +188,7 @@ const PlanStructuresInfo = (props: Props) => {
                             />
                         }
                         <div
-                            className=" border-[1px] rounded-2xl flex flex-col items-end  border-primary bg-secondary w-full"
+                            className=" border-[1px] rounded-2xl flex flex-col items-end  border-primary bg-secondary dark:bg-primary w-full"
                             key={item.id}
                         >
                             <div className="relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-9 gap-4 lg:gap-6 w-full">

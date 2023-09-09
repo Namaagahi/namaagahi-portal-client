@@ -26,7 +26,7 @@ import {
     return itemRank.passed
   }
   
-  function Filter({ column, table }: { column: Column<any, unknown>, table: Table<any> }) {
+  function Filter({ column, table }: { column: Column<any, unknown>, table: Table<any>}) {
     const firstValue = table
       .getPreFilteredRowModel()
       .flatRows[0]?.getValue(column.id)
@@ -210,7 +210,7 @@ const TableComponent = (props: Props) => {
                   checked: column.getIsVisible(),
                   onChange: column.getToggleVisibilityHandler(),
                 }}
-              />{' '}
+              />
               {column.id}
             </label>
           </div>

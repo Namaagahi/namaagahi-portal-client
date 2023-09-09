@@ -41,7 +41,7 @@ const MonthlyFeeInput = (props: Props) => {
                         تعرفه ماهیانه سازه
                     </label>
 
-                    <p className='p-4'>
+                    <p className='p-4 text-primary dark:text-secondary'>
                         {formatNumber(selectedStructure?.monthlyBaseFee, ',')}
                     </p>
                 </>

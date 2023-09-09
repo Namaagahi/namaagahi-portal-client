@@ -29,7 +29,7 @@ const SummaryBox = (props: Props) => {
         <div className='flex gap-3'>
             <label
                 htmlFor="typeName"
-                className='text-[#767676] font-bold'
+                className='text-[#767676] dark:text-white font-bold'
             >
                 مسیر
             </label>
@@ -42,7 +42,7 @@ const SummaryBox = (props: Props) => {
         <div className='flex gap-3'>
             <label
                 htmlFor="typeName"
-                className='text-[#767676] font-bold'
+                className='text-[#767676] dark:text-white font-bold'
             >
                 نشانی
             </label>
@@ -55,7 +55,7 @@ const SummaryBox = (props: Props) => {
         <div className='flex gap-3'>
             <label
                 htmlFor="typeName"
-                className='text-[#767676] font-bold'
+                className='text-[#767676] dark:text-white font-bold'
             >
                 مساحت
             </label>

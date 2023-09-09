@@ -15,7 +15,7 @@ const SinglePlanHeading = (props: Props) => {
     } = props
 
     return (
-        <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-[#2563EB]/80 flex items-center justify-between px-2 text-white font-bold">
+        <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-primary/80 flex items-center justify-between px-2 text-white font-bold">
             <div className="flex flex-col gap-2">
                 <p>نام مشتری: {customer?.name}</p>
                 <p>برند: {plan?.brand}</p>

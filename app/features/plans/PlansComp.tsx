@@ -231,7 +231,7 @@ const PlansComp = (props: Props) => {
                         <p className=" cursor-pointer transition-all">
                             <Status
                                 status = {'مشاهده '}
-                                bgColor = {'#34ebc9'}
+                                bgColor = {'#D0BFFF'}
                                 textColor = {'#0a541e'}
                             />
                         </p>

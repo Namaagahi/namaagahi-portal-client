@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 // import { selectAllStructures, selectStructureById } from "@/app/features/structures/structuresApiSlice"
 // import { MapContainer, Marker, Popup, TileLayer, useMapEvents } from "react-leaflet"
 // import { selectAllBoxes } from "@/app/features/boxes/boxesApiSlice"
@@ -180,6 +180,7 @@
 // }
 
 // export default MapNama
+import usePageTitle from '@/app/hooks/usePageTitle'
 import React from 'react'
 
 const MapNama = () => {

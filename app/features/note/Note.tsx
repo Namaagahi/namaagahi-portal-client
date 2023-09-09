@@ -2,8 +2,8 @@ import { selectNoteById } from "@/app/apiSlices/notesApiSlice"
 import { AiFillEdit, AiFillDelete } from 'react-icons/ai'
 import { NoteObject } from "@/app/lib/interfaces"
 import { useSelector } from "react-redux"
+import moment from 'jalali-moment'
 import { useState } from "react"
-import moment from "moment"
 import dynamic from 'next/dynamic'
 const CreateUpdateModal = dynamic(
   () => import('../../components/modals/CreateUpdateModal'),
@@ -60,33 +60,29 @@ const Note = ({ noteId }: { noteId: string }) => {
                     <Status
                         status = {'ناتمام'}
                         bgColor = {'#d96f85'}
-                        textColor = {'#2e030c'}
+                        textColor = {'#2e030c'} 
                     />    
                 }
                 </td>
 
-                <td className="px-6 py-4 flex items-center gap-5">
-                    <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
+                <td className="px-6 py-4 flex items-center justify-center gap-5">
                         <AiFillEdit 
                             className="text-black dark:text-white hover:scale-125 transition-all" size={20}
                             onClick={handleEditTask}
                         />
-                    </div>
 
-                    <div className="flex justify-center items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillDelete 
                             className="text-orange-600 dark:text-white hover:scale-125 transition-all" size={20}
                             onClick={handleDeleteNote}    
                         />
-                    </div>
                 </td>
 
                 <td className="px-6 py-4">
-                    {moment(note.createdAt).format("MMM Do YYYY")}
+                    {moment(note.createdAt).format('jYYYY/jM/jD')}
                 </td>
 
                 <td className="px-6 py-4">
-                    {moment(note.updatedAt).format("MMM Do YYYY")}
+                    {moment(note.updatedAt).format('jYYYY/jM/jD')}
                 </td>
             </tr>
 

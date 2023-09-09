@@ -27,7 +27,6 @@ const SearchContainer = () => {
         onClick={handleSearch}
         className='text-5xl hover:text-bgform transition-all duration-300 cursor-pointer'
       />
-      {!searchResult && <p className='text-red-500'>فیلد خالی است!</p>}
   </div>
   )
 }

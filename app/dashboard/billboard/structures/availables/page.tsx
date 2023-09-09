@@ -8,13 +8,13 @@ import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
 import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
+import usePageTitle from '@/app/hooks/usePageTitle'
 import { FaFilePdf } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import React, { useState } from 'react'
 import domtoimage from 'dom-to-image'
 import moment from 'jalali-moment'
 import {jsPDF} from 'jspdf'
-import usePageTitle from '@/app/hooks/usePageTitle'
 
 type InitialStructureDurations = {
     [key:string]: {
