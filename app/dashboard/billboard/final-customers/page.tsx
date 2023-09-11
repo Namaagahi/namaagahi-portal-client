@@ -1,6 +1,8 @@
 "use client"
 import { selectAllFinalCustomers, selectFinalCustomerById, useGetAllFinalCustomersQuery } from "@/app/apiSlices/finalCustomerApiSlice"
+import Button from "@/app/components/main/Button"
 import PageTitle from "@/app/components/main/PageTitle"
+import SearchContainer from "@/app/components/main/SearchContainer"
 import Tooltip from "@/app/components/main/Tooltip"
 import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
@@ -33,8 +35,10 @@ const FinalCustomers = () => {
     const allFinallCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[])
     const [data, setData] = useState<FinalCustomerObject[] | unknown>([])
     const [isDeleteFinalCustomer, setIsDeleteFinalCustomer] = useState<boolean>(false)
+    const [isNewFinalCustomer, setIsNewFinalCustomer] = useState<boolean>(false)  
     const [isEditFinalCustomer, setIsEditFinalCustomer] = useState<boolean>(false)
     const [finalCustomerId, setFinalCustomerId] = useState<string | any | EntityId>('')
+    const handleNewFinalCustomerModal = () => setIsNewFinalCustomer(!isNewFinalCustomer)
     const handleDeleteFinalCustomer = () => setIsDeleteFinalCustomer(!isDeleteFinalCustomer)
     const handleEditFinalCustomer = () => setIsEditFinalCustomer(!isEditFinalCustomer)
     const finalCustomer: FinalCustomerObject  = useSelector(state => selectFinalCustomerById(state, finalCustomerId) as FinalCustomerObject)
@@ -249,10 +253,26 @@ const FinalCustomers = () => {
     return (
         <>
             <PageTitle name={'مشتریان نهایی'} />
+            <div className="flex items-center justify-between gap-3">
+              <SearchContainer />
+              <Button 
+                onClickHandler={handleNewFinalCustomerModal}
+                title="مشتری نهایی جدید"
+              />
+            </div>
+            
             <TableComponent 
-                columns={columns}
-                data={data}
+              columns={columns}
+              data={data}
             />
+
+          {
+            isNewFinalCustomer && 
+              <CreateUpdateModal
+                type={'newFinalCustomer'}
+                handleModal={handleNewFinalCustomerModal}
+              />
+          }
           {
             isEditFinalCustomer && 
             <CreateUpdateModal 

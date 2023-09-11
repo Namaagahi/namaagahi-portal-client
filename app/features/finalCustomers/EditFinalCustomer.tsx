@@ -17,7 +17,6 @@ type Props = {
 const EditFinalCustomer = (props: Props) => {
 
     const { handleModal, finalCustomer } = props
-console.log("finalCustomer", finalCustomer)
     const { id } = useAuth()
     
     const [updateFinalCustomer, {
@@ -177,7 +176,7 @@ console.log("finalCustomer", finalCustomer)
                         <CustomInput 
                             key={customInput.id}
                             control={control}
-                            name={customInput.name}
+                            name={customInput.name} 
                             label={customInput.label}
                             type={customInput.type}
                             required={customInput.required}
@@ -196,9 +195,7 @@ console.log("finalCustomer", finalCustomer)
                     removeAgent={removeAgent}
                 />
                 <div className="flex items-center gap-6">
-                    <button
-                        className={`confirmButton`}
-                    >
+                    <button className={`confirmButton`}>
                         ذخیره
                     </button>
 

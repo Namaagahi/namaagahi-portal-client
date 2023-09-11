@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Image from 'next/image'
 import usePageTitle from '@/app/hooks/usePageTitle'
+import SearchContainer from '@/app/components/main/SearchContainer'
 
 const Users = () => {
   usePageTitle('کاربران')
@@ -190,17 +191,22 @@ if(isError) return (
 if(isAdmin) {
   return (
     <>    
-      <PageTitle name={'کاربران'} /> 
-      {isAdmin && 
-        <Button 
-          onClickHandler={handleNewUserModal}
-          title="کاربر جدید"
-        />
-      }
+      <PageTitle name={'کاربران'} />
+      <div className="flex items-center justify-between gap-3">
+        <SearchContainer />
+        {isAdmin &&
+          <Button
+            onClickHandler={handleNewUserModal}
+            title="کاربر جدید"
+          />
+        }
+      </div>
+
       <TableComponent 
         columns={columns}
         data={data}
       />
+
       {
         isNewUser && 
           <CreateUpdateModal

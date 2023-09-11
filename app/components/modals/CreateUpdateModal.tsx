@@ -6,6 +6,7 @@ import EditUser from "@/app/features/users/EditUser"
 import EditNote from "@/app/features/note/EditNote"
 import NewNote from "@/app/features/note/NewNote"
 import EditFinalCustomer from "@/app/features/finalCustomers/EditFinalCustomer"
+import NewFinalCustomerForm from "@/app/features/finalCustomers/NewFinalCustomerForm"
 
 type Props = {
   handleModal: () => void
@@ -25,7 +26,7 @@ const CreateUpdateModal = (props: Props) => {
     <div className="modalContainer">
       <div 
         onClick={handleModal} 
-        className="backdropContainer"
+        className="backdropContainer" 
       ></div>
       
       <div className={`createUpdateModalContentContainer ${type === 'editBox' && 'h-[80%]'}`}>
@@ -42,6 +43,8 @@ const CreateUpdateModal = (props: Props) => {
                 <EditStructure handleModal={handleModal} structure={prop} />
                 : type === 'newInitialCustomer'? 
                 <NewInitialCustomerForm handleModal={handleModal} />
+                : type === 'newFinalCustomer'? 
+                <NewFinalCustomerForm handleModal={handleModal} />
                 : type === 'editFinalCustomer'? 
                 <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
                 : null

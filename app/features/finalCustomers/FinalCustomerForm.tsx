@@ -57,7 +57,7 @@ const FinalCustomerForm = (props: Props) => {
     },[finalCustomer, isDisabled])
 
     const createFinalCustomerForm = useForm<AddFinalCustomerForm>({
-        defaultValues: newFinalCustomerDefaultValues,
+        defaultValues: {...newFinalCustomerDefaultValues, finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,},
         mode: 'onSubmit'
       })
 
