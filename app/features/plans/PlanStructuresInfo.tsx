@@ -18,6 +18,7 @@ import Loading from '../loading/Loading'
 import SummaryBox from './SummaryBox'
 import ChooseStructureModal from '../../components/modals/ChooseStructureModal'
 import moment from 'jalali-moment'
+import CalculatedDiscount from './CalculatedDiscount'
 
 type Props = {
     page: string
@@ -60,6 +61,7 @@ const PlanStructuresInfo = (props: Props) => {
     } = props
 
     const [changeInput, setChangeInput] = useState<boolean>(false)
+    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(false)
     const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false)
     const percentageDiscountInputRef = useRef<HTMLInputElement>(null)
     const numberDiscountInputRef = useRef<HTMLInputElement>(null)
@@ -136,6 +138,19 @@ const PlanStructuresInfo = (props: Props) => {
                         ویرایش تعرفه های ماهیانه
                     </p>
                 </div>
+                <div className='flex gap-3 items-center'>
+                    <input
+                        type="checkbox"
+                        onChange={() => {
+                            handleDiscountType('percentage')
+                            setIsDiscountedInput(!isDiscountedInput)
+                        }}
+                    />
+                    <p className='dark:text-white'>
+                        ورود تعرفه ماهیانه نهایی
+                    </p>
+                </div>
+                {!isDiscountedInput &&
                 <div className="flex gap-3 items-center dark:text-white">
                     <p>
                         مقیاس تخفیف
@@ -148,12 +163,13 @@ const PlanStructuresInfo = (props: Props) => {
                         className={`${discountType === 'number' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer`}
                         onClick={() =>handleDiscountType('number')}
                     />
-                </div>
+                </div>}
             </div>
 
             {field.map((item, fieldIndex) => {
                 const selectedStructureId: string = watch(`structures.${fieldIndex}.structureId`)
                 const selectedMonthlyFee = watch(`structures.${fieldIndex}.monthlyFee`)
+                const selectedDiscountedMonthlyFee = watch(`structures.${fieldIndex}.monthlyFeeWithDiscount`)
                 const selectedDiscount: string = watch(`structures.${fieldIndex}.discountFee`)
                 const selectedStructure = combinedStructures.find((str) => str.structureId === selectedStructureId)
 
@@ -178,7 +194,7 @@ const PlanStructuresInfo = (props: Props) => {
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, new Date().getTime())
                     }
                 }
-
+                console.log("selectedStructure", selectedStructure)
                 return (
                     <>                
                         {selectedStructure && showStructureInfo &&
@@ -258,7 +274,7 @@ const PlanStructuresInfo = (props: Props) => {
                                     <DatePicker
                                         inputClass='formInput w-3/4'
                                         format='YYYY-MM-DD'
-                                        value={page === 'edit' ?moment.unix(item.duration.sellEnd).format('jYYYY-jMM-jDD') : undefined}
+                                        value={page === 'edit' ? moment.unix(item.duration.sellEnd).format('jYYYY-jMM-jDD') : undefined}
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"
@@ -286,7 +302,7 @@ const PlanStructuresInfo = (props: Props) => {
 
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="discountFee" className='text-[#767676] font-bold'>تخفیف</label>
-                                    {
+                                    { !isDiscountedInput ?
                                         discountType === 'percentage' ?
                                         <>
                                             <input
@@ -343,12 +359,47 @@ const PlanStructuresInfo = (props: Props) => {
                                             {errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
                                             </small>
                                         </>
+                                        :
+                                        <CalculatedDiscount
+                                            selectedDiscountedMonthlyFee={selectedDiscountedMonthlyFee}
+                                            selectedMonthlyFee={selectedMonthlyFee}
+                                            convertToNumber={convertToNumber}
+                                            fieldIndex={fieldIndex}
+                                            setValue={setValue}
+                                            selectedStructure={selectedStructure!}
+                                            changeInput={changeInput}
+                                        />
                                     }
                                     <small className="text-xs text-rose-600 dark:text-rose-200">
                                     {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
                                     </small>
                                 </div> 
-
+                                {
+                                    isDiscountedInput ? 
+                                    <div className='flex flex-col gap-3'>
+                                        <label
+                                            htmlFor="discountedMothlyFee"
+                                            className='text-[#FFFFFF] font-bold'
+                                        >
+                                            تعرفه ماهیانه نهایی    
+                                        </label>
+                                        <input
+                                            {...register(`structures.${fieldIndex}.monthlyFeeWithDiscount`, {
+                                                required: {
+                                                    value: true,
+                                                    message:  'مبلغ تعرفه نهایی ماهیانه را وارد کنید.'
+                                                }
+                                            })}
+                                            type="text"
+                                            id="discountedMothlyFee"
+                                            placeholder='تعرفه ماهیانه نهایی'
+                                            className="formInput"
+                                            onWheel={(e: any) => e.target.blur()} 
+                                            defaultValue={page === 'edit' ? item.monthlyFeeWithDiscount : undefined}
+                                            onChange={(event) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyFeeWithDiscount`)}
+                                        />
+                                    </div>
+                                    :
                                 <DiscountedMonthlyFee 
                                     selectedStructure={selectedStructure}
                                     changeInput={changeInput}
@@ -362,6 +413,7 @@ const PlanStructuresInfo = (props: Props) => {
                                     numberDiscountInputRef={numberDiscountInputRef}
                                     percentageDiscountInputRef={percentageDiscountInputRef}
                                 />
+                                }
 
                             </div>
                             <AiFillMinusCircle

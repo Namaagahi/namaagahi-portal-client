@@ -126,10 +126,6 @@ import {
     )
   }
 
-  // function ColumnSizingTableState({
-  //   st
-  // })
-
   type Props = {
     columns:  ColumnDef<any, any>[]
     data: any
@@ -172,8 +168,8 @@ const TableComponent = (props: Props) => {
       getFacetedUniqueValues: getFacetedUniqueValues(),
       getFacetedMinMaxValues: getFacetedMinMaxValues(),
       
-      debugTable: true,
-      debugHeaders: true,
+      debugTable: false,
+      debugHeaders: false,
       debugColumns: false,
   })
 

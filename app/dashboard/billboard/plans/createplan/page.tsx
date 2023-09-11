@@ -82,7 +82,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       structures: newData.structures
     })
     console.log("ABC", abc)
-  }
+  } 
 
   if(isError) {
     'status' in error! && error.status === 409 && toast.error('این نام پلن قبلا ثبت شده است')
@@ -109,7 +109,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       </p>
     </div>
   )
-
+console.log("VALS",createPlanForm.getValues() )
   return (
       <main className="min-h-screen">
         <PageTitle name={'ایجاد پلن جدید'} />
@@ -141,7 +141,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
               register={register}
             />
 
-            <button className="primaryButton w-1/2 mx-auto">
+            <button className="primaryButton w-1/3 mx-auto">
               افزودن پلن
             </button>
           </form>
