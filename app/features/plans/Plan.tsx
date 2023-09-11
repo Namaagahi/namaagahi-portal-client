@@ -116,18 +116,18 @@ const Plan = (props: Props) => {
                         <Status
                             status = {'پیشنهادی '}
                             bgColor = {'#e8ac05'}
-                            textColor = {'#0a541e'}
+                            textColor = {'#FFFFFF'}
                         />
                         : plan.status === 'done'?
                         <Status
                             status = {'تایید شده'}
                             bgColor = {'#439400'}
-                            textColor = {'#2e030c'}
+                            textColor = {'#FFFFFF'}
                         /> : plan.status === 'rejected' &&
                         <Status
                             status = {'رد شده'}
                             bgColor = {'#942300'}
-                            textColor = {'#ffc5b3'}
+                            textColor = {'#FFFFFF'}
                         />
                     }
 

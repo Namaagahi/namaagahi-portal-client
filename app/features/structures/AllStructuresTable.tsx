@@ -119,6 +119,7 @@ const AllStructuresTable = (props: Props) => {
                     }           
                 },
                 header: () => <span>وضعیت</span>,
+                enableColumnFilter: false,
               },
               {
                 accessorFn: row => row.isChosen,
@@ -144,6 +145,7 @@ const AllStructuresTable = (props: Props) => {
                   ) 
                 },
                 header: () => <span>باکس</span>,
+                enableColumnFilter: false,
               },
               {
                 id: 'تاریخ ایجاد',

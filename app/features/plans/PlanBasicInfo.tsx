@@ -24,11 +24,6 @@ const PlanBasicInfo = (props: Props) => {
         errors,
         plan
     } = props
-
-    const { isAdmin, isMediaManager } = useAuth()
-    const { push } = useRouter()
-
-    const [updatePlan] = useUpdatePlanMutation()
     
     useGetAllInitialCustomersQuery(undefined, {
         refetchOnFocus: false,
@@ -36,23 +31,6 @@ const PlanBasicInfo = (props: Props) => {
     })
 
     const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
-
-    const handleSuspendPlan = async() => {
-        const abc = await updatePlan({
-            id: plan?.id,
-            planId: plan?.planId,
-            userId: plan?.userId,
-            username: plan?.username,
-            initialCustomerId: plan?.initialCustomerId,
-            brand: plan?.brand,
-            status: 'pending',
-            structures: plan?.structures,
-            finalCustomerId: plan?.finalCustomerId,
-        })
-        // console.log("ABC", abc)
-        toast.success(`پلن ${plan?.planId} معلق شد.`)
-        push('/dashboard/billboard/plans')
-    }
 
     return (
         <div className='formContainer'>
@@ -68,7 +46,7 @@ const PlanBasicInfo = (props: Props) => {
                         options={allInitialCustomers}
                     />
                     <CustomInput
-                        control={control}
+                        control={control} 
                         name={'brand'}
                         label={'برند'}
                         errors={errors.brand?.message}
@@ -77,19 +55,6 @@ const PlanBasicInfo = (props: Props) => {
                         className='formInput'
                     />
                 </div>
-                
-                {
-                    page === 'edit' && (isAdmin || isMediaManager) && plan?.status === 'done' && 
-                    <div>
-                        <button
-                            type='button'
-                            className='primaryButton '
-                            onClick={handleSuspendPlan}
-                         >
-                            تعلیق پلن
-                        </button>
-                    </div>
-                }
             </div>
         </div>
     )

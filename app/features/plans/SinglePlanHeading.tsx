@@ -29,13 +29,13 @@ const SinglePlanHeading = (props: Props) => {
                     <Status
                         status = {'تایید شده'}
                         bgColor = {'#439400'}
-                        textColor = {'#2e030c'}
+                        textColor = {'#FFFFFF'}
                     /> 
                     : plan?.status === 'pending'?
                     <Status
                         status = {'معلق'}
                         bgColor = {'#b56a35'}
-                        textColor = {'#2e030c'}
+                        textColor = {'#FFFFFF'}
                     /> 
                     : plan?.status === 'rejected' &&
                     <Status

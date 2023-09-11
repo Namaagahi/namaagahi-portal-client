@@ -199,7 +199,7 @@ const NewBox = (props: Props) => {
           structures={structures}
         />
 
-        <button className="primaryButton">
+        <button className="primaryButton w-1/2 mx-auto">
           افزودن باکس
         </button>
       </form>

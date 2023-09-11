@@ -1,6 +1,6 @@
 "use client"
 import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
-import { selectPlanById, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
+import { selectPlanById, useGetAllPlansQuery, useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
 import { FinalCustomerObject, InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
 import SinglePlanHeading from '@/app/features/plans/SinglePlanHeading'
 import SinglePlanTable from '@/app/features/plans/SinglePlanTable'
@@ -10,9 +10,10 @@ import { useParams } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import FinalCustomerForm from '@/app/features/finalCustomers/FinalCustomerForm'
 import useAuth from '@/app/hooks/useAuth'
-import { selectAllFinalCustomers, useGetAllFinalCustomersQuery } from '@/app/apiSlices/finalCustomerApiSlice'
+import { selectAllFinalCustomers, useGetAllFinalCustomersQuery, useUpdateFinalCustomerMutation } from '@/app/apiSlices/finalCustomerApiSlice'
 import FinalCustomerInfo from '@/app/features/finalCustomers/FinalCustomerInfo'
 import usePageTitle from '@/app/hooks/usePageTitle'
+import { toast } from 'react-toastify'
 
 const SinglePlan = () => {
   usePageTitle('مشاهده پلن')
@@ -35,10 +36,33 @@ const SinglePlan = () => {
     refetchOnMountOrArgChange: false
 })
 
+  const [updatePlan] = useUpdatePlanMutation()
+  const [updateFinalCustomer] = useUpdateFinalCustomerMutation()
+
   const allFinalCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[]) 
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
   const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer?.finalCustomerId === plan?.finalCustomerId)
+
+  const handleSuspendPlan = async() => {
+    const abc = await updatePlan({
+        id: plan?.id,
+        planId: plan?.planId,
+        userId: plan?.userId,
+        username: plan?.username,
+        initialCustomerId: plan?.initialCustomerId,
+        brand: plan?.brand,
+        status: 'pending',
+        structures: plan?.structures,
+        finalCustomerId: "",
+    })
+
+    const abc2 = await updateFinalCustomer({
+      ...finalCustomer, planIds: [finalCustomer?.planIds].filter(item => item === plan._id)
+    })
+    console.log("ABC", abc2)
+    toast.success(`پلن ${plan?.planId} معلق شد.`)
+}
   
   if(isLoading || !plan) return <Loading />
 
@@ -63,6 +87,18 @@ const SinglePlan = () => {
             { 
               ((plan.status === 'suggested' || plan.status === 'pending') && (isMaster || isAdmin || isMediaManager)) &&
                 <FinalCustomerForm plan={plan} /> 
+            }
+            {
+            (isAdmin || isMediaManager) && plan?.status === 'done' && 
+              <div className='mt-4 mx-auto'>
+                  <button
+                      type='button'
+                      className='primaryButton '
+                      onClick={handleSuspendPlan}
+                    >
+                      تعلیق پلن
+                  </button>
+              </div>
             }
           </div>
         </div>

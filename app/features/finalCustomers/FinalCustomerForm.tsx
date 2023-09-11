@@ -130,7 +130,7 @@ const FinalCustomerForm = (props: Props) => {
                 phone: finalCustomer?.phone,
                 postalCode: finalCustomer?.postalCode,
                 planId: plan._id,
-                planIds: finalCustomer?.planIds
+                planIds: [...finalCustomer?.planIds, plan._id]
             })
 
             const abc4 = await updatePlan({
@@ -306,7 +306,7 @@ const FinalCustomerForm = (props: Props) => {
                     }
                 </div>
 
-                <button className='primaryButton hover:text-black w-1/3 mx-auto' >
+                <button className='primaryButton hover:text-black hover:dark:text-buttonHover w-1/3 mx-auto' >
                     ثبت مشتری نهایی و تایید پلن
                 </button>
             </form>

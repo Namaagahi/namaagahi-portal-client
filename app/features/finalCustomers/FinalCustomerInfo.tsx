@@ -11,7 +11,7 @@ const FinalCustomerInfo = (props: Props) => {
 
     return (
         <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 text-gray-700 dark:text-white mt-5 flex flex-col items-start justify-center'>
-            <p>eut
+            <p>
                 اطلاعات مشتری نهایی
             </p>
             <div className='w-full grid grid-cols-12 gap-3 mt-3'>

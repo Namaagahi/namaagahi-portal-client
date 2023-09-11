@@ -132,8 +132,9 @@ const EditPlanComp = (props: Props) => {
             name: newData.name,
             initialCustomerId: newData.initialCustomerId,
             brand: newData.brand,
-            status: newData.status,
-            structures: newData.structures
+            status: 'suggested',
+            structures: newData.structures,
+            finalCustomerId: ''
         })
     }
 
@@ -145,7 +146,7 @@ const EditPlanComp = (props: Props) => {
     
     if(isSuccess) {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
-        // push('/dashboard/billboard/plans')
+        push('/dashboard/billboard/plans')
     }
 
     const formVals = watch('structures')

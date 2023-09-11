@@ -141,7 +141,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
               register={register}
             />
 
-            <button className="primaryButton">
+            <button className="primaryButton w-1/2 mx-auto">
               افزودن پلن
             </button>
           </form>

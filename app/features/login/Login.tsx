@@ -83,7 +83,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="order-last opacity-60 relative w-[540px] h-[213px]">
+                <div className="order-last opacity-60 relative w-[300px] h-[118px] md:w-[540px] md:h-[213px]">
                     <Image
                         src={'/images/Logo-White-Text.webp'}
                         alt="hero"

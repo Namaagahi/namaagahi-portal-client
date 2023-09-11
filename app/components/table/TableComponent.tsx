@@ -20,6 +20,7 @@ import {
     ColumnDef,
   } from '@tanstack/react-table'
 
+
   const fuzzyFilter: FilterFn<any> = (row, columnId, value, addMeta) => {
     const itemRank = rankItem(row.getValue(columnId), value)
     addMeta({ itemRank })
@@ -134,6 +135,7 @@ import {
     data: any
   }
 
+  
 const TableComponent = (props: Props) => {
 
   const { columns, data } = props
@@ -144,10 +146,11 @@ const TableComponent = (props: Props) => {
   const [selectedRowId, setSelectedRowId] = useState<string | null>(null)
   const [columnResizeMode, setColumnResizeMode] = useState<ColumnResizeMode>('onChange')
   const rerender = useReducer(() => ({}), {})[1]
-  
+
   const table = useReactTable({
       data,
       columns,
+
       columnResizeMode,
       filterFns: {
         fuzzy: fuzzyFilter,
@@ -173,7 +176,6 @@ const TableComponent = (props: Props) => {
       debugHeaders: true,
       debugColumns: false,
   })
-
 
   const handleChangeRowColor = (rowId: string) => {
     if (selectedRowId === rowId) {
@@ -396,7 +398,7 @@ const TableComponent = (props: Props) => {
           table.setPageSize(Number(e.target.value))
         }}
       >
-        {[10, 20, 30, 40, 50].map(pageSize => (
+        {[10, 20, 30, 40, 50, 100, 150].map(pageSize => (
           <option key={pageSize} value={pageSize} className='text-black'>
             نمایش {pageSize}
           </option>

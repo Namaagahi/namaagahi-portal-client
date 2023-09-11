@@ -311,7 +311,7 @@ const PlanStructuresInfo = (props: Props) => {
                                                 key={discountType} 
                                                 ref={percentageDiscountInputRef} 
                                             />
-                                            <small className="text-xs text-rose-600 "> 
+                                            <small className="text-xs text-rose-600 dark:text-rose-200 "> 
                                             {errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
                                             </small>
                                         </>
@@ -327,7 +327,7 @@ const PlanStructuresInfo = (props: Props) => {
                                                 type="text"
                                                 id="discountFee"
                                                 placeholder='تخفیف به ریال'
-                                                className="p-4 rounded-[50px] bg-white outline-none w-full"
+                                                className="formInput"
                                                 onWheel={(e: any) => e.target.blur()} 
                                                 defaultValue={page === 'edit' ? item.discountFee : undefined}
                                                 onChange={(event) => {
@@ -339,12 +339,12 @@ const PlanStructuresInfo = (props: Props) => {
                                                 key={discountType} 
                                                 ref={numberDiscountInputRef} 
                                             />
-                                            <small className="text-xs text-rose-600 "> 
+                                            <small className="text-xs text-rose-600 dark:text-rose-200"> 
                                             {errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
                                             </small>
                                         </>
                                     }
-                                    <small className="text-xs text-rose-600 ">
+                                    <small className="text-xs text-rose-600 dark:text-rose-200">
                                     {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
                                     </small>
                                 </div> 

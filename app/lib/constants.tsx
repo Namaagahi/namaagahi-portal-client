@@ -269,8 +269,8 @@ export const newPlanDefaultValues = {
     structureId:'',
     structureRecord: {},
     duration: {
-      sellStart: new Date().getTime(),
-      sellEnd:  new Date().getTime(),
+      sellStart: new Date().getTime() / 1000,
+      sellEnd:  new Date().getTime() / 1000,
     },
     monthlyFee: '',
     monthlyFeeWithDiscount:'',

@@ -180,7 +180,7 @@ return (
                 </label>
 
                 <DatePicker
-                    inputClass='input-primary'
+                    inputClass='formInput text-black bg-gray-200'
                     format='YYYY-MM-DD'
                     calendar={persian}
                     locale={persian_fa}
@@ -195,7 +195,7 @@ return (
                 </label>
 
                 <DatePicker
-                    inputClass='input-primary'
+                    inputClass='formInput text-black bg-gray-200'
                     format='YYYY-MM-DD'
                     calendar={persian}
                     locale={persian_fa}
