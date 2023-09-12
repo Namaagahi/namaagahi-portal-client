@@ -50,8 +50,9 @@ const EditPlanComp = (props: Props) => {
     }))
 
     const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
-    // const [data, setData] = useState<any>(null)
     const [chosenStructures, setChosenStructures] = useState([])
+
+
     
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: {
@@ -81,22 +82,9 @@ const EditPlanComp = (props: Props) => {
         name: "structures",
       }) 
 
-    //   useEffect(() => {
-    //     setTimeout(() => setData({
-    //         name: plan?.name,
-    //         initialCustomerId: plan?.initialCustomerId,
-    //         brand: plan?.brand,
-    //         status: plan?.status,
-    //         structures: JSON.parse(JSON.stringify(plan?.structures))
-    //       }), 3000)
-    // }, [])
 
-    //   useEffect(() => {
-    //     reset(data)
-    //   }, [data, reset])
-    //    console.log("DATA", data)
     const onSubmit = async(data: any) => {
-        console.log("DATA", data)
+
         const newData = {
             ...data, 
             structures: data.structures.map((structure: any) => ({
@@ -130,13 +118,11 @@ const EditPlanComp = (props: Props) => {
     
     if(isSuccess) {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
-        // push('/dashboard/billboard/plans')
+        push('/dashboard/billboard/plans')
     }
 
     const formVals = watch('structures')
-    console.log("plan", plan)
-    console.log("formVals", formVals)
-    console.log("editPlanForm", editPlanForm.getValues())
+    console.log("EDIT PLAN FORM", editPlanForm.getValues())
     if(!plan) return <Loading />
     return (
         <main className="min-h-screen">

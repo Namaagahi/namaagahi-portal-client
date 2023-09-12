@@ -31,9 +31,13 @@ const MonthlyFeeInput = (props: Props) => {
     } = props
 
     useEffect(() => {
-        if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee)), 1000)
+        if(page === 'edit'){
+            if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee)), 1000)
+        } else {
+            if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
+        }
     }, [])
-// console.log(typeof item.monthlyFee)
+console.log("selectedStructure", selectedStructure)
     return (
         <div className='flex flex-col gap-3'>
             {!changeInput ?
@@ -44,10 +48,16 @@ const MonthlyFeeInput = (props: Props) => {
                     >
                         تعرفه ماهیانه سازه
                     </label>
-
-                    <p className='p-4 text-primary dark:text-secondary'>
-                        {formatNumber(Number(item?.monthlyFee), ',')}
-                    </p>
+                    {
+                        page === 'edit' ? 
+                            <p className='p-4 text-primary dark:text-secondary'>
+                                {formatNumber(Number(item?.monthlyFee), ',')}
+                            </p>
+                                :
+                            <p className='p-4 text-primary dark:text-secondary'>
+                                {formatNumber(selectedStructure?.monthlyBaseFee, ',')}
+                            </p>
+                    }
                 </>
                 : 
                 <CustomInput

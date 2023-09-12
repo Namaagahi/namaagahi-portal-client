@@ -19,6 +19,7 @@ import SummaryBox from './SummaryBox'
 import ChooseStructureModal from '../../components/modals/ChooseStructureModal'
 import moment from 'jalali-moment'
 import CalculatedDiscount from './CalculatedDiscount'
+import DiscountFeeInput from './DiscountFeeInput'
 
 type Props = {
     page: string
@@ -124,7 +125,7 @@ const PlanStructuresInfo = (props: Props) => {
     }, [discountType])
 
     if((page=== 'edit' && !plan) || !boxStructures[0] || !inBoxStructures[0]) return <Loading />
-    // console.log("chosenStructures", chosenStructures)
+
     return (
         <div className='formContainer'>
             <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
@@ -194,7 +195,7 @@ const PlanStructuresInfo = (props: Props) => {
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, new Date().getTime())
                     }
                 }
-                // console.log("selectedStructure", selectedStructure)
+
                 return (
                     <>                
                         {selectedStructure && showStructureInfo &&
@@ -304,63 +305,23 @@ const PlanStructuresInfo = (props: Props) => {
 
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="discountFee" className='text-[#767676] font-bold'>تخفیف</label>
-                                    { !isDiscountedInput ?
-                                        discountType === 'percentage' ?
-                                        <>
-                                            <input
-                                                {...register(`structures.${fieldIndex}.discountFee`, {
-                                                    required: {
-                                                        value: true,
-                                                        message:  'در صورت نداشتن تخفیف مقدار 0 را وارد کنید'
-                                                    }
-                                                })}
-                                                type="text"
-                                                id="discountFee"
-                                                placeholder='تخفیف به درصد'
-                                                className="formInput"
-                                                onWheel={(e: any) => e.target.blur()} 
-                                                defaultValue={page === 'edit' ? item.discountFee : undefined}
-                                                onChange={(event) => {
-                                                    const newValue = event.target.value
-                                                    if (discountType === 'percentage' && parseFloat(newValue) > 100) 
-                                                        event.target.value = '100'
-                                                    handleTextbox1Change(event, 0, `structures.${fieldIndex}.discountFee`)
-                                                }}
-                                                key={discountType} 
-                                                ref={percentageDiscountInputRef} 
-                                            />
-                                            <small className="text-xs text-rose-600 dark:text-rose-200 "> 
-                                            {errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
-                                            </small>
-                                        </>
-                                        : 
-                                        <>
-                                            <input
-                                                {...register(`structures.${fieldIndex}.discountFee`, {
-                                                    required: {
-                                                        value: true,
-                                                        message:  'در صورت نداشتن تخفیف مقدار 0 را وارد کنید'
-                                                    }
-                                                })}
-                                                type="text"
-                                                id="discountFee"
-                                                placeholder='تخفیف به ریال'
-                                                className="formInput"
-                                                onWheel={(e: any) => e.target.blur()} 
-                                                defaultValue={page === 'edit' ? item.discountFee : undefined}
-                                                onChange={(event) => {
-                                                    const newValue = event.target.value
-                                                    if (discountType !== 'percentage' && convertToNumber(newValue) > selectedStructure?.monthlyBaseFee!)
-                                                        event.target.value = String(selectedStructure?.monthlyBaseFee)
-                                                    handleTextbox1Change(event, 0, `structures.${fieldIndex}.discountFee`)
-                                                }}
-                                                key={discountType} 
-                                                ref={numberDiscountInputRef} 
-                                            />
-                                            <small className="text-xs text-rose-600 dark:text-rose-200"> 
-                                            {errors?.['structures']?.[fieldIndex]?.['discountFee']?.['message']}
-                                            </small>
-                                        </>
+                                   { 
+                                   !isDiscountedInput ?
+                                        <DiscountFeeInput 
+                                            page={page}
+                                            discountType={discountType}
+                                            register={register}
+                                            fieldIndex={fieldIndex}
+                                            item={item}
+                                            handleTextbox1Change={handleTextbox1Change}
+                                            percentageDiscountInputRef={percentageDiscountInputRef}
+                                            errors={errors}
+                                            convertToNumber={convertToNumber}
+                                            selectedStructure={selectedStructure}
+                                            numberDiscountInputRef={numberDiscountInputRef}
+                                            setValue={setValue}
+
+                                        />
                                         :
                                         <CalculatedDiscount
                                             selectedDiscountedMonthlyFee={selectedDiscountedMonthlyFee}
@@ -372,6 +333,7 @@ const PlanStructuresInfo = (props: Props) => {
                                             changeInput={changeInput}
                                         />
                                     }
+                                    
                                     <small className="text-xs text-rose-600 dark:text-rose-200">
                                     {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
                                     </small>
@@ -402,7 +364,9 @@ const PlanStructuresInfo = (props: Props) => {
                                         />
                                     </div>
                                     :
-                                <DiscountedMonthlyFee 
+                                <DiscountedMonthlyFee
+                                    page={page}
+                                    item={item}
                                     selectedStructure={selectedStructure}
                                     changeInput={changeInput}
                                     discountType={discountType}

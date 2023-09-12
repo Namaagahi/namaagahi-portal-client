@@ -23,7 +23,7 @@ const DeletePlan = (props: Props) => {
         if(plan.status === 'suggested' || plan.status === 'pending') {
             await deletePlan({ id: plan?.id })
             handleModal()
-            toast.success(`پلن  ${plan?.name} با موفقیت حذف شد`)
+            toast.success(`پلن  ${plan?.planId} با موفقیت حذف شد`)
         } else {
             toast.error('فقط برای پلن های پیشنهادی یا معلق امکان حذف وجود دارد.')
             handleModal()

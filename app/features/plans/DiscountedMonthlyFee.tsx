@@ -1,9 +1,11 @@
-import { FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
+import { FieldArrayWithId, FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useEffect, useRef } from 'react'
 import { formatNumber } from '@/app/utilities/formatNumber'
 import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
 
 type Props = {
+    page: string
+    item: FieldArrayWithId<EditPlanForm, "structures", "id">
     selectedStructure?: CombinedStructure 
     changeInput: boolean
     discountType: string
@@ -19,7 +21,9 @@ type Props = {
 
 const DiscountedMonthlyFee = (props: Props) => {
 
-    const { 
+    const {
+        page,
+        item,
         selectedStructure, 
         changeInput,
         discountType,
@@ -56,7 +60,18 @@ const DiscountedMonthlyFee = (props: Props) => {
                 id='discountedMothlyFee'
                 ref={discountedMonthlyFeeRef}
             >
-                {
+                { page === 'edit' ? 
+                    changeInput && discountType === 'percentage' ?
+                    formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
+                    : 
+                    !changeInput && discountType === 'percentage' ?
+                    formatNumber((Number(item.monthlyFee) - (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100) , ',' )
+                    :
+                    changeInput && discountType === 'number' ?
+                    formatNumber((convertToNumber(selectedMonthlyFee) -  convertToNumber(selectedDiscount)), ',' )
+                    :
+                    formatNumber((Number(item.monthlyFee) -  convertToNumber(selectedDiscount)), ',' )
+                        :
                     selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && changeInput && discountType ==='percentage' ? 
                     formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && changeInput && discountType ==='number' ? 
