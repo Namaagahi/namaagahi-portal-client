@@ -43,9 +43,9 @@ const Card = (props: Props) => {
         <p>
           {main}
         </p>
-      </Link>
+      </Link> 
 
-      {status === 'پذیرشگر' && main2 &&
+      {status === 'پذیرشگر' && main2 && main2 !== 'مشتریان نهایی' &&
         <Link 
           href={main2Link || ''}  
           className='flex items-center gap-2 font-bold dark:hover:text-emerald-400 hover:text-lime-800 transition-all'

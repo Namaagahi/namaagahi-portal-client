@@ -1,10 +1,12 @@
-import { Control, FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
+import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
 import CustomInput from '@/app/components/inputs/CustomInput'
 import { formatNumber } from '@/app/utilities/formatNumber'
 import { useEffect } from 'react'
 
 type Props = {
+    page: string
+    item: FieldArrayWithId<EditPlanForm, "structures", "id">
     changeInput: boolean
     selectedStructure: CombinedStructure
     control:  Control<EditPlanForm, any> | Control<AddPlanForm, any>
@@ -17,6 +19,8 @@ type Props = {
 const MonthlyFeeInput = (props: Props) => {
 
     const {  
+        page,
+        item,
         changeInput,
         selectedStructure,
         control,
@@ -27,9 +31,9 @@ const MonthlyFeeInput = (props: Props) => {
     } = props
 
     useEffect(() => {
-        if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
+        if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee)), 1000)
     }, [])
-
+// console.log(typeof item.monthlyFee)
     return (
         <div className='flex flex-col gap-3'>
             {!changeInput ?
@@ -42,7 +46,7 @@ const MonthlyFeeInput = (props: Props) => {
                     </label>
 
                     <p className='p-4 text-primary dark:text-secondary'>
-                        {formatNumber(selectedStructure?.monthlyBaseFee, ',')}
+                        {formatNumber(Number(item?.monthlyFee), ',')}
                     </p>
                 </>
                 : 
@@ -50,6 +54,7 @@ const MonthlyFeeInput = (props: Props) => {
                     control={control}
                     type='text'
                     name={`structures.${fieldIndex}.monthlyFee`}
+                    defaultValue={page === 'edit' ? String(item.monthlyFee): undefined}
                     onChange={(event: any) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyFee`)}
                     label='تعرفه ماهیانه سازه'
                     required={true}

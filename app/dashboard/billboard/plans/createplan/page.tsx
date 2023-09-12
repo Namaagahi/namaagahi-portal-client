@@ -6,7 +6,7 @@ import SearchContainer from '@/app/components/main/SearchContainer'
 import ScrollContainer from '@/app/components/main/ScrollContainer'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
 import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
-import { AddPlanForm, BoxObject } from '@/app/lib/interfaces'
+import { AddPlanForm, BoxObject, StructurePlanObject } from '@/app/lib/interfaces'
 import { newPlanDefaultValues } from '@/app/lib/constants'
 import { useFieldArray, useForm } from 'react-hook-form'
 import PageTitle from '@/app/components/main/PageTitle'
@@ -65,15 +65,16 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
 
     const newData = {
       ...data, 
-      structures: data.structures.map((structure: any) => ({
+      structures: data.structures.map((structure: StructurePlanObject) => ({
         ...structure,
         monthlyFee: convertToNumber(structure.monthlyFee),
         monthlyFeeWithDiscount: convertToNumber(structure.monthlyFeeWithDiscount),
         discountType: discountType
       }))
     }
+    console.log("newData", newData)
 
-  const abc = await createNewPlan({
+    const abc = await createNewPlan({
       userId: id,
       name: newData.name,
       initialCustomerId: newData.initialCustomerId,
@@ -81,7 +82,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       brand: newData.brand,
       structures: newData.structures
     })
-    console.log("ABC", abc)
+      console.log("ABC", abc)
   } 
 
   if(isError) {

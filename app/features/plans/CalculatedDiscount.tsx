@@ -32,7 +32,7 @@ const CalculatedDiscount = (props: Props) => {
             setTimeout(() => setValue(`structures.${fieldIndex}.discountFee`, calculatedDiscount!), 1000)
         }
     }, [selectedDiscountedMonthlyFee, calculatedDiscountRef.current?.textContent])
-
+// console.log("selectedDiscountedMonthlyFee", selectedDiscountedMonthlyFee)
   return (
     <p
         className='p-4 text-primary dark:text-secondary' 
@@ -45,14 +45,14 @@ const CalculatedDiscount = (props: Props) => {
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)) < 0 ?
                 '0'
                 :
-                `${Math.round(100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee))} %`
+                Math.round(100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee))
             :
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) > 100 
             || 
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) < 0 ?
                 '0'
                 :
-                `${Math.round(100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee)))} %`
+                Math.round(100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee)))
         }
     </p>
   )

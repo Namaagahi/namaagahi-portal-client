@@ -11,6 +11,7 @@ import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import Agents from './Agents'
 import FinalCustomerTypes from './FinalCustomerTypes'
+import FinalCustomerInfo from './FinalCustomerInfo'
 
 type Props = {
     plan: PlanObject
@@ -92,7 +93,8 @@ const FinalCustomerForm = (props: Props) => {
                 address: data.address,
                 postalCode: parseFloat(data.postalCode),
                 phone: parseFloat(data.phone),
-                planId: plan._id
+                planId: plan._id,
+                projectCodes: []
             })
 
              const abc2 = await updatePlan({
@@ -130,7 +132,7 @@ const FinalCustomerForm = (props: Props) => {
                 phone: finalCustomer?.phone,
                 postalCode: finalCustomer?.postalCode,
                 planId: plan._id,
-                planIds: [...finalCustomer?.planIds, plan._id]
+                planIds: [...finalCustomer?.planIds, plan._id],
             })
 
             const abc4 = await updatePlan({
@@ -273,38 +275,43 @@ const FinalCustomerForm = (props: Props) => {
                         />
                 }
 
-                <div className='relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-6 gap-4 lg:gap-2'>
-                    {
-                        customInputs.map((customInput) => {
-                            return (
-                                <CustomInput
-                                    control={control}
-                                    name={customInput.name}
-                                    label={customInput.label}
-                                    type={customInput.type}
-                                    required={customInput.required}
-                                    message={customInput.message && customInput.message}
-                                    errors={customInput.errors && customInput.errors}
-                                    disabled={isDisabled}
-                                    isHidden={customInput.isHidden}
-                                    className={`${isDisabled ? "bg-gray-400" :"bg-white"} formInput`}
-                                    autoComplete={'off'}
-                                />
-                            )
-                        })
-                    }
+                {
+                    !isDisabled ?
+                        <div className='relative grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-6 2xl:grid-cols-6 gap-4 lg:gap-2'>
+                            { 
+                                customInputs.map((customInput) => {
+                                    return (
+                                        <CustomInput
+                                            control={control}
+                                            name={customInput.name}
+                                            label={customInput.label}
+                                            type={customInput.type}
+                                            required={customInput.required}
+                                            message={customInput.message && customInput.message}
+                                            errors={customInput.errors && customInput.errors}
+                                            disabled={isDisabled}
+                                            isHidden={customInput.isHidden}
+                                            className={`${isDisabled ? "bg-gray-600" :"bg-white"} formInput`}
+                                            autoComplete={'off'}
+                                        />
+                                    )
+                                })
+                            }
 
-                    {
-                        (contractType === 'legal' || customerType === 'legal') && !isDisabled &&
-                            <Agents
-                                agentField={agentField}
-                                control={control}
-                                isDisabled={isDisabled}
-                                appendAgent={appendAgent}
-                                removeAgent={removeAgent}
-                            />
-                    }
-                </div>
+                            {
+                                (contractType === 'legal' || customerType === 'legal') && !isDisabled &&
+                                    <Agents
+                                        agentField={agentField}
+                                        control={control}
+                                        isDisabled={isDisabled}
+                                        appendAgent={appendAgent}
+                                        removeAgent={removeAgent}
+                                    />
+                            }
+                        </div>
+                            :
+                        <FinalCustomerInfo finalCustomer={finalCustomer} />
+                }
 
                 <button className='primaryButton hover:text-black hover:dark:text-buttonHover w-1/3 mx-auto' >
                     ثبت مشتری نهایی و تایید پلن

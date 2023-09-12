@@ -11,6 +11,9 @@ import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import Link from 'next/link'
 import AllPlansTable from './AllPlansTable'
+import SearchContainer from '@/app/components/main/SearchContainer'
+import Button from '@/app/components/main/Button'
+import { useRouter } from 'next/navigation'
 
 type Props = { 
   page: string
@@ -20,6 +23,7 @@ const PlansComp = (props: Props) => {
 
   const { page } = props
   const { id } = useAuth()
+  const { push } = useRouter()
 
   const { 
     isLoading,
@@ -90,7 +94,16 @@ const PlansComp = (props: Props) => {
   
   return (
     <>
-      <PageTitle name={'پلن ها'} /> 
+      <PageTitle name={'پلن ها'} />
+
+      <div className="flex items-center justify-between gap-3">
+        <SearchContainer />
+        <Button 
+          onClickHandler={() => push('/dashboard/billboard/plans/createplan')}
+          title="پلن جدید"
+        />
+      </div>
+
       <AllPlansTable
         page={page}
         data={data}

@@ -96,7 +96,7 @@ const PlanStructuresInfo = (props: Props) => {
         const updatedState = [...prevState]
         updatedState[index] = val
         return updatedState
-      })
+      }) 
 
     function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
         const newValue = event.target.value.replace(/,/g, '')
@@ -194,7 +194,7 @@ const PlanStructuresInfo = (props: Props) => {
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, new Date().getTime())
                     }
                 }
-                console.log("selectedStructure", selectedStructure)
+                // console.log("selectedStructure", selectedStructure)
                 return (
                     <>                
                         {selectedStructure && showStructureInfo &&
@@ -288,7 +288,9 @@ const PlanStructuresInfo = (props: Props) => {
                                 {combinedStructures.map((structure) => {
                                     return (
                                         structure.structureId === selectedStructureId &&
-                                        <MonthlyFeeInput 
+                                        <MonthlyFeeInput
+                                            page={page}
+                                            item={item}
                                             changeInput={changeInput}
                                             selectedStructure={selectedStructure!}
                                             control={control}

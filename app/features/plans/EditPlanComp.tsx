@@ -1,9 +1,9 @@
-import { selectAllStructures, useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
-import { EditPlanForm, PlanObject, UserObject } from '@/app/lib/interfaces'
+import { useUpdateStructureMutation } from '../../apiSlices/structuresApiSlice'
 import { useUpdatePlanMutation } from '../../apiSlices/plansApiSlice'
+import SearchContainer from '@/app/components/main/SearchContainer'
 import { convertToNumber } from '@/app/utilities/convertToNumber'
-import { selectUserById } from '../../apiSlices/usersApiSlice'
+import { EditPlanForm, PlanObject } from '@/app/lib/interfaces'
 import { useFieldArray, useForm } from 'react-hook-form'
 import PageTitle from '@/app/components/main/PageTitle'
 import PlanStructuresInfo from './PlanStructuresInfo'
@@ -11,10 +11,8 @@ import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import PlanBasicInfo from './PlanBasicInfo'
 import useAuth from '@/app/hooks/useAuth'
-import { useSelector } from 'react-redux'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
-import SearchContainer from '@/app/components/main/SearchContainer'
 
 type Props = {
     plan: PlanObject
@@ -30,8 +28,6 @@ const EditPlanComp = (props: Props) => {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
     })
-
-    const [updateStructure] = useUpdateStructureMutation()
     
     const [updatePlan, { 
         isSuccess,  
@@ -54,17 +50,21 @@ const EditPlanComp = (props: Props) => {
     }))
 
     const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
-    const [data, setData] = useState<any>(null)
+    // const [data, setData] = useState<any>(null)
     const [chosenStructures, setChosenStructures] = useState([])
     
     const editPlanForm = useForm<EditPlanForm>({
-        defaultValues: data,
+        defaultValues: {
+            initialCustomerId: plan?.initialCustomerId,
+            brand: plan?.brand,
+            structures: JSON.parse(JSON.stringify(plan?.structures))
+        },
         mode: 'onSubmit'
     })
 
     const {
         register,
-        control,
+        control, 
         handleSubmit,
         formState: {errors},
         setValue,
@@ -81,38 +81,22 @@ const EditPlanComp = (props: Props) => {
         name: "structures",
       }) 
 
-      useEffect(() => {
-        setTimeout(() => setData({
-            name: plan?.name,
-            initialCustomerId: plan?.initialCustomerId,
-            brand: plan?.brand,
-            status: plan?.status,
-            structures: JSON.parse(JSON.stringify(plan?.structures))
-          }), 3000)
-    }, [])
+    //   useEffect(() => {
+    //     setTimeout(() => setData({
+    //         name: plan?.name,
+    //         initialCustomerId: plan?.initialCustomerId,
+    //         brand: plan?.brand,
+    //         status: plan?.status,
+    //         structures: JSON.parse(JSON.stringify(plan?.structures))
+    //       }), 3000)
+    // }, [])
 
-      useEffect(() => {
-        reset(data)
-      }, [data, reset])
-       
+    //   useEffect(() => {
+    //     reset(data)
+    //   }, [data, reset])
+    //    console.log("DATA", data)
     const onSubmit = async(data: any) => {
-        // if(data.status === 'done') {
-        //     plan?.structures.forEach((str: any) => {
-        //         structures.forEach(async(structure: any) => {
-        //         if(structure.id === str.structureId) 
-        //         await updateStructure({
-        //             userId: structure?.userId,
-        //             id: structure?.id,
-        //             name: structure?.name,
-        //             location: structure?.location,
-        //             isChosen: structure?.isChosen,
-        //             isAvailable: false,
-        //             parent: structure?.parent
-        //           })
-        //         })
-        //     })
-        // }
-
+        console.log("DATA", data)
         const newData = {
             ...data, 
             structures: data.structures.map((structure: any) => ({
@@ -146,10 +130,13 @@ const EditPlanComp = (props: Props) => {
     
     if(isSuccess) {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
-        push('/dashboard/billboard/plans')
+        // push('/dashboard/billboard/plans')
     }
 
     const formVals = watch('structures')
+    console.log("plan", plan)
+    console.log("formVals", formVals)
+    console.log("editPlanForm", editPlanForm.getValues())
     if(!plan) return <Loading />
     return (
         <main className="min-h-screen">

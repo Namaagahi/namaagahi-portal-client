@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import moment from 'jalali-moment'
 import usePageTitle from '@/app/hooks/usePageTitle'
+import SearchContainer from '@/app/components/main/SearchContainer'
     
 const InitialCustomers = () => {
   usePageTitle('مشتریان اولیه')
@@ -87,7 +88,7 @@ const InitialCustomers = () => {
                     </p>
                     :
                     <>
-                      <td>دسترسی محدود شده</td>
+                      <p>دسترسی محدود شده</p>
                     </>
                 }
                   </>
@@ -133,16 +134,20 @@ const InitialCustomers = () => {
   return (
     <>            
       <PageTitle name={'مشتریان اولیه'} /> 
-      <TableComponent 
-        columns={columns}
-        data={data}
-      />
-      {isAdmin && 
+
+      <div className="flex items-center justify-between gap-3">
+        <SearchContainer />
         <Button 
           onClickHandler={handleNewInitialCustomerModal}
           title="مشتری اولیه جدید"
         />
-      }
+      </div>
+
+      <TableComponent 
+        columns={columns}
+        data={data}
+      />
+      
       {
         isNewInitialCustomer && 
           <CreateUpdateModal
