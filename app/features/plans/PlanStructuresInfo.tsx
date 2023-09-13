@@ -154,20 +154,22 @@ const PlanStructuresInfo = (props: Props) => {
                         ورود تعرفه ماهیانه نهایی
                     </p>
                 </div>
-                {!isDiscountedInput &&
-                <div className="flex gap-3 items-center dark:text-white">
-                    <p>
-                        مقیاس تخفیف
-                    </p>
-                    <FaPercentage
-                        className={`${discountType === 'percentage' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer `}
-                        onClick={() =>handleDiscountType('percentage')}
-                    />
-                    <FaDollarSign
-                        className={`${discountType === 'number' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer`}
-                        onClick={() =>handleDiscountType('number')}
-                    />
-                </div>}
+                {
+                    page !== 'edit' && !isDiscountedInput &&
+                    <div className="flex gap-3 items-center dark:text-white">
+                        <p>
+                            مقیاس تخفیف
+                        </p>
+                        <FaPercentage
+                            className={`${discountType === 'percentage' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer `}
+                            onClick={() =>handleDiscountType('percentage')}
+                        />
+                        <FaDollarSign
+                            className={`${discountType === 'number' ? 'text-purple-700': 'text-purple-500'} hover:scale-150 transition-all cursor-pointer`}
+                            onClick={() =>handleDiscountType('number')}
+                        />
+                    </div>
+                }
             </div>
 
             {field.map((item, fieldIndex) => {
