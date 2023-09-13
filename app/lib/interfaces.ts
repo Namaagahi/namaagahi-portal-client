@@ -373,6 +373,7 @@ export interface AddPlanForm {
     monthlyFee: string
     monthlyFeeWithDiscount: string
     discountFee: string
+    discountType?: string
   }[]
 }
 
@@ -391,6 +392,7 @@ export interface EditPlanForm {
     monthlyFee: string
     monthlyFeeWithDiscount: string
     discountFee: string
+    discountType?: string
   }[]
 }
 

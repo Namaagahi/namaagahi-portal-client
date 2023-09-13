@@ -14,7 +14,8 @@ type Props = {
     convertToNumber: (value: string | number) => number | any
     selectedStructure: CombinedStructure | undefined
     numberDiscountInputRef: React.RefObject<HTMLInputElement>
-    setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
+    setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>,
+    watch: any
 }
 
 const DiscountFeeInput = (props: Props) => {
@@ -31,14 +32,16 @@ const DiscountFeeInput = (props: Props) => {
         convertToNumber,
         selectedStructure,
         numberDiscountInputRef,
-        setValue
+        setValue,
+        watch
     } = props
 
-    useEffect(() => {
-        console.log("USE EFFECT CALLED")
-        setValue(`structures.${fieldIndex}.discountFee`, ' ')
-    }, [discountType])
+    // useEffect(() => {
+    //     console.log("USE EFFECT CALLED")
+    //     setValue(`structures.${fieldIndex}.discountFee`, ' ')
+    // }, [watch('structures')])
 
+console.log("discountType", discountType)
   return (
     discountType === 'percentage' ?
         <>

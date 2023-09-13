@@ -142,7 +142,7 @@ console.log("VALS",createPlanForm.getValues() )
               register={register}
             />
 
-            <button className="primaryButton w-1/3 mx-auto">
+            <button className="primaryButton w-1/4 mx-auto">
               افزودن پلن
             </button>
           </form>

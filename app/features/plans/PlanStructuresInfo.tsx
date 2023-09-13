@@ -38,6 +38,7 @@ type Props = {
     formVals?: any
     chosenStructures?: string[]
     setChosenStructures?: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
+    isChanged: boolean
   }
   
 const PlanStructuresInfo = (props: Props) => {
@@ -58,7 +59,8 @@ const PlanStructuresInfo = (props: Props) => {
         register,
         formVals,
         chosenStructures, 
-        setChosenStructures
+        setChosenStructures,
+        isChanged
     } = props
 
     const [changeInput, setChangeInput] = useState<boolean>(false)
@@ -68,6 +70,7 @@ const PlanStructuresInfo = (props: Props) => {
     const numberDiscountInputRef = useRef<HTMLInputElement>(null)
     const [isStructureChoose, setIsStructureChoose] = useState(Array(field.length).fill(false))
     const [thisStructures, setThisStructures] = useState<string[]>([])
+
 
     const handleModalToggle = (fieldIndex: number) => {
       const updatedState = [...isStructureChoose]
@@ -320,7 +323,7 @@ const PlanStructuresInfo = (props: Props) => {
                                             selectedStructure={selectedStructure}
                                             numberDiscountInputRef={numberDiscountInputRef}
                                             setValue={setValue}
-
+                                            watch={watch}
                                         />
                                         :
                                         <CalculatedDiscount
@@ -331,6 +334,7 @@ const PlanStructuresInfo = (props: Props) => {
                                             setValue={setValue}
                                             selectedStructure={selectedStructure!}
                                             changeInput={changeInput}
+                                            isDiscountedInput={isDiscountedInput}  
                                         />
                                     }
                                     
@@ -367,6 +371,7 @@ const PlanStructuresInfo = (props: Props) => {
                                 <DiscountedMonthlyFee
                                     page={page}
                                     item={item}
+                                    isChanged={isChanged}
                                     selectedStructure={selectedStructure}
                                     changeInput={changeInput}
                                     discountType={discountType}

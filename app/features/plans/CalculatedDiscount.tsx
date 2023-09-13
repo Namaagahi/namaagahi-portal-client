@@ -10,6 +10,8 @@ type Props = {
     setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
     selectedStructure: CombinedStructure
     changeInput: boolean
+    isDiscountedInput: boolean
+
 }
 
 const CalculatedDiscount = (props: Props) => {
@@ -21,7 +23,8 @@ const CalculatedDiscount = (props: Props) => {
         fieldIndex,
         setValue,
         selectedStructure,
-        changeInput
+        changeInput,
+        isDiscountedInput
     } = props
 
     const calculatedDiscountRef = useRef<HTMLParagraphElement>(null)
@@ -39,20 +42,20 @@ const CalculatedDiscount = (props: Props) => {
         id='discount'
         ref={calculatedDiscountRef}
     >
-        {!changeInput ?
+        {!changeInput && !isDiscountedInput ?
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)) > 100 
             || 
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)) < 0 ?
                 '0'
                 :
-                Math.round(100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee))
+                (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)).toFixed(2)
             :
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) > 100 
             || 
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) < 0 ?
                 '0'
                 :
-                Math.round(100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee)))
+                (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))).toFixed(2)
         }
     </p>
   )

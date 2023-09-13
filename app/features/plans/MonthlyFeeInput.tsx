@@ -37,7 +37,7 @@ const MonthlyFeeInput = (props: Props) => {
             if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
         }
     }, [])
-console.log("selectedStructure", selectedStructure)
+
     return (
         <div className='flex flex-col gap-3'>
             {!changeInput ?

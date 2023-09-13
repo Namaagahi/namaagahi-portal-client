@@ -1,5 +1,5 @@
 import { FieldArrayWithId, FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { formatNumber } from '@/app/utilities/formatNumber'
 import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
 
@@ -17,6 +17,7 @@ type Props = {
     setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
     numberDiscountInputRef: React.RefObject<HTMLInputElement>
     percentageDiscountInputRef: React.RefObject<HTMLInputElement>
+    isChanged: boolean
 }
 
 const DiscountedMonthlyFee = (props: Props) => {
@@ -35,9 +36,11 @@ const DiscountedMonthlyFee = (props: Props) => {
         setValue,
         numberDiscountInputRef,
         percentageDiscountInputRef,
+        isChanged
     } = props
 
     const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
+
 
     useEffect(() => {
         if(discountedMonthlyFeeRef.current) {
@@ -60,7 +63,10 @@ const DiscountedMonthlyFee = (props: Props) => {
                 id='discountedMothlyFee'
                 ref={discountedMonthlyFeeRef}
             >
-                { page === 'edit' ? 
+                { 
+                !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
+                :
+                page === 'edit' ? 
                     changeInput && discountType === 'percentage' ?
                     formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
                     : 

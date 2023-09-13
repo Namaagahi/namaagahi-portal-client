@@ -313,7 +313,7 @@ const FinalCustomerForm = (props: Props) => {
                         <FinalCustomerInfo finalCustomer={finalCustomer} />
                 }
 
-                <button className='primaryButton hover:text-black hover:dark:text-buttonHover w-1/3 mx-auto' >
+                <button className='primaryButton hover:text-black hover:dark:text-buttonHover w-1/4 mx-auto' >
                     ثبت مشتری نهایی و تایید پلن
                 </button>
             </form>

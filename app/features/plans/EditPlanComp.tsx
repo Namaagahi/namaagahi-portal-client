@@ -51,9 +51,9 @@ const EditPlanComp = (props: Props) => {
 
     const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
     const [chosenStructures, setChosenStructures] = useState([])
+    const [isChanged, setIsChanged] = useState(false)
+    console.log("isChanged", isChanged)
 
-
-    
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: {
             initialCustomerId: plan?.initialCustomerId,
@@ -94,7 +94,7 @@ const EditPlanComp = (props: Props) => {
               discountType: discountType,
               structureRecord: structure.structureRecord
             }))
-          }
+        }
         
         const abc =await updatePlan({
             id:plan?.id,
@@ -122,7 +122,12 @@ const EditPlanComp = (props: Props) => {
     }
 
     const formVals = watch('structures')
-    console.log("EDIT PLAN FORM", editPlanForm.getValues())
+
+    useEffect(() => {
+        setIsChanged(true)
+    }, [watch('structures')])
+
+    // console.log("EDIT PLAN FORM", editPlanForm.getValues())
     if(!plan) return <Loading />
     return (
         <main className="min-h-screen">
@@ -158,9 +163,10 @@ const EditPlanComp = (props: Props) => {
                         formVals={formVals}
                         chosenStructures={chosenStructures} 
                         setChosenStructures={setChosenStructures}
+                        isChanged={isChanged}
                     />
 
-                    <button className="primaryButton mx-auto w-1/3">
+                    <button className="primaryButton mx-auto w-1/4">
                         ویرایش پلن
                     </button>
                 </form>
