@@ -13,7 +13,7 @@ import PageTitle from '@/app/components/main/PageTitle'
 import { useRouter } from 'next/navigation'
 import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import usePageTitle from '@/app/hooks/usePageTitle'
@@ -25,6 +25,8 @@ const CreatePlan = () => {
   const { push } = useRouter()
 
   const [discountType, setDiscountType] = useState('percentage')
+  const [isChanged, setIsChanged] = useState(false)
+  console.log("isChanged", isChanged)
 
   const [createNewPlan, {
     isSuccess,
@@ -90,6 +92,10 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
     'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
 }
 
+useEffect(() => {
+  setIsChanged(true)
+}, [watch('structures')])
+
   if(isSuccess) {
     toast.success(`پلن جدید با موفقیت ساخته شد.`)
     push('/dashboard/billboard/plans')
@@ -126,7 +132,7 @@ console.log("VALS",createPlanForm.getValues() )
               control={control}
               errors={errors}
             />
-
+ 
             <PlanStructuresInfo
               page={'create'}
               control={control}
@@ -140,6 +146,7 @@ console.log("VALS",createPlanForm.getValues() )
               removeStructure={removeStructure}
               watch={watch}
               register={register}
+              isChanged={isChanged}
             />
 
             <button className="primaryButton w-1/4 mx-auto">

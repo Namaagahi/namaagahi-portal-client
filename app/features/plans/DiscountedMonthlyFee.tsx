@@ -36,11 +36,11 @@ const DiscountedMonthlyFee = (props: Props) => {
         setValue,
         numberDiscountInputRef,
         percentageDiscountInputRef,
-        isChanged
+        isChanged,
+        
     } = props
 
     const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
-
 
     useEffect(() => {
         if(discountedMonthlyFeeRef.current) {
