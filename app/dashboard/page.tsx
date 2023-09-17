@@ -18,7 +18,7 @@ const Dashboard = () => {
     return equivalentValue
   }
 
-  console.log("CODEd YEAR", getEquivalentValue(1403))
+  // console.log("CODEd YEAR", getEquivalentValue(1403))
   return (
     <main className="min-h-screen flex flex-col gap-4">
       <PageTitle name={'داشبورد'} />

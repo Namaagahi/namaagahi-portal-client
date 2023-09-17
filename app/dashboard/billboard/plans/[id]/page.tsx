@@ -1,7 +1,7 @@
 "use client"
 import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
 import { selectPlanById, useGetAllPlansQuery, useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
-import { FinalCustomerObject, InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
+import { FinalCustomerObject, InitialCustomerObject, PlanObject, ProjectCodeObject } from '@/app/lib/interfaces'
 import SinglePlanHeading from '@/app/features/plans/SinglePlanHeading'
 import SinglePlanTable from '@/app/features/plans/SinglePlanTable'
 import PageTitle from '@/app/components/main/PageTitle'
@@ -14,6 +14,7 @@ import { selectAllFinalCustomers, useGetAllFinalCustomersQuery, useUpdateFinalCu
 import FinalCustomerInfo from '@/app/features/finalCustomers/FinalCustomerInfo'
 import usePageTitle from '@/app/hooks/usePageTitle'
 import { toast } from 'react-toastify'
+import { selectProjectCodeById, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
 
 const SinglePlan = () => {
   usePageTitle('مشاهده پلن')
@@ -55,12 +56,13 @@ const SinglePlan = () => {
         status: 'pending',
         structures: plan?.structures,
         finalCustomerId: "",
+        projectCodeId: null,
     })
 
     const abc2 = await updateFinalCustomer({
       ...finalCustomer, planIds: [finalCustomer?.planIds].filter(item => item === plan._id)
     })
-    console.log("ABC", abc2)
+    console.log("ABC", abc)
     toast.success(`پلن ${plan?.planId} معلق شد.`)
 }
   

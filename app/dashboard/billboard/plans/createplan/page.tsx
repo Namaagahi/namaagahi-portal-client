@@ -26,7 +26,7 @@ const CreatePlan = () => {
 
   const [discountType, setDiscountType] = useState('percentage')
   const [isChanged, setIsChanged] = useState(false)
-  console.log("isChanged", isChanged)
+  // console.log("isChanged", isChanged)
 
   const [createNewPlan, {
     isSuccess,
@@ -74,15 +74,16 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
         discountType: discountType
       }))
     }
-    console.log("newData", newData)
 
     const abc = await createNewPlan({
       userId: id,
       name: newData.name,
       initialCustomerId: newData.initialCustomerId,
       finalCustomerId: newData.finalCustomerId,
+      projectCodeId: null,
       brand: newData.brand,
-      structures: newData.structures
+      structures: newData.structures,
+
     })
       console.log("ABC", abc)
   } 
@@ -116,7 +117,7 @@ useEffect(() => {
       </p>
     </div>
   )
-console.log("VALS",createPlanForm.getValues() )
+
   return (
       <main className="min-h-screen">
         <PageTitle name={'ایجاد پلن جدید'} />

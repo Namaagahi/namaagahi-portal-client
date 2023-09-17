@@ -294,6 +294,7 @@ export interface PlanObject {
   name: string
   initialCustomerId: string
   finalCustomerId: string
+  projectCodeId:string
   brand: string
   status?: string
   structures: StructurePlanObject[]

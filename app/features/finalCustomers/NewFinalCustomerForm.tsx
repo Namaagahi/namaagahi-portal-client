@@ -70,7 +70,7 @@ const NewFinalCustomerForm = (props: Props) => {
             planIds: []
         })
 
-        console.log("ABC1", abc1)
+        // console.log("ABC1", abc1)
 
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این شناسه / کد ملی قبلا ثبت شده است')
@@ -147,7 +147,7 @@ const NewFinalCustomerForm = (props: Props) => {
         },
     ]
 
-    console.log(createFinalCustomerForm.getValues())
+    // console.log(createFinalCustomerForm.getValues())
     if(isLoading) return <Loading/>
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">

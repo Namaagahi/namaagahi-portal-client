@@ -78,7 +78,7 @@ const EditProjectCode = (props: Props) => {
             brand: data.brand,
             desc: data.desc
         })
-        console.log("ABC", abc)
+        // console.log("ABC", abc)
         // console.log("isError", isError)
         if(isError) {
             'status' in error! && error.status === 409 && setErrMsg('این کد اقتصادی قبلا ثبت شده است')

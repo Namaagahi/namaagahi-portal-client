@@ -52,7 +52,7 @@ const EditPlanComp = (props: Props) => {
     const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
     const [chosenStructures, setChosenStructures] = useState([])
     const [isChanged, setIsChanged] = useState(false)
-    console.log("isChanged", isChanged)
+    // console.log("isChanged", isChanged)
 
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: {
@@ -106,7 +106,8 @@ const EditPlanComp = (props: Props) => {
             brand: newData.brand,
             status: 'suggested',
             structures: newData.structures,
-            finalCustomerId: ''
+            finalCustomerId: '',
+            projectCodeId: null
         })
     }
 

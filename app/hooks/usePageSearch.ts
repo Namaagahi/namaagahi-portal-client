@@ -13,7 +13,7 @@ const usePageSearch = () => {
   const handleSearch = () => {
     if (searchText) {
       const found = (window as any).find(searchText, false, false, true)
-      console.log("FOUND",)
+      // console.log("FOUND",)
       setSearchResult(found)
     } else {
       setSearchResult(false)

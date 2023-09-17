@@ -41,7 +41,7 @@ const DiscountFeeInput = (props: Props) => {
     //     setValue(`structures.${fieldIndex}.discountFee`, ' ')
     // }, [watch('structures')])
 
-console.log("discountType", discountType)
+// console.log("discountType", discountType)
   return (
     discountType === 'percentage' ?
         <>

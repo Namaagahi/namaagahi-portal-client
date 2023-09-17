@@ -1,12 +1,17 @@
 "use client"
 
+import PageTitle from "@/app/components/main/PageTitle"
+import UnderConstruction from "@/app/components/main/UnderConstruction"
 import usePageTitle from "@/app/hooks/usePageTitle"
 
 const Namava = () => {
   usePageTitle('رسانه | نماوا')
   
   return (
-    <div>Namava</div>
+    <>
+      <PageTitle name={'نماوا'} />
+      <UnderConstruction desc="ماژولهای مربوط به نماوا" />
+    </>
   )
 }
 

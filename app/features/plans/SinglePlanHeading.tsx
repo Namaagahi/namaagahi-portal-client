@@ -1,6 +1,8 @@
-import { InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
+import { InitialCustomerObject, PlanObject, ProjectCodeObject } from '@/app/lib/interfaces'
 import Status from '@/app/components/main/Status'
 import moment from 'jalali-moment'
+import { selectProjectCodeById, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
+import { useSelector } from 'react-redux'
 
 type Props = {
     plan: PlanObject
@@ -14,10 +16,20 @@ const SinglePlanHeading = (props: Props) => {
         customer
     } = props
 
+    
+    const {
+        isLoading: projectCodesLoading,
+    } = useGetAllProjectCodesQuery(undefined, {
+        refetchOnFocus: false,
+        refetchOnReconnect: false,
+    })
+
+    const projectCode: ProjectCodeObject = useSelector(state => selectProjectCodeById(state, plan.projectCodeId) as ProjectCodeObject)
+
     return (
         <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-primary/80 flex items-center justify-between px-2 text-white font-bold">
             <div className="flex flex-col gap-2">
-                <p>نام مشتری: {customer?.name}</p>
+                <p>نام مشتری اولیه: {customer?.name}</p>
                 <p>برند: {plan?.brand}</p>
                 {plan?.status === 'suggested'?
                     <Status
@@ -44,6 +56,7 @@ const SinglePlanHeading = (props: Props) => {
                     textColor = {'#ffc5b3'}
                 />
                 }
+                {plan.status === 'done' && plan.projectCodeId ? <p>کد پروژه : {projectCode.code}</p> : ''}
             </div>
 
             <div className="flex flex-col gap-2 text-sm">

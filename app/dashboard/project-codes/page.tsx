@@ -45,7 +45,7 @@ const ProjectCodes = () => {
 
 
     if(projectCodesLoading || finalCustomersLoading) return <Loading /> 
-    console.log("allProjectCodes", allProjectCodes)
+    // console.log("allProjectCodes", allProjectCodes)
     return (
         <>
             <PageTitle name={'کدهای پروژه'} />

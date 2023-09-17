@@ -64,7 +64,7 @@ const NewProjectCodeForm = (props: Props) => {
             desc: data.desc, 
         })
 
-        console.log("ABC1", abc1)
+        // console.log("ABC1", abc1)
 
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این  کد پروژه قبلا ثبت شده است')
@@ -124,7 +124,7 @@ const NewProjectCodeForm = (props: Props) => {
         },
     ]
 
-    console.log("finalCustomersOptions", finalCustomersOptions)
+    // console.log("finalCustomersOptions", finalCustomersOptions)
 
     if(isLoading || finalCustomersLoading || !finalCustomersOptions[0]) return <Loading/>
     return (

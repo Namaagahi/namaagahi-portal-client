@@ -1,3 +1,4 @@
+import { useGetAllProjectCodesQuery } from "@/app/apiSlices/projectCodeApiSlice"
 import { FinalCustomerObject } from "@/app/lib/interfaces"
 
 type Props = {
@@ -7,7 +8,7 @@ type Props = {
 const FinalCustomerInfo = (props: Props) => {
     
     const { finalCustomer } = props
-    console.log("finalCustomer", finalCustomer)
+    // console.log("finalCustomer", finalCustomer)
 
     return (
         <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 text-gray-700 dark:text-white mt-5 flex flex-col items-start justify-center'>

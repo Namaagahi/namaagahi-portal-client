@@ -4,10 +4,7 @@ import Card from '@/app/components/main/Card'
 import dynamic from 'next/dynamic'
 import usePageTitle from '@/app/hooks/usePageTitle'
 import SectionHeader from '@/app/components/media/billboard/cards/SectionHeader'
-const PageTitle = dynamic(
-  () => import('@/app/components/main/PageTitle'),
-  { ssr: false }
-)
+import PageTitle from '@/app/components/main/PageTitle'
 
 const Billboard = () => {
   usePageTitle('رسانه | بیلبورد')

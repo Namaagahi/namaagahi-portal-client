@@ -1,5 +1,5 @@
 import { selectAllFinalCustomers, useCreateNewFinalCustomerMutation, useGetAllFinalCustomersQuery, useUpdateFinalCustomerMutation } from '@/app/apiSlices/finalCustomerApiSlice'
-import { AddFinalCustomerForm, FinalCustomerObject, PlanObject } from '@/app/lib/interfaces'
+import { AddFinalCustomerForm, FinalCustomerObject, PlanObject, ProjectCodeObject } from '@/app/lib/interfaces'
 import { useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
 import { newFinalCustomerDefaultValues } from '@/app/lib/constants'
 import CustomInput from '@/app/components/inputs/CustomInput'
@@ -12,6 +12,8 @@ import { toast } from 'react-toastify'
 import Agents from './Agents'
 import FinalCustomerTypes from './FinalCustomerTypes'
 import FinalCustomerInfo from './FinalCustomerInfo'
+import { selectAllProjectCodes, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
+import Loading from '../loading/Loading'
 
 type Props = {
     plan: PlanObject
@@ -41,11 +43,21 @@ const FinalCustomerForm = (props: Props) => {
         refetchOnMountOrArgChange: false
     })
 
+    const {
+        isLoading: projectCodesLoading,
+    } = useGetAllProjectCodesQuery(undefined, {
+        refetchOnFocus: false,
+        refetchOnReconnect: false,
+    })
+    
     const [updatePlan] = useUpdatePlanMutation()
     const allFinalCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[]) 
+    const allProjectCodes: ProjectCodeObject[] = useSelector(state => selectAllProjectCodes(state) as ProjectCodeObject[])
 
     const [isDisabled, setIsDisabled] = useState<boolean>(false)
+    const [hasProjectCode, setHasProjectCode] = useState<boolean>(false)
     const [customerId, setCustomerId] = useState<string>('')
+    const [projectCodeId, setProjectCodeId] = useState<string | null>(null)
     const [contractType, setContractType] = useState('official')
     const [customerType, setCustomerType] = useState('legal')
     const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer.finalCustomerId === customerId) as FinalCustomerObject
@@ -103,10 +115,11 @@ const FinalCustomerForm = (props: Props) => {
                 userId: plan.userId,
                 username: plan.username,
                 initialCustomerId: plan.initialCustomerId,
+                finalCustomerId: data.finalCustomerId ,
+                projectCodeId: projectCodeId,
                 brand: plan.brand,
                 status: 'done',
                 structures: plan.structures,
-                finalCustomerId: data.finalCustomerId ,
             })
 
             console.log("ABC1", abc1, "ABC2", abc2)
@@ -141,10 +154,11 @@ const FinalCustomerForm = (props: Props) => {
                 userId: plan.userId,
                 username: plan.username,
                 initialCustomerId: plan.initialCustomerId,
+                finalCustomerId: finalCustomer?.finalCustomerId ,
+                projectCodeId: projectCodeId,
                 brand: plan.brand,
                 status: 'done',
                 structures: plan.structures,
-                finalCustomerId: finalCustomer?.finalCustomerId ,
             })
             console.log("ABC3", abc3, "ABC4", abc4)
         }
@@ -217,8 +231,8 @@ const FinalCustomerForm = (props: Props) => {
             errors: undefined,
         },
     ]
-    // console.log("iS error", isError)
-    // console.log("finalCustomer", finalCustomer)
+console.log("ProjectCodeId",projectCodeId)
+    if(isLoading || projectCodesLoading) return <Loading />
     return (
         <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 text-gray-700 mt-5 flex flex-col items-start justify-center'>
             <p className='dark:text-gray-200'>
@@ -258,6 +272,38 @@ const FinalCustomerForm = (props: Props) => {
                                         className='text-black'
                                     >
                                         {finalCustomer.name}
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    }
+                    <label htmlFor="chooseCustomer" className='dark:text-gray-200'>
+                        کد پروژه دارد؟
+                    </label>
+                    <input
+                        type='checkbox'
+                        id='chooseCustomer'
+                        onChange={() => setHasProjectCode(!hasProjectCode)}
+                        className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                    />
+                    {
+                        hasProjectCode &&
+                        <select 
+                            className='formInput'
+                            onChange={(e) => setProjectCodeId(e.target.value)}
+                        >
+                            <option value="" >
+                                انتخاب
+                            </option>
+
+                            {allProjectCodes.map((projectCode, index) => {
+                                return(
+                                    <option 
+                                        key={projectCode.code} 
+                                        value={projectCode._id} 
+                                        className='text-black'
+                                    >
+                                        {projectCode.code}
                                     </option>
                                 )
                             })}
