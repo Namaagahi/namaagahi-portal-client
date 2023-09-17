@@ -16,7 +16,11 @@ type Props = {
 
 const EditFinalCustomer = (props: Props) => {
 
-    const { handleModal, finalCustomer } = props
+    const {
+        handleModal,
+        finalCustomer
+    } = props
+    
     const { id } = useAuth()
     
     const [updateFinalCustomer, {

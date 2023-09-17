@@ -222,7 +222,6 @@ if(isAdmin) {
             type={'delete'}
             deleteType="user"
           />
-
       }
 
       {

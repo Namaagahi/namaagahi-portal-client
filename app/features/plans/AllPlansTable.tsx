@@ -158,7 +158,7 @@ const AllPlansTable = (props: any) => {
                             onClick={handleDeletePlan}    
                           />
                         </>
-                        : (isMediaManager || isAdmin) && page === 'all' ?
+                        : (isMaster || isMediaManager || isAdmin) && page === 'all' ?
                         <>
                           <Link href={`/dashboard/billboard/plans/editplan/${row.id}`}>
                             <AiFillEdit

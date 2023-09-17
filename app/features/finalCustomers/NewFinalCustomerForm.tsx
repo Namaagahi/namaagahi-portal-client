@@ -12,7 +12,11 @@ import { toast } from 'react-toastify'
 import FinalCustomerTypes from './FinalCustomerTypes'
 import { useRouter } from 'next/navigation'
 
-const NewFinalCustomerForm = (props: any) => {
+type Props = {
+    handleModal: () => void
+}
+
+const NewFinalCustomerForm = (props: Props) => {
 
     const { id } = useAuth()
     const { handleModal } = props
@@ -32,7 +36,7 @@ const NewFinalCustomerForm = (props: any) => {
     const createFinalCustomerForm = useForm<AddFinalCustomerForm>({
         defaultValues: {...newFinalCustomerDefaultValues, finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,},
             mode: 'onSubmit'
-        })
+    })
 
     const {
         control,
@@ -57,7 +61,7 @@ const NewFinalCustomerForm = (props: any) => {
             contractType: contractType, 
             customerType: customerType,
             agent: data.agent,
-            nationalId: parseFloat(data.nationalId),
+            nationalId: parseFloat(data.nationalId), 
             ecoCode: parseFloat(data.ecoCode),
             regNum: parseFloat(data.regNum),
             address: data.address,

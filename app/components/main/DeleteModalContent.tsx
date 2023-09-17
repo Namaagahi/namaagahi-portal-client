@@ -7,6 +7,7 @@ import DeleteNote from "@/app/features/note/DeleteNote"
 import DeleteBox from "@/app/features/boxes/DeleteBox"
 import { AiOutlineClose } from 'react-icons/ai'
 import DeleteFinalCustomer from "@/app/features/finalCustomers/DeleteFinalCustomer"
+import DeleteProjectCode from "@/app/features/projectCodes/DeleteProjectCode"
 
 interface Props {
     handleModal: () => void
@@ -81,6 +82,11 @@ const DeleteModalContent = (props: Props) => {
                 : deleteType === 'finalCustomer'?
                 <DeleteFinalCustomer
                     finalCustomer={prop}
+                    handleModal={handleModal}
+                />
+                : deleteType === 'projectCode'?
+                <DeleteProjectCode
+                    projectCode={prop}
                     handleModal={handleModal}
                 />
                 : null

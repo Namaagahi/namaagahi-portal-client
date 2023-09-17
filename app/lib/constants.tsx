@@ -5,6 +5,7 @@ import { MenuItemsObj } from "./interfaces"
 import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
 import { BsFillPinMapFill } from 'react-icons/bs'
+import { BiCode } from 'react-icons/bi'
 
 // REGEXES =======================================================
 export const USER_REGEX = /^[A-z]{3,20}$/
@@ -59,7 +60,7 @@ export const structuresTableHeadings = [
 // BILLBOARD PAGE =======================================================
 export const billboardPagePropsObject = [
     {
-        id:1,
+        id: 1,
         title: 'باکس',
         main:'همه باکس ها',
         mainLink:'/dashboard/billboard/boxes', 
@@ -67,7 +68,7 @@ export const billboardPagePropsObject = [
         subTitleLink:'/dashboard/billboard/boxes/createbox'
     },
     {
-        id:2,
+        id: 2,
         title: 'پلن',
         main:'همه پلن ها',
         main2: 'پلن های من',
@@ -77,7 +78,7 @@ export const billboardPagePropsObject = [
         subTitleLink:'/dashboard/billboard/plans/createplan'
     },
     {
-        id:3,
+        id: 3,
         title: 'سازه',
         main:'همه سازه ها',
         main2:'سازه های من',
@@ -87,7 +88,7 @@ export const billboardPagePropsObject = [
         subTitleLink:'/dashboard/billboard/structures/createstructure',
     },
     {
-        id:4,
+        id: 4,
         title: 'مشتری',
         main:'مشتریان اولیه ',
         main2:'مشتریان نهایی',
@@ -117,6 +118,11 @@ export const menuItems: MenuItemsObj[] = [{
   name: 'وظایف',
   path: '/dashboard/tasks',
   icon: <MdDashboardCustomize size={20} />
+},
+{
+  name: 'کد پروژه',
+  path: '/dashboard/project-codes',
+  icon: <BiCode size={20} />
 },
 {
   name: 'نقشه',
@@ -339,7 +345,6 @@ export const initialCustomerTableHeadings = [
 
 // NEW FINAL CUSTOMER =======================================================
 export const newFinalCustomerDefaultValues = {
-  // finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
   name: '',
   contractType: 'official',
   customerType: 'legal',
@@ -359,4 +364,34 @@ export const finalCustomerAgentFormValues = {
   agentName: '',
   post: ''
 }
+
+// PROJECT CODE =======================================================
+export const codeMap: {[key: string]: string} = {
+  'BB': 'بیلبورد',
+  'MTR': 'مترو',
+  'BUS': 'اتوبوس',
+  'NMV': 'نماوا'
+}
+
+export const newProjectCodeDefaultValues = {
+  media: '',
+  year: '',
+  finalCustomerId: '',
+  brand: '',
+  desc: ''
+}
+
+export const mediaTypes = [
+  { id: 'BB', name: 'بیلبورد'},
+  { id: 'MTR', name: 'مترو'},
+  { id: 'BUS', name: 'اتوبوس'},
+  { id: 'NMV', name: 'نماوا'},
+]
+export const years = [
+  { id: '200', name: '1402'},
+  { id: '300', name: '1403'},
+  { id: '400', name: '1404'},
+  { id: '500', name: '1405'},
+
+]
 

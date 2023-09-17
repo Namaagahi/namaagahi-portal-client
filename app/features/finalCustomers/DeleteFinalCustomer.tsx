@@ -6,7 +6,7 @@ import { useDeleteFinalCustomerMutation } from '@/app/apiSlices/finalCustomerApi
 type Props = {
     finalCustomer: FinalCustomerObject
     handleModal: () => void
-  }
+}
 
 const DeleteFinalCustomer = (props: Props) => {
 

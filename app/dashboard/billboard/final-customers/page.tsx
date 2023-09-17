@@ -30,7 +30,7 @@ const FinalCustomers = () => {
       } = useGetAllFinalCustomersQuery(undefined, { 
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
-      }) 
+    }) 
 
     const allFinallCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[])
     const [data, setData] = useState<FinalCustomerObject[] | unknown>([])

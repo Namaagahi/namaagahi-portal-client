@@ -487,3 +487,36 @@ export interface AgentObject {
   post: string
   _id?: string
 }
+
+// PROJECT CODE ===========================================================================
+export interface ProjectCodeObject {
+  _id?: string
+  id?:string
+  userId: string
+  media: string
+  year: number
+  finalCustomerId: string
+  brand: string
+  desc: string
+  code: string
+  username?:string
+  createdAt?: string
+  updatedAt?: string
+  __v?: string
+}
+
+export interface AddProjectCodeForm {
+  media: string
+  year: string
+  finalCustomerId: string
+  brand: string
+  desc: string
+}
+
+export interface EditProjectCodeForm {
+  media: string
+  year: number
+  finalCustomerId: string
+  brand: string
+  desc: string
+}

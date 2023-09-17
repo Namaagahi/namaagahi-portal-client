@@ -17,7 +17,7 @@ const SelectInput = (props: SelectInputProps) => {
         defaultValue,
         name,
         label,
-        required,
+        required, 
         options,
         errors
     } = props
@@ -35,7 +35,7 @@ const SelectInput = (props: SelectInputProps) => {
                 render={({ field }) => 
                 <select 
                     {...field} 
-                    className='formInput p-[4.5px]'
+                    className='formInput p-[4.5px] dark:text-black bg-slate-200'
                 >
                     <option value="" disabled hidden>
                     انتخاب
