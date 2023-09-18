@@ -46,7 +46,7 @@
   }
   .formInput2{
     @apply p-3 text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080]
-  }
+  } 
   .tableInput {
     @apply  text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080] text-center text-xs
   }
@@ -60,7 +60,7 @@
     @apply block text-black px-4 py-2 font-semibold rounded-md bg-white hover:bg-transparent hover:text-white transition
   }
   .deleteConfirmButton {
-    @apply bg-[#faa75c] py-3 w-2/3 rounded-md text-xl border-[1px] border-[#faa75c] hover:border-[#FFFFFF] hover:bg-[#FFFFFF] transition-all text-black 
+    @apply bg-[#faa75c] py-3 w-2/3 rounded-md text-xl border-[1px] border-[#faa75c] hover:dark:border-[#FFFFFF] hover:border-[#faa75c] hover:bg-[#FFFFFF] transition-all text-black 
   }
   .formChooseButton{
     @apply bg-secondary rounded-md py-2 hover:scale-110 text-black transition-all

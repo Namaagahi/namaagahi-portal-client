@@ -14,6 +14,7 @@ import FinalCustomerTypes from './FinalCustomerTypes'
 import FinalCustomerInfo from './FinalCustomerInfo'
 import { selectAllProjectCodes, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
 import Loading from '../loading/Loading'
+import ChooseProjectCodeModal from '@/app/components/modals/ChooseProjectCodeModal'
 
 type Props = {
     plan: PlanObject
@@ -61,6 +62,15 @@ const FinalCustomerForm = (props: Props) => {
     const [contractType, setContractType] = useState('official')
     const [customerType, setCustomerType] = useState('legal')
     const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer.finalCustomerId === customerId) as FinalCustomerObject
+
+    const handleChooseProjectCodeModal = () => setHasProjectCode(!hasProjectCode)
+    const handleProjectCodeId = (projectCode: ProjectCodeObject | string) => {
+        if (typeof projectCode === 'object') {
+            setProjectCodeId(projectCode._id) 
+        } else {
+            setProjectCodeId(null)
+        }
+    }
     
     useEffect(() => {
         if(isDisabled) {
@@ -244,71 +254,63 @@ console.log("ProjectCodeId",projectCodeId)
                 onSubmit={handleSubmit(onSubmit)}
                 className='w-full flex flex-col gap-9 justify-center mt-2'
             >
-                <div className="flex items-center gap-3">
-                    <label htmlFor="chooseCustomer" className='dark:text-gray-200'>
-                        انتخاب از مشتریان قبلی
-                    </label>
-                    <input
-                        type='checkbox'
-                        id='chooseCustomer'
-                        onChange={() => setIsDisabled(!isDisabled)}
-                        className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                    />
-                    {
-                        isDisabled &&
-                        <select 
-                            className='formInput'
-                            onChange={(e) => setCustomerId(e.target.value)}
+                <div className="flex items-center justify-between">
+                    <div className='flex items-center gap-3'>
+                        <label htmlFor="chooseCustomer" className='dark:text-gray-200'>
+                            انتخاب از مشتریان قبلی
+                        </label>
+                        <input
+                            type='checkbox'
+                            id='chooseCustomer'
+                            onChange={() => setIsDisabled(!isDisabled)}
+                            className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
+                        />
+                        {
+                            isDisabled &&
+                            <select
+                                className='formInput'
+                                onChange={(e) => setCustomerId(e.target.value)}
+                            >
+                                <option value="" >
+                                    انتخاب
+                                </option>
+                                {allFinalCustomers.map((finalCustomer, index) => {
+                                    return(
+                                        <option
+                                            key={finalCustomer.finalCustomerId}
+                                            value={finalCustomer.finalCustomerId}
+                                            className='text-black'
+                                        >
+                                            {finalCustomer.name}
+                                        </option>
+                                    )
+                                })}
+                            </select>
+                        }
+                    </div>
+                    <div className='flex items-center gap-3'>
+                        <p
+                            className='dark:text-gray-200 cursor-pointer hover:font-bold hover:dark:text-buttonHover transition-all'
+                            onClick={handleChooseProjectCodeModal}
                         >
-                            <option value="" >
-                                انتخاب
-                            </option>
-
-                            {allFinalCustomers.map((finalCustomer, index) => {
-                                return(
-                                    <option 
-                                        key={finalCustomer.finalCustomerId} 
-                                        value={finalCustomer.finalCustomerId} 
-                                        className='text-black'
-                                    >
-                                        {finalCustomer.name}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                    }
-                    <label htmlFor="chooseCustomer" className='dark:text-gray-200'>
-                        کد پروژه دارد؟
-                    </label>
-                    <input
-                        type='checkbox'
-                        id='chooseCustomer'
-                        onChange={() => setHasProjectCode(!hasProjectCode)}
-                        className='mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600'
-                    />
-                    {
-                        hasProjectCode &&
-                        <select 
-                            className='formInput'
-                            onChange={(e) => setProjectCodeId(e.target.value)}
-                        >
-                            <option value="" >
-                                انتخاب
-                            </option>
-
-                            {allProjectCodes.map((projectCode, index) => {
-                                return(
-                                    <option 
-                                        key={projectCode.code} 
-                                        value={projectCode._id} 
-                                        className='text-black'
-                                    >
-                                        {projectCode.code}
-                                    </option>
-                                )
-                            })}
-                        </select>
-                    }
+                           {"تخصیص کد پروژه"}
+                        </p>
+                        {
+                            projectCodeId &&
+                            <p className='dark:text-white font-bold'>
+                                {(allProjectCodes.find((projectCode: ProjectCodeObject) => projectCode._id === projectCodeId))?.code}
+                            </p>
+                        }
+                        {
+                            hasProjectCode &&
+                            <ChooseProjectCodeModal
+                                handleModal={handleChooseProjectCodeModal}
+                                data={allProjectCodes}
+                                allFinalCustomers={allFinalCustomers}
+                                handleProjectCodeId={handleProjectCodeId}
+                            />
+                        }
+                    </div>
                 </div>
                 
                 {
