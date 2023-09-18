@@ -89,6 +89,8 @@ const AllProjectCodesTable = (props: any) => {
                         )
                     },
                     header: () => <span>مشتری</span>,
+                    enableColumnFilter: false,
+
                 },
                 {
                     accessorKey: 'brand',
@@ -96,7 +98,7 @@ const AllProjectCodesTable = (props: any) => {
                     id: 'برند',
                     cell: info => info.getValue(),
                     header: () => <span>برند</span>,
-                    enableColumnFilter: false,
+                    // enableColumnFilter: false,
                 },
                 {
                     accessorKey: 'desc',
@@ -126,10 +128,12 @@ const AllProjectCodesTable = (props: any) => {
                                   className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
                                   onClick={handleEditProjectCode}    
                                 />
+                              { isMaster && 
                                 <AiFillDelete 
-                                    className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
-                                    onClick={handleDeleteProjectCode}    
+                                  className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
+                                  onClick={handleDeleteProjectCode}    
                                 />
+                              }
                             </>
                             : 
                             <p>دسترسی محدود</p>

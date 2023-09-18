@@ -104,11 +104,20 @@ const ChooseStructureModal = (props: Props) => {
                             />
                             <div className='mt-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[200px] overflow-y-auto'>
                                 <ul>
-                                    {searchResults.length === 0 ? (
-                                    <li>
-                                        هیچ موردی یافت نشد.
-                                    </li>
-                                    ) : (
+                                    {searchResults.length === 0 ? 
+                                    data.map((item, index) => {
+                                        return (
+                                        <li
+                                            className='mt-2 cursor-pointer hover:text-red-700 transition-all'
+                                            key={index}
+                                            onClick={() => handleSelectResult(item)}
+                                        >
+                                            {`${item.name} - ${item.location.address} - ${item.location.path}`}
+                                        </li> 
+                                        )
+                                    })
+                                    
+                                    : (
                                     searchResults.map((item, index) => (
                                         <li
                                             className='mt-2 cursor-pointer hover:text-red-700 transition-all'

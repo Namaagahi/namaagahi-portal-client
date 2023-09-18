@@ -15,6 +15,7 @@ import FinalCustomerInfo from './FinalCustomerInfo'
 import { selectAllProjectCodes, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
 import Loading from '../loading/Loading'
 import ChooseProjectCodeModal from '@/app/components/modals/ChooseProjectCodeModal'
+import Status from '@/app/components/main/Status'
 
 type Props = {
     plan: PlanObject
@@ -244,7 +245,7 @@ const FinalCustomerForm = (props: Props) => {
 console.log("ProjectCodeId",projectCodeId)
     if(isLoading || projectCodesLoading) return <Loading />
     return (
-        <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-2 text-gray-700 mt-5 flex flex-col items-start justify-center'>
+        <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-4 text-gray-700 mt-5 flex flex-col items-start justify-center'>
             <p className='dark:text-gray-200'>
                 مشتری نهایی
             </p>
@@ -290,16 +291,21 @@ console.log("ProjectCodeId",projectCodeId)
                     </div>
                     <div className='flex items-center gap-3'>
                         <p
-                            className='dark:text-gray-200 cursor-pointer hover:font-bold hover:dark:text-buttonHover transition-all'
+                            className={`${!projectCodeId ? 
+                                'primaryButton hover:text-black hover:dark:text-buttonHover' 
+                                : 
+                                'dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all'} cursor-pointer`}
                             onClick={handleChooseProjectCodeModal}
                         >
                            {"تخصیص کد پروژه"}
                         </p>
                         {
                             projectCodeId &&
-                            <p className='dark:text-white font-bold'>
-                                {(allProjectCodes.find((projectCode: ProjectCodeObject) => projectCode._id === projectCodeId))?.code}
-                            </p>
+                        <Status
+                            status={(allProjectCodes.find((projectCode: ProjectCodeObject) => projectCode._id === projectCodeId))?.code}
+                            bgColor='#faa75c'
+                            textColor='#132b00'
+                        />
                         }
                         {
                             hasProjectCode &&
@@ -361,7 +367,10 @@ console.log("ProjectCodeId",projectCodeId)
                         <FinalCustomerInfo finalCustomer={finalCustomer} />
                 }
 
-                <button className='primaryButton hover:text-black hover:dark:text-buttonHover w-1/4 mx-auto' >
+                <button 
+                    className={`primaryButton w-1/4 mx-auto ${!customerId ? 'bg-gray-500 hover:bg-gray-500' : ' hover:text-black hover:dark:text-buttonHover'}`}
+                    disabled={!customerId}
+                >
                     ثبت مشتری نهایی و تایید پلن
                 </button>
             </form>

@@ -82,9 +82,11 @@ const Availables = () => {
         })
         const structuresPlans:StructurePlanObject[] = []
         allPlans.forEach(plan => {
-            plan.structures.forEach(structure => {
-                if(structure.structureRecord.duration.endDate >= startDate) structuresPlans.push(structure)
-            })
+            if(plan.status === 'done') {
+                plan.structures.forEach(structure => {
+                    if(structure.structureRecord.duration.endDate >= startDate) structuresPlans.push(structure)
+                })
+            }
         })
 
         if(!structuresBox[0] && !structuresPlans[0]) return {}
@@ -288,7 +290,7 @@ return (
                             availables.end === endDate ?
                                 moment.unix(availables.end).format('jYYYY-jMM-jDD')
                                 :
-                                moment(new Date(availables.end).setDate(new Date(availables.end).getDate() - 1)).format('jYYYY-jM-jD')
+                                moment(new Date(availables.end).setDate(new Date(availables.end).getDate())).format('jYYYY-jM-jD')
                             }
                         </p>
                     </div>
@@ -298,7 +300,7 @@ return (
             :
             <p className='bg-red-500 text-white'>
                 تاریخ شروع باید قبل آغاز باشد.
-                </p>
+            </p>
         }
         </div>
     </main>

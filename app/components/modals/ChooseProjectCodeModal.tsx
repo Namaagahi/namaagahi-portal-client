@@ -84,11 +84,20 @@ const ChooseProjectCodeModal = (props: Props) => {
                             
                             <div className='mt-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[200px] overflow-y-auto'>
                                 <ul>
-                                    {searchResults.length === 0 ? (
-                                    <li>
-                                        هیچ موردی یافت نشد.
-                                    </li>
-                                    ) : (
+                                    {searchResults.length === 0 ? 
+                                    data.map((item, index) => {
+                                        const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer._id === item.finalCustomerId)
+                                        return (
+                                        <li
+                                            className='mt-2 cursor-pointer hover:text-red-700 transition-all'
+                                            key={index}
+                                            onClick={() => handleSelectResult(item)}
+                                        >
+                                            {`${item.code} - ${finalCustomer?.name}`}
+                                        </li>
+                                        )
+                                    })
+                                    : (
                                     searchResults.map((item, index) => {
                                         const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer._id === item.finalCustomerId)
                                         console.log("finalCustomer", finalCustomer)

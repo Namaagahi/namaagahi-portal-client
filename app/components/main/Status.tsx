@@ -1,5 +1,5 @@
 type Props = { 
-  status: string
+  status?: string
   bgColor: string
   textColor: string 
 }
