@@ -5,7 +5,7 @@ import usePageTitle from '@/app/hooks/usePageTitle'
 const Plans = () => {
     usePageTitle('پلنها')
 
-    return(
+    return (
         <PlansComp page={'all'} />
     )
 }

@@ -8,7 +8,6 @@ import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import Loading from '@/app/features/loading/Loading'
 import AllProjectCodesTable from '@/app/features/projectCodes/AllProjectCodesTable'
 import usePageTitle from '@/app/hooks/usePageTitle'
-import { codeMap } from '@/app/lib/constants'
 import { FinalCustomerObject, ProjectCodeObject } from '@/app/lib/interfaces'
 import { EntityId } from '@reduxjs/toolkit'
 import { useState } from 'react'
@@ -23,9 +22,8 @@ const ProjectCodes = () => {
         isSuccess, 
         isError,
     } = useGetAllProjectCodesQuery(undefined, {
-        refetchOnFocus: true,
-        refetchOnMountOrArgChange: true,
-        refetchOnReconnect: true,
+        refetchOnFocus: false,
+        refetchOnMountOrArgChange: false,
     })
 
     const {
@@ -45,7 +43,7 @@ const ProjectCodes = () => {
 
 
     if(projectCodesLoading || finalCustomersLoading) return <Loading /> 
-    // console.log("allProjectCodes", allProjectCodes)
+      console.log("allProjectCodes", allProjectCodes)
     return (
         <>
             <PageTitle name={'کدهای پروژه'} />
@@ -55,15 +53,30 @@ const ProjectCodes = () => {
             <Button 
                 onClickHandler={handleNewProjectCodeModal}
                 title="کد پروژه جدید"
-            />
+            /> 
             </div>
-
-            <AllProjectCodesTable
-                allProjectCodes={allProjectCodes}
-                allFinallCustomers={allFinallCustomers}
-                projectCodeId={projectCodeId}
-                setProjectCodeId={setProjectCodeId}
-            />
+            {
+                !allProjectCodes[0] ?
+                    <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
+                        <p className='text-xl'>
+                        شما هیچ کد پروژه ای ثبت نکرده اید
+                        </p>
+                
+                        <p>
+                        برای ایجاد کد پروژه جدید جدید 
+                            <span className='text-cyan-300 cursor-pointer' onClick={handleNewProjectCodeModal}>
+                            کلیک کنید
+                            </span>
+                        </p>
+                    </div>
+                    :
+                    <AllProjectCodesTable
+                        allProjectCodes={allProjectCodes}
+                        allFinallCustomers={allFinallCustomers}
+                        projectCodeId={projectCodeId}
+                        setProjectCodeId={setProjectCodeId}
+                    />
+            }
 
             {isNewProjectCode &&
                 <CreateUpdateModal

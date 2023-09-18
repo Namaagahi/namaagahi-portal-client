@@ -2,6 +2,7 @@ import { useDeleteProjectCodeMutation } from "@/app/apiSlices/projectCodeApiSlic
 import { ProjectCodeObject } from "@/app/lib/interfaces"
 import Loading from "../loading/Loading"
 import { toast } from "react-toastify"
+import { useRouter } from "next/navigation"
 
 type Props = {
     projectCode: ProjectCodeObject
@@ -15,13 +16,15 @@ const DeleteProjectCode = (props: Props) => {
         handleModal
     } = props
 
+    const { push } = useRouter()
+
     const [deleteProjectCode, {
         isLoading, 
     }] = useDeleteProjectCodeMutation()
     
     const onDeleteProjectCodeClick = async () => {
-        const abc = await deleteProjectCode({ id: projectCode?.id })
-        // console.log('abc', abc)
+        const abc = await deleteProjectCode({ id: projectCode.id })
+        window.location.assign('/dashboard/project-codes')
         handleModal()
         toast.success(`مشتری  ${projectCode?.code} با موفقیت حذف شد`)
     }

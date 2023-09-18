@@ -32,8 +32,8 @@ const NewProjectCodeForm = (props: Props) => {
     const {
         isLoading: finalCustomersLoading,
       } = useGetAllFinalCustomersQuery(undefined, { 
-        refetchOnFocus: false,
-        refetchOnMountOrArgChange: false
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
     }) 
 
     const allFinalCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[])
@@ -70,13 +70,15 @@ const NewProjectCodeForm = (props: Props) => {
             'status' in error! && error.status === 409 && toast.error('این  کد پروژه قبلا ثبت شده است')
             'status' in error! && error.status === 400 && toast.error('فیلدهای مورد نیاز را تکمیل کنید')
         }
-    }
-
-    if(isSuccess) {
         toast.success(`کد پروژه جدید با موفقیت ساخته شد.`)
-        push('/dashboard/project-codes')
+        window.location.assign('/dashboard/project-codes')
         handleModal()
     }
+
+    // if(isSuccess) {
+    //     toast.success(`کد پروژه جدید با موفقیت ساخته شد.`)
+    //     handleModal()
+    // }
 
     const customInputs = [
         {

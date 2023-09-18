@@ -24,14 +24,14 @@ const PlanPdfDoc = (props: Props) => {
   })
 
   const columnsHeader = [
-    { content: 'جمع دوره', width: "7%" },
-    { content: 'پس از تخفیف', width: "7%" },
-    { content: 'تخفیف', width: "7%" },
-    { content: 'تعرفه ماهیانه', width: '7%'},
-    { content: 'اکران', width: '3%'},
-    { content: 'تاریخ پایان', width: '7%'},
-    { content: 'تاریخ شروع', width: '7%'},
-    { content: "مساحت", width: "3%" },
+    { content: 'جمع دوره', width: "8%" },
+    { content: 'پس از تخفیف', width: "8%" },
+    // { content: 'تخفیف', width: "7%" },
+    { content: 'تعرفه ماهیانه', width: '8%'},
+    { content: 'اکران', width: '4%'},
+    { content: 'تاریخ پایان', width: '8%'},
+    { content: 'تاریخ شروع', width: '8%'},
+    { content: "مساحت", width: "4%" },
     { content: "نوع سازه", width: "7%" },
     { content: "نشانی", width: "30%" },
     { content: "مسیر", width: "8%" },
@@ -165,49 +165,50 @@ const PlanPdfDoc = (props: Props) => {
               {plan.structures.map((strucuture: any, structureIndex: number) => {
                 return(
                   <View style={styles.tableRow} key={structureIndex}>
-                    <View style={[styles.tableCol, { width: '7%' }]}>
+                    <View style={[styles.tableCol, { width: '8%' }]}>
                       <Text style={styles.tableCell}>
                         {formatNumber(strucuture.totalPeriodCost, ',')}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: '7%' }]}>
+                    <View style={[styles.tableCol, { width: '8%' }]}>
                       <Text style={styles.tableCell}>
                         {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
                       </Text>
                     </View>
-
+{/* 
                     <View style={[styles.tableCol, { width: '7%' }]}>
                       <Text style={styles.tableCell}>
-                        {`${strucuture.discountFee} ${strucuture.discountType === 'percentage'? "درصد" : "ریال"}`}
+                        {`${strucuture.discountType === 'percentage'? "درصد" : "ریال"} `}
+                        {` ${Number(strucuture.discountFee).toFixed(0)}`}
                       </Text>
-                    </View>
+                    </View> */}
 
-                    <View style={[styles.tableCol, { width: '7%' }]}>
+                    <View style={[styles.tableCol, { width: '8%' }]}>
                       <Text style={styles.tableCell}>
                         {formatNumber(strucuture.monthlyFee, ',')}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: '3%' }]}>
+                    <View style={[styles.tableCol, { width: '4%' }]}>
                       <Text style={styles.tableCell}>
                         {strucuture.duration.diff}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: '7%' }]}>
+                    <View style={[styles.tableCol, { width: '8%' }]}>
                       <Text style={styles.tableCell}>
                         {moment.unix(strucuture.duration.sellEnd).format('jYYYY-jMM-jDD')}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: '7%' }]}>
+                    <View style={[styles.tableCol, { width: '8%' }]}>
                       <Text style={styles.tableCell}>
                         {moment.unix(strucuture.duration.sellStart).format('jYYYY-jMM-jDD')}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: '3%' }]}>
+                    <View style={[styles.tableCol, { width: '4%' }]}>
                       <Text style={styles.tableCell}>
                         {strucuture.structureRecord.marks.markOptions.docSize}
                       </Text>
