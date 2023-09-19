@@ -1,4 +1,4 @@
-import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormReturn, UseFormSetValue } from 'react-hook-form'
 import { AddPlanForm, BoxObject, BoxStructure, CombinedStructure, EditPlanForm, PlanObject, StructureObject } from '@/app/lib/interfaces'
 import { selectAllStructures, useGetStructuresQuery } from '../../apiSlices/structuresApiSlice'
 import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
@@ -264,7 +264,13 @@ const PlanStructuresInfo = (props: Props) => {
                                     <DatePicker
                                         inputClass='formInput w-3/4'
                                         format='YYYY-MM-DD'
-                                        value={page === 'edit' ? moment.unix(item.duration.sellStart).format('jYYYY-jMM-jDD') : undefined}
+                                        value={
+                                            (page === 'edit' && 
+                                            fieldIndex + 1 <= plan.structures.length) ? 
+                                                moment.unix(item.duration.sellStart).format('jYYYY-jMM-jDD') 
+                                                : 
+                                                undefined
+                                        }
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"
@@ -280,7 +286,13 @@ const PlanStructuresInfo = (props: Props) => {
                                     <DatePicker
                                         inputClass='formInput w-3/4'
                                         format='YYYY-MM-DD'
-                                        value={page === 'edit' ? moment.unix(item.duration.sellEnd).format('jYYYY-jMM-jDD') : undefined}
+                                        value={
+                                            (page === 'edit' &&
+                                            fieldIndex + 1 <= plan.structures.length) ?
+                                                moment.unix(item.duration.sellEnd).format('jYYYY-jMM-jDD') 
+                                                : 
+                                                undefined
+                                        }
                                         calendar={persian}
                                         locale={persian_fa}
                                         calendarPosition="bottom-right"
@@ -301,6 +313,7 @@ const PlanStructuresInfo = (props: Props) => {
                                             selectedStructure={selectedStructure!}
                                             control={control}
                                             fieldIndex={fieldIndex}
+                                            plan={plan}
                                             handleTextbox1Change={handleTextbox1Change}
                                             errors={errors}
                                             setValue={setValue}

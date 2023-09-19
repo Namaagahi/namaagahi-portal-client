@@ -72,7 +72,7 @@ const Login = () => {
         <div className='pr-6 pt-6 '>
             <LogoSmall />
             <div className="grid xl:grid-cols-2 grid-cols-1 py-12 xl:py-48 px-10 xl:px-40 gap-24 place-items-center">
-                <div className="order-last block dark:hidden relative w-[540px] h-[213px]">
+                <div className="dark:hidden order-last opacity-60 relative w-[250px] h-[98px] md:w-[300px] md:h-[118px] xl:w-[540px] xl:h-[213px]">
                     <Image
                         src={'/images/Logo-Black-text.webp'}
                         alt="hero"
@@ -83,7 +83,7 @@ const Login = () => {
                     />
                 </div>
 
-                <div className="order-last opacity-60 relative w-[300px] h-[118px] md:w-[540px] md:h-[213px]">
+                <div className="order-last opacity-60 relative w-[250px] h-[98px] md:w-[300px] md:h-[118px] xl:w-[540px] xl:h-[213px]">
                     <Image
                         src={'/images/Logo-White-Text.webp'}
                         alt="hero"
@@ -99,9 +99,6 @@ const Login = () => {
                     </p> 
 
                     <div className="flex flex-col items-center mt-5 relative mb-16">
-                        {/* <p className="text-4xl font-bold mb-2">
-                            ورود
-                        </p> */}
 
                         <hr className="w-48 h-0.5 bg-primary border-0 rounded mb-2  "></hr>
 
@@ -119,7 +116,7 @@ const Login = () => {
                         onSubmit={handleSubmit}
                     >
                         <input
-                            className="formInput w-1/3 text-black"
+                            className="formInput w-1/2 md:w-1/3 text-black"
                             type="text" 
                             placeholder="نام کاربری"
                             ref={userRef}
@@ -130,7 +127,7 @@ const Login = () => {
                         />
 
                         <input 
-                            className="formInput w-1/3 text-black" 
+                            className="formInput w-1/2 md:w-1/3 text-black" 
                             type="password" 
                             placeholder="رمز عبور" 
                             autoComplete="off"
@@ -139,7 +136,7 @@ const Login = () => {
                             data-lpignore="true"
                             />
 
-                        <button className="primaryButton w-1/3 mt-5">
+                        <button className="primaryButton w-1/2 md:w-1/3 mt-5">
                             ورود
                         </button>
                     </form>

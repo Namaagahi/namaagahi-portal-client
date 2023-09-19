@@ -96,7 +96,7 @@ const EditPlanComp = (props: Props) => {
             }))
         }
         
-        const abc =await updatePlan({
+        const abc = await updatePlan({
             id:plan?.id,
             planId: plan?.planId,
             userId: currentUserId,
@@ -109,6 +109,7 @@ const EditPlanComp = (props: Props) => {
             finalCustomerId: '',
             projectCodeId: null
         })
+        // console.log("abc", abc)
     }
 
 
@@ -128,8 +129,9 @@ const EditPlanComp = (props: Props) => {
         setIsChanged(true)
     }, [watch('structures')])
 
-    // console.log("EDIT PLAN FORM", editPlanForm.getValues())
+    // console.log("EDIT PLAN FORM", editPlanForm.getValues().structures.length)
     if(!plan) return <Loading />
+    
     return (
         <main className="min-h-screen">
             <PageTitle name={`ویرایش پلن ${plan?.planId}`} />

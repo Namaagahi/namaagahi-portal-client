@@ -35,13 +35,7 @@ const DiscountFeeInput = (props: Props) => {
         setValue,
         watch
     } = props
-
-    // useEffect(() => {
-    //     console.log("USE EFFECT CALLED")
-    //     setValue(`structures.${fieldIndex}.discountFee`, ' ')
-    // }, [watch('structures')])
-
-// console.log("discountType", discountType)
+    
   return (
     discountType === 'percentage' ?
         <>

@@ -1,5 +1,5 @@
 import { Control, FieldArrayWithId, FieldError, FieldErrors, UseFormSetValue } from 'react-hook-form'
-import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
+import { AddPlanForm, CombinedStructure, EditPlanForm, PlanObject } from '@/app/lib/interfaces'
 import CustomInput from '@/app/components/inputs/CustomInput'
 import { formatNumber } from '@/app/utilities/formatNumber'
 import { useEffect } from 'react'
@@ -14,6 +14,7 @@ type Props = {
     handleTextbox1Change: (event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) => void
     errors: FieldErrors<EditPlanForm>
     setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
+    plan: PlanObject
 }
 
 const MonthlyFeeInput = (props: Props) => {
@@ -28,16 +29,21 @@ const MonthlyFeeInput = (props: Props) => {
         handleTextbox1Change,
         errors,
         setValue,
+        plan
     } = props
 
     useEffect(() => {
         if(page === 'edit'){
             if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee)), 1000)
-        } else {
+        }
+        if(page === 'edit' &&  fieldIndex + 1 <= plan.structures.length) {
+            if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
+        }
+        else {
             if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
         }
     }, [])
-
+    
     return (
         <div className='flex flex-col gap-3'>
             {!changeInput ?
@@ -49,7 +55,7 @@ const MonthlyFeeInput = (props: Props) => {
                         تعرفه ماهیانه سازه
                     </label>
                     {
-                        page === 'edit' ? 
+                        page === 'edit' && fieldIndex + 1 <= plan.structures.length ? 
                             <p className='p-4 text-primary dark:text-secondary'>
                                 {formatNumber(Number(item?.monthlyFee), ',')}
                             </p>
