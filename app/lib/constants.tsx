@@ -261,15 +261,15 @@ export const variableCostNames = ['برق', 'پایش', 'بیمه', 'نگهدا�
 
 export const structureVariableCostsFormValues = {
   name: '',
-  figures: {
+  figures: { 
       monthlyCost: ''
   }
 }
 
 // NEW PLAN =======================================================
 export const newPlanDefaultValues = {
-  name: '',
   initialCustomerId: '',
+  mark: '',
   brand: '',
   structures: [{
     structureId:'',
@@ -281,7 +281,8 @@ export const newPlanDefaultValues = {
     monthlyFee: '',
     monthlyFeeWithDiscount:'',
     discountFee: '',
-  }]
+  }],
+  totalPackagePrice: '',
 }
 
 export const planStructureFormValues: any = {
@@ -294,28 +295,28 @@ export const planStructureFormValues: any = {
   monthlyFee: '',
   monthlyFeeWithDiscount:'',
   discountFee: '',
-  // monthlyBaseFee: ''
+  
 }
 
 // PLANS =======================================================
 export const plansPagePropsObject = [
   { 
-      id:1,
-      title: 'پلنهای پیشنهادی',
-      main:'مشاهده پلنهای پیشنهادی',
-      mainLink:'/dashboard/billboard/plans/suggested', 
+    id:1,
+    title: 'پلنهای پیشنهادی',
+    main:'مشاهده پلنهای پیشنهادی',
+    mainLink:'/dashboard/billboard/plans/suggested', 
   },
   { 
-      id:2,
-      title: 'پلنهای تایید شده',
-      main:'مشاهده پلنهای تایید شده',
-      mainLink:'/dashboard/billboard/plans/done', 
+    id:2,
+    title: 'پلنهای تایید شده',
+    main:'مشاهده پلنهای تایید شده',
+    mainLink:'/dashboard/billboard/plans/done', 
   },
   { 
-      id:2,
-      title: 'پلنهای رد شده',
-      main:'مشاهده پلنهای رد شده',
-      mainLink:'/dashboard/billboard/plans/rejected', 
+    id:2,
+    title: 'پلنهای رد شده',
+    main:'مشاهده پلنهای رد شده',
+    mainLink:'/dashboard/billboard/plans/rejected', 
   },
 ]
 

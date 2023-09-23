@@ -54,7 +54,7 @@ const Account = () => {
             width={35}
             height={35}
         />
-        <p className="text-white dark:text-black font-bold">{user.name}</p>
+        <p className="text-white dark:text-black font-bold">{user?.name}</p>
         <p className="text-white dark:text-black">{status}</p>
           
         {showAccountMenu &&

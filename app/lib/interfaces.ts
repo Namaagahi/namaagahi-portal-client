@@ -249,7 +249,7 @@ export interface StructureData {
   userId?:string
 }
 
-// OTHER ===========================================================================
+// MENU & CUSTOM ERROR ===========================================================================
 export interface MenuItemsObj {
   name: string
   path: string
@@ -278,6 +278,9 @@ export interface CustomError {
 // PLANS ===========================================================================
 export interface StructurePlanObject {
   _id?: string
+  mark: {
+    name: string
+  }
   structureId: string
   discountFee: string
   discountType: string
@@ -296,18 +299,22 @@ export interface PlanObject {
   _id?: string
   __v?: number
   planId: number
+  mark: {
+    name: string
+  }
   userId: string
   username?: string
-  name: string
   initialCustomerId: string
   finalCustomerId: string
   projectCodeId:string
   brand: string
   status?: string
   structures: StructurePlanObject[]
+  totalPackagePrice: number
   createdAt: string
   updatedAt: string
 }
+
 export interface CombinedStructure {
   id? : string
   _id? : string
@@ -367,8 +374,8 @@ export interface CombinedStructure {
 }
 
 export interface AddPlanForm {
-  name: string
   initialCustomerId: string
+  mark: string
   brand: string
   status: string
   structures: {
@@ -382,12 +389,14 @@ export interface AddPlanForm {
     monthlyFeeWithDiscount: string
     discountFee: string
     discountType?: string
+    calculatedInPackageFee?: string
   }[]
+  totalPackagePrice: string
 }
 
 export interface EditPlanForm {
-  name: string
   initialCustomerId: string
+  mark: string
   brand: string
   status: string
   structures: {
@@ -401,7 +410,9 @@ export interface EditPlanForm {
     monthlyFeeWithDiscount: string
     discountFee: string
     discountType?: string
+    calculatedInPackageFee?: string | number
   }[]
+  totalPackagePrice: string | number
 }
 
 export interface PlanStructure {

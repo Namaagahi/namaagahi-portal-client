@@ -58,7 +58,8 @@ const EditPlanComp = (props: Props) => {
         defaultValues: {
             initialCustomerId: plan?.initialCustomerId,
             brand: plan?.brand,
-            structures: JSON.parse(JSON.stringify(plan?.structures))
+            structures: JSON.parse(JSON.stringify(plan?.structures)),
+            totalPackagePrice: plan?.totalPackagePrice
         },
         mode: 'onSubmit'
     })
@@ -74,7 +75,7 @@ const EditPlanComp = (props: Props) => {
     } = editPlanForm
 
     const {
-        fields,
+        fields, 
         append: appendStructure,
         remove: removeStructure
     } = useFieldArray({
@@ -99,15 +100,18 @@ const EditPlanComp = (props: Props) => {
         const abc = await updatePlan({
             id:plan?.id,
             planId: plan?.planId,
+            mark: { 
+                name: plan?.mark.name,
+            },
             userId: currentUserId,
             username: plan?.username,
-            name: newData.name,
             initialCustomerId: newData.initialCustomerId,
             brand: newData.brand,
             status: 'suggested',
             structures: newData.structures,
             finalCustomerId: '',
-            projectCodeId: null
+            projectCodeId: null,
+            totalPackagePrice: newData.totalPackagePrice
         })
         // console.log("abc", abc)
     }
@@ -140,7 +144,7 @@ const EditPlanComp = (props: Props) => {
                 <form 
                     noValidate
                     onSubmit={handleSubmit(onSubmit)}
-                    className='w-full flex flex-col gap-9 justify-center'
+                    className='w-full flex flex-col gap-9 justify-center' 
                 >
                     <PlanBasicInfo 
                         page={'edit'}
@@ -150,6 +154,7 @@ const EditPlanComp = (props: Props) => {
                     />
 
                     <PlanStructuresInfo
+                        mark={plan.mark.name}
                         page={'edit'}
                         control={control}
                         plan={plan}

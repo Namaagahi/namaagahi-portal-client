@@ -169,7 +169,6 @@ const EditBoxComp = (props: Props) => {
   const values = editBoxForm.watch()
   
   useEffect(() => {
-    // console.log("USEEFFECT RUUUUUUUUUUUUUUUUUUUUUUUUUN",values)
     localStorage.setItem('editBoxForm', JSON.stringify(values))
   }, [values, box])
 

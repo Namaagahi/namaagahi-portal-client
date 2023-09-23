@@ -1,159 +1,53 @@
 "use client"
-import { selectAllBoxes, useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
-import { useCreateNewPlanMutation } from '@/app/apiSlices/plansApiSlice'
-import PlanStructuresInfo from '@/app/features/plans/PlanStructuresInfo'
 import SearchContainer from '@/app/components/main/SearchContainer'
 import ScrollContainer from '@/app/components/main/ScrollContainer'
-import { convertToNumber } from '@/app/utilities/convertToNumber'
-import PlanBasicInfo from '@/app/features/plans/PlanBasicInfo'
-import { AddPlanForm, BoxObject, StructurePlanObject } from '@/app/lib/interfaces'
-import { newPlanDefaultValues } from '@/app/lib/constants'
-import { useFieldArray, useForm } from 'react-hook-form'
 import PageTitle from '@/app/components/main/PageTitle'
-import { useRouter } from 'next/navigation'
-import useAuth from '@/app/hooks/useAuth'
-import { useSelector } from 'react-redux'
-import React, { useEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import Link from 'next/link'
+import React, { useState } from 'react'
 import usePageTitle from '@/app/hooks/usePageTitle'
+import NewPlan from '@/app/features/plans/NewPlan'
 
 const CreatePlan = () => {
   usePageTitle('ایجاد پلن جدید')
 
-  const { id } = useAuth()  
-  const { push } = useRouter()
-
-  const [discountType, setDiscountType] = useState('percentage')
-  const [isChanged, setIsChanged] = useState(false)
-  // console.log("isChanged", isChanged)
-
-  const [createNewPlan, {
-    isSuccess,
-    isError,
-    error
-}] = useCreateNewPlanMutation()
-
-useGetAllBoxesQuery(undefined, {
-  refetchOnFocus: false,
-  refetchOnMountOrArgChange: false,
-})
-const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
-
-  const createPlanForm = useForm<AddPlanForm>({
-    defaultValues: newPlanDefaultValues,
-    mode: 'onSubmit'
-  })
-
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: {errors},
-    setValue,
-    watch
-} = createPlanForm
-  
-  const {
-    fields: structuresField,
-    append: appendStructure,
-    remove: removeStructure
-  } = useFieldArray({
-    control,
-    name: "structures",
-  })
-
-  const onSubmit = async(data: any) => {
-
-    const newData = {
-      ...data, 
-      structures: data.structures.map((structure: StructurePlanObject) => ({
-        ...structure,
-        monthlyFee: convertToNumber(structure.monthlyFee),
-        monthlyFeeWithDiscount: convertToNumber(structure.monthlyFeeWithDiscount),
-        discountType: discountType
-      }))
-    }
-
-    const abc = await createNewPlan({
-      userId: id,
-      name: newData.name,
-      initialCustomerId: newData.initialCustomerId,
-      finalCustomerId: newData.finalCustomerId,
-      projectCodeId: null,
-      brand: newData.brand,
-      structures: newData.structures,
-
-    })
-      console.log("ABC", abc)
-  } 
-
-  if(isError) {
-    'status' in error! && error.status === 409 && toast.error('این نام پلن قبلا ثبت شده است')
-    'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
-}
-
-useEffect(() => {
-  setIsChanged(true)
-}, [watch('structures')])
-
-  if(isSuccess) {
-    toast.success(`پلن جدید با موفقیت ساخته شد.`)
-    push('/dashboard/billboard/plans')
-  }
-
-  if(!allBoxes[0]) return (
-    <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>
-        برای ایجاد پلن باید سازه ها در باکس ثبت شده باشند. در حال حاضر هیچ باکسی وجود ندارد.
-      </p>
-      <p>
-        برای ایجاد باکس جدید 
-        <Link href={'/dashboard/billboard/boxes/createbox'}>
-          <span className='text-cyan-300'>
-            کلیک کنید
-          </span>
-        </Link>
-      </p>
-    </div>
-  )
+  const [planMark, setPlanMark] = useState<string>('')
 
   return (
       <main className="min-h-screen">
         <PageTitle name={'ایجاد پلن جدید'} />
         <SearchContainer />
         <div className='flex flex-col gap-9 justify-center'>
-          <form
-            noValidate
-            onSubmit={handleSubmit(onSubmit)}
-            className='w-full flex flex-col gap-9 justify-center'
-          >
-            <PlanBasicInfo
-              page={'create'}
-              control={control}
-              errors={errors}
-            />
- 
-            <PlanStructuresInfo
-              page={'create'}
-              control={control}
-              errors={errors}
-              discountType={discountType}
-              convertToNumber={convertToNumber}
-              handleDiscountType={(val: string) => setDiscountType(val)}
-              setValue={setValue}
-              field={structuresField}
-              appendStructure={appendStructure}
-              removeStructure={removeStructure}
-              watch={watch}
-              register={register}
-              isChanged={isChanged}
-            />
+          <div className='formContainer'>
+            <small className="pr-3 text-slate-500 inline-block font-bold">
+              نوع پلن
+            </small>
 
-            <button className="primaryButton w-1/4 mx-auto">
-              افزودن پلن
-            </button>
-          </form>
+            <p className='font-bold text-lg dark:text-gray-200'>
+              نوع پلن را انتخاب کنید
+            </p>
+
+            <div className='w-full grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-12 items-center'>
+              <button
+                type='button'
+                onClick={() => setPlanMark('regular')} 
+                className={`${planMark === 'regular' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+              >
+                 عادی
+              </button>
+
+              <button
+                type='button'
+                onClick={() => setPlanMark('package')} 
+                className={`${planMark === 'package' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+              >
+                پکیجی
+              </button>
+
+            </div>
+          </div>
+          {
+            planMark &&
+              <NewPlan mark={planMark}/>
+          }
         </div>
         <ScrollContainer />
       </main>
