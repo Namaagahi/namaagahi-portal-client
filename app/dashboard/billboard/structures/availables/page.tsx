@@ -15,6 +15,7 @@ import React, { useState } from 'react'
 import domtoimage from 'dom-to-image'
 import moment from 'jalali-moment'
 import {jsPDF} from 'jspdf'
+import SearchContainer from '@/app/components/main/SearchContainer'
 
 type InitialStructureDurations = {
     [key:string]: {
@@ -148,7 +149,7 @@ const Availables = () => {
         setFiltetred({...filtered, edited:clone2})
         setPaths(clone)
     }
-
+ 
     const handleButtonClick = () => setFiltetred({
         initial:filterStructures(startDate, endDate),
         edited: filterStructures(startDate, endDate)
@@ -172,9 +173,12 @@ const Availables = () => {
         const generatePDF = () => captureContent()
 
 if(isLoading || !paths[0]) return <Loading />
+console.log("startDate", startDate, "endDate", endDate)
 return (
     <main className="min-h-screen w-full">
         <PageTitle name='گزارش سازه های خالی' />
+        <SearchContainer />
+
         <div className="flex items-center justify-center gap-3 mb-10">
             <div className='flex items-center gap-3 w-1/3'>
                 <label htmlFor="startDate" className='text-[#767676] font-bold'>
@@ -260,7 +264,8 @@ return (
             Object.entries(filtered.edited).map(([key, val], index) => {
                 const structureFound :any = allStructures.find(str => str.id === key)
                 return val.map((availables) => {
-                return (
+                    console.log("HEY", availables.start)
+                    return (
                     <div
                         key={`${key}${Math.random()}`}
                         className='p-2 w-full border-[1px] border-black dark:border-gray-600 rounded-md my-2 grid grid-cols-12'
@@ -280,17 +285,17 @@ return (
                         <p className='col-span-2 text-left'>
                             {
                             availables.start === startDate ?
-                                moment.unix(availables.start).format('jYYYY-jMM-jDD')
+                                moment.unix(availables.start).format('jYYYY-jM-jD')
                                 :
-                                moment(new Date(availables.start).setDate(new Date(availables.start).getDate() + 1)).format('jYYYY-jM-jD')
+                                moment.unix(new Date(availables.start).setDate(new Date(availables.start).getDate())).add(1, 'd').format('jYYYY-jM-jD')
                             }
                         </p>
                         <p className='col-span-2 text-left'>
                             {
                             availables.end === endDate ?
-                                moment.unix(availables.end).format('jYYYY-jMM-jDD')
+                                moment.unix(availables.end).format('jYYYY-jM-jD')
                                 :
-                                moment(new Date(availables.end).setDate(new Date(availables.end).getDate())).format('jYYYY-jM-jD')
+                                moment.unix(new Date(availables.end).setDate(new Date(availables.end).getDate())).add(1, 'd').format('jYYYY-jM-jD')
                             }
                         </p>
                     </div>

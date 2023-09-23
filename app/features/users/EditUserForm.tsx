@@ -52,14 +52,6 @@ const EditUserForm = (props: Props) => {
         active
     } = userData
 
-    // useEffect(() => {
-    //     setUserData({...userData, validUserName:USER_REGEX.test(username!)})
-    // }, [username])
-
-    // useEffect(() => {
-    //     setUserData({...userData, validPassWord:PASSWORD_REGEX.test(password)})
-    // }, [password])
-
     useEffect(() => {
         if(isSuccess) {
             setUserData({...userData, name:'', username:'', password:'', roles:[]})

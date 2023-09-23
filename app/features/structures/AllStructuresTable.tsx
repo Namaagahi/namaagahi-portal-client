@@ -1,7 +1,7 @@
 import { selectStructureById } from '@/app/apiSlices/structuresApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
-import { BoxObject, StructureObject } from '@/app/lib/interfaces'
+import { BoxObject, PlanObject, StructureObject } from '@/app/lib/interfaces'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import React, { useEffect, useMemo, useState } from 'react'
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
@@ -17,6 +17,7 @@ type Props = {
   data: StructureObject[]
   page: string
   allBoxes: BoxObject[]
+  allPlans: PlanObject[]
   handleData: (val: StructureObject[]) => void
 }
 
@@ -25,7 +26,8 @@ const AllStructuresTable = (props: Props) => {
         data,
         page,
         allBoxes, 
-        handleData
+        allPlans,
+        handleData,
     } = props
     
     const { isAdmin, isMediaManager, id } = useAuth()
@@ -148,6 +150,7 @@ const AllStructuresTable = (props: Props) => {
                 enableColumnFilter: false,
               },
               {
+                accessorFn: row => row.createdAt,
                 id: 'تاریخ ایجاد',
                 header: () => <span>تاریخ ایجاد</span>,
                 cell: (info) => {
@@ -157,6 +160,7 @@ const AllStructuresTable = (props: Props) => {
                   )}
               },
               {
+                accessorFn: row => row.updatedAt,
                 id: 'تاریخ ویرایش',
                 header: () => <span>تاریخ ویرایش</span>,
                 cell: (info) => {
@@ -209,6 +213,7 @@ const AllStructuresTable = (props: Props) => {
       )
     },[])
 
+    console.log("structureId", structureId)
   return (
     <>
       <TableComponent 

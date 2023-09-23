@@ -1,6 +1,6 @@
 "use client"
 import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
-import { BoxObject, StructureObject } from '@/app/lib/interfaces'
+import { BoxObject, PlanObject, StructureObject } from '@/app/lib/interfaces'
 import PageTitle from '@/app/components/main/PageTitle'
 import AllStructuresTable from './AllStructuresTable'
 import Loading from '@/app/features/loading/Loading'
@@ -10,6 +10,7 @@ import SearchContainer from '@/app/components/main/SearchContainer'
 import Button from '@/app/components/main/Button'
 import { useRouter } from 'next/navigation'
 import ScrollContainer from '@/app/components/main/ScrollContainer'
+import { selectAllPlans, useGetAllPlansQuery } from '@/app/apiSlices/plansApiSlice'
 
 type Props = {
   page: string
@@ -31,11 +32,17 @@ const Structures = (props: Props) => {
     } = useGetStructuresQuery(undefined, {
       refetchOnFocus: true,
       refetchOnMountOrArgChange: true,
-      refetchOnReconnect: true,
+      refetchOnReconnect: true, 
       pollingInterval: 5000
     })
 
+    const { isLoading: plansLoading }=useGetAllPlansQuery(undefined, {
+      refetchOnFocus: false,
+      refetchOnMountOrArgChange: false
+    })
+
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
+    const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[])
 
     const [data, setData] = useState<StructureObject[]>([])
 
@@ -45,7 +52,7 @@ const Structures = (props: Props) => {
 
     const handleButtonClick = () => push('/dashboard/billboard/structures/createstructure')
 
-  if(isLoading || !allStructures[0]) return <Loading />
+  if(isLoading || !allStructures[0] || plansLoading) return <Loading />
   
   if(isError) return (
   
@@ -69,6 +76,7 @@ const Structures = (props: Props) => {
         data= {data}
         page={page}
         allBoxes={allBoxes}
+        allPlans={allPlans}
         handleData={(val: StructureObject[]) => setData(val)}
       />
       <ScrollContainer />

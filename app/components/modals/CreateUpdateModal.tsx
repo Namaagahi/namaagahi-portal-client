@@ -9,6 +9,7 @@ import EditFinalCustomer from "@/app/features/finalCustomers/EditFinalCustomer"
 import NewFinalCustomerForm from "@/app/features/finalCustomers/NewFinalCustomerForm"
 import NewProjectCodeForm from "@/app/features/projectCodes/NewProjectCodeForm"
 import EditProjectCode from "@/app/features/projectCodes/EditProjectCode"
+import EditProfile from "@/app/features/profile/EditProfile"
 
 type Props = {
   handleModal: () => void
@@ -35,8 +36,10 @@ const CreateUpdateModal = (props: Props) => {
         { 
           type === 'newUser' ? 
             <NewUserForm handleModal={handleModal} />
-              : type === 'editUser'? 
+                : type === 'editUser'? 
                 <EditUser handleModal={handleModal} user={prop} />
+                : type === 'editProfile'? 
+                <EditProfile handleModal={handleModal} user={prop} />
                 : type === 'newTask'? 
                 <NewNote handleModal={handleModal} />
                 : type === 'editTask'? 

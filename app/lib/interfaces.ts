@@ -5,24 +5,29 @@ export interface GlobalState {
 }
 
 export interface UserObject {
-    id? : string,
-    _id: string,
-    name: string,
-    avatar: string,
-    username: string,
-    roles : string[]
-    password: string,
-    active: boolean,
-    __v: number,
-    refreshToken?: string
-  }
+  id? : string,
+  _id: string,
+  name: string,
+  avatar: string,
+  username: string,
+  roles : string[]
+  password: string,
+  active: boolean,
+  __v: number,
+  refreshToken?: string
+}
 
-  export interface UserData {
-    name?: string
-    username?: string
-    password: string
-    roles?: string[]
-    active?: boolean
+export interface EditProfileForm {
+  name: string,
+  avatar: string,
+}
+
+export interface UserData {
+  name?: string
+  username?: string
+  password: string
+  roles?: string[]
+  active?: boolean
 }
 
 // NOTE ===========================================================================
@@ -216,6 +221,8 @@ export interface StructureObject {
   }
   isAvailable : boolean
   isChosen: boolean
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface StructureObjectForm {

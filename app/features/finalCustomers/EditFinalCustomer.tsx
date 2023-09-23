@@ -8,7 +8,7 @@ import CustomInput from "@/app/components/inputs/CustomInput"
 import { toast } from "react-toastify"
 import { useState } from "react"
 import Agents from "./Agents"
-
+ 
 type Props = {
     handleModal: () => void
     finalCustomer: FinalCustomerObject
@@ -157,7 +157,7 @@ const EditFinalCustomer = (props: Props) => {
             errors: undefined,
         },
     ]
-    console.log(editFinalCustomerForm.getValues())
+
     if(!finalCustomer) return <Loading />
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">
