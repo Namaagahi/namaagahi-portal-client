@@ -3,7 +3,6 @@ import { selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app
 import { selectPlanById, useGetAllPlansQuery, useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
 import { FinalCustomerObject, InitialCustomerObject, PlanObject, ProjectCodeObject } from '@/app/lib/interfaces'
 import SinglePlanHeading from '@/app/features/plans/SinglePlanHeading'
-import SinglePlanTable from '@/app/features/plans/SinglePlanTable'
 import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useParams } from 'next/navigation'
@@ -15,6 +14,9 @@ import FinalCustomerInfo from '@/app/features/finalCustomers/FinalCustomerInfo'
 import usePageTitle from '@/app/hooks/usePageTitle'
 import { toast } from 'react-toastify'
 import { selectProjectCodeById, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
+import SingleRegularPlanTable from '@/app/features/plans/SingleRegularPlanTable'
+import SinglePackagePlanTable from '@/app/features/plans/SinglePackagePlanTable'
+import { formatNumber } from '@/app/utilities/formatNumber'
 
 const SinglePlan = () => {
   usePageTitle('مشاهده پلن')
@@ -68,7 +70,7 @@ const SinglePlan = () => {
   
   if(isLoading || !plan) return <Loading />
 
-// console.log(plan)
+console.log(plan)
   return (
       <main className='min-h-screen w-full'>
         <PageTitle name={`پلن ${plan?.planId}`} />
@@ -80,7 +82,20 @@ const SinglePlan = () => {
             />
             <small className=" mt-2 text-black px-2">فروش</small>
             <div className="max-h-[30%] bg-secondary dark:bg-darkModeBg overflow-y-auto p-2 w-full">
-              <SinglePlanTable data ={plan.structures} />
+
+              {plan.mark.name === 'regular' ? 
+              <SingleRegularPlanTable data ={plan.structures} />
+              :      
+              <>        
+                <div className='flex flex-col items-end gap-2'>
+                  <div className='flex items-center gap-3'>
+                      <p>تعرفه پکیج:</p>
+                      <p>{formatNumber(plan.totalPackagePrice, ',')} ریال</p>
+                  </div>
+                </div>
+                <SinglePackagePlanTable data ={plan.structures} />
+              </>
+              }
             </div>
             {
               (plan.status === 'pending' || plan.status === 'done') && 

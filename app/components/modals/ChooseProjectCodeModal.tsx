@@ -47,7 +47,7 @@ const ChooseProjectCodeModal = (props: Props) => {
             return
         }
     } 
-    console.log("selectedItem", selectedItem)
+    // console.log("selectedItem", selectedItem)
 
     return (
         <div className="modalContainer">
@@ -93,21 +93,21 @@ const ChooseProjectCodeModal = (props: Props) => {
                                             key={index}
                                             onClick={() => handleSelectResult(item)}
                                         >
-                                            {`${item.code} - ${finalCustomer?.name}`}
+                                            {`${item.code} - ${finalCustomer?.name} - ${item.brand}`}
                                         </li>
                                         )
                                     })
                                     : (
                                     searchResults.map((item, index) => {
                                         const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer._id === item.finalCustomerId)
-                                        console.log("finalCustomer", finalCustomer)
+
                                         return (
                                             <li
                                                 className='mt-2 cursor-pointer hover:text-red-700 transition-all'
                                                 key={index}
                                                 onClick={() => handleSelectResult(item)}
                                             >
-                                                {`${item.code} - ${finalCustomer?.name}`}
+                                                {`${item.code} - ${finalCustomer?.name} - ${item.brand}`}
                                             </li>
                                         )
                                     })
@@ -122,7 +122,7 @@ const ChooseProjectCodeModal = (props: Props) => {
                                 handleModal()
                             }}
                         >
-                            {"عدم تخصیص کد پروژه"}
+                            {"پاک کردن کد پروژه"}
                         </p>
                     </div>
 

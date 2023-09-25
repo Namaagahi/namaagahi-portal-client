@@ -5,7 +5,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import moment from 'jalali-moment'
 import { useMemo } from 'react'
 
-const SinglePlanTable = (props: any) => {
+const SinglePackagePlanTable = (props: any) => {
 
     const { data } = props
         
@@ -52,6 +52,7 @@ const SinglePlanTable = (props: any) => {
                 cell: info => info.getValue(),
                 header: () => <span>مساحت</span>,
                 },
+  
                 {
                 accessorFn: row => row?.monthlyFee,
                 id: 'تعرفه ماهیانه',
@@ -59,26 +60,10 @@ const SinglePlanTable = (props: any) => {
                 header: () => <span>تعرفه ماهیانه</span>,
                 },
                 {
-                accessorFn: row => row?.monthlyFeeWithDiscount,
-                id: 'قیمت ماهانه پس از تخفیف',
-                cell: info => formatNumber(info.getValue(),','),
-                header: () => <span>قیمت ماهانه پس از تخفیف</span>,
-                },
-                {
-                accessorFn: row => row?.discountType,
-                id: 'مقیاس تخفیف',
-                cell: info => { 
-                  return(
-                    info.getValue() === 'percentage' ? <p>درصد</p> : <p>رقم</p>
-                  )
-                },
-                header: () => <span>مقیاس تخفیف</span>,
-                },
-                {
-                accessorFn: row => row?.discountFee,
-                id: 'مقدار تخفیف',
-                cell: info => info.getValue(),
-                header: () => <span>مقدار تخفیف</span>,
+                    accessorFn: row => row?.percentage,
+                    id: 'درصد از پکیج',
+                    cell: info => info.getValue().toFixed(2) * 100,
+                    header: () => <span>درصد از پکیج</span>,
                 },
                 {
                 accessorFn: row => row?.duration.sellStart,
@@ -99,19 +84,25 @@ const SinglePlanTable = (props: any) => {
                 header: () => <span>طول دوره</span>,
                 },
                 {
-                accessorFn: row => row?.totalPeriodCost,
-                id: 'جمع دوره',
-                cell: info => formatNumber(info.getValue(), ','),
-                header: () => <span>جمع دوره</span>,
-                footer: (info: any, rows: any) => {
-                  return (
-                    <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
-                      {formatNumber(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
-                    </div>
-                  )
+                    accessorFn: row => row?.calculatedInPackageFee,
+                    id: 'تعرفه فروش',
+                    cell: info => info.getValue(),
+                    header: () => <span>تعرفه فروش</span>,
                 },
-                },
-            ],
+                {
+                    accessorFn: row => row?.totalPeriodCost,
+                    id: 'جمع دوره',
+                    cell: info => formatNumber(info.getValue(), ','),
+                    header: () => <span>جمع دوره</span>,
+                    footer: (info: any, rows: any) => {
+                      return (
+                        <div className='flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl '>
+                          {formatNumber(data?.reduce((total: any, item: any) => total + item.totalPeriodCost, 0), ',')}
+                        </div>
+                      )
+                    },
+                    },
+            ], 
             },
         ]
         )
@@ -127,4 +118,4 @@ const SinglePlanTable = (props: any) => {
   )
 }
 
-export default SinglePlanTable
+export default SinglePackagePlanTable

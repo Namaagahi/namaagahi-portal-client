@@ -269,8 +269,8 @@ export const structureVariableCostsFormValues = {
 // NEW PLAN =======================================================
 export const newPlanDefaultValues = {
   initialCustomerId: '',
-  mark: '',
   brand: '',
+  mark: '',
   structures: [{
     structureId:'',
     structureRecord: {},

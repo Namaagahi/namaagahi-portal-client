@@ -29,6 +29,7 @@ const SinglePlanHeading = (props: Props) => {
     return (
         <div className="p-2 h-[15%] backdrop-blur bg-black/50 bg-black dark:bg-primary/80 flex items-center justify-between px-2 text-white font-bold">
             <div className="flex flex-col gap-2">
+                <p>نوع پلن: {plan.mark.name === 'regular' ? 'عادی' : 'پکیج'}</p>
                 <p>نام مشتری اولیه: {customer?.name}</p>
                 <p>برند: {plan?.brand}</p>
                 {plan?.status === 'suggested'?

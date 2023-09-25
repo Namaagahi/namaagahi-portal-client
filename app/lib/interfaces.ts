@@ -428,6 +428,8 @@ export interface PlanStructure {
   monthlyFeeWithDiscount: string
   discountFee: string
   totalPeriodCost: string
+  percentage: number
+  calculatedInPackageFee?: number
 }[]
 
 // INITIALCUSTOMER ===========================================================================

@@ -290,22 +290,33 @@ console.log("ProjectCodeId",projectCodeId)
                         }
                     </div>
                     <div className='flex items-center gap-3'>
-                        <p
-                            className={`${!projectCodeId ? 
-                                'primaryButton hover:text-black hover:dark:text-buttonHover' 
-                                : 
-                                'dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all'} cursor-pointer`}
-                            onClick={handleChooseProjectCodeModal}
-                        >
-                           {"تخصیص کد پروژه"}
-                        </p>
-                        {
-                            projectCodeId &&
-                        <Status
-                            status={(allProjectCodes.find((projectCode: ProjectCodeObject) => projectCode._id === projectCodeId))?.code}
-                            bgColor='#faa75c'
-                            textColor='#132b00'
-                        />
+                        {!projectCodeId ?
+                            <p
+                                className={`${!projectCodeId ? 
+                                    'primaryButton hover:text-black hover:dark:text-buttonHover' 
+                                    : 
+                                    'dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all'} cursor-pointer`}
+                                onClick={handleChooseProjectCodeModal}
+                            >
+                                {"تخصیص کد پروژه"}
+                            </p>
+                            :
+                            <>
+                                <p
+                                    className={`${!projectCodeId ? 
+                                        'primaryButton hover:text-black hover:dark:text-buttonHover' 
+                                        : 
+                                        'dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all'} cursor-pointer`}
+                                    onClick={() => handleProjectCodeId("")}
+                                >
+                                    {"پاک کردن کد پروژه"}
+                                </p>
+                                <Status
+                                    status={(allProjectCodes.find((projectCode: ProjectCodeObject) => projectCode._id === projectCodeId))?.code}
+                                    bgColor='#faa75c'
+                                    textColor='#132b00'
+                                />
+                            </>
                         }
                         {
                             hasProjectCode &&

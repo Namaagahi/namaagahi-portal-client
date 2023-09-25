@@ -46,6 +46,16 @@ const AllPlansTable = (props: any) => {
                 header: () => <span>شماره پلن</span>,
               },
               {
+                accessorFn: row => row.mark.name,
+                id: 'نوع پلن',
+                cell: info => {
+                  return (
+                    <p>{info.getValue() === 'regular' ? 'عادی' : 'پکیج'}</p>
+                  )
+                },
+                header: () => <span>نوع پلن</span>,
+              },
+              {
                 accessorFn: row => row.initialCustomerId,
                 id: 'مشتری',
                 cell: info => {

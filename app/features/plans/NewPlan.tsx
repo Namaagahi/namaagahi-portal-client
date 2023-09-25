@@ -13,6 +13,7 @@ import { newPlanDefaultValues } from "@/app/lib/constants"
 import { convertToNumber } from "@/app/utilities/convertToNumber"
 import { toast } from "react-toastify"
 import Link from "next/link"
+import Loading from "../loading/Loading"
 
 type Props = {
     mark: string
@@ -33,6 +34,7 @@ const NewPlan = (props: Props) => {
     error
 }] = useCreateNewPlanMutation()
 
+
 useGetAllBoxesQuery(undefined, {
   refetchOnFocus: false,
   refetchOnMountOrArgChange: false,
@@ -43,6 +45,10 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
     defaultValues: newPlanDefaultValues,
     mode: 'onSubmit'
   })
+
+  useEffect(() => {
+    setValue('mark' , mark)
+  }, [mark])
 
   const {
     register,
@@ -69,22 +75,26 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       structures: data.structures.map((structure: StructurePlanObject) => ({
         ...structure,
         monthlyFee: convertToNumber(structure.monthlyFee),
-        monthlyFeeWithDiscount: convertToNumber(structure.monthlyFeeWithDiscount),
-        discountType: discountType
+        monthlyFeeWithDiscount: mark === 'regular' ? convertToNumber(structure.monthlyFeeWithDiscount) : null,
+        discountType: mark === 'regular' ? discountType : null
       }))
     }
 
+    console.log("newData", newData)
+console.log("mark", mark)
+
+
     const abc = await createNewPlan({
       userId: id,
-      mark: { 
-        name: mark,
-      },
+      mark: {
+        name: newData.mark
+      }, 
       initialCustomerId: newData.initialCustomerId,
       finalCustomerId: newData.finalCustomerId,
       projectCodeId: null,
       brand: newData.brand,
       structures: newData.structures,
-      totalPackagePrice: newData.totalPackagePrice
+      totalPackagePrice: mark === 'package' ? convertToNumber(newData.totalPackagePrice) : null
     })
       console.log("ABC", abc)
   } 
@@ -100,7 +110,7 @@ useEffect(() => {
 
   if(isSuccess) {
     toast.success(`پلن جدید با موفقیت ساخته شد.`)
-    // push('/dashboard/billboard/plans')
+    push('/dashboard/billboard/plans')
   }
 
   if(!allBoxes[0]) return (
@@ -118,41 +128,43 @@ useEffect(() => {
       </p>
     </div>
   )
-console.log("MARK", mark)
+
   return (
     <div className='flex flex-col gap-9 justify-center'>
-        <form
+      <form
         noValidate
         onSubmit={handleSubmit(onSubmit)}
         className='w-full flex flex-col gap-9 justify-center'
-        >
+      >
         <PlanBasicInfo
-            page={'create'}
-            control={control}
-            errors={errors}
+          page={'create'}
+          mark={mark}
+          control={control}
+          errors={errors}
+          setValue={setValue}
         />
 
         <PlanStructuresInfo
-            page={'create'}
-            mark={mark}
-            control={control}
-            errors={errors}
-            discountType={discountType}
-            convertToNumber={convertToNumber}
-            handleDiscountType={(val: string) => setDiscountType(val)}
-            setValue={setValue}
-            field={structuresField}
-            appendStructure={appendStructure}
-            removeStructure={removeStructure}
-            watch={watch}
-            register={register}
-            isChanged={isChanged}
+          page={'create'}
+          mark={mark}
+          control={control}
+          errors={errors}
+          discountType={discountType}
+          convertToNumber={convertToNumber}
+          handleDiscountType={(val: string) => setDiscountType(val)}
+          setValue={setValue}
+          field={structuresField}
+          appendStructure={appendStructure}
+          removeStructure={removeStructure}
+          watch={watch}
+          register={register}
+          isChanged={isChanged}
         />
 
         <button className="primaryButton w-1/4 mx-auto">
-            افزودن پلن
+          افزودن پلن
         </button>
-        </form>
+      </form>
     </div>
   )
 }

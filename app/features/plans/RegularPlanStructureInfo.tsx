@@ -21,6 +21,7 @@ type Props = {
     setChangeInput: React.Dispatch<React.SetStateAction<boolean>>
     handleDiscountType: (val: string) => void
     page: string
+    mark: string
     discountType: string
     field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
     watch: any
@@ -50,6 +51,7 @@ const RegularPlanStructureInfo = (props: Props) => {
         setChangeInput,
         handleDiscountType,
         page,
+        mark,
         discountType,
         field,
         watch,
@@ -281,7 +283,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="discountFee" className='text-[#767676] font-bold'>تخفیف</label>
                                 { 
-                                !isDiscountedInput ?
+                                !isDiscountedInput && mark === 'regular' ?
                                         <DiscountFeeInput 
                                             page={page}
                                             discountType={discountType}

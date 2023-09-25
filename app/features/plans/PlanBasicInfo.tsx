@@ -1,28 +1,28 @@
-import { useUpdatePlanMutation } from '@/app/apiSlices/plansApiSlice'
 import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
-import CustomInput from '@/app/components/inputs/CustomInput'
-import SelectInput from '@/app/components/inputs/SelectInput'
-import useAuth from '@/app/hooks/useAuth'
 import { AddPlanForm, EditPlanForm, InitialCustomerObject, PlanObject } from '@/app/lib/interfaces'
-import { Control, FieldErrors } from 'react-hook-form'
+import { Control, FieldErrors, UseFormSetValue } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import { useRouter } from 'next/navigation'
+import RegularPlanBasicInfo from './RegularPlanBasicInfo'
+import PackagePlanBasicInfo from './PackagePlanBasicInfo'
 
 type Props = {
     page: string
+    mark: string
     control: Control<EditPlanForm, any> | Control<AddPlanForm, any>
     errors: FieldErrors<EditPlanForm>
     plan?: PlanObject
+    setValue:  UseFormSetValue<AddPlanForm>
 }
 
 const PlanBasicInfo = (props: Props) => {
 
     const {
         page,
+        mark,
         control, 
         errors,
-        plan
+        plan,
+        setValue
     } = props
     
     useGetAllInitialCustomersQuery(undefined, {
@@ -33,30 +33,19 @@ const PlanBasicInfo = (props: Props) => {
     const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
 
     return (
-        <div className='formContainer'>
-            <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات پایه</small>
-            <div className="w-1/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-8 items-end">
-                <div className='flex items-center gap-3'>
-                    <SelectInput
-                        control={control}
-                        name={'initialCustomerId'}
-                        label={'نام مشتری'}
-                        required={true}
-                        errors={errors.initialCustomerId?.message}
-                        options={allInitialCustomers}
-                    />
-                    <CustomInput
-                        control={control} 
-                        name={'brand'}
-                        label={'برند'}
-                        errors={errors.brand?.message}
-                        required={true}
-                        type={'text'}
-                        className='formInput'
-                    />
-                </div>
-            </div>
-        </div>
+        mark === 'regular' ?
+        <RegularPlanBasicInfo
+            control={control}
+            allInitialCustomers={allInitialCustomers}
+            errors={errors}
+        />
+        :
+        <PackagePlanBasicInfo
+            control={control}
+            allInitialCustomers={allInitialCustomers}
+            errors={errors}
+            setValue={setValue}
+        />
     )
 }
 

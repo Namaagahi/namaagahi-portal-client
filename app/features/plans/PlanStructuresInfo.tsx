@@ -107,62 +107,61 @@ const PlanStructuresInfo = (props: Props) => {
         } 
       }, [formVals])  
 
-
-
     if((page=== 'edit' && !plan) || !boxStructures[0] || !inBoxStructures[0]) return <Loading />
 
     return (
-        mark === 'regular' ?
-            <RegularPlanStructureInfo
-                changeInput={changeInput}
-                setChangeInput={setChangeInput}
-                handleDiscountType={handleDiscountType}
-                page={page}
-                discountType={discountType}
-                field={field}
-                watch={watch}
-                combinedStructures={combinedStructures}
-                setValue={setValue}
-                showStructureInfo={showStructureInfo}
-                handleStructureInfoModal={handleStructureInfoModal}
-                handleModalToggle={handleModalToggle}
-                isStructureChoose={isStructureChoose}
-                thisStructures={thisStructures}
-                handleThisStructuresChange={handleThisStructuresChange}
-                plan={plan}
-                errors={errors}
-                control={control}
-                handleTextbox1Change={handleTextbox1Change}
-                register={register}
-                convertToNumber={convertToNumber}
-                isChanged={isChanged}
-                removeStructure={removeStructure}
-                appendStructure={appendStructure}
-            />
+      mark === 'regular' ?
+        <RegularPlanStructureInfo
+          changeInput={changeInput}
+          setChangeInput={setChangeInput}
+          handleDiscountType={handleDiscountType}
+          page={page}
+          mark={mark}
+          discountType={discountType}
+          field={field}
+          watch={watch}
+          combinedStructures={combinedStructures}
+          setValue={setValue}
+          showStructureInfo={showStructureInfo}
+          handleStructureInfoModal={handleStructureInfoModal}
+          handleModalToggle={handleModalToggle}
+          isStructureChoose={isStructureChoose}
+          thisStructures={thisStructures}
+          handleThisStructuresChange={handleThisStructuresChange}
+          plan={plan}
+          errors={errors}
+          control={control}
+          handleTextbox1Change={handleTextbox1Change}
+          register={register}
+          convertToNumber={convertToNumber}
+          isChanged={isChanged}
+          removeStructure={removeStructure}
+          appendStructure={appendStructure}
+        />
 
-            :
+        :
 
-            <PackagePlanStructureInfo
-              changeInput={changeInput}
-              setChangeInput={setChangeInput}
-              appendStructure={appendStructure}
-              field={field}
-              watch={watch}
-              combinedStructures={combinedStructures}
-              setValue={setValue}
-              showStructureInfo={showStructureInfo}
-              handleThisStructuresChange={handleThisStructuresChange}
-              handleStructureInfoModal={handleStructureInfoModal}
-              handleModalToggle={handleModalToggle}
-              thisStructures={thisStructures}
-              isStructureChoose={isStructureChoose}
-              page={page}
-              plan={plan}
-              errors={errors}
-              control={control}
-              removeStructure={removeStructure}
-              handleTextbox1Change={handleTextbox1Change}
-            /> 
+        <PackagePlanStructureInfo
+          changeInput={changeInput}
+          setChangeInput={setChangeInput}
+          appendStructure={appendStructure}
+          field={field}
+          watch={watch}
+          combinedStructures={combinedStructures}
+          setValue={setValue}
+          showStructureInfo={showStructureInfo}
+          handleThisStructuresChange={handleThisStructuresChange}
+          handleStructureInfoModal={handleStructureInfoModal}
+          handleModalToggle={handleModalToggle}
+          thisStructures={thisStructures}
+          isStructureChoose={isStructureChoose}
+          page={page}
+          plan={plan}
+          errors={errors}
+          control={control}
+          removeStructure={removeStructure}
+          handleTextbox1Change={handleTextbox1Change}
+        /> 
     )
 }
 
