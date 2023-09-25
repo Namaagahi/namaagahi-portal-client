@@ -11,7 +11,7 @@ type Props = {
     control: Control<EditPlanForm, any> | Control<AddPlanForm, any>
     errors: FieldErrors<EditPlanForm>
     plan?: PlanObject
-    setValue:  UseFormSetValue<AddPlanForm>
+    setValue:  UseFormSetValue<AddPlanForm> | UseFormSetValue<EditPlanForm>
 }
 
 const PlanBasicInfo = (props: Props) => {

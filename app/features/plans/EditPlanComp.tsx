@@ -151,6 +151,8 @@ const EditPlanComp = (props: Props) => {
                         control={control} 
                         plan={plan}
                         errors={errors}
+                        mark={plan.mark.name}
+                        setValue={setValue}
                     />
 
                     <PlanStructuresInfo

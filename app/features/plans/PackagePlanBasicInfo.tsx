@@ -8,7 +8,7 @@ type Props = {
     control:Control<EditPlanForm, any> | Control<AddPlanForm, any>
     allInitialCustomers: InitialCustomerObject[]
     errors: FieldErrors<EditPlanForm>
-    setValue: UseFormSetValue<AddPlanForm>
+    setValue: UseFormSetValue<AddPlanForm> | UseFormSetValue<EditPlanForm>
 }
 
 const PackagePlanBasicInfo = (props: Props) => {
