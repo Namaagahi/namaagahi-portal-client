@@ -388,11 +388,25 @@ export const mediaTypes = [
   { id: 'BUS', name: 'اتوبوس'},
   { id: 'NMV', name: 'نماوا'},
 ]
+
 export const years = [
   { id: '200', name: '1402'},
   { id: '300', name: '1403'},
   { id: '400', name: '1404'},
   { id: '500', name: '1405'},
-
 ]
 
+export const jalaliMonths = [
+  {id: '01', name: 'فروردین'},
+  {id: '02', name: 'اردیبهشت'},
+  {id: '03', name: 'خرداد'},
+  {id: '04', name: 'تیر'},
+  {id: '05', name: 'مرداد'},
+  {id: '06', name: 'شهریور'},
+  {id: '07', name: 'مهر'},
+  {id: '08', name: 'آبان'},
+  {id: '09', name: 'آذر'},
+  {id: '10', name: 'دی'},
+  {id: '11', name: 'بهمن'},
+  {id: '12', name: 'اسفند'},
+]

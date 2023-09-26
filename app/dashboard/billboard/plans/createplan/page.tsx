@@ -39,7 +39,7 @@ const CreatePlan = () => {
                 onClick={() => setPlanMark('package')} 
                 className={`${planMark === 'package' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
               >
-                پکیجی
+                پکیج
               </button>
 
             </div>

@@ -520,6 +520,8 @@ export interface ProjectCodeObject {
   brand: string
   desc: string
   code: string
+  jalaliMonth?: string
+  children: string[]
   username?:string
   createdAt?: string
   updatedAt?: string

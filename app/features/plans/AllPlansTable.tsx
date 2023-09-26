@@ -121,19 +121,6 @@ const AllPlansTable = (props: any) => {
                 header: () => <span>وضعیت</span>,
               },
               {
-                id: 'پیش فاکتور',
-                header: () => <span>پیش فاکتور</span>,
-                cell: (info) => {
-                  const row = info.row.original
-                  return (
-                    <Link href={`/dashboard/billboard/plans/invoice/${row.id}`} target='_blank'>
-                      <div className='flex justify-center text-xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'>
-                        <FaFilePdf />
-                      </div>
-                    </Link>
-                  )}
-              },
-              {
                 id: 'مشاهده',
                 header: () => <span>مشاهده پلن</span>,
                 cell: ({row}) => {
@@ -194,6 +181,19 @@ const AllPlansTable = (props: any) => {
                         </>
                         }
                     </div>
+                  )}
+              },
+              {
+                id: 'پیش فاکتور',
+                header: () => <span>پیش فاکتور</span>,
+                cell: (info) => {
+                  const row = info.row.original
+                  return (
+                    <Link href={`/dashboard/billboard/plans/invoice/${row.id}`} target='_blank'>
+                      <div className='flex justify-center text-xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer'>
+                        <FaFilePdf />
+                      </div>
+                    </Link>
                   )}
               },
               {

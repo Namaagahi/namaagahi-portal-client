@@ -34,13 +34,22 @@ const MonthlyFeeInput = (props: Props) => {
 
     useEffect(() => {
         if(page === 'edit'){
-            if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee)), 1000)
+            if(!changeInput) 
+                setTimeout(() => 
+                    setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee))
+                , 1000)
         }
         if(page === 'edit' &&  fieldIndex + 1 <= plan.structures.length) {
-            if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
+            if(!changeInput) 
+                setTimeout(() => 
+                    setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee))
+                , 1000)
         }
         else {
-            if(!changeInput) setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee)), 1000)
+            if(!changeInput) 
+                setTimeout(() => 
+                    setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee))
+                , 1000)
         }
     }, [])
     
@@ -57,9 +66,13 @@ const MonthlyFeeInput = (props: Props) => {
                     {
                         page === 'edit' && fieldIndex + 1 <= plan.structures.length ? 
                             <p className='p-4 text-primary dark:text-secondary'>
-                                {formatNumber(Number(item?.monthlyFee), ',')}
+                                {item?.monthlyFee ? 
+                                    formatNumber(Number(item?.monthlyFee), ',')
+                                    :
+                                    "تعرفه های ماهیانه این پلن ویرایش شده اند!" 
+                                }
                             </p>
-                                :
+                                : page !== 'edit' &&
                             <p className='p-4 text-primary dark:text-secondary'>
                                 {formatNumber(selectedStructure?.monthlyBaseFee, ',')}
                             </p>

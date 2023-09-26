@@ -48,7 +48,7 @@ const DiscountedMonthlyFee = (props: Props) => {
             setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 1000)
         }
     }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
-
+console.log("selectedDiscount", selectedDiscount)
     return (
         <div className='flex flex-col gap-3'>
             <label
@@ -68,12 +68,18 @@ const DiscountedMonthlyFee = (props: Props) => {
                 :
                 page === 'edit' ? 
                     selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && !changeInput && discountType ==='percentage' ? 
-                    formatNumber(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount)) / 100, ',')
+                    formatNumber(
+                        convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) )  / 100, 
+                    ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
-                    formatNumber(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
+                    formatNumber(
+                        selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount),
+                     ',')
                     :
                     changeInput && discountType === 'percentage' ?
-                    formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
+                    formatNumber(
+                        convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, 
+                    ',')
                     : 
                     !changeInput && discountType === 'percentage' ?
                     formatNumber((Number(item.monthlyFee) - (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100) , ',' )

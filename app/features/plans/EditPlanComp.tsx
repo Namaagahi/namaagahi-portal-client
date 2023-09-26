@@ -85,14 +85,14 @@ const EditPlanComp = (props: Props) => {
 
 
     const onSubmit = async(data: any) => {
-
+ 
         const newData = {
             ...data, 
             structures: data.structures.map((structure: any) => ({
               ...structure,
               monthlyFee: convertToNumber(structure.monthlyFee),
-              monthlyFeeWithDiscount: convertToNumber(structure.monthlyFeeWithDiscount),
-              discountType: discountType,
+              monthlyFeeWithDiscount:  plan.mark.name === 'regular' ? convertToNumber(structure.monthlyFeeWithDiscount) : null,
+              discountType: plan.mark.name === 'regular' ? discountType : null,
               structureRecord: structure.structureRecord
             }))
         }
@@ -101,19 +101,19 @@ const EditPlanComp = (props: Props) => {
             id:plan?.id,
             planId: plan?.planId,
             mark: { 
-                name: plan?.mark.name,
+                name: plan.mark.name,
             },
             userId: currentUserId,
-            username: plan?.username,
+            username: plan.username,
             initialCustomerId: newData.initialCustomerId,
             brand: newData.brand,
             status: 'suggested',
             structures: newData.structures,
             finalCustomerId: '',
             projectCodeId: null,
-            totalPackagePrice: newData.totalPackagePrice
+            totalPackagePrice: plan.mark.name === 'package' ? convertToNumber(newData.totalPackagePrice) : null
         })
-        // console.log("abc", abc)
+        console.log("abc", abc)
     }
 
 
