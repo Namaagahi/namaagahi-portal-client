@@ -46,12 +46,14 @@ const SinglePlan = () => {
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
   const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer?.finalCustomerId === plan?.finalCustomerId)
+console.log("PLAN", plan)
 
   const handleSuspendPlan = async() => {
     const abc = await updatePlan({
         id: plan?.id,
         planId: plan?.planId,
         userId: plan?.userId,
+        mark: plan?.mark,
         username: plan?.username,
         initialCustomerId: plan?.initialCustomerId,
         brand: plan?.brand,
@@ -59,6 +61,8 @@ const SinglePlan = () => {
         structures: plan?.structures,
         finalCustomerId: "",
         projectCodeId: null,
+        totalPackagePrice: plan.totalPackagePrice
+
     })
 
     const abc2 = await updateFinalCustomer({

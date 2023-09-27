@@ -1,13 +1,13 @@
 import { useUpdateUserMutation } from "@/app/apiSlices/usersApiSlice"
 import useAuth from "@/app/hooks/useAuth"
 import { EditProfileForm, UserObject } from "@/app/lib/interfaces"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
+import { useEffect, useState } from "react"
 import Loading from "../loading/Loading"
 import { toast } from "react-toastify"
 import { AiOutlineClose } from "react-icons/ai"
 import CustomInput from "@/app/components/inputs/CustomInput"
-import { useUploadMutation } from "@/app/apiSlices/uploadApiSlice"
+import { useForm } from "react-hook-form"
+import Image from "next/image"
 
 type Props = {
   handleModal: () => void
@@ -21,21 +21,14 @@ const EditProfile = (props: Props) => {
     user
   } = props
 
-  const { id } = useAuth()
+  const [errMsg, setErrMsg] = useState<string>('')
 
   const [updateUser, {
+    error,
     isLoading,
-    isSuccess,
     isError,
-    error
+    isSuccess
   }] = useUpdateUserMutation()
-
-  const [upload, {
-    isLoading: uploadLoading
-}] = useUploadMutation()
-
-  const [errMsg, setErrMsg] = useState<string | null>(null)
-  const [image, setImage] = useState<any>()
 
   const editProfileForm = useForm<EditProfileForm>({
     defaultValues: {
@@ -49,49 +42,63 @@ const EditProfile = (props: Props) => {
     control,
     handleSubmit,
     formState: {errors},
-    setValue
+    register,
+    getValues
 } = editProfileForm
 
-const onSubmit = async(data: any) => {
-  const abc = await updateUser({
-    id: user._id,
-    name: data.name,
-    username: user.username,
-    roles: user.roles,
-    active: user.active,
-    avatar: data.avatar
-  })
-  console.log("ABC", abc)
-  // console.log("isError", isError)
-  if(isError) {
-      'status' in error! && error.status === 409 && setErrMsg('نام ضروری است')
-      'status' in error! && error.status === 400 && setErrMsg('فیلدهای مورد نیاز را تکمیل کنید')
+const onSubmit = async (data: any) => {
+  let avatar = user.avatar
+
+  if (data.avatar[0] instanceof File) {
+    const file = data.avatar[0]
+
+    if (file instanceof File && file.size > 100 * 1024) {
+      setErrMsg('حجم تصویر باید کمتر از 100 کیلوبایت باشد.')
+      return
+    }
+    
+    const reader = new FileReader()
+
+    reader.onload = async (event) => {
+      const dataURL = event.target?.result as string
+      const updatedUserData = {
+        id: user._id,
+        name: data.name,
+        username: user.username,
+        roles: Array.isArray(user.roles) ? user.roles : [user.roles],
+        active: user.active,
+        avatar: dataURL,
+      };
+
+      await updateUser(updatedUserData)
+      toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
+      handleModal();
+    }
+
+    reader.readAsDataURL(file)
+  } else {
+    const updatedUserData = {
+      id: user._id,
+      name: data.name,
+      username: user.username,
+      roles: Array.isArray(user.roles) ? user.roles : [user.roles],
+      active: user.active,
+      avatar: avatar,
+    }
+
+    await updateUser(updatedUserData)
+    toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
+    handleModal()
   }
 }
 
   if(isSuccess) {
     toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
     handleModal()
-}
-
-const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  if(e.target.files && e.target.files[0]) {
-    console.log(e.target.files[0])
-    // setValue('avatar', e.target.files[0])
-    setImage(e.target.files[0])
   }
-}
 
-const submitImage = async() => {
-  const formData = new FormData()
-  formData.append('image', image)
-
-  const abc = await upload({formData})
-  console.log("abc", abc)
-}
-
+  console.log('user', user)
   if(!user || isLoading) return <Loading />
-console.log("user", user)
   return (
     <div className="py-5 px-8 w-full text-black dark:text-white">
       <form
@@ -109,35 +116,37 @@ console.log("user", user)
           />
         </div>
 
-        <div className="flex flex-col items-start justify-center gap-5 m-6">
-          <div className="flex items-center gap-3">
-            <input
-              type="file"
-              id='my-files'
-              accept='image/*'
-              multiple
-              onChange={onImageChange}
+        <div className="flex gap-3 items-center justify-between">
+          <div className="flex flex-col my-5 gap-3 w-1/2">
+            <CustomInput
+              key={user._id}
+              control={control}
+              name={'name'}
+              label={'نام'}
+              type={'text'}
+              required={true}
+              message={'نام را وارد کنید.'}
+              errors={errors.name?.message}
+              className='formInput2'
             />
-            <button className="primaryButton" type="button" onClick={submitImage}>آپلود</button>
+            <input type="file" className="formInput2" {...register("avatar")} />
+            <p className="text-red-500">{errMsg ? errMsg : ''}</p>
           </div>
-
-          <CustomInput 
-            key={user._id}
-            control={control}
-            name={'name'} 
-            label={'نام'}
-            type={'text'}
-            required={true}
-            message={'نام را وارد کنید.'}
-            errors={errors.name?.message}
-            className='p-4 rounded-[50px] bg-blue-100 outline-none text-black'
-          />
+            <Image
+            className="rounded-full w-44 h-44"
+              src={typeof getValues('avatar') ==='object' ? URL.createObjectURL(getValues('avatar')[0]) : user?.avatar}
+              alt="profile-image"
+              width={176}
+              height={176}
+            />
         </div>
 
         <div className="flex items-center gap-6">
-          <button className={`confirmButton`}>
-              ذخیره
-          </button>
+          <input
+            className={`confirmButton cursor-pointer`}
+            type="submit"
+          />
+              
 
           <button 
               onClick={handleModal}

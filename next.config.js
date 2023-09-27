@@ -13,6 +13,11 @@ const nextConfig = {
           hostname: 's8.uupload.ir',
           port: '',
         },
+        {
+          protocol: 'https',
+          hostname: 'res.cloudinary.com',
+          port: '',
+        },
       ],
     },
 }

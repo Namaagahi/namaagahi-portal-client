@@ -68,10 +68,10 @@ export const usersApiSlice = usersApiSliceTag.injectEndpoints({
 
         deleteUser: builder.mutation({
 
-            query: ({ id }) => ({
-                url: `/users`,
-                method: 'DELETE',
-                body: { id }
+            query: initialUserData => ({
+                url: '/users',
+                method: 'PATCH',
+                body: {...initialUserData}
             }),
 
             invalidatesTags: (result, error, arg) => [{ type: 'User', id: arg.id }]

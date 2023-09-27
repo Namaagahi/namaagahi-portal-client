@@ -15,11 +15,10 @@ import Loading from "../loading/Loading"
 
 const Account = () => {
 
+  
   const {
     id,
-    name,
     status,
-    avatar
   } = useAuth()
 
   const {
@@ -27,9 +26,10 @@ const Account = () => {
     isError,
   } = useGetUsersQuery(undefined, { 
     refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
+    refetchOnMountOrArgChange: true,
+    // pollingInterval: 5000
   }) 
-  
+
   const user: UserObject = useSelector(state => selectUserById(state, id) as UserObject)
 
   const [showAccountMenu, setShowAccountMenu] = useState<boolean>(false)
@@ -40,7 +40,7 @@ const Account = () => {
 
   const handleEditProfile = () => setIsEditProfile(!isEditProfile)
 
-  if(isLoading) return <Loading />
+  if(!user) return <Loading />
   return (
     <>
       <div 
@@ -48,8 +48,8 @@ const Account = () => {
         onClick={() => setShowAccountMenu(!showAccountMenu)}
       >
         <Image 
-            className="rounded-full cursor-pointer hover:scale-110 transition-all"
-            src={avatar}
+            className="rounded-full cursor-pointer hover:scale-110 transition-all w-11 h-11"
+            src={user.avatar}
             alt="profile-image"
             width={35}
             height={35}

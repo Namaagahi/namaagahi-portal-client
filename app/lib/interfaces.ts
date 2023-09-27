@@ -19,7 +19,7 @@ export interface UserObject {
 
 export interface EditProfileForm {
   name: string,
-  avatar: string,
+  avatar: any,
 }
 
 export interface UserData {

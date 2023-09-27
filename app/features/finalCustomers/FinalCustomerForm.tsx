@@ -123,6 +123,7 @@ const FinalCustomerForm = (props: Props) => {
              const abc2 = await updatePlan({
                 id: plan.id,
                 planId: plan.planId,
+                mark: plan.mark,
                 userId: plan.userId,
                 username: plan.username,
                 initialCustomerId: plan.initialCustomerId,
@@ -131,6 +132,7 @@ const FinalCustomerForm = (props: Props) => {
                 brand: plan.brand,
                 status: 'done',
                 structures: plan.structures,
+                totalPackagePrice: plan.totalPackagePrice
             })
 
             console.log("ABC1", abc1, "ABC2", abc2)
@@ -162,6 +164,7 @@ const FinalCustomerForm = (props: Props) => {
             const abc4 = await updatePlan({
                 id: plan.id,
                 planId: plan.planId,
+                mark: plan.mark,
                 userId: plan.userId,
                 username: plan.username,
                 initialCustomerId: plan.initialCustomerId,
@@ -170,9 +173,10 @@ const FinalCustomerForm = (props: Props) => {
                 brand: plan.brand,
                 status: 'done',
                 structures: plan.structures,
+                totalPackagePrice: plan.totalPackagePrice
             })
             console.log("ABC3", abc3, "ABC4", abc4)
-        }
+        } 
     }
 
     if(isSuccess) {
@@ -242,7 +246,7 @@ const FinalCustomerForm = (props: Props) => {
             errors: undefined,
         },
     ]
-console.log("ProjectCodeId",projectCodeId)
+// console.log("ProjectCodeId",projectCodeId)
     if(isLoading || projectCodesLoading) return <Loading />
     return (
         <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-4 text-gray-700 mt-5 flex flex-col items-start justify-center'>

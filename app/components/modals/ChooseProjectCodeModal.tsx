@@ -17,7 +17,7 @@ const ChooseProjectCodeModal = (props: Props) => {
     const {
         handleModal,
         data,
-        allFinalCustomers, 
+        allFinalCustomers,  
         handleProjectCodeId
     } = props
 
@@ -59,7 +59,6 @@ const ChooseProjectCodeModal = (props: Props) => {
             handleProjectCodeId(selectedItem)
             handleModal() 
         } else if(selectedItem && jalaliMonth) {
-            setChildCode(`${selectedItem.code}-${jalaliMonth}`)
             const abc  = await updateProjectCode({
                 id: selectedItem._id,
                 userId: id,
@@ -70,7 +69,7 @@ const ChooseProjectCodeModal = (props: Props) => {
                 desc: selectedItem.desc,
                 code: selectedItem.code,
                 jalaliMonth: jalaliMonth,
-                child:  childCode
+                child: childCode
             })
             handleProjectCodeId(selectedItem)
             console.log("abc", abc)
@@ -79,6 +78,8 @@ const ChooseProjectCodeModal = (props: Props) => {
             return
         }
     } 
+    console.log("childCode", childCode)
+    console.log("jalaliMonth", jalaliMonth)
     console.log("selectedItem", selectedItem)
 
     return (
@@ -160,19 +161,27 @@ const ChooseProjectCodeModal = (props: Props) => {
                             {"پاک کردن کد پروژه"}
                         </p>
                         <div className="flex flex-col justify-between gap-3">
-                            <button
-                                className="border-[1px] dark:border-white border-black rounded-md p-1 text-sm w-1/4 mt-2 hover:bg-black hover:border-black hover:text-white"
-                                type='button'
-                                onClick={() => setHasChildCode(!hasChildCode)}
-                            >
-                                {!hasChildCode? 'تخصیص ماه': 'عدم تخصیص ماه'}
-                            </button>
+                            {
+                                selectedItem &&
+                                    <button
+                                        className="border-[1px] dark:border-white border-black rounded-md p-1 text-sm w-1/4 mt-2 hover:bg-black hover:border-black hover:text-white"
+                                        type='button'
+                                        onClick={() => {
+                                            setHasChildCode(!hasChildCode)}
+                                        }
+                                    >
+                                        {!hasChildCode? 'تخصیص ماه': 'عدم تخصیص ماه'}
+                                    </button>
+                            }
                             {
                             hasChildCode &&
                                 <>
                                     <select
                                         className='formInput w-1/4 dark:text-black p-[1.9px]'
-                                        onChange={(e) => setJalaliMonth(e.target.value)}
+                                        onChange={(e) => {
+                                            setChildCode(`${selectedItem!.code}-${jalaliMonth}`)
+                                            setJalaliMonth(e.target.value)}
+                                        }
                                     >
                                         <option value="" >
                                             انتخاب ماه
