@@ -59,7 +59,7 @@ const ChooseProjectCodeModal = (props: Props) => {
             handleProjectCodeId(selectedItem)
             handleModal() 
         } else if(selectedItem && jalaliMonth) {
-            await createNewProjectCode({
+            const abc = await createNewProjectCode({
                 userId: id,
                 media: selectedItem.media,
                 year: selectedItem.year, 
@@ -69,7 +69,7 @@ const ChooseProjectCodeModal = (props: Props) => {
                 code: selectedItem.code,
                 month: jalaliMonth
             })
-            handleProjectCodeId(selectedItem)
+            console.log("ABC", abc)
             handleModal()
         } else {
             return

@@ -214,7 +214,6 @@ const AllPlansTable = (props: any) => {
                 enableColumnFilter: false,
                 cell: (info) => {
                   const updatedAt = info.getValue()
-                  console.log(updatedAt)
                   return (
                     <p>{moment(updatedAt).format('jYYYY/jM/jD')}</p>
                   )}
