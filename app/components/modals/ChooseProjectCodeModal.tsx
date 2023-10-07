@@ -1,4 +1,5 @@
-import { useUpdateProjectCodeMutation } from "@/app/apiSlices/projectCodeApiSlice"
+import { useCreateNewProjectCodeMutation, useUpdateProjectCodeMutation } from "@/app/apiSlices/projectCodeApiSlice"
+import Loading from "@/app/features/loading/Loading"
 import useAuth from "@/app/hooks/useAuth"
 import { jalaliMonths } from "@/app/lib/constants"
 import { FinalCustomerObject, ProjectCodeObject } from "@/app/lib/interfaces"
@@ -23,19 +24,18 @@ const ChooseProjectCodeModal = (props: Props) => {
 
     const { id } = useAuth()
 
-    const [updateProjectCode, {
+    const [createNewProjectCode, {
         isLoading,
         isSuccess,
         isError,
         error
-    }] = useUpdateProjectCodeMutation()
+    }] = useCreateNewProjectCodeMutation()
 
     const [searchText, setSearchText] = useState<string>("")
     const [searchResults, setSearchResults] = useState<ProjectCodeObject[]>([])
     const [selectedItem, setSelectedItem] = useState<ProjectCodeObject | null>(null)
     const [hasChildCode, setHasChildCode] = useState<boolean>(false)
     const [jalaliMonth, setJalaliMonth] = useState<string>('')
-    const [childCode, setChildCode] = useState<string>('')
 
     const performSearch = (value: string) => {
         if(data && data[0]) {
@@ -59,29 +59,24 @@ const ChooseProjectCodeModal = (props: Props) => {
             handleProjectCodeId(selectedItem)
             handleModal() 
         } else if(selectedItem && jalaliMonth) {
-            const abc  = await updateProjectCode({
-                id: selectedItem._id,
+            await createNewProjectCode({
                 userId: id,
                 media: selectedItem.media,
-                year: selectedItem.year,
+                year: selectedItem.year, 
                 finalCustomerId: selectedItem.finalCustomerId,
                 brand: selectedItem.brand,
-                desc: selectedItem.desc,
+                desc: selectedItem.desc, 
                 code: selectedItem.code,
-                jalaliMonth: jalaliMonth,
-                child: childCode
+                month: jalaliMonth
             })
             handleProjectCodeId(selectedItem)
-            console.log("abc", abc)
-            // handleModal()
+            handleModal()
         } else {
             return
         }
     } 
-    console.log("childCode", childCode)
-    console.log("jalaliMonth", jalaliMonth)
-    console.log("selectedItem", selectedItem)
 
+    if(isLoading) return <Loading />
     return (
         <div className="modalContainer">
             <div 
@@ -178,10 +173,7 @@ const ChooseProjectCodeModal = (props: Props) => {
                                 <>
                                     <select
                                         className='formInput w-1/4 dark:text-black p-[1.9px]'
-                                        onChange={(e) => {
-                                            setChildCode(`${selectedItem!.code}-${jalaliMonth}`)
-                                            setJalaliMonth(e.target.value)}
-                                        }
+                                        onChange={(e) => setJalaliMonth(e.target.value)}
                                     >
                                         <option value="" >
                                             انتخاب ماه

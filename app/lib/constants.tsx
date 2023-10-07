@@ -390,10 +390,10 @@ export const mediaTypes = [
 ]
 
 export const years = [
-  { id: '200', name: '1402'},
-  { id: '300', name: '1403'},
-  { id: '400', name: '1404'},
-  { id: '500', name: '1405'},
+  { id: 1402, name: '1402'},
+  { id: 1403, name: '1403'},
+  { id: 1404, name: '1404'},
+  { id: 1405, name: '1405'},
 ]
 
 export const jalaliMonths = [

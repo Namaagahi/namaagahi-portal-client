@@ -64,22 +64,17 @@ const NewProjectCodeForm = (props: Props) => {
             desc: data.desc, 
         })
 
-        console.log("ABC1", abc1)
-
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این  کد پروژه قبلا ثبت شده است')
             'status' in error! && error.status === 400 && toast.error('فیلدهای مورد نیاز را تکمیل کنید')
         }
         toast.success(`کد پروژه جدید با موفقیت ساخته شد.`)
-        window.location.assign('/dashboard/project-codes')
+        // window.location.assign('/dashboard/project-codes')
         handleModal()
     }
 
-    // if(isSuccess) {
-    //     toast.success(`کد پروژه جدید با موفقیت ساخته شد.`)
-    //     handleModal()
-    // }
-
+    if(isSuccess) handleModal()
+    
     const customInputs = [
         {
             id: 1,

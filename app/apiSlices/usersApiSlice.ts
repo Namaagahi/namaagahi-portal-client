@@ -52,19 +52,21 @@ export const usersApiSlice = usersApiSliceTag.injectEndpoints({
 
             invalidatesTags: [{ type: 'User', id:'LIST' }]
         }),
-
+        
         updateUser: builder.mutation({
-
-            query: initialUserData => ({
-                url: '/users',
-                method: 'PATCH',
-                body: {...initialUserData}
+            query: (formData) => ({
+              url: '/users',
+              method: 'PATCH',
+              body: formData,
+              prepareHeaders: (headers: any) => {
+                headers.set("Content-Type", "multipart/form-data")
+                  return headers
+              },
             }),
-
             invalidatesTags: (result, error, arg) => [
-                { type: 'User', id: arg.id }
-            ]
-        }),
+              { type: 'User', id: arg.id },
+            ],
+          }),
 
         deleteUser: builder.mutation({
 

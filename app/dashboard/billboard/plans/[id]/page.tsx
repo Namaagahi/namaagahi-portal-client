@@ -46,10 +46,9 @@ const SinglePlan = () => {
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
   const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer?.finalCustomerId === plan?.finalCustomerId)
-console.log("PLAN", plan)
 
   const handleSuspendPlan = async() => {
-    const abc = await updatePlan({
+    await updatePlan({
         id: plan?.id,
         planId: plan?.planId,
         userId: plan?.userId,
@@ -65,10 +64,9 @@ console.log("PLAN", plan)
 
     })
 
-    const abc2 = await updateFinalCustomer({
+    await updateFinalCustomer({
       ...finalCustomer, planIds: [finalCustomer?.planIds].filter(item => item === plan._id)
     })
-    console.log("ABC", abc)
     toast.success(`پلن ${plan?.planId} معلق شد.`)
 }
   

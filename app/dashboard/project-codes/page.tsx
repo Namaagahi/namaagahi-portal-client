@@ -41,7 +41,6 @@ const ProjectCodes = () => {
 
     const handleNewProjectCodeModal = () => setIsNewProjectCode(!isNewProjectCode)
 
-
     if(projectCodesLoading || finalCustomersLoading) return <Loading /> 
     return (
         <>

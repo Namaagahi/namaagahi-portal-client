@@ -47,50 +47,47 @@ const EditProfile = (props: Props) => {
 } = editProfileForm
 
 const onSubmit = async (data: any) => {
-  let avatar = user.avatar
 
+  const formData = new FormData()
+  
   if (data.avatar[0] instanceof File) {
-    const file = data.avatar[0]
+    const file = data.avatar[0];
 
-    if (file instanceof File && file.size > 100 * 1024) {
+    if (file.size > 100 * 1024) {
       setErrMsg('حجم تصویر باید کمتر از 100 کیلوبایت باشد.')
       return
     }
-    
-    const reader = new FileReader()
-
-    reader.onload = async (event) => {
-      const dataURL = event.target?.result as string
-      const updatedUserData = {
-        id: user._id,
-        name: data.name,
-        username: user.username,
-        roles: Array.isArray(user.roles) ? user.roles : [user.roles],
-        active: user.active,
-        avatar: dataURL,
-      };
-
-      await updateUser(updatedUserData)
-      toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
-      handleModal();
-    }
-
-    reader.readAsDataURL(file)
-  } else {
-    const updatedUserData = {
-      id: user._id,
-      name: data.name,
-      username: user.username,
-      roles: Array.isArray(user.roles) ? user.roles : [user.roles],
-      active: user.active,
-      avatar: avatar,
-    }
-
-    await updateUser(updatedUserData)
-    toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
-    handleModal()
+    formData.append('image', data.avatar[0])
   }
-}
+
+  formData.append('id', user._id)
+  formData.append('name', data.name)
+  formData.append('username', user.username)
+  formData.append('roles', Array.isArray(user.roles) ? user.roles.join(',') : user.roles)
+  formData.append('active', String(user.active))
+
+  const plainFormData: any = {}
+  for (const [key, value] of formData.entries()) {
+    if (!(key in plainFormData)) {
+      plainFormData[key] = value;
+    } else {
+      if (!Array.isArray(plainFormData[key])) {
+        plainFormData[key] = [plainFormData[key]]
+      }
+      plainFormData[key].push(value)
+    }
+  }
+    console.log("plainFormData", plainFormData)
+  try {
+    const updatedUser = await updateUser(plainFormData)
+    console.log('Updated User:', updatedUser)
+    toast.success('پروفایل شما با موفقیت ویرایش شد.')
+    handleModal()
+  } catch (error) {
+    console.log('Error:', error)
+    // Handle error
+  }
+};
 
   if(isSuccess) {
     toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
@@ -134,7 +131,7 @@ const onSubmit = async (data: any) => {
           </div>
             <Image
             className="rounded-full w-44 h-44"
-              src={typeof getValues('avatar') ==='object' ? URL.createObjectURL(getValues('avatar')[0]) : user?.avatar}
+              src={user?.avatar}
               alt="profile-image"
               width={176}
               height={176}

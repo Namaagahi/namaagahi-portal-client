@@ -34,12 +34,6 @@ const AllProjectCodesTable = (props: any) => {
     const handleEditProjectCode = () => setIsEditProjectCode(!isEditProjectCode)
     const projectCode: ProjectCodeObject = useSelector(state => selectProjectCodeById(state, projectCodeId) as ProjectCodeObject)
 
-    function getEquivalentYear(equivalentValue: number) {
-        if (equivalentValue < 200) throw new Error('Invalid equivalent value')
-        const persianYear = Math.floor((equivalentValue) / 100) + 1400
-        return persianYear
-      }
-
     const columns = useMemo<ColumnDef<ProjectCodeObject>[]>(() => {
         return(
           [
@@ -75,7 +69,7 @@ const AllProjectCodesTable = (props: any) => {
                     accessorKey: 'year',
                     accessorFn: row => row.year,
                     id: 'سال',
-                    cell: info => getEquivalentYear(info.getValue()),
+                    cell: info => info.getValue(),
                     header: () => <span>سال</span>,
                 },
                 {
