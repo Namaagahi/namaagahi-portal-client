@@ -1,7 +1,7 @@
 "use client"
 import { useRefreshMutation } from '../apiSlices/authApiSlice'
 import { selectCurrentToken } from '../apiSlices/authSlice'
-import { menuItems, subMenusList } from "../lib/constants"
+import { menuItems } from "../lib/constants"
 import { useEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'
 import Footer from '../features/footer/Footer'
@@ -82,9 +82,8 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <div className=" flex flex-col xl:flex-row gap-8 ">
           <Menu 
             menuItems = {menuItems} 
-            subMenusList={subMenusList} 
           />
-          <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-screen ">
+          <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-[2000px] ">
             {content}
             <Footer />
           </div>

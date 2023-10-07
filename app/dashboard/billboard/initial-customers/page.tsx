@@ -18,7 +18,7 @@ import usePageTitle from '@/app/hooks/usePageTitle'
 import SearchContainer from '@/app/components/main/SearchContainer'
     
 const InitialCustomers = () => {
-  usePageTitle('مشتریان اولیه')
+  usePageTitle('پروژه ها')
     
   const { isMaster, isAdmin } = useAuth()
     
@@ -133,13 +133,13 @@ const InitialCustomers = () => {
 
   return (
     <>            
-      <PageTitle name={'مشتریان اولیه'} /> 
+      <PageTitle name={'پروژه ها'} /> 
 
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />
         <Button 
           onClickHandler={handleNewInitialCustomerModal}
-          title="مشتری اولیه جدید"
+          title="پروژه جدید"
         />
       </div>
 

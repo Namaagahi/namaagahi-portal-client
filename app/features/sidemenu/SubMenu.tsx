@@ -1,7 +1,7 @@
 "use client"
 import { IoIosArrowDown } from "react-icons/io"
 import { usePathname } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion } from "framer-motion" 
 import { useState } from "react"
 import Link from "next/link"
 
@@ -9,7 +9,7 @@ import Link from "next/link"
 
   const path = usePathname()
   const activeStyle = {background: "#faa75c", fontWeight: 500, color: "black", border:"#C91416"}
-  const [subMenuOpen, setSubMenuOpen] = useState<boolean>(false)
+  const [subMenuOpen, setSubMenuOpen] = useState<boolean>(true)
   
   return (
     <>
@@ -19,7 +19,7 @@ import Link from "next/link"
       >
         <div className="flex gap-2 items-center">
             {data.icon}
-            <p className="text-2xl font-bold">
+            <p className="text-lg font-bold">
               {data.name}
             </p>
         </div>
@@ -32,12 +32,12 @@ import Link from "next/link"
           subMenuOpen
             ? {
                 height: "fit-content",
-              }
+              } 
             : {
                 height: 0,
               }
         }
-        className="flex flex-col gap-1 mt-2 pr-4 w-full overflow-hidden"
+        className="flex flex-col gap-1 pr-4 w-full overflow-hidden"
       >
         {data.menus?.map((menu: any) => (
             <Link 
@@ -49,7 +49,7 @@ import Link from "next/link"
                     style={path === menu.path ? activeStyle : {}}
                 >
                     {menu.icon}
-                    <p className="text-xl">
+                    <p className="text-md">
                       {menu.name}
                     </p>
                 </li>

@@ -22,7 +22,7 @@ import SearchContainer from '@/app/components/main/SearchContainer'
 const Users = () => {
   usePageTitle('کاربران')
 
-  const { isAdmin } = useAuth()
+  const { isAdmin, isMaster } = useAuth()
 
   const {
     isLoading,
@@ -90,6 +90,8 @@ const Users = () => {
                   return <p>ادمین</p>
                 } else if (roles?.includes('مستر')) {
                   return <p>مستر</p> 
+                } else if (roles?.includes('مدیرپروژه')) {
+                  return <p>مدیر پروژه</p> 
                 } else if (roles?.includes('مدیررسانه')) {
                   return <p>مدیر رسانه</p>
                 } else if (roles?.includes('پذیرشگر')) {
@@ -188,7 +190,7 @@ if(isError) return (
   </div>
 )
 
-if(isAdmin) {
+if(isAdmin || isMaster) {
   return (
     <>    
       <PageTitle name={'کاربران'} />

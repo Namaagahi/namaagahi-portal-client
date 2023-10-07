@@ -1,11 +1,15 @@
 import { MdDashboardCustomize, MdWorkspacesFilled, MdPermMedia } from 'react-icons/md'
 import { FaBus, FaSubway, FaBroadcastTower } from "react-icons/fa"
-import { SiBillboard } from 'react-icons/si'
+import { SiBillboard, SiInstructure } from 'react-icons/si'
 import { MenuItemsObj } from "./interfaces"
 import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
-import { BsFillPinMapFill } from 'react-icons/bs'
+import { BsFillBoxFill, BsFillPinMapFill } from 'react-icons/bs'
 import { BiCode } from 'react-icons/bi'
+import { AiFillDollarCircle, AiOutlinePullRequest, AiTwotoneProject } from 'react-icons/ai'
+import { IoIosPeople } from 'react-icons/io'
+import { GrPlan } from 'react-icons/gr'
+import { GiPackedPlanks } from 'react-icons/gi'
 
 // REGEXES =======================================================
 export const USER_REGEX = /^[A-z]{3,20}$/
@@ -115,9 +119,14 @@ export const menuItems: MenuItemsObj[] = [{
   icon: <HiUsers size={20} />
 },
 {
-  name: 'وظایف',
-  path: '/dashboard/tasks',
-  icon: <MdDashboardCustomize size={20} />
+  name: 'درخواست پروپوزال',
+  icon: <AiOutlinePullRequest size={20} />,
+  path: '/dashboard/proposal'
+},
+{
+  name: 'پروژه',
+  icon: <AiTwotoneProject size={20} />,
+  path: '/dashboard/billboard/initial-customers'
 },
 {
   name: 'کد پروژه',
@@ -131,9 +140,52 @@ export const menuItems: MenuItemsObj[] = [{
 },
 ]
 
-export const subMenusList = [
+export const billboardSettingsList = [
   {
-    name: "رسانه",
+    name: "تنظیمات",
+    icon: <MdPermMedia size={20} />,
+    menus: [
+      {
+        name: 'باکس',
+        icon: <BsFillBoxFill size={20} />,
+        path: '/dashboard/billboard/boxes'
+      },
+      {
+        name: 'سازه',
+        icon: <SiInstructure size={20} />,
+        path: '/dashboard/billboard/structures'
+      },
+      {
+        name: 'مشتریان',
+        icon: <IoIosPeople size={20} />,
+        path: '/dashboard/billboard/final-customers'
+      },
+    ]
+  },
+]
+
+export const billboardSellList = [
+  {
+    name: "فروش",
+    icon: <AiFillDollarCircle size={20} />,
+    menus: [
+      {
+        name: 'پلن',
+        icon: <GiPackedPlanks size={20} />,
+        path: '/dashboard/billboard/plans'
+      },
+      {
+        name: 'سازه های خالی',
+        icon: <SiInstructure size={20} />,
+        path: '/dashboard/billboard/structures/availables'
+      },
+    ]
+  },
+]
+
+export const billboardMenuList = [
+  {
+    name: "بیلبورد",
     icon: <MdPermMedia size={20} />,
     menus: [
       {
@@ -164,6 +216,46 @@ export const subMenusList = [
     ]
   },
 ]
+
+// export const billboardPagePropsObject = [
+//   {
+//       id: 1,
+//       title: 'باکس',
+//       main:'همه باکس ها',
+//       mainLink:'/dashboard/billboard/boxes', 
+//       subTitle:'باکس جدید', 
+//       subTitleLink:'/dashboard/billboard/boxes/createbox'
+//   },
+//   {
+//       id: 2,
+//       title: 'پلن',
+//       main:'همه پلن ها',
+//       main2: 'پلن های من',
+//       mainLink:'/dashboard/billboard/plans', 
+//       main2Link:'/dashboard/billboard/plans/myplans', 
+//       subTitle:'پلن جدید', 
+//       subTitleLink:'/dashboard/billboard/plans/createplan'
+//   },
+//   {
+//       id: 3,
+//       title: 'سازه',
+//       main:'همه سازه ها',
+//       main2:'سازه های من',
+//       mainLink:'/dashboard/billboard/structures', 
+//       main2Link:'/dashboard/billboard/structures/mystructures', 
+//       subTitle:'سازه جدید', 
+//       subTitleLink:'/dashboard/billboard/structures/createstructure',
+//   },
+//   {
+//       id: 4,
+//       title: 'مشتری',
+//       main:'مشتریان اولیه ',
+//       main2:'مشتریان نهایی',
+//       mainLink:'/dashboard/billboard/initial-customers', 
+//       main2Link:'/dashboard/billboard/final-customers', 
+//   },
+// ]
+
  
 // NEW BOX =======================================================
 export const newBoxDefaultValues = {

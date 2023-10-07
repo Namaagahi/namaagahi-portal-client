@@ -20,7 +20,7 @@ import { useSelector } from "react-redux"
 
 
 const FinalCustomers = () => {
-  usePageTitle('مشتریان نهایی')
+  usePageTitle('مشتریان ')
 
     const { isAdmin, isMaster } = useAuth()
 
@@ -52,7 +52,7 @@ const FinalCustomers = () => {
         return(
           [
             {
-              header: 'جدول مشتریان نهایی',
+              header: 'جدول مشتریان ',
               columns: [
                 {
                   accessorKey: "_id",
@@ -245,19 +245,19 @@ const FinalCustomers = () => {
 
         <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
           <p className='text-xl'>
-            هیچ مشتری نهایی وجود ندارد
+            هیچ مشتری ای وجود ندارد
           </p>
         </div>
     )
 
     return (
         <>
-            <PageTitle name={'مشتریان نهایی'} />
+            <PageTitle name={'مشتریان '} />
             <div className="flex items-center justify-between gap-3">
               <SearchContainer />
               <Button 
                 onClickHandler={handleNewFinalCustomerModal}
-                title="مشتری نهایی جدید"
+                title="مشتری  جدید"
               />
             </div>
             

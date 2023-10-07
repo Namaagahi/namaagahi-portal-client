@@ -1,8 +1,11 @@
 "use client"
 import { useGetAllBoxesQuery } from '@/app/apiSlices/boxesApiSlice'
+import Button from '@/app/components/main/Button'
 import PageTitle from '@/app/components/main/PageTitle'
+import SearchContainer from '@/app/components/main/SearchContainer'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 const BoxItem = dynamic(
   () => import('@/app/features/boxes/BoxItem'),
   { ssr: false }
@@ -19,6 +22,7 @@ type Props = {
 const BoxComp = (props: Props) => {
 
   const { page } = props
+  const { push } = useRouter()
 
   const {
       data: boxes,
@@ -45,7 +49,7 @@ const BoxComp = (props: Props) => {
         <Link href={'/dashboard/billboard/boxes/createbox'}>
           <span className='text-cyan-300'>
             کلیک کنید
-          </span>
+          </span> 
         </Link>
       </p>
     </div>
@@ -57,6 +61,14 @@ const BoxComp = (props: Props) => {
   return (
       <main className="min-h-screen">
           <PageTitle name={'باکس ها'} />
+
+          <div className="flex items-center justify-between gap-3">
+            <SearchContainer />
+            <Button 
+              onClickHandler={() => push('/dashboard/billboard/boxes/createbox')}
+              title="باکس جدید"
+            />
+          </div>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
               {boxItemsContent}
           </div>

@@ -3,20 +3,16 @@ import { MenuItemsObj } from "@/app/lib/interfaces"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import Link from "next/link"
-import dynamic from 'next/dynamic'
-const SubMenu = dynamic(
-  () => import('./SubMenu'),
-  { ssr: false }
-)
+import SubMenu from "./SubMenu"
+import { billboardSellList, billboardSettingsList } from "@/app/lib/constants"
 
 type Props = { 
   menuItems: MenuItemsObj[]
-  subMenusList: any
 }
 
 const Menu = (props : Props) => {
 
-  const { menuItems, subMenusList } = props
+  const { menuItems } = props
   const [mobileMenu, setMobileMenu] = useState<boolean>(true)
   const path = usePathname()
   const activeStyle = {background: "#faa75c", fontWeight: 500, color: "black", border:"#C91416"}
@@ -28,15 +24,15 @@ const Menu = (props : Props) => {
           مدیریت
         </small>
 
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col gap-1">
           {menuItems.map((item: MenuItemsObj) => (
             <Link href={item.path} key={item.name}>
               <li
-              className="flex items-center justify-start gap-2 p-3 cursor-pointer hover:text-buttonHover hover:scale-110  rounded-2xl transition-all"
+              className="flex items-center justify-start gap-1 p-3 cursor-pointer hover:text-buttonHover hover:scale-110 rounded-2xl transition-all"
               style={path === item.path ? activeStyle : {}}
               >
                 {item.icon}
-                <p className="text-xl">
+                <p className="text-md">
                   {item.name}
                 </p>
               </li>
@@ -46,12 +42,24 @@ const Menu = (props : Props) => {
       </div>
 
       <div className="border-b py-5 border-slate-500 dark:border-slate-300 ">
-        <small className="pr-3 text-slate-500 inline-block mb-2">
-          محتوا
-        </small>
+        <Link href={'/dashboard/billboard'}>
+          <small className="pr-3 text-slate-500 inline-block mb-2 hover:text-lg transition-all">
+            بیلبورد
+          </small>
+        </Link>
         
-        <ul className="flex flex-col gap-4">
-            {subMenusList.map((item: any) => (
+        <ul className="flex flex-col gap-1">
+            {billboardSettingsList.map((item: any) => (
+                <div
+                  key={item.name}
+                  style={path === item.path ? activeStyle : {}}
+                >
+                  <SubMenu data={item} />
+                </div>
+            ))}
+            <div className="border-b py-5 border-slate-500 dark:border-slate-300 "/>
+
+            {billboardSellList.map((item: any) => (
                 <div
                   key={item.name}
                   style={path === item.path ? activeStyle : {}}
