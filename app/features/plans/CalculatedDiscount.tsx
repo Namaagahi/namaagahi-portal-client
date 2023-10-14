@@ -1,4 +1,4 @@
-import { AddPlanForm, CombinedStructure, EditPlanForm } from '@/app/lib/interfaces'
+import { AddPlanForm, CombinedStructure, EditPlanForm, PlanObject } from '@/app/lib/interfaces'
 import React, { useEffect, useRef } from 'react'
 import { UseFormSetValue } from 'react-hook-form'
 
@@ -11,7 +11,7 @@ type Props = {
     selectedStructure: CombinedStructure
     changeInput: boolean
     isDiscountedInput: boolean
-
+    plan: PlanObject
 }
 
 const CalculatedDiscount = (props: Props) => {
@@ -24,7 +24,8 @@ const CalculatedDiscount = (props: Props) => {
         setValue,
         selectedStructure,
         changeInput,
-        isDiscountedInput
+        isDiscountedInput,
+        plan
     } = props
 
     const calculatedDiscountRef = useRef<HTMLParagraphElement>(null)
@@ -35,7 +36,8 @@ const CalculatedDiscount = (props: Props) => {
             setTimeout(() => setValue(`structures.${fieldIndex}.discountFee`, calculatedDiscount!), 1000)
         }
     }, [selectedDiscountedMonthlyFee, calculatedDiscountRef.current?.textContent])
-// console.log("selectedDiscountedMonthlyFee", selectedDiscountedMonthlyFee)
+console.log("selectedDiscountedMonthlyFee", selectedDiscountedMonthlyFee)
+console.log("isDiscountedInput", isDiscountedInput)
   return (
     <p
         className='p-4 text-primary dark:text-secondary' 
@@ -49,13 +51,18 @@ const CalculatedDiscount = (props: Props) => {
                 '0'
                 :
                 (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)).toFixed(2)
-            :
+            : 
+            changeInput && !isDiscountedInput ?
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) > 100 
             || 
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) < 0 ?
                 '0'
-                :
-                (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))).toFixed(2)
+                : 
+                changeInput && isDiscountedInput ?
+                (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / plan.totalMonthlyFee!)).toFixed(2)
+                : 
+                (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedMonthlyFee)).toFixed(2)
+                : '10'
         }
     </p>
   )

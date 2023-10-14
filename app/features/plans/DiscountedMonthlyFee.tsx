@@ -67,22 +67,27 @@ console.log("selectedDiscount", selectedDiscount)
                 !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
                 :
                 page === 'edit' ? 
-                    selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && !changeInput && discountType ==='percentage' ? 
-                    formatNumber(
-                        convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) )  / 100, 
-                    ',')
+                    selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && discountType ==='percentage' ? 
+                    // formatNumber(
+                    //     convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) )  / 100, 
+                    // ',')
+                    formatNumber(Number(item.monthlyFeeWithDiscount), ',')
                     : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
                     formatNumber(
                         selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount),
                      ',')
+
                     :
                     changeInput && discountType === 'percentage' ?
                     formatNumber(
                         convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, 
                     ',')
+
                     : 
                     !changeInput && discountType === 'percentage' ?
                     formatNumber((Number(item.monthlyFee) - (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100) , ',' )
+                    // "salam"
+
                     :
                     changeInput && discountType === 'number' ?
                     formatNumber((convertToNumber(selectedMonthlyFee) -  convertToNumber(selectedDiscount)), ',' )

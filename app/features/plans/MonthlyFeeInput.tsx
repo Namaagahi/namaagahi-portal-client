@@ -34,23 +34,33 @@ const MonthlyFeeInput = (props: Props) => {
 
     useEffect(() => {
         if(page === 'edit'){
-            if(!changeInput) 
+            if(!changeInput) {
+console.log("INE")
+console.log(`structures.${fieldIndex}.monthlyFee`)
                 setTimeout(() => 
                     setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee))
                 , 1000)
         }
+            }
         if(page === 'edit' &&  fieldIndex + 1 <= plan.structures.length) {
-            if(!changeInput) 
+            if(!changeInput) {
+                console.log("Ya INE")
+                console.log(`structures.${fieldIndex}.monthlyFee`)
+
                 setTimeout(() => 
                     setValue(`structures.${fieldIndex}.monthlyFee`, String(item?.monthlyFee))
                 , 1000)
         }
+            }
         else {
-            if(!changeInput) 
+            if(!changeInput) {
+                console.log("namusan ine")
+
                 setTimeout(() => 
                     setValue(`structures.${fieldIndex}.monthlyFee`, String(selectedStructure?.monthlyBaseFee))
                 , 1000)
         }
+            }
     }, [])
     
     return (

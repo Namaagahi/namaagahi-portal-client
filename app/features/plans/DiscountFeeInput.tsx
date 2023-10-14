@@ -14,6 +14,7 @@ type Props = {
     convertToNumber: (value: string | number) => number | any
     selectedStructure: CombinedStructure | undefined
     numberDiscountInputRef: React.RefObject<HTMLInputElement>
+    isDiscountedInput: boolean
     setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>,
     watch: any
 }
@@ -32,6 +33,7 @@ const DiscountFeeInput = (props: Props) => {
         convertToNumber,
         selectedStructure,
         numberDiscountInputRef,
+        isDiscountedInput,
         setValue,
         watch
     } = props
@@ -51,7 +53,11 @@ const DiscountFeeInput = (props: Props) => {
                 placeholder='تخفیف به درصد'
                 className="formInput"
                 onWheel={(e: any) => e.target.blur()} 
-                defaultValue={page === 'edit' ? item.discountFee : undefined}
+                defaultValue={
+                    page === 'edit' ? 
+                        isDiscountedInput ? item.discountFee :  1
+                    : undefined
+                }
                 onChange={(event) => {
                     const newValue = event.target.value
                     if (discountType === 'percentage' && parseFloat(newValue) > 100) 

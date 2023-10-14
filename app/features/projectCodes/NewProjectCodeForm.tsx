@@ -63,7 +63,7 @@ const NewProjectCodeForm = (props: Props) => {
             brand: data.brand,
             desc: data.desc, 
         })
-
+console.log("abc1", abc1)
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این  کد پروژه قبلا ثبت شده است')
             'status' in error! && error.status === 400 && toast.error('فیلدهای مورد نیاز را تکمیل کنید')

@@ -119,25 +119,39 @@ export const menuItems: MenuItemsObj[] = [{
   icon: <HiUsers size={20} />
 },
 {
-  name: 'درخواست پروپوزال',
-  icon: <AiOutlinePullRequest size={20} />,
-  path: '/dashboard/proposal'
-},
-{
-  name: 'پروژه',
-  icon: <AiTwotoneProject size={20} />,
-  path: '/dashboard/billboard/initial-customers'
-},
-{
-  name: 'کد پروژه',
-  path: '/dashboard/project-codes',
-  icon: <BiCode size={20} />
-},
-{
   name: 'نقشه',
   path: '/dashboard/map',
   icon: <BsFillPinMapFill size={20} />
 },
+]
+
+export const projectList = [
+  {
+    name: "پروژه",
+    icon: <AiTwotoneProject size={20} />,
+    menus: [
+      {
+        name: 'درخواست پروپوزال',
+        icon: <AiOutlinePullRequest size={20} />,
+        path: '/dashboard/proposal'
+      },
+      {
+        name: 'پروژه',
+        icon: <AiTwotoneProject size={20} />,
+        path: '/dashboard/billboard/initial-customers'
+      },
+      {
+        name: 'کد پروژه',
+        path: '/dashboard/project-codes',
+        icon: <BiCode size={20} />
+      },
+      {
+        name: 'مشتریان',
+        icon: <IoIosPeople size={20} />,
+        path: '/dashboard/billboard/final-customers'
+      },
+    ]
+  },
 ]
 
 export const billboardSettingsList = [
@@ -154,11 +168,6 @@ export const billboardSettingsList = [
         name: 'سازه',
         icon: <SiInstructure size={20} />,
         path: '/dashboard/billboard/structures'
-      },
-      {
-        name: 'مشتریان',
-        icon: <IoIosPeople size={20} />,
-        path: '/dashboard/billboard/final-customers'
       },
     ]
   },

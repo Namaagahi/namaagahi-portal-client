@@ -42,6 +42,8 @@ type Props = {
     isChanged: boolean
     removeStructure: UseFieldArrayRemove
     appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
+    isDiscountedInput: boolean
+    setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const RegularPlanStructureInfo = (props: Props) => {
@@ -71,10 +73,11 @@ const RegularPlanStructureInfo = (props: Props) => {
         convertToNumber,
         isChanged,
         removeStructure,
-        appendStructure
+        appendStructure,
+        isDiscountedInput,
+        setIsDiscountedInput
     } = props
 
-    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(false)
     const percentageDiscountInputRef = useRef<HTMLInputElement>(null)
     const numberDiscountInputRef = useRef<HTMLInputElement>(null)
 
@@ -103,8 +106,9 @@ const RegularPlanStructureInfo = (props: Props) => {
                     <input
                         type="checkbox"
                         onChange={() => {
-                            handleDiscountType('percentage')
+                            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                             setIsDiscountedInput(!isDiscountedInput)
+                            handleDiscountType('percentage')
                         }}
                     />
                     <p className='dark:text-white'>
@@ -295,6 +299,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                             errors={errors}
                                             convertToNumber={convertToNumber}
                                             selectedStructure={selectedStructure}
+                                            isDiscountedInput={isDiscountedInput}  
                                             numberDiscountInputRef={numberDiscountInputRef}
                                             setValue={setValue}
                                             watch={watch}
@@ -309,6 +314,8 @@ const RegularPlanStructureInfo = (props: Props) => {
                                             selectedStructure={selectedStructure!}
                                             changeInput={changeInput}
                                             isDiscountedInput={isDiscountedInput}  
+                                            plan={plan}
+
                                         />
                                     }
                                     
@@ -360,6 +367,8 @@ const RegularPlanStructureInfo = (props: Props) => {
                                     percentageDiscountInputRef={percentageDiscountInputRef}
                                 />
                                 }
+
+                            
 
                             </div>
                             <AiFillMinusCircle

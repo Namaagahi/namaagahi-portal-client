@@ -97,7 +97,7 @@ const EditPlanComp = (props: Props) => {
             }))
         }
         
-        const abc = await updatePlan({
+        const abc = await updatePlan({ 
             id:plan?.id,
             planId: plan?.planId,
             mark: { 

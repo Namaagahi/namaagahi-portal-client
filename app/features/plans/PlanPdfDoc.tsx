@@ -248,13 +248,13 @@ const PlanPdfDoc = (props: Props) => {
               })}
 
                 <View style={styles.tableRow}>
-                  <View style={[styles.tableCol, { width: '7%' }]}>
+                  <View style={[styles.tableCol, { width: '8%' }]}>
                     <Text style={styles.tableCell}>
                       {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
                     </Text> 
                   </View>
 
-                  <View style={[styles.tableCol, { width: '93%' }]}>
+                  <View style={[styles.tableCol, { width: '92%' }]}>
                     <Text style={styles.tableCell}>
                       جمع
                     </Text> 

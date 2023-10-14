@@ -57,7 +57,7 @@ const PlanStructuresInfo = (props: Props) => {
     const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false)
     const [isStructureChoose, setIsStructureChoose] = useState(Array(field.length).fill(false))
     const [thisStructures, setThisStructures] = useState<string[]>([])
-
+    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(false)
 
     const handleModalToggle = (fieldIndex: number) => {
       const updatedState = [...isStructureChoose]
@@ -137,6 +137,9 @@ const PlanStructuresInfo = (props: Props) => {
           isChanged={isChanged}
           removeStructure={removeStructure}
           appendStructure={appendStructure}
+          isDiscountedInput={isDiscountedInput}
+          setIsDiscountedInput={setIsDiscountedInput}
+
         />
 
         :

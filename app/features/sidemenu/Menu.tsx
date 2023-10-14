@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import { useState } from "react"
 import Link from "next/link"
 import SubMenu from "./SubMenu"
-import { billboardSellList, billboardSettingsList } from "@/app/lib/constants"
+import { billboardSellList, billboardSettingsList, projectList } from "@/app/lib/constants"
 
 type Props = { 
   menuItems: MenuItemsObj[]
@@ -41,7 +41,7 @@ const Menu = (props : Props) => {
         </ul>
       </div>
 
-      <div className="border-b py-5 border-slate-500 dark:border-slate-300 ">
+      <div className="border-b border-slate-500 dark:border-slate-300 ">
         <Link href={'/dashboard/billboard'}>
           <small className="pr-3 text-slate-500 inline-block mb-2 hover:text-lg transition-all">
             بیلبورد
@@ -49,6 +49,16 @@ const Menu = (props : Props) => {
         </Link>
         
         <ul className="flex flex-col gap-1">
+        {projectList.map((item: any) => (
+                <div
+                  key={item.name}
+                  style={path === item.path ? activeStyle : {}}
+                >
+                  <SubMenu data={item} />
+                </div>
+            ))}
+            <div className="border-b border-slate-500 dark:border-slate-300 "/>
+
             {billboardSettingsList.map((item: any) => (
                 <div
                   key={item.name}
@@ -57,7 +67,8 @@ const Menu = (props : Props) => {
                   <SubMenu data={item} />
                 </div>
             ))}
-            <div className="border-b py-5 border-slate-500 dark:border-slate-300 "/>
+            <div className="border-b border-slate-500 dark:border-slate-300 "/>
+            
 
             {billboardSellList.map((item: any) => (
                 <div

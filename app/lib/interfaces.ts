@@ -311,6 +311,7 @@ export interface PlanObject {
   status?: string
   structures: StructurePlanObject[]
   totalPackagePrice: number
+  totalMonthlyFee?: number
   createdAt: string
   updatedAt: string
 }
