@@ -52,7 +52,8 @@ const EditPlanComp = (props: Props) => {
     const [discountType, setDiscountType] = useState(planStructures[0]?.discountType)
     const [chosenStructures, setChosenStructures] = useState([])
     const [isChanged, setIsChanged] = useState(false)
-    // console.log("isChanged", isChanged)
+    const [changeInput, setChangeInput] = useState<boolean>(false)
+    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(plan.userDefinedMonthlyFeeWithDiscount)
 
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: {
@@ -107,6 +108,7 @@ const EditPlanComp = (props: Props) => {
             username: plan.username,
             initialCustomerId: newData.initialCustomerId,
             brand: newData.brand,
+            userDefinedMonthlyFeeWithDiscount: isDiscountedInput,
             status: 'suggested',
             structures: newData.structures,
             finalCustomerId: '',
@@ -124,7 +126,7 @@ const EditPlanComp = (props: Props) => {
     
     if(isSuccess) {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
-        push('/dashboard/billboard/plans')
+        // push('/dashboard/billboard/plans')
     }
 
     const formVals = watch('structures')
@@ -174,6 +176,10 @@ const EditPlanComp = (props: Props) => {
                         chosenStructures={chosenStructures} 
                         setChosenStructures={setChosenStructures}
                         isChanged={isChanged}
+                        changeInput={changeInput}
+                        setChangeInput={setChangeInput}
+                        isDiscountedInput={isDiscountedInput}
+                        setIsDiscountedInput={setIsDiscountedInput}
                     />
 
                     <button className="primaryButton mx-auto w-1/4">

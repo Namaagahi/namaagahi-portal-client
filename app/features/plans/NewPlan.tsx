@@ -27,6 +27,8 @@ const NewPlan = (props: Props) => {
   const { push } = useRouter()
   const [discountType, setDiscountType] = useState('percentage')
   const [isChanged, setIsChanged] = useState(false)
+  const [changeInput, setChangeInput] = useState<boolean>(false)
+  const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(true)
 
   const [createNewPlan, {
     isSuccess,
@@ -79,11 +81,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
         discountType: mark === 'regular' ? discountType : null
       }))
     }
-
-    console.log("newData", newData)
-console.log("mark", mark)
-
-
+console.log("newData", newData)
     const abc = await createNewPlan({
       userId: id,
       mark: {
@@ -91,12 +89,14 @@ console.log("mark", mark)
       }, 
       initialCustomerId: newData.initialCustomerId,
       finalCustomerId: newData.finalCustomerId,
+      userDefinedMonthlyFeeWithDiscount: isDiscountedInput,
       projectCodeId: null,
       brand: newData.brand,
       structures: newData.structures,
       totalPackagePrice: mark === 'package' ? convertToNumber(newData.totalPackagePrice) : null
     })
-      console.log("ABC", abc)
+console.log("abc", abc)
+console.log("error", error)
   } 
 
   if(isError) {
@@ -159,6 +159,10 @@ useEffect(() => {
           watch={watch}
           register={register}
           isChanged={isChanged}
+          changeInput={changeInput}
+          setChangeInput={setChangeInput}
+          isDiscountedInput={isDiscountedInput}
+          setIsDiscountedInput={setIsDiscountedInput}
         />
 
         <button className="primaryButton w-1/4 mx-auto">

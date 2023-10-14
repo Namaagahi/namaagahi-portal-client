@@ -309,6 +309,7 @@ export interface PlanObject {
   projectCodeId:string
   brand: string
   status?: string
+  userDefinedMonthlyFeeWithDiscount: boolean
   structures: StructurePlanObject[]
   totalPackagePrice: number
   totalMonthlyFee?: number

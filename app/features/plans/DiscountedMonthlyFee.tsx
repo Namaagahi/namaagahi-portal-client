@@ -15,8 +15,7 @@ type Props = {
     errors: FieldErrors<EditPlanForm>
     fieldIndex: number
     setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>
-    numberDiscountInputRef: React.RefObject<HTMLInputElement>
-    percentageDiscountInputRef: React.RefObject<HTMLInputElement>
+
     isChanged: boolean
 }
 
@@ -34,20 +33,19 @@ const DiscountedMonthlyFee = (props: Props) => {
         errors,
         fieldIndex,
         setValue,
-        numberDiscountInputRef,
-        percentageDiscountInputRef,
+
         isChanged,
         
     } = props
 
-    const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
+    // const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
 
-    useEffect(() => {
-        if(discountedMonthlyFeeRef.current) {
-            const discountedMonthlyFee = discountedMonthlyFeeRef.current.textContent
-            setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 1000)
-        }
-    }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
+    // useEffect(() => {
+    //     if(discountedMonthlyFeeRef.current) {
+    //         const discountedMonthlyFee = discountedMonthlyFeeRef.current.textContent
+    //         setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 1000)
+    //     }
+    // }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
 console.log("selectedDiscount", selectedDiscount)
     return (
         <div className='flex flex-col gap-3'>
@@ -61,18 +59,17 @@ console.log("selectedDiscount", selectedDiscount)
             <p
                 className='p-4 text-primary dark:text-secondary' 
                 id='discountedMothlyFee'
-                ref={discountedMonthlyFeeRef}
+                // ref={discountedMonthlyFeeRef}
             >
                 { 
                 !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
                 :
                 page === 'edit' ? 
-                    selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && discountType ==='percentage' ? 
-                    // formatNumber(
-                    //     convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) )  / 100, 
-                    // ',')
-                    formatNumber(Number(item.monthlyFeeWithDiscount), ',')
-                    : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
+                    selectedStructure && discountType ==='percentage' ? 
+                    formatNumber(
+                        convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) )  / 100, 
+                    ',')
+                    : selectedStructure && !changeInput && discountType ==='number' ? 
                     formatNumber(
                         selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount),
                      ',')
@@ -94,13 +91,13 @@ console.log("selectedDiscount", selectedDiscount)
                     :
                     formatNumber((Number(item.monthlyFee) -  convertToNumber(selectedDiscount)), ',' )
                         :
-                    selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && changeInput && discountType ==='percentage' ? 
+                    selectedStructure && changeInput && discountType ==='percentage' ? 
                     formatNumber(convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, ',')
-                    : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && changeInput && discountType ==='number' ? 
+                    : selectedStructure && changeInput && discountType ==='number' ? 
                     formatNumber(convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount), ',')
-                    : selectedStructure && percentageDiscountInputRef.current && percentageDiscountInputRef.current.value && !changeInput && discountType ==='percentage' ? 
+                    : selectedStructure && !changeInput && discountType ==='percentage' ? 
                     formatNumber(selectedStructure?.monthlyBaseFee! - (selectedStructure?.monthlyBaseFee! * convertToNumber(selectedDiscount)) / 100, ',')
-                    : selectedStructure && numberDiscountInputRef.current && numberDiscountInputRef.current.value && !changeInput && discountType ==='number' ? 
+                    : selectedStructure && !changeInput && discountType ==='number' ? 
                     formatNumber(selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount), ',')
                     : ''
                 }

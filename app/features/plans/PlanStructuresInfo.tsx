@@ -28,6 +28,10 @@ type Props = {
     chosenStructures?: string[]
     setChosenStructures?: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
     isChanged: boolean
+    changeInput: boolean
+    setChangeInput: React.Dispatch<React.SetStateAction<boolean>>
+    isDiscountedInput: boolean
+    setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>
   }
   
 const PlanStructuresInfo = (props: Props) => {
@@ -50,14 +54,16 @@ const PlanStructuresInfo = (props: Props) => {
         formVals,
         chosenStructures, 
         setChosenStructures,
-        isChanged
+        isChanged,
+        changeInput,
+        setChangeInput,
+        isDiscountedInput,
+        setIsDiscountedInput
     } = props
 
-    const [changeInput, setChangeInput] = useState<boolean>(false)
     const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false)
     const [isStructureChoose, setIsStructureChoose] = useState(Array(field.length).fill(false))
     const [thisStructures, setThisStructures] = useState<string[]>([])
-    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(false)
 
     const handleModalToggle = (fieldIndex: number) => {
       const updatedState = [...isStructureChoose]

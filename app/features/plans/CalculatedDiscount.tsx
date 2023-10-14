@@ -28,21 +28,21 @@ const CalculatedDiscount = (props: Props) => {
         plan
     } = props
 
-    const calculatedDiscountRef = useRef<HTMLParagraphElement>(null)
+    // const calculatedDiscountRef = useRef<HTMLParagraphElement>(null)
 
-    useEffect(() => {
-        if(calculatedDiscountRef.current) {
-            const calculatedDiscount = calculatedDiscountRef.current.textContent
-            setTimeout(() => setValue(`structures.${fieldIndex}.discountFee`, calculatedDiscount!), 1000)
-        }
-    }, [selectedDiscountedMonthlyFee, calculatedDiscountRef.current?.textContent])
+    // useEffect(() => {
+    //     if(calculatedDiscountRef.current) {
+    //         const calculatedDiscount = calculatedDiscountRef.current.textContent
+    //         setTimeout(() => setValue(`structures.${fieldIndex}.discountFee`, calculatedDiscount!), 1000)
+    //     }
+    // }, [selectedDiscountedMonthlyFee, calculatedDiscountRef.current?.textContent])
 console.log("selectedDiscountedMonthlyFee", selectedDiscountedMonthlyFee)
 console.log("isDiscountedInput", isDiscountedInput)
   return (
     <p
         className='p-4 text-primary dark:text-secondary' 
         id='discount'
-        ref={calculatedDiscountRef}
+        // ref={calculatedDiscountRef}
     >
         {!changeInput && !isDiscountedInput ?
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)) > 100 
@@ -62,7 +62,7 @@ console.log("isDiscountedInput", isDiscountedInput)
                 (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / plan.totalMonthlyFee!)).toFixed(2)
                 : 
                 (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedMonthlyFee)).toFixed(2)
-                : '10'
+                : (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedMonthlyFee)).toFixed(2)
         }
     </p>
   )

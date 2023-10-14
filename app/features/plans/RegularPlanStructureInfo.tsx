@@ -78,15 +78,6 @@ const RegularPlanStructureInfo = (props: Props) => {
         setIsDiscountedInput
     } = props
 
-    const percentageDiscountInputRef = useRef<HTMLInputElement>(null)
-    const numberDiscountInputRef = useRef<HTMLInputElement>(null)
-
-    useEffect(() => {
-        if(percentageDiscountInputRef.current && numberDiscountInputRef.current){
-            percentageDiscountInputRef.current.value = ''
-            numberDiscountInputRef.current.value = ''
-        }
-    }, [discountType])
 
     return (
         <div className='formContainer'>
@@ -106,7 +97,6 @@ const RegularPlanStructureInfo = (props: Props) => {
                     <input
                         type="checkbox"
                         onChange={() => {
-                            console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                             setIsDiscountedInput(!isDiscountedInput)
                             handleDiscountType('percentage')
                         }}
@@ -117,7 +107,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                 </div>
 
                 {
-                    page !== 'edit' && !isDiscountedInput &&
+                    page !== 'edit' && isDiscountedInput &&
                     <div className="flex gap-3 items-center dark:text-white">
                         <p>
                             مقیاس تخفیف
@@ -154,8 +144,10 @@ const RegularPlanStructureInfo = (props: Props) => {
                 
                 const handleEndDate = (value: DateObject | DateObject[] | null) => {
                     if (value instanceof DateObject) {
+                        console.log("value.unix", value.unix)
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, value.unix)
                 } else if (Array.isArray(value) && value.length > 0) {
+                    console.log("HEYYYYYYYYYYY")
                     const timestamps = value.map((date) => date.unix)
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, timestamps[0])
                 } else {
@@ -287,7 +279,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="discountFee" className='text-[#767676] font-bold'>تخفیف</label>
                                 { 
-                                !isDiscountedInput && mark === 'regular' ?
+                                isDiscountedInput && mark === 'regular' ?
                                         <DiscountFeeInput 
                                             page={page}
                                             discountType={discountType}
@@ -295,12 +287,10 @@ const RegularPlanStructureInfo = (props: Props) => {
                                             fieldIndex={fieldIndex}
                                             item={item}
                                             handleTextbox1Change={handleTextbox1Change}
-                                            percentageDiscountInputRef={percentageDiscountInputRef}
                                             errors={errors}
                                             convertToNumber={convertToNumber}
                                             selectedStructure={selectedStructure}
                                             isDiscountedInput={isDiscountedInput}  
-                                            numberDiscountInputRef={numberDiscountInputRef}
                                             setValue={setValue}
                                             watch={watch}
                                         />
@@ -325,7 +315,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                 </div> 
 
                                 {
-                                    isDiscountedInput ? 
+                                    !isDiscountedInput ? 
                                     <div className='flex flex-col gap-3'>
                                         <label
                                             htmlFor="discountedMothlyFee"
@@ -363,8 +353,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                     errors={errors}
                                     fieldIndex={fieldIndex}
                                     setValue={setValue}
-                                    numberDiscountInputRef={numberDiscountInputRef}
-                                    percentageDiscountInputRef={percentageDiscountInputRef}
+
                                 />
                                 }
 
