@@ -2,9 +2,9 @@
 const nextConfig = {
     reactStrictMode: false,
     env: {
-        SERVER:'http://portal.namaagahi.com:3500',
-        // SERVER:"http://localhost:3500",
-        TITLE:"پلتفرم اختصاصی نماآگهی"
+        // SERVER:'http://portal.namaagahi.com:3500',
+        SERVER:"http://localhost:3500",
+        TITLE:"پلتفرم اختصاصی نماآگهی",
       },
     images: {
       remotePatterns: [

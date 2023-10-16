@@ -10,6 +10,7 @@ import NewFinalCustomerForm from "@/app/features/finalCustomers/NewFinalCustomer
 import NewProjectCodeForm from "@/app/features/projectCodes/NewProjectCodeForm"
 import EditProjectCode from "@/app/features/projectCodes/EditProjectCode"
 import EditProfile from "@/app/features/profile/EditProfile"
+import NewChatroom from "@/app/features/chatrooms/NewChatroom"
 
 type Props = {
   handleModal: () => void
@@ -56,6 +57,8 @@ const CreateUpdateModal = (props: Props) => {
                 <NewProjectCodeForm handleModal={handleModal} />
                 : type === 'editProjectCode'? 
                 <EditProjectCode handleModal={handleModal} projectCode={prop} />
+                : type === 'newChatroom'? 
+                <NewChatroom handleModal={handleModal} />
                 : null
         }
       </div>     

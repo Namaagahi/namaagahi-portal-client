@@ -20,7 +20,7 @@ import SearchContainer from '@/app/components/main/SearchContainer'
 const InitialCustomers = () => {
   usePageTitle('پروژه ها')
     
-  const { isMaster, isAdmin } = useAuth()
+  const { isMaster, isAdmin, isProjectManager } = useAuth()
     
   const {
     isLoading,
@@ -76,7 +76,7 @@ const InitialCustomers = () => {
                 const row = info.row.original
                 return (
                   <>
-                  {isMaster || isAdmin?
+                  {(isMaster || isAdmin || isProjectManager)?
                     <p className="px-6 flex items-center justify-center gap-5" onClick={() => setInitialCustomerId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillDelete

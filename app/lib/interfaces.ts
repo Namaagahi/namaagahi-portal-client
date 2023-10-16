@@ -545,3 +545,14 @@ export interface EditProjectCodeForm {
   brand: string
   desc: string
 }
+
+// CHATROOM ===========================================================================
+export interface ChatroomObject {
+  _id?: string
+  id?: string
+  userId: string
+  name: string
+  username?: string
+  createdAt?: string
+  updatedAt?: string
+}

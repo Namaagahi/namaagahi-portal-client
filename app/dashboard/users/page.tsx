@@ -196,7 +196,7 @@ if(isAdmin || isMaster) {
       <PageTitle name={'کاربران'} />
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />
-        {isAdmin &&
+        {(isAdmin || isMaster) &&
           <Button
             onClickHandler={handleNewUserModal}
             title="کاربر جدید"

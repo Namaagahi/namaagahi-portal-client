@@ -7,11 +7,12 @@ import { AiOutlineClose } from 'react-icons/ai'
 import useAuth from '@/app/hooks/useAuth'
 import { useSelector } from 'react-redux'
 import { InitialCustomerObject } from '@/app/lib/interfaces'
-import Loading from '../loading/Loading'
+import Loading from '../loading/Loading' 
 
 const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
 
     const { id } = useAuth()
+    const { push } = useRouter()
     
     const [createNewInitialCustomer, {
         isLoading,
@@ -27,8 +28,6 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
         refetchOnMountOrArgChange: false
     }) 
     const initialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
-
-    const { push } = useRouter()
 
     const [searchQuery, setSearchQuery] = useState<string>("")
     const [newInitialCustomerData, setNewInitialCustomerData] = useState({

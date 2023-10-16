@@ -5,7 +5,7 @@ import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 
 type Props = {
-  initialCustomer: InitialCustomerObject
+  initialCustomer: InitialCustomerObject 
   handleModal: () => void
 }
 

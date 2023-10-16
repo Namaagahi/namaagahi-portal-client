@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@hookform/devtools": "^4.3.1",
-    "@next/font": "^13.4.12",
     "@react-pdf/renderer": "^3.1.12",
     "@reduxjs/toolkit": "^1.9.5",
     "@refinedev/core": "^4.42.2",
@@ -32,7 +31,7 @@
     "jspdf": "^2.5.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.4",
-    "next": "13.4.2",
+    "next": "13.5.4",
     "next-themes": "^0.2.1",
     "postcss": "8.4.23",
     "react": "18.2.0",

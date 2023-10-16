@@ -6,7 +6,7 @@ import { HiUsers } from 'react-icons/hi2'
 import { IoGrid } from 'react-icons/io5'
 import { BsFillBoxFill, BsFillPinMapFill } from 'react-icons/bs'
 import { BiCode } from 'react-icons/bi'
-import { AiFillDollarCircle, AiOutlinePullRequest, AiTwotoneProject } from 'react-icons/ai'
+import { AiFillDollarCircle, AiFillWechat, AiOutlinePullRequest, AiTwotoneProject } from 'react-icons/ai'
 import { IoIosPeople } from 'react-icons/io'
 import { GrPlan } from 'react-icons/gr'
 import { GiPackedPlanks } from 'react-icons/gi'
@@ -117,6 +117,11 @@ export const menuItems: MenuItemsObj[] = [{
   name: 'کاربران',
   path: '/dashboard/users',
   icon: <HiUsers size={20} />
+},
+{
+  name: 'چت روم ها',
+  path: '/dashboard/chatrooms',
+  icon: <AiFillWechat size={20} />
 },
 {
   name: 'نقشه',
