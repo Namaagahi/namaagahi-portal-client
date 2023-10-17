@@ -1,3 +1,4 @@
+"use client"
 import { RootState } from "@/app/config/state-config/store"
 import { createSlice } from "@reduxjs/toolkit"
 
@@ -8,10 +9,13 @@ const authSlice = createSlice({
      reducers: {
         setCredentials: (state, action) => {
             const { accessToken } = action.payload
+            localStorage.setItem("CC_Token", accessToken)
             state.token = accessToken
         },
         logOut: (state, action) => {
             state.token = null
+            localStorage.removeItem("CC_Token")
+
         }
      }
 })

@@ -27,9 +27,8 @@ const Login = () => {
         errMsg:''
     })
     const { username, password } = loginInfo
-    const cookies = new Cookies()
-    const accessToken = cookies.get("jwt")
-  
+    const accessToken = typeof window !== 'undefined' && window.localStorage.getItem("CC_Token")
+
     useEffect(() => {
       if (accessToken) {
         push("/dashboard")

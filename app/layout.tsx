@@ -16,7 +16,7 @@ const sahel = localFont({
     {
       path: '../public/fonts/Sahel-FD.ttf',
       weight: '400',
-      style:"normal"
+      style:"normal" 
     },
   ],
   variable: '--font-sahel'

@@ -24,7 +24,7 @@ const Invoice = () => {
     refetchOnMountOrArgChange: false
   })
   
-  const plan: PlanObject = useSelector((state) =>selectPlanById(state as PlanObject, id) as PlanObject)
+  const plan: PlanObject = useSelector((state) =>selectPlanById(state as PlanObject, id as string) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
 
   if ( isLoading || !plan) return <Loading />

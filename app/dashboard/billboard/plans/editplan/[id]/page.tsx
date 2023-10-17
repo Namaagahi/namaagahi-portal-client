@@ -18,7 +18,7 @@ const EditPlan = () => {
       refetchOnMountOrArgChange: false
     })
 
-  const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
+  const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id as string) as PlanObject)
 
   if(isLoading || !plan || !plan?.structures) return <Loading />
   return (

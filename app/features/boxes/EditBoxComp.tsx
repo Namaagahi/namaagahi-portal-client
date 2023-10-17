@@ -1,3 +1,4 @@
+"use client"
 import { selectAllStructures, useGetStructuresQuery } from '@/app/apiSlices/structuresApiSlice'
 import { BoxObject, EditBoxForm, StructureObject } from '@/app/lib/interfaces'
 import { useUpdateBoxMutation } from '@/app/apiSlices/boxesApiSlice'
@@ -75,7 +76,6 @@ const EditBoxComp = (props: Props) => {
     name: "structures",
   }) 
 
-  // useFormPersist("editBoxForm", { watch, setValue, storage: localStorage })
   
   useEffect(() => {
     getValues("startDate")
@@ -169,7 +169,7 @@ const EditBoxComp = (props: Props) => {
   const values = editBoxForm.watch()
   
   useEffect(() => {
-    localStorage.setItem('editBoxForm', JSON.stringify(values))
+    window.localStorage.setItem('editBoxForm', JSON.stringify(values))
   }, [values, box])
 
   if(isError) {

@@ -13,7 +13,6 @@ import { selectAllFinalCustomers, useGetAllFinalCustomersQuery, useUpdateFinalCu
 import FinalCustomerInfo from '@/app/features/finalCustomers/FinalCustomerInfo'
 import usePageTitle from '@/app/hooks/usePageTitle'
 import { toast } from 'react-toastify'
-import { selectProjectCodeById, useGetAllProjectCodesQuery } from '@/app/apiSlices/projectCodeApiSlice'
 import SingleRegularPlanTable from '@/app/features/plans/SingleRegularPlanTable'
 import SinglePackagePlanTable from '@/app/features/plans/SinglePackagePlanTable'
 import { formatNumber } from '@/app/utilities/formatNumber'
@@ -43,7 +42,7 @@ const SinglePlan = () => {
   const [updateFinalCustomer] = useUpdateFinalCustomerMutation()
 
   const allFinalCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[]) 
-  const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id) as PlanObject)
+  const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id as string) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
   const finalCustomer = allFinalCustomers.find((finalCustomer: FinalCustomerObject) => finalCustomer?.finalCustomerId === plan?.finalCustomerId)
 

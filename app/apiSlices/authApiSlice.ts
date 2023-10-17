@@ -1,3 +1,4 @@
+"use client"
 import { apiSlice } from "@/app/config/api-config/apiSlice"
 import { logOut, setCredentials } from "./authSlice"
 
@@ -43,6 +44,7 @@ export const authApiSlice = apiSlice.injectEndpoints({
                 try {
                     const { data } = await queryFulfilled
                     const { accessToken } = data
+                    typeof window !== 'undefined' && window.localStorage && window.localStorage.setItem("CC_Token", accessToken)
                     dispatch(setCredentials({ accessToken }))
                 } catch (err) {
                     console.log(err)

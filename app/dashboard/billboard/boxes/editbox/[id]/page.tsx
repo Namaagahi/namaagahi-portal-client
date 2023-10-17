@@ -13,32 +13,26 @@ const EditBox = () => {
 
   const { id } = useParams()
   const [box, setBox] = useState<null | BoxObject>(null)
-  const { data, isLoading, isFetching, refetch } = useGetBoxByIdQuery(id, {
+  const { data, isLoading, isFetching, refetch } = useGetBoxByIdQuery(id as string, {
     refetchOnMountOrArgChange: 5, 
     // refetchOnFocus: true
   })
-const abc = localStorage.getItem('editBoxForm')
-  useEffect(() => {
-    if(data) {
-      // console.log("LOCALSTORAGE + data", data && localStorage.getItem('editBoxForm') && {...JSON.parse(localStorage.getItem('editBoxForm') as string) ,...JSON.parse(JSON.stringify(data?.entities[id] as BoxObject))});
-      localStorage.getItem('editBoxForm') ? 
-        setBox({...JSON.parse(localStorage.getItem('editBoxForm') as string) , ...JSON.parse(JSON.stringify(data?.entities[id] as BoxObject))}) 
-        :
-        setBox(JSON.parse(JSON.stringify(data?.entities[id] as BoxObject)))
-    }
-    // return() => localStorage.removeItem('editBoxForm')
-  }, [data, refetch])
 
-  // console.log(JSON.stringify(JSON.parse(data?.entities.id) as BoxObject) as string)
-  // console.log("DATA", data)
-  // console.log("BOX", box)
+const abc = window.localStorage.getItem('editBoxForm')
+  useEffect(() => {
+    if(data && typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.getItem('editBoxForm') ? 
+        setBox({...JSON.parse(window.localStorage.getItem('editBoxForm') as string) , ...JSON.parse(JSON.stringify(data?.entities['id'] as BoxObject))}) 
+        :
+        setBox(JSON.parse(JSON.stringify(data?.entities['id'] as BoxObject)))
+    }window
+  }, [data, refetch])
   
   if(isLoading || isFetching || !box) return <Loading />
   return (
     <>
       <EditBoxComp box={box} key={box.version} />
       <ScrollContainer />
-      {/* <button onClick={() => refetch()}>REFETCH</button> */}
     </>
   )
 }

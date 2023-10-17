@@ -36,7 +36,7 @@ const SingleBox = () => {
         refetchOnMountOrArgChange: false
     })
 
-    const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id) as BoxObject)
+    const box: BoxObject = useSelector(state => selectBoxById(state as BoxObject , id as string) as BoxObject)
     const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
     const calcVariableCosts = () => {

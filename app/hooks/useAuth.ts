@@ -14,7 +14,7 @@ type UserInfo = {
 const useAuth = () => {
 
     const token = useSelector(selectCurrentToken)
-
+console.log("TOKEN", token)
     let isMaster = false
 
     let isAdmin = false

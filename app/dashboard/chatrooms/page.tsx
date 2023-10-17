@@ -7,6 +7,7 @@ import Status from "@/app/components/main/Status"
 import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import TableComponent from "@/app/components/table/TableComponent"
+import { useSocket } from "@/app/config/state-config/SocketContext"
 import useAuth from "@/app/hooks/useAuth"
 import usePageTitle from "@/app/hooks/usePageTitle"
 import { ChatroomObject } from "@/app/lib/interfaces"
@@ -22,7 +23,12 @@ const Chatrooms = () => {
   usePageTitle('چت روم ها')
 
   const { isAdmin, isMaster, isProjectManager } = useAuth()
+  const { socket, setupSocket } = useSocket()
 
+  useEffect(() => {
+    setupSocket()
+  }, [])
+  
   const {
     isLoading,
     isError,
@@ -137,7 +143,7 @@ const Chatrooms = () => {
   },
   []
   )
-
+console.log("socket", socket)
   return (
     <>
         <PageTitle name={'چت روم ها'} />
