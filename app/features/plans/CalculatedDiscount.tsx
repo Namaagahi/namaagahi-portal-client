@@ -1,6 +1,6 @@
 import { AddPlanForm, CombinedStructure, EditPlanForm, PlanObject } from '@/app/lib/interfaces'
 import React, { useEffect, useRef } from 'react'
-import { UseFormSetValue } from 'react-hook-form'
+import { FieldArrayWithId, UseFormSetValue } from 'react-hook-form'
 
 type Props = {
     selectedDiscountedMonthlyFee: any
@@ -12,7 +12,8 @@ type Props = {
     changeInput: boolean
     isDiscountedInput: boolean
     plan: PlanObject
-}
+    item: FieldArrayWithId<EditPlanForm, "structures", "id">
+} 
 
 const CalculatedDiscount = (props: Props) => {
 
@@ -25,26 +26,32 @@ const CalculatedDiscount = (props: Props) => {
         selectedStructure,
         changeInput,
         isDiscountedInput,
-        plan
+        plan,
+        item
     } = props
-
-    // const calculatedDiscountRef = useRef<HTMLParagraphElement>(null)
-
-    // useEffect(() => {
-    //     if(calculatedDiscountRef.current) {
-    //         const calculatedDiscount = calculatedDiscountRef.current.textContent
-    //         setTimeout(() => setValue(`structures.${fieldIndex}.discountFee`, calculatedDiscount!), 1000)
-    //     }
-    // }, [selectedDiscountedMonthlyFee, calculatedDiscountRef.current?.textContent])
-console.log("selectedDiscountedMonthlyFee", selectedDiscountedMonthlyFee)
-console.log("isDiscountedInput", isDiscountedInput)
+console.log("selectedMonthlyFee", selectedMonthlyFee)
   return (
     <p
         className='p-4 text-primary dark:text-secondary' 
         id='discount'
-        // ref={calculatedDiscountRef}
     >
-        {!changeInput && !isDiscountedInput ?
+        {
+            !changeInput && isDiscountedInput
+            ? 
+            (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)).toFixed(2)
+            : changeInput && isDiscountedInput
+            ?
+            (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))).toFixed(2)
+            :
+            'salam'
+            // :
+            // changeInput && !isDiscountedInput
+            // ?
+            // 'salam'
+            // :
+            // 'salam'
+        }
+        {/* {!changeInput && !isDiscountedInput ?
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)) > 100 
             || 
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)) < 0 ?
@@ -53,17 +60,19 @@ console.log("isDiscountedInput", isDiscountedInput)
                 (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)).toFixed(2)
             : 
             changeInput && !isDiscountedInput ?
+            // "SALAM"
             (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) > 100 
-            || 
-            (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / convertToNumber(selectedMonthlyFee))) < 0 ?
-                '0'
+            ? 
+            (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)).toFixed(2)
+            :
+            (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedStructure?.monthlyBaseFee)).toFixed(2)
                 : 
                 changeInput && isDiscountedInput ?
                 (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / plan.totalMonthlyFee!)).toFixed(2)
                 : 
                 (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedMonthlyFee)).toFixed(2)
                 : (100 - ((convertToNumber(selectedDiscountedMonthlyFee) * 100) / selectedMonthlyFee)).toFixed(2)
-        }
+        } */}
     </p>
   )
 }

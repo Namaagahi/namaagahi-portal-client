@@ -33,20 +33,10 @@ const DiscountedMonthlyFee = (props: Props) => {
         errors,
         fieldIndex,
         setValue,
-
         isChanged,
         
     } = props
 
-    // const discountedMonthlyFeeRef = useRef<HTMLParagraphElement>(null)
-
-    // useEffect(() => {
-    //     if(discountedMonthlyFeeRef.current) {
-    //         const discountedMonthlyFee = discountedMonthlyFeeRef.current.textContent
-    //         setTimeout(() => setValue(`structures.${fieldIndex}.monthlyFeeWithDiscount`, discountedMonthlyFee!), 1000)
-    //     }
-    // }, [selectedDiscount, discountedMonthlyFeeRef.current?.textContent])
-console.log("selectedDiscount", selectedDiscount)
     return (
         <div className='flex flex-col gap-3'>
             <label
@@ -59,11 +49,10 @@ console.log("selectedDiscount", selectedDiscount)
             <p
                 className='p-4 text-primary dark:text-secondary' 
                 id='discountedMothlyFee'
-                // ref={discountedMonthlyFeeRef}
             >
                 { 
-                !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
-                :
+                // !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
+                // :
                 page === 'edit' ? 
                     selectedStructure && discountType ==='percentage' ? 
                     formatNumber(
@@ -76,14 +65,16 @@ console.log("selectedDiscount", selectedDiscount)
 
                     :
                     changeInput && discountType === 'percentage' ?
-                    formatNumber(
-                        convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, 
-                    ',')
+                    // formatNumber(
+                    //     convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100, 
+                    // ',')
+                    "salam"
 
                     : 
                     !changeInput && discountType === 'percentage' ?
-                    formatNumber((Number(item.monthlyFee) - (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100) , ',' )
-                    // "salam"
+                    // formatNumber((Number(item.monthlyFee) - (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100) , ',' )
+                    "salam"
+                    
 
                     :
                     changeInput && discountType === 'number' ?

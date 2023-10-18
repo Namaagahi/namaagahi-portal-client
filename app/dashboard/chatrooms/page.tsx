@@ -143,7 +143,6 @@ const Chatrooms = () => {
   },
   []
   )
-console.log("socket", socket)
   return (
     <>
         <PageTitle name={'چت روم ها'} />

@@ -77,14 +77,11 @@ const onSubmit = async (data: any) => {
       plainFormData[key].push(value)
     }
   }
-    console.log("plainFormData", plainFormData)
   try {
     const updatedUser = await updateUser(plainFormData)
-    console.log('Updated User:', updatedUser)
     toast.success('پروفایل شما با موفقیت ویرایش شد.')
     handleModal()
   } catch (error) {
-    console.log('Error:', error)
     // Handle error
   }
 };
@@ -94,7 +91,6 @@ const onSubmit = async (data: any) => {
     handleModal()
   }
 
-  console.log('user', user)
   if(!user || isLoading) return <Loading />
   return (
     <div className="py-5 px-8 w-full text-black dark:text-white">

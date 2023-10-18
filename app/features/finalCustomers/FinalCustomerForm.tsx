@@ -135,7 +135,6 @@ const FinalCustomerForm = (props: Props) => {
                 totalPackagePrice: plan.totalPackagePrice
             })
 
-            console.log("ABC1", abc1, "ABC2", abc2)
 
             if(isError) {
                 'status' in error! && error.status === 409 && toast.error('این شناسه / کد ملی قبلا ثبت شده است')
@@ -175,7 +174,6 @@ const FinalCustomerForm = (props: Props) => {
                 structures: plan.structures,
                 totalPackagePrice: plan.totalPackagePrice
             })
-            console.log("ABC3", abc3, "ABC4", abc4)
         } 
     }
 
@@ -246,7 +244,6 @@ const FinalCustomerForm = (props: Props) => {
             errors: undefined,
         },
     ]
-// console.log("ProjectCodeId",projectCodeId)
     if(isLoading || projectCodesLoading) return <Loading />
     return (
         <div className='w-full h-full bg-secondary dark:bg-darkModeBg p-4 text-gray-700 mt-5 flex flex-col items-start justify-center'>

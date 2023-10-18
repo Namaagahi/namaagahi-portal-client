@@ -85,9 +85,8 @@ export const boxesApiSlice = boxesApiSliceTag.injectEndpoints({
             keepUnusedDataFor: 0,
             
             transformResponse: (responseData: BoxObject) => {
-              responseData.id = responseData._id;
-              // console.log("responseData", responseData)
-              return boxesAdapter.upsertOne(initialState, responseData);
+              responseData.id = responseData._id
+              return boxesAdapter.upsertOne(initialState, responseData)
             },
       
             providesTags: (result, error, id, boxVersion) => [{ type: 'Box', id, boxVersion }],

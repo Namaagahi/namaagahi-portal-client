@@ -173,7 +173,6 @@ const Availables = () => {
         const generatePDF = () => captureContent()
 
 if(isLoading || !paths[0]) return <Loading />
-console.log("startDate", startDate, "endDate", endDate)
 return (
     <main className="min-h-screen w-full">
         <PageTitle name='گزارش سازه های خالی' />
@@ -264,7 +263,6 @@ return (
             Object.entries(filtered.edited).map(([key, val], index) => {
                 const structureFound :any = allStructures.find(str => str.id === key)
                 return val.map((availables) => {
-                    console.log("HEY", availables.start)
                     return (
                     <div
                         key={`${key}${Math.random()}`}

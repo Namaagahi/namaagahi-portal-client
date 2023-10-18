@@ -69,7 +69,6 @@ const ChooseProjectCodeModal = (props: Props) => {
                 code: selectedItem.code,
                 month: jalaliMonth
             })
-            console.log("ABC", abc)
             handleModal()
         } else {
             return

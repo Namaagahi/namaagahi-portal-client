@@ -33,8 +33,8 @@ const DiscountFeeInput = (props: Props) => {
         setValue,
         watch
     } = props
-    console.log("first", `structures.${fieldIndex}.discountFee`)
-  return (
+
+    return (
     discountType === 'percentage' ?
         <>
             <input

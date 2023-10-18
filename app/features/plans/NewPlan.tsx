@@ -81,7 +81,6 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
         discountType: mark === 'regular' ? discountType : null
       }))
     }
-console.log("newData", newData)
     const abc = await createNewPlan({
       userId: id,
       mark: {
@@ -96,7 +95,6 @@ console.log("newData", newData)
       totalPackagePrice: mark === 'package' ? convertToNumber(newData.totalPackagePrice) : null
     })
 console.log("abc", abc)
-console.log("error", error)
   } 
 
   if(isError) {

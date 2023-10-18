@@ -22,7 +22,6 @@ const Agents = (props: Props) => {
         removeAgent
     } = props
 
-    // console.log("agentField", agentField)
   return (
     <div className="backdrop-blur bg-white/30 border-[1px] dark:text-black border-gray-400 col-span-2 rounded-md mb-2 pl-2 pr-4">
         {

@@ -30,12 +30,12 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
       
             newSocket.on("disconnect", () => {
               setSocket(null);
-              setTimeout(setupSocket, 3000);
-              toast.warn("سوکت قطع شد");
+              setTimeout(setupSocket, 3000)
+              // toast.warn("سوکت قطع شد")
             })
       
             newSocket.on("connect", () => {
-              toast.info("سوکت وصل شد");
+              // toast.info("سوکت وصل شد")
             })
       
             setSocket(newSocket)

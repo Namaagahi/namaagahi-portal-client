@@ -82,8 +82,7 @@ const EditFinalCustomer = (props: Props) => {
             postalCode: parseFloat(data.postalCode),
             planIds: data.planIds
         })
-        // console.log("ABC", abc)
-        // console.log("isError", isError)
+
         if(isError) {
             'status' in error! && error.status === 409 && setErrMsg('این کد اقتصادی قبلا ثبت شده است')
             'status' in error! && error.status === 400 && setErrMsg('فیلدهای مورد نیاز را تکمیل کنید')

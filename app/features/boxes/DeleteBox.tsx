@@ -26,7 +26,6 @@ const DeleteBox = (props: Props) => {
 
   const onDeleteBoxClick = async () => {
     const abc = await deleteBox({ id: box?.id, boxId: box?.boxId })
-    // console.log("ABC", abc)
     handleModal()
     toast.success(`باکس ${box?.name} با موفقیت حذف شد`)
   }

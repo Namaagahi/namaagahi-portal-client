@@ -78,8 +78,6 @@ const EditProjectCode = (props: Props) => {
             brand: data.brand,
             desc: data.desc
         })
-        console.log("ABC", abc)
-        // console.log("isError", isError)
         if(isError) {
             'status' in error! && error.status === 409 && setErrMsg('این کد پروژه قبلا ثبت شده است')
             'status' in error! && error.status === 400 && setErrMsg('فیلدهای مورد نیاز را تکمیل کنید')
@@ -136,7 +134,6 @@ const EditProjectCode = (props: Props) => {
             options: finalCustomersOptions
         },
     ]
-console.log("editProjectCodeForm", editProjectCodeForm.getValues())
     if(isLoading || finalCustomersLoading || !projectCode) return <Loading />
     return (
         <div className="py-5 px-8 w-full text-black dark:text-white">

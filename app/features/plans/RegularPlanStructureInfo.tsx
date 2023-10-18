@@ -96,6 +96,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                 <div className='flex gap-3 items-center'>
                     <input
                         type="checkbox"
+                        checked={isDiscountedInput}
                         onChange={() => {
                             setIsDiscountedInput(!isDiscountedInput)
                             handleDiscountType('percentage')
@@ -144,10 +145,8 @@ const RegularPlanStructureInfo = (props: Props) => {
                 
                 const handleEndDate = (value: DateObject | DateObject[] | null) => {
                     if (value instanceof DateObject) {
-                        console.log("value.unix", value.unix)
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, value.unix)
                 } else if (Array.isArray(value) && value.length > 0) {
-                    console.log("HEYYYYYYYYYYY")
                     const timestamps = value.map((date) => date.unix)
                     setValue(`structures.${fieldIndex}.duration.sellEnd`, timestamps[0])
                 } else {
@@ -279,7 +278,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                 <div className='flex flex-col gap-3'>
                                     <label htmlFor="discountFee" className='text-[#767676] font-bold'>تخفیف</label>
                                 { 
-                                isDiscountedInput && mark === 'regular' ?
+                                !isDiscountedInput && mark === 'regular' ?
                                         <DiscountFeeInput 
                                             page={page}
                                             discountType={discountType}
@@ -305,7 +304,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                             changeInput={changeInput}
                                             isDiscountedInput={isDiscountedInput}  
                                             plan={plan}
-
+                                            item={item}
                                         />
                                     }
                                     
@@ -315,7 +314,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                                 </div> 
 
                                 {
-                                    !isDiscountedInput ? 
+                                    isDiscountedInput ? 
                                     <div className='flex flex-col gap-3'>
                                         <label
                                             htmlFor="discountedMothlyFee"

@@ -161,7 +161,6 @@ const EditBoxComp = (props: Props) => {
             )
         }),
     })   
-    console.log("editBoxABC", editBoxABC)
     toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
     push('/dashboard/billboard/boxes')
   }

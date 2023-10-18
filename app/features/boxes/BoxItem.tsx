@@ -25,7 +25,6 @@ const BoxItem = (props: Props) => {
   const { id } = useAuth()
   
   const box: BoxObject = useSelector(state => selectBoxById(state, boxId) as BoxObject)
-  // console.log("BOX", box)
   return (
     page === 'my' && box.userId === id ?
       <ListItem 

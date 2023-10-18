@@ -34,9 +34,6 @@ const ListItem = (props: Props) => {
 
     const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox)
 
-    // console.log("startDate", startDate)
-    // console.log("endDate", endDate)
-
     return (
     <>
         <div className="relative p-7 pt-14 w-full min-h-[232px] flex flex-col justify-center items-center gap-2 rounded-md shadow-md bg-gray-300 dark:bg-white text-gray-800 overflow-hidden">

@@ -21,7 +21,6 @@ const DeleteFinalCustomer = (props: Props) => {
 
     const onDeleteFinallCustomerClick = async () => {
         const abc = await deleteFinalCustomer({ id: finalCustomer?.id })
-        // console.log('abc', abc)
         handleModal()
         toast.success(`مشتری  ${finalCustomer?.name} با موفقیت حذف شد`)
     }

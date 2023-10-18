@@ -21,7 +21,6 @@ const DeleteChatroom = (props: Props) => {
     
     const onDeleteChatroomClick = async () => {
         const abc = await deleteChatroom({ id: chatroom?.id })
-        // console.log('abc', abc)
         handleModal()
         toast.success(`روم  ${chatroom?.name} با موفقیت حذف شد`)
     }

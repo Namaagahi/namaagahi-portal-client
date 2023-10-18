@@ -133,7 +133,6 @@ const FinalCustomers = () => {
                   accessorFn: row => row.ecoCode,
                   id: 'کد اقتصادی',
                   cell: info => {
-                    console.log("ECO CODE", info.getValue() )
                     return (
                         <p className={`${!info.getValue() && 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
                     )
@@ -238,8 +237,6 @@ const FinalCustomers = () => {
       []
     )
 
-    // console.log("allFinallCustomers", allFinallCustomers)
-    // console.log("isEditFinalCustomer", isEditFinalCustomer)
     if(isLoading) return <Loading />
     if(isError) return (
 

@@ -213,7 +213,6 @@ const AllStructuresTable = (props: Props) => {
       )
     },[])
 
-    console.log("structureId", structureId)
   return (
     <>
       <TableComponent 

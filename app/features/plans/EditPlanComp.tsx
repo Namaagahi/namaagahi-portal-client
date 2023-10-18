@@ -53,7 +53,7 @@ const EditPlanComp = (props: Props) => {
     const [chosenStructures, setChosenStructures] = useState([])
     const [isChanged, setIsChanged] = useState(false)
     const [changeInput, setChangeInput] = useState<boolean>(false)
-    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(plan.userDefinedMonthlyFeeWithDiscount)
+    const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(true)
 
     const editPlanForm = useForm<EditPlanForm>({
         defaultValues: {
@@ -126,7 +126,7 @@ const EditPlanComp = (props: Props) => {
     
     if(isSuccess) {
         toast.success(`پلن ${plan.planId} با موفقیت ویرایش شد.`)
-        // push('/dashboard/billboard/plans')
+        push('/dashboard/billboard/plans')
     }
 
     const formVals = watch('structures')
@@ -135,9 +135,8 @@ const EditPlanComp = (props: Props) => {
         setIsChanged(true)
     }, [watch('structures')])
 
-    // console.log("EDIT PLAN FORM", editPlanForm.getValues().structures.length)
     if(!plan) return <Loading />
-    
+
     return (
         <main className="min-h-screen">
             <PageTitle name={`ویرایش پلن ${plan?.planId}`} />
