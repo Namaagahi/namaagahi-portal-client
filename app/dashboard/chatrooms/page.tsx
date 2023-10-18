@@ -8,6 +8,7 @@ import ConfirmModal from "@/app/components/modals/ConfirmModal"
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal"
 import TableComponent from "@/app/components/table/TableComponent"
 import { useSocket } from "@/app/config/state-config/SocketContext"
+import Loading from "@/app/features/loading/Loading"
 import useAuth from "@/app/hooks/useAuth"
 import usePageTitle from "@/app/hooks/usePageTitle"
 import { ChatroomObject } from "@/app/lib/interfaces"
@@ -143,42 +144,68 @@ const Chatrooms = () => {
   },
   []
   )
+
+  if(isError) return (
+    <>
+      <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
+        <p className='text-xl'>
+      هیچ چت رومی تعریف نشده است
+        </p>
+
+        <p>
+        برای ایجاد چت روم جدید جدید 
+            <span className='text-cyan-300 cursor-pointer' onClick={handleNewChatroomModal}>
+            کلیک کنید
+            </span>
+        </p>
+      </div>
+      {
+        isNewChatroom && 
+        <CreateUpdateModal
+          type={'newChatroom'}
+          handleModal={handleNewChatroomModal}
+        />
+      }
+    </>
+  )
+
+  if(isLoading) return <Loading />
   return (
     <>
-        <PageTitle name={'چت روم ها'} />
+      <PageTitle name={'چت روم ها'} />
 
-        <div className="flex items-center justify-between gap-3">
-            <SearchContainer />
+      <div className="flex items-center justify-between gap-3">
+          <SearchContainer />
 
-            {(isAdmin || isMaster) &&
-                <Button 
-                    onClickHandler={handleNewChatroomModal}
-                    title="چت روم جدید"
-                />
-            }
-        </div>
+          {(isAdmin || isMaster) &&
+              <Button 
+                  onClickHandler={handleNewChatroomModal}
+                  title="چت روم جدید"
+              />
+          }
+      </div>
 
-        <TableComponent 
-            columns={columns}
-            data={data}
+      <TableComponent 
+          columns={columns}
+          data={data}
+      />
+
+      {
+        isNewChatroom && 
+        <CreateUpdateModal
+          type={'newChatroom'}
+          handleModal={handleNewChatroomModal}
         />
+      }
 
-        {
-            isNewChatroom && 
-            <CreateUpdateModal
-                type={'newChatroom'}
-                handleModal={handleNewChatroomModal}
-            />
-        }
-
-        {
-            isDeleteChatroom && 
-            <ConfirmModal 
-                prop={chatroom} 
-                handleModal={handleDeleteChatroom}
-                type={'delete'}
-                deleteType="chatroom"
-            />
+      {
+        isDeleteChatroom && 
+        <ConfirmModal 
+          prop={chatroom} 
+          handleModal={handleDeleteChatroom}
+          type={'delete'}
+          deleteType="chatroom"
+        />
       }
     </>
   ) 

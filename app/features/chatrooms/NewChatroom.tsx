@@ -36,6 +36,7 @@ const NewChatroom = ({handleModal}: {handleModal: () => void}) => {
     const onSaveChatroomClick = async(e: any) => {
         e.preventDefault()
         const data = await createNewChatroom({ userId:id, name })
+
         if(!data.error) {
             handleModal()
             toast.success('چت روم جدید با موفقیت ساخته شد')

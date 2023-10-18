@@ -15,7 +15,7 @@ import useAuth from '@/app/hooks/useAuth'
 import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 import SearchContainer from '@/app/components/main/SearchContainer'
-// import useFormPersist from "react-hook-form-persist";
+// import useFormPersist from "react-hook-form-persist"
 
 type Props = {
   box: BoxObject

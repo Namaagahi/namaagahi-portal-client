@@ -184,7 +184,6 @@ const Users = () => {
 if(isLoading) return <Loading />
 
 if(isError) return (
-
   <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
     <p className='text-xl'>هیچ کاربری وجود ندارد</p>
   </div>

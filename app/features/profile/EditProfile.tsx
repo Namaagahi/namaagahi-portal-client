@@ -51,7 +51,7 @@ const onSubmit = async (data: any) => {
   const formData = new FormData()
   
   if (data.avatar[0] instanceof File) {
-    const file = data.avatar[0];
+    const file = data.avatar[0]
 
     if (file.size > 100 * 1024) {
       setErrMsg('حجم تصویر باید کمتر از 100 کیلوبایت باشد.')
@@ -69,7 +69,7 @@ const onSubmit = async (data: any) => {
   const plainFormData: any = {}
   for (const [key, value] of formData.entries()) {
     if (!(key in plainFormData)) {
-      plainFormData[key] = value;
+      plainFormData[key] = value
     } else {
       if (!Array.isArray(plainFormData[key])) {
         plainFormData[key] = [plainFormData[key]]
@@ -84,7 +84,7 @@ const onSubmit = async (data: any) => {
   } catch (error) {
     // Handle error
   }
-};
+}
 
   if(isSuccess) {
     toast.success(`پروفایل شما با موفقیت ویرایش شد.`)
@@ -138,6 +138,7 @@ const onSubmit = async (data: any) => {
           <input
             className={`confirmButton cursor-pointer`}
             type="submit"
+            value={'ویرایش'}
           />
               
 

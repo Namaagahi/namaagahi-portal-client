@@ -4,7 +4,7 @@ import { toast } from 'react-toastify'
 import { io, Socket } from 'socket.io-client'
 
 interface SocketContextType {
-  socket: Socket | null;
+  socket: Socket | null
   setupSocket: () => void
 }
 
@@ -29,7 +29,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
             })
       
             newSocket.on("disconnect", () => {
-              setSocket(null);
+              setSocket(null)
               setTimeout(setupSocket, 3000)
               // toast.warn("سوکت قطع شد")
             })
