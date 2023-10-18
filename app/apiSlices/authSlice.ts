@@ -1,4 +1,3 @@
-"use client"
 import { RootState } from "@/app/config/state-config/store"
 import { createSlice } from "@reduxjs/toolkit"
 
@@ -15,7 +14,6 @@ const authSlice = createSlice({
         logOut: (state, action) => {
             state.token = null
             localStorage.removeItem("CC_Token")
-
         }
      }
 })

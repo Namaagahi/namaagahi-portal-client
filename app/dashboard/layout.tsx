@@ -1,17 +1,19 @@
 "use client"
 import { useRefreshMutation } from '../apiSlices/authApiSlice'
+import { selectCurrentToken } from '../apiSlices/authSlice'
 import { menuItems } from "../lib/constants"
 import { useEffect, useRef, useState } from "react"
 import Header from '../features/header/Header'
 import Footer from '../features/footer/Footer'
 import Menu from '../features/sidemenu/Menu'
 import { useRouter } from 'next/navigation'
+import { useSelector } from "react-redux"
 import { ROLES } from '../config/roles'
 import useAuth from '../hooks/useAuth'
+import Cookies from 'universal-cookie'
 import Link from "next/link"
 import dynamic from 'next/dynamic'
 import { SocketProvider } from '../config/state-config/SocketContext'
-import Cookies from 'universal-cookie'
 const Loading = dynamic(
   () => import('../features/loading/Loading'),
   { ssr: false }
@@ -20,11 +22,11 @@ const Loading = dynamic(
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   const { roles } = useAuth()
-  const token = typeof window !== 'undefined' && window.localStorage.getItem("CC_Token")
+  const token = useSelector(selectCurrentToken)
   const effectRan = useRef<boolean>(false)
   const [trueSuccess, setTrueSuccess] = useState<boolean>(false)
   const{ push } = useRouter()
-const cookies = new Cookies()
+
   const [refresh, {
       isUninitialized,
       isLoading,
@@ -34,27 +36,21 @@ const cookies = new Cookies()
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
-      console.log("USEEEEEEEEEEEEEEEEEEEEEEEFFECT")
     try {
         await refresh(undefined)
-        const jwtToken = cookies.get('jwt')
-console.log("jwtToken", jwtToken)
-        if (jwtToken) {
-          localStorage.setItem('CC_Token', jwtToken)
-        }
         setTrueSuccess(true)
       } catch (error) { 
         console.log(error) 
       }
     }
-
     if(!token) verifyRefreshToken()
     return () => { effectRan.current = true }
       // eslint-disable-next-line
-  }, [])
+  }, [trueSuccess])
 
-  const accessToken = typeof window !== 'undefined' && window.localStorage && window.localStorage.getItem("CC_Token")
-console.log("accessToken", accessToken)
+  const cookies = new Cookies()
+  const accessToken = cookies.get("jwt")
+
   useEffect(() => {
     if (!accessToken) {
       push("/")
@@ -80,20 +76,22 @@ console.log("accessToken", accessToken)
       content = children
     }
   } 
-console.log("trueSuccess", trueSuccess)
-  return (
-    <SocketProvider>
-      <div className="p-4 md:p-8">
-        <Header/> 
-        <div className=" flex flex-col xl:flex-row gap-8 ">
-          <Menu menuItems = {menuItems} />
-          <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-[2000px] ">
-            {content}
-            <Footer />
+
+    return (
+      <SocketProvider>
+        <div className="p-4 md:p-8">
+          <Header/> 
+          <div className=" flex flex-col xl:flex-row gap-8 ">
+            <Menu 
+              menuItems = {menuItems} 
+            />
+            <div className="xl:w-[calc(100%-300px)] w-full flex flex-col min-h-[2000px] ">
+              {content}
+              <Footer />
+            </div>
           </div>
         </div>
-      </div>
-    </SocketProvider>
+      </SocketProvider>
     )
 }
 
