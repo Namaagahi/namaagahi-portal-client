@@ -59,7 +59,7 @@ export const chatroomsApiSlice = chatroomApiSliceTag.injectEndpoints({
                 url: '/chatrooms',
                 method: 'DELETE',
                 body: { id }
-            }),
+            }), 
 
             invalidatesTags: (result:any, error:any, arg:any) => [{ type: 'Chatroom', id: arg.id }]
         })

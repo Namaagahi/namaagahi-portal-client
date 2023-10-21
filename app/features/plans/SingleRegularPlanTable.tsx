@@ -65,6 +65,12 @@ const SingleRegularPlanTable = (props: any) => {
                   header: () => <span>قیمت ماهانه پس از تخفیف</span>,
                 },
                 {
+                  accessorFn: row => row?.discountFee,
+                  id: 'مقدار تخفیف',
+                  cell: info => Math.round(info.getValue()),
+                  header: () => <span>مقدار تخفیف</span>,
+                },
+                {
                   accessorFn: row => row?.discountType,
                   id: 'مقیاس تخفیف',
                   cell: info => { 
@@ -73,12 +79,6 @@ const SingleRegularPlanTable = (props: any) => {
                     )
                   },
                   header: () => <span>مقیاس تخفیف</span>,
-                },
-                {
-                  accessorFn: row => row?.discountFee,
-                  id: 'مقدار تخفیف',
-                  cell: info => Math.round(info.getValue()),
-                  header: () => <span>مقدار تخفیف</span>,
                 },
                 {
                   accessorFn: row => row?.duration.sellStart,

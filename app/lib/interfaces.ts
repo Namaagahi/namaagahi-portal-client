@@ -556,3 +556,14 @@ export interface ChatroomObject {
   createdAt?: string
   updatedAt?: string
 }
+
+export interface MessageObject extends ChatroomObject {
+  _id?: string
+  id?: string
+  userId: string
+  chatroom: string
+  message: string
+  username?: string
+  createdAt?: string
+  updatedAt?: string
+}

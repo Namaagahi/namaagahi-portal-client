@@ -24,7 +24,7 @@ const Chatrooms = () => {
   usePageTitle('چت روم ها')
 
   const { isAdmin, isMaster, isProjectManager } = useAuth()
-  const { socket, setupSocket } = useSocket()
+  const { setupSocket } = useSocket()
 
   useEffect(() => {
     setupSocket()
@@ -79,7 +79,7 @@ const Chatrooms = () => {
               header: () => <span>نام</span>,
             },
             {
-              id: 'عملیات',
+              id: 'عملیات', 
               header: () => <span>عملیات</span>,
               cell: (info) => {
                 const row = info.row.original
@@ -104,8 +104,8 @@ const Chatrooms = () => {
                 )}
             },
             {
-                id: 'مشاهده',
-                header: () => <span>مشاهده چت روم</span>,
+                id: 'ورود',
+                header: () => <span>ورود به چت روم</span>,
                 cell: ({row}) => {
                   return (
                     <Link href={`/dashboard/chatrooms/${row.original.id}`}>
