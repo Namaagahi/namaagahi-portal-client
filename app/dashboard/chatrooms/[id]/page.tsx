@@ -16,8 +16,6 @@ const SingleChatroom = () => {
 
   const { id } = useParams()
 
-
-
   useGetAllChatroomsQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
@@ -25,13 +23,14 @@ const SingleChatroom = () => {
 
   const chatroom: ChatroomObject = useSelector(state => selectChatroomById(state as ChatroomObject , id as string) as ChatroomObject)
 
-
-
   if(!chatroom) return <Loading />
   return (
     <main className='min-h-screen w-full'>
       <PageTitle name={`چت روم ${chatroom.name}`} />
-      <Chatroom chatroomId={id} />
+      <Chatroom 
+        chatroomId={id}
+        chatroom={chatroom} 
+      />
     </main>
   )
 }

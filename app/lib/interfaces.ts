@@ -560,7 +560,7 @@ export interface ChatroomObject {
 export interface MessageObject extends ChatroomObject {
   _id?: string
   id?: string
-  userId: string
+  user: string
   chatroom: string
   message: string
   username?: string
