@@ -59,13 +59,22 @@ export const messagesApiSlice = messagesApiSliceTag.injectEndpoints({
                 }
                 return newItems
             },
-
-
         }),
+
+        deleteChatroomMessages: builder.mutation({
+
+            query:({ chatroomId } : { chatroomId: string}) => ({
+                url: '/messages',
+                method: 'DELETE',
+                body: { chatroomId }
+            }),
+
+            invalidatesTags: (result:any, error:any, arg:any) => [{ type: 'Message', id: arg.id }]
+        })
     }),
 })
 
-export const { useGetAllMessagesQuery } = messagesApiSlice
+export const { useGetAllMessagesQuery, useDeleteChatroomMessagesMutation } = messagesApiSlice
 
 export const selectMessagesResult = messagesApiSlice.endpoints.getAllMessages.select(undefined)
 

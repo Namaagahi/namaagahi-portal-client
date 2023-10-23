@@ -3,7 +3,7 @@ import moment from 'jalali-moment'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-    allMessages: MessageObject[]
+    allMessages: MessageObject[] | null
     userId: string
     chatroomId: string | string[]
 }
@@ -11,7 +11,7 @@ type Props = {
 const ArchiveMessages = (props: Props) => {
 
     const { allMessages, userId, chatroomId } = props
-    const archiveMessages = allMessages.filter(message => message.chatroom === chatroomId)
+    const archiveMessages = allMessages!.filter(message => message.chatroom === chatroomId)
 
     return (
         <div className='flex flex-col-reverse' >
@@ -36,6 +36,6 @@ const ArchiveMessages = (props: Props) => {
             })}
         </div>
     )
-    }
+}
 
 export default ArchiveMessages

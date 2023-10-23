@@ -179,7 +179,7 @@ const FinalCustomerForm = (props: Props) => {
 
     if(isSuccess) {
         toast.success(`مشتری جدید با موفقیت ساخته شد.`)
-        // push('/dashboard/billboard/plans')
+        push('/dashboard/billboard/plans')
     }
 
     const customInputs = [
@@ -321,12 +321,12 @@ const FinalCustomerForm = (props: Props) => {
                         }
                         {
                             hasProjectCode &&
-                            <ChooseProjectCodeModal
-                                handleModal={handleChooseProjectCodeModal}
-                                data={allProjectCodes}
-                                allFinalCustomers={allFinalCustomers}
-                                handleProjectCodeId={handleProjectCodeId}
-                            />
+                                <ChooseProjectCodeModal
+                                    handleModal={handleChooseProjectCodeModal}
+                                    data={allProjectCodes}
+                                    allFinalCustomers={allFinalCustomers}
+                                    handleProjectCodeId={handleProjectCodeId}
+                                />
                         }
                     </div>
                 </div>

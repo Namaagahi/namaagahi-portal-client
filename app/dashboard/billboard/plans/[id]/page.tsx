@@ -84,8 +84,8 @@ const SinglePlan = () => {
             <div className="max-h-[30%] bg-secondary dark:bg-darkModeBg overflow-y-auto p-2 w-full">
 
               {plan.mark.name === 'regular' ? 
-              <SingleRegularPlanTable data ={plan.structures} />
-              :      
+                <SingleRegularPlanTable data ={plan.structures} />
+                :      
               <>        
                 <div className='flex flex-col items-end gap-2'>
                   <div className='flex items-center gap-3'>
