@@ -24,7 +24,7 @@ const DeleteProjectCode = (props: Props) => {
     
     const onDeleteProjectCodeClick = async () => {
         const abc = await deleteProjectCode({ id: projectCode.id })
-        window.location.assign('/dashboard/project-codes')
+        // window.location.assign('/dashboard/project-codes')
         handleModal()
         toast.success(`مشتری  ${projectCode?.code} با موفقیت حذف شد`)
     }

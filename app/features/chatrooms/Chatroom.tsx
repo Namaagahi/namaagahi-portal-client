@@ -18,7 +18,7 @@ const Chatroom = (props: Props) => {
 
   const { chatroomId, chatroom } = props
   const { socket } = useSocket()
-  const { id: userId } = useAuth()
+  const { id: userId, isMaster } = useAuth()
 
   const [page, setPage] = useState(0)
   const [newMessages, setNewMessages] = useState<MessageObject[] | []>([])
@@ -40,7 +40,6 @@ const Chatroom = (props: Props) => {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
   }) 
-
 
   const sendMessage = () => {
     if (socket) {
@@ -192,7 +191,7 @@ const Chatroom = (props: Props) => {
                   onClick={sendMessage}
                 />
               </div>
-              {(allMessages![0] || newMessages[0]) &&
+              {isMaster && (allMessages![0] || newMessages[0]) &&
                 <AiFillDelete
                   size={25} 
                   className='mt-3 cursor-pointer hover:text-red-700 transition-all'

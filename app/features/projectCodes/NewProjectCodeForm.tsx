@@ -55,6 +55,14 @@ const NewProjectCodeForm = (props: Props) => {
     } = createProjectCodeForm
 
     const onSubmit = async(data: any) => {
+        console.log({
+            userId: id,
+            media: data.media,
+            year: parseFloat(data.year), 
+            finalCustomerId: data.finalCustomerId,
+            brand: data.brand,
+            desc: data.desc, 
+        })
         const abc1 = await createNewProjectCode({
             userId: id,
             media: data.media,
@@ -63,6 +71,8 @@ const NewProjectCodeForm = (props: Props) => {
             brand: data.brand,
             desc: data.desc, 
         })
+
+        console.log("ABC", abc1)
         
         if(isError) {
             'status' in error! && error.status === 409 && toast.error('این  کد پروژه قبلا ثبت شده است')
@@ -83,7 +93,7 @@ const NewProjectCodeForm = (props: Props) => {
             type:'text',
             message: 'نام برند الزامیست',
             required: true,
-            errors:  (errors.brand?.message),
+            errors:  (errors.brand?.message), 
         },
         {
             id: 2,

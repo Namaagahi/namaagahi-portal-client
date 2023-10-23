@@ -45,7 +45,7 @@ const ChooseProjectCodeModal = (props: Props) => {
                     item.code.toLowerCase().includes(searchText)
                 )
             }
-            )
+            ) 
             setSearchResults(filteredResults)
         } else {
             return
@@ -55,6 +55,18 @@ const ChooseProjectCodeModal = (props: Props) => {
     const handleSelectResult = (item: ProjectCodeObject) => setSelectedItem(item)
 
     const handleConfirmSelection = async() => {
+        if(selectedItem){
+            console.log("YO", {
+                userId: id,
+                media: selectedItem.media,
+                year: selectedItem.year, 
+                finalCustomerId: selectedItem.finalCustomerId,
+                brand: selectedItem.brand, 
+                desc: selectedItem.desc, 
+                code: selectedItem.code,
+                month: jalaliMonth
+            })
+        }
         if(selectedItem && !jalaliMonth) {
             handleProjectCodeId(selectedItem)
             handleModal() 
@@ -64,11 +76,12 @@ const ChooseProjectCodeModal = (props: Props) => {
                 media: selectedItem.media,
                 year: selectedItem.year, 
                 finalCustomerId: selectedItem.finalCustomerId,
-                brand: selectedItem.brand,
+                brand: selectedItem.brand, 
                 desc: selectedItem.desc, 
                 code: selectedItem.code,
                 month: jalaliMonth
             })
+            console.log("abc", abc)
             handleModal()
         } else {
             return
