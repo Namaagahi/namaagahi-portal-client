@@ -3,7 +3,7 @@ import moment from 'jalali-moment'
 import React, { useEffect, useState } from 'react'
 
 type Props = {
-    allMessages: MessageObject[] | null
+    allMessages: MessageObject[]
     userId: string
     chatroomId: string | string[]
 }

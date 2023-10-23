@@ -24,7 +24,7 @@ const Chatroom = (props: Props) => {
   const [newMessages, setNewMessages] = useState<MessageObject[] | []>([])
   const messageRef = useRef<HTMLInputElement | null>(null)
   const sectionRef = useRef<HTMLDivElement | null>(null)
-  const [allMessages, setAllMessages] = useState<null | MessageObject[]>(null)
+  const [allMessages, setAllMessages] = useState<MessageObject[]>([])
   const [isDeleteMessages, setIsDeleteMessages] = useState<boolean>(false)
 
   const handleIsDeleteMessages = () => setIsDeleteMessages(!isDeleteMessages)
@@ -84,7 +84,7 @@ const Chatroom = (props: Props) => {
   }, [page])
 
   if(data) {
-    if(!allMessages) updateMessages(data.entities)
+    if(!allMessages[0]) updateMessages(data.entities)
   }
 
   useEffect(() => {
@@ -98,7 +98,6 @@ const Chatroom = (props: Props) => {
   }, [newMessages])
 
   useEffect(() => {
-    setAllMessages([])
     if (socket) {
       socket.emit("joinRoom", {
           chatroomId,
@@ -118,9 +117,7 @@ const Chatroom = (props: Props) => {
     //eslint-disable-next-line
   }, [])
 
-  console.log(data)
-
-  if(isLoading || !Array.isArray(allMessages)) return <Loading />
+  if(isLoading) return <Loading />
 
   return (
     <>
