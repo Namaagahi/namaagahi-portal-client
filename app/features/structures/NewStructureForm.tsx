@@ -8,16 +8,16 @@ import { toast } from 'react-toastify'
 
 const NewStructureForm = () => {
 
-    const { id } = useAuth()  
+    const { id } = useAuth()
 
-    const [addNewStructure, { 
+    const [addNewStructure, {
       isSuccess,
       isError,
       error
   }] = useAddNewStructureMutation()
-  
+
   const { push } = useRouter()
-  
+
   const createStructureForm = useForm<StructureObjectForm>({
     defaultValues: {
       name: '',
@@ -28,19 +28,19 @@ const NewStructureForm = () => {
     },
     mode: 'onSubmit'
   })
-  
+
   const {
     register,
     handleSubmit,
-    formState: {errors} 
+    formState: {errors}
   } = createStructureForm
-  
+
   const onSubmit = async(data: any) => {
     if(isError) {
       'status' in error! && error.status === 409 && toast.error('این کد سامانه قبلا ثبت شده است')
       'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
     }
-    
+
     await addNewStructure({
       userId: id,
       name: data.name,
@@ -50,9 +50,9 @@ const NewStructureForm = () => {
         address: data.address
       }
     })
-  
+
   }
-  
+
   if(isSuccess) {
     toast.success('سازه جدید با موفقیت ساخته شد')
     push('/dashboard/billboard/structures')
@@ -79,11 +79,11 @@ const NewStructureForm = () => {
               {...register("name", {
                 required: {
                     value: true,
-                    message:  'کد سامانه را وارد کنید' 
+                    message:  'کد سامانه را وارد کنید'
                   },
                   pattern: {
-                      value: /^N\d{4}(-\d)?$/,
-                      message: 'فرمت کد پروژه باید به صورت N و چهار عدد بعد از آن باشد'
+                      value: /^[A-Z]\d{4}(-\d)?$/,
+                      message: 'فرمت کد پروژه باید به صورت حرف بزرگ انگلیسی و چهار عدد بعد از آن باشد'
                   }
                 })
               }
@@ -96,7 +96,7 @@ const NewStructureForm = () => {
             <small className="errorPageForms ">
               {errors.name && errors.name?.message}
             </small>
-          </div>   
+          </div>
 
           <div className='flex flex-col gap-3 col-span-6 lg:col-span-1'>
             <label
@@ -176,7 +176,7 @@ const NewStructureForm = () => {
           </div>
 
         </div>
-        
+
         <button className="primaryButton ">
           افزودن سازه
         </button>
