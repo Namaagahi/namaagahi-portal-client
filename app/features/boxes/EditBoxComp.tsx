@@ -19,7 +19,7 @@ import SearchContainer from '@/app/components/main/SearchContainer'
 
 type Props = {
   box: BoxObject
-} 
+}
 
 const EditBoxComp = (props: Props) => {
 
@@ -27,16 +27,16 @@ const EditBoxComp = (props: Props) => {
   const { id: currentUserId } = useAuth()
   const { push } = useRouter()
 
-  useGetStructuresQuery(undefined, { 
+  useGetStructuresQuery(undefined, {
       refetchOnFocus: false,
       refetchOnMountOrArgChange: false
   })
 
-  const [updateBox, { 
-      isSuccess, 
+  const [updateBox, {
+      isSuccess,
       isError,
       error,
-  }] = useUpdateBoxMutation() 
+  }] = useUpdateBoxMutation()
 
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
@@ -54,9 +54,9 @@ const EditBoxComp = (props: Props) => {
       endDate: endDate,
       structures: JSON.parse(JSON.stringify(box.structures))
     },
-    mode: 'onSubmit' 
+    mode: 'onSubmit'
   })
-  
+
   const {
     register,
     control,
@@ -74,9 +74,9 @@ const EditBoxComp = (props: Props) => {
   } = useFieldArray({
     control,
     name: "structures",
-  }) 
+  })
 
-  
+
   useEffect(() => {
     getValues("startDate")
     getValues("endDate")
@@ -131,14 +131,14 @@ const EditBoxComp = (props: Props) => {
         monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
       })),
     }
-  
+
     const editBoxABC = await updateBox({
         id: box?.id,
         boxId: newData.boxId,
         userId: currentUserId,
         username: box?.username,
         name: newData.name,
-        mark: { 
+        mark: {
             name: box?.mark.name,
             markOptions: {
             projectNumber: newData.projectNumber,
@@ -156,19 +156,19 @@ const EditBoxComp = (props: Props) => {
                     return(
                     ({ ...varCost, figures: { monthlyCost: convertToNumber(varCost.figures.monthlyCost) } })
                     )})
-                } 
+                }
             })
             )
         }),
-    })   
+    })
     toast.success(`باکس ${box?.name} با موفقیت ویرایش شد.`)
     push('/dashboard/billboard/boxes')
   }
 
   const values = editBoxForm.watch()
-  
+
   useEffect(() => {
-    window.localStorage.setItem('editBoxForm', JSON.stringify(values))
+    localStorage.setItem('editBoxForm', JSON.stringify(values))
   }, [values, box])
 
   if(isError) {
@@ -181,17 +181,17 @@ const EditBoxComp = (props: Props) => {
   if(!box || !structures[0]) return <Loading />
   return (
     <main className="min-h-screen">
-      <PageTitle name={`ویرایش باکس ${box?.name}`} /> 
+      <PageTitle name={`ویرایش باکس ${box?.name}`} />
       <SearchContainer />
       <div className='flex flex-col gap-9 justify-center'>
-        <form  
+        <form
           noValidate
           onSubmit={handleSubmit(onSubmit)}
-          className='w-full flex flex-col gap-9 justify-center' 
+          className='w-full flex flex-col gap-9 justify-center'
         >
           <BasicBoxInfoFormSection
             page={'edit'}
-            control={control} 
+            control={control}
             box={box!}
             mark={box?.mark.name}
             errors={errors}
@@ -199,7 +199,7 @@ const EditBoxComp = (props: Props) => {
             handleEndDate={(val) => handleEndDate(val)}
           />
 
-          <BoxStructuresFormSection 
+          <BoxStructuresFormSection
             page={'edit'}
             register={register}
             errors={errors}
@@ -211,7 +211,7 @@ const EditBoxComp = (props: Props) => {
             convertToNumber={convertToNumber}
             structures={structures}
             formVals={formVals}
-            chosenStructures={chosenStructures} 
+            chosenStructures={chosenStructures}
             setChosenStructures={setChosenStructures}
           />
 
