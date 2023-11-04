@@ -1,53 +1,72 @@
 "use client"
-import { selectAllInitialCustomers, selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
+import { selectAllInitialCustomers, selectInitialCustomerById, useGetAllInitialCustomersQuery, useUpdateInitialCustomerMutation } from '@/app/apiSlices/initialCustomersApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
 import { InitialCustomerObject } from '@/app/lib/interfaces'
-import { AiFillDelete } from 'react-icons/ai'
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
 import PageTitle from '@/app/components/main/PageTitle'
 import Loading from '@/app/features/loading/Loading'
 import { useEffect, useMemo, useState } from 'react'
 import { ColumnDef } from '@tanstack/react-table'
-import Button from '@/app/components/main/Button' 
+import Button from '@/app/components/main/Button'
 import { EntityId } from '@reduxjs/toolkit'
 import { useSelector } from 'react-redux'
 import useAuth from '@/app/hooks/useAuth'
 import moment from 'jalali-moment'
 import usePageTitle from '@/app/hooks/usePageTitle'
 import SearchContainer from '@/app/components/main/SearchContainer'
-    
+
 const InitialCustomers = () => {
   usePageTitle('پروژه ها')
-    
+
   const { isMaster, isAdmin, isProjectManager } = useAuth()
-    
+
   const {
     isLoading,
     isError,
-  } = useGetAllInitialCustomersQuery(undefined, { 
+  } = useGetAllInitialCustomersQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
-  }) 
+  })
+
+  const [updateInitialCustomer, {
+    isSuccess,
+    error,
+}] = useUpdateInitialCustomerMutation()
 
   const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
   const [isNewInitialCustomer, setIsNewInitialCustomer] = useState<boolean>(false)
   const [isDeleteInitialCustomer, setIsDeleteInitialCustomer] = useState<boolean>(false)
+  const [isEditInitialCustomer, setIsEditInitialCustomer] = useState<boolean>(false)
+  const handleEditInitialCustomer = () => setIsEditInitialCustomer(!isEditInitialCustomer)
   const handleNewInitialCustomerModal = () => setIsNewInitialCustomer(!isNewInitialCustomer)
   const handleDeleteInitialCustomer = () => setIsDeleteInitialCustomer(!isDeleteInitialCustomer)
   const [data, setData] = useState<InitialCustomerObject[] | unknown>([])
   const [initialCustomerId, setInitialCustomerId] = useState<string | any | EntityId>('')
   const initialCustomer: InitialCustomerObject  = useSelector(state => selectInitialCustomerById(state, initialCustomerId) as InitialCustomerObject)
-  
+
   useEffect(() => {
     setData(allInitialCustomers)
   }, [allInitialCustomers])
+
+  // useEffect(() => {
+  //   allInitialCustomers.forEach(async(initialCustomer: any) => {
+  //       await updateInitialCustomer({
+  //         userId: initialCustomer?.userId,
+  //         id: initialCustomer?.id,
+  //         name: initialCustomer?.name,
+  //         phoneNumber: '',
+  //         introductionMethod: ''
+  //       })
+  //   })
+  // },[])
 
   const columns = useMemo<ColumnDef<InitialCustomerObject, any>[]>(() => {
     return(
       [
         {
-          header: 'جدول مشتریان اولیه',
+          header: 'جدول پروژه ها',
           columns: [
             {
               accessorKey: "_id",
@@ -70,6 +89,30 @@ const InitialCustomers = () => {
               header: () => <span>نام</span>,
             },
             {
+              accessorFn: row => row.phoneNumber,
+              id: 'شماره تماس',
+              cell: info => {
+                return (
+                  <p className={`${!info.getValue()&& 'text-red-500'}`}>
+                    {!info.getValue()? "تعیین نشده" : info.getValue()}
+                  </p>
+                )
+              },
+              header: () => <span>شماره تماس</span>,
+            },
+            {
+              accessorFn: row => row.introductionMethod,
+              id: 'نحوه آشنایی',
+              cell: info => {
+                return (
+                  <p className={`${!info.getValue()&& 'text-red-500'}`}>
+                    {!info.getValue()? "تعیین نشده" : info.getValue()}
+                  </p>
+                )
+              },
+              header: () => <span>نحوه آشنایی</span>,
+            },
+            {
               id: 'عملیات',
               header: () => <span>عملیات</span>,
               cell: (info) => {
@@ -79,6 +122,11 @@ const InitialCustomers = () => {
                   {(isMaster || isAdmin || isProjectManager)?
                     <p className="px-6 flex items-center justify-center gap-5" onClick={() => setInitialCustomerId(row.id)}>
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
+                        <AiFillEdit
+                          className="text-black dark:text-white hover:scale-125 transition-all"
+                          size={20}
+                          onClick={handleEditInitialCustomer}
+                        />
                         <AiFillDelete
                           className="text-black dark:text-white hover:scale-125 transition-all"
                           size={20}
@@ -132,33 +180,41 @@ const InitialCustomers = () => {
   )
 
   return (
-    <>            
-      <PageTitle name={'پروژه ها'} /> 
+    <>
+      <PageTitle name={'پروژه ها'} />
 
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />
-        <Button 
+        <Button
           onClickHandler={handleNewInitialCustomerModal}
           title="پروژه جدید"
         />
       </div>
 
-      <TableComponent 
+      <TableComponent
         columns={columns}
         data={data}
       />
-      
+
       {
-        isNewInitialCustomer && 
+        isNewInitialCustomer &&
           <CreateUpdateModal
             type={'newInitialCustomer'}
             handleModal={handleNewInitialCustomerModal}
           />
       }
       {
-        isDeleteInitialCustomer && 
-          <ConfirmModal 
-            prop={initialCustomer} 
+        isEditInitialCustomer &&
+        <CreateUpdateModal
+            prop={initialCustomer}
+            handleModal={handleEditInitialCustomer}
+            type={'editInitialCustomer'}
+        />
+      }
+      {
+        isDeleteInitialCustomer &&
+          <ConfirmModal
+            prop={initialCustomer}
             handleModal={handleDeleteInitialCustomer}
             type={'delete'}
             deleteType="initialCustomer"
@@ -169,4 +225,4 @@ const InitialCustomers = () => {
   )
 }
 
-export default InitialCustomers 
+export default InitialCustomers

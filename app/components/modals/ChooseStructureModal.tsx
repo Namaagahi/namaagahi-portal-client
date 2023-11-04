@@ -13,7 +13,7 @@ type Props = {
     setChosenStructures: any
 }
 
-const ChooseStructureModal = (props: Props) => { 
+const ChooseStructureModal = (props: Props) => {
 
     const {
         handleModal,
@@ -34,9 +34,9 @@ const ChooseStructureModal = (props: Props) => {
         const searchText = value.toLowerCase()
         const filteredResults = data.filter((item: StructureObject) =>{
             return (
-                item.name.toLowerCase().includes(searchText) ||
-                item.location.address.toLowerCase().includes(searchText) ||
-                item.location.path.toLowerCase().includes(searchText)
+                item.name?.toLowerCase().includes(searchText) ||
+                item.location?.address.toLowerCase().includes(searchText) ||
+                item.location?.path.toLowerCase().includes(searchText)
             )
         }
         )
@@ -61,15 +61,15 @@ const ChooseStructureModal = (props: Props) => {
             if (selectedItem && selectedItem.id) {
                 setValue(`structures.${fieldIndex}.structureId`, selectedItem.id)
                 handleThisStructuresChange(fieldIndex, selectedItem.name)
-                handleModal() 
+                handleModal()
             }
         }
-    } 
+    }
 
     return (
         <div className="modalContainer">
-            <div 
-                onClick={handleModal} 
+            <div
+                onClick={handleModal}
                 className="backdropContainer bg-opacity-10"
             ></div>
               <div className="confirmModalContentContainer">
@@ -79,8 +79,8 @@ const ChooseStructureModal = (props: Props) => {
                             {"انتخاب سازه"}
                         </p>
 
-                        <AiOutlineClose 
-                            className="cursor-pointer text-xl hover:text-2xl transition-all" 
+                        <AiOutlineClose
+                            className="cursor-pointer text-xl hover:text-2xl transition-all"
                             onClick={handleModal}
                         />
                     </div>
@@ -104,7 +104,7 @@ const ChooseStructureModal = (props: Props) => {
                             />
                             <div className='mt-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[200px] overflow-y-auto'>
                                 <ul>
-                                    {searchResults.length === 0 ? 
+                                    {searchResults.length === 0 ?
                                     data.map((item, index) => {
                                         return (
                                         <li
@@ -112,11 +112,11 @@ const ChooseStructureModal = (props: Props) => {
                                             key={index}
                                             onClick={() => handleSelectResult(item)}
                                         >
-                                            {`${item.name} - ${item.location.address} - ${item.location.path}`}
-                                        </li> 
+                                            {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
+                                        </li>
                                         )
                                     })
-                                    
+
                                     : (
                                     searchResults.map((item, index) => (
                                         <li
@@ -124,7 +124,7 @@ const ChooseStructureModal = (props: Props) => {
                                             key={index}
                                             onClick={() => handleSelectResult(item)}
                                         >
-                                            {`${item.name} - ${item.location.address} - ${item.location.path}`}
+                                            {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
                                         </li>
                                     ))
                                     )}
@@ -141,13 +141,13 @@ const ChooseStructureModal = (props: Props) => {
                                     className='formInput2 w-4/6'
                                     type="text"
                                     disabled
-                                    value={selectedItem?.location.address || ""}
+                                    value={selectedItem?.location?.address || ""}
                                 />
                                 <input
                                     className='formInput2 w-1/6'
                                     type="text"
                                     disabled
-                                    value={selectedItem?.location.path || ""}
+                                    value={selectedItem?.location?.path || ""}
                                 />
                             </div>
                         </div>
@@ -163,7 +163,7 @@ const ChooseStructureModal = (props: Props) => {
                             انتخاب
                         </button>
 
-                        <button 
+                        <button
                             type='button'
                             onClick={handleModal}
                             className="cancelButton"

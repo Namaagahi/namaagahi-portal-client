@@ -27,15 +27,15 @@ const FinalCustomers = () => {
     const {
         isLoading,
         isError,
-      } = useGetAllFinalCustomersQuery(undefined, { 
+      } = useGetAllFinalCustomersQuery(undefined, {
         refetchOnFocus: false,
         refetchOnMountOrArgChange: false
-    }) 
+    })
 
     const allFinallCustomers: FinalCustomerObject[] = useSelector(state => selectAllFinalCustomers(state) as FinalCustomerObject[])
     const [data, setData] = useState<FinalCustomerObject[] | unknown>([])
     const [isDeleteFinalCustomer, setIsDeleteFinalCustomer] = useState<boolean>(false)
-    const [isNewFinalCustomer, setIsNewFinalCustomer] = useState<boolean>(false)  
+    const [isNewFinalCustomer, setIsNewFinalCustomer] = useState<boolean>(false)
     const [isEditFinalCustomer, setIsEditFinalCustomer] = useState<boolean>(false)
     const [finalCustomerId, setFinalCustomerId] = useState<string | any | EntityId>('')
     const handleNewFinalCustomerModal = () => setIsNewFinalCustomer(!isNewFinalCustomer)
@@ -73,7 +73,9 @@ const FinalCustomers = () => {
                   id: 'نام شرکت',
                   cell: info => {
                     return (
-                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                      <p className={`${!info.getValue()&& 'text-red-500'}`}>
+                        {!info.getValue()? "تعیین نشده" : info.getValue()}
+                      </p>
                     )
                   },
                   header: () => <span>نام شرکت</span>,
@@ -83,7 +85,9 @@ const FinalCustomers = () => {
                   id: 'شناسه ملی',
                   cell: info => {
                     return (
-                        <p className={`${!info.getValue()&& 'text-red-500'}`}>{!info.getValue()? "تعیین نشده" : info.getValue()}</p>
+                      <p className={`${!info.getValue()&& 'text-red-500'}`}>
+                        {!info.getValue()? "تعیین نشده" : info.getValue()}
+                      </p>
                     )
                   },
                   header: () => <span>شناسه ملی</span>,
@@ -252,36 +256,36 @@ const FinalCustomers = () => {
             <PageTitle name={'مشتریان '} />
             <div className="flex items-center justify-between gap-3">
               <SearchContainer />
-              <Button 
+              <Button
                 onClickHandler={handleNewFinalCustomerModal}
                 title="مشتری  جدید"
               />
             </div>
-            
-            <TableComponent 
+
+            <TableComponent
               columns={columns}
               data={data}
             />
 
           {
-            isNewFinalCustomer && 
+            isNewFinalCustomer &&
               <CreateUpdateModal
                 type={'newFinalCustomer'}
                 handleModal={handleNewFinalCustomerModal}
               />
           }
           {
-            isEditFinalCustomer && 
-            <CreateUpdateModal 
-                prop={finalCustomer} 
+            isEditFinalCustomer &&
+            <CreateUpdateModal
+                prop={finalCustomer}
                 handleModal={handleEditFinalCustomer}
                 type={'editFinalCustomer'}
             />
           }
           {
-            isDeleteFinalCustomer && 
-            <ConfirmModal 
-                prop={finalCustomer} 
+            isDeleteFinalCustomer &&
+            <ConfirmModal
+                prop={finalCustomer}
                 handleModal={handleDeleteFinalCustomer}
                 type={'delete'}
                 deleteType="finalCustomer"

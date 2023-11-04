@@ -77,7 +77,7 @@ export interface BoxStructure {
         monthlyCost: number
         periodCost: number
 
-      }, 
+      },
       variableCosts: {
         _id?: string
         name: string
@@ -152,7 +152,7 @@ export interface AddBoxForm {
     costs: {
       fixedCosts: {
         squareCost: string
-      }, 
+      },
       variableCosts: {
         name: string
         figures: {
@@ -194,7 +194,7 @@ export interface EditBoxForm {
     costs: {
       fixedCosts: {
         squareCost: string
-      }, 
+      },
       variableCosts: {
         name: string
         figures: {
@@ -332,7 +332,7 @@ export interface CombinedStructure {
       monthlyCost?: number
       periodCost?: number
 
-    }, 
+    },
     variableCosts: {
       _id?: string
       name: string
@@ -403,7 +403,7 @@ export interface EditPlanForm {
   status: string
   structures: {
     structureId:string
-    structureRecord: CombinedStructure 
+    structureRecord: CombinedStructure
     duration: {
       sellStart: number
       sellEnd: number
@@ -420,7 +420,7 @@ export interface EditPlanForm {
 export interface PlanStructure {
   discountType: string
   structureId:string
-  structureRecord: CombinedStructure 
+  structureRecord: CombinedStructure
   duration: {
     sellStart: string | null
     sellEnd: string | null
@@ -441,8 +441,17 @@ export interface InitialCustomerObject {
   userId: string
   username?: string
   name: string
+  phoneNumber: number | null
+  introductionMethod: string
   createdAt: string
   updatedAt: string
+}
+
+
+export interface EditInitialCustomerForm {
+  name: string
+  phoneNumber: number | null
+  introductionMethod: string
 }
 
 // FINALCUSTOMER ===========================================================================

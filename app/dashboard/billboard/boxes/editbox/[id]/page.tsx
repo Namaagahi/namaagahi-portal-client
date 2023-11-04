@@ -1,5 +1,5 @@
 "use client"
-import { useGetBoxByIdQuery, boxesApiSlice } from '@/app/apiSlices/boxesApiSlice'
+import { useGetBoxByIdQuery } from '@/app/apiSlices/boxesApiSlice'
 import ScrollContainer from '@/app/components/main/ScrollContainer'
 import EditBoxComp from '@/app/features/boxes/EditBoxComp'
 import Loading from '@/app/features/loading/Loading'

@@ -18,10 +18,10 @@ type Props = {
     field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
     discountType: string
     convertToNumber: (value: string | number) => number | any
-    handleDiscountType: (val: string) =>void 
+    handleDiscountType: (val: string) =>void
     setValue: UseFormSetValue<EditPlanForm> |  UseFormSetValue<AddPlanForm>
     appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
-    removeStructure: UseFieldArrayRemove 
+    removeStructure: UseFieldArrayRemove
     watch: any
     register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
     formVals?: any
@@ -33,16 +33,16 @@ type Props = {
     isDiscountedInput: boolean
     setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>
   }
-  
+
 const PlanStructuresInfo = (props: Props) => {
 
-    const { 
+    const {
         page,
         mark,
         control,
         plan,
         errors,
-        field, 
+        field,
         discountType,
         convertToNumber,
         handleDiscountType,
@@ -52,7 +52,7 @@ const PlanStructuresInfo = (props: Props) => {
         watch,
         register,
         formVals,
-        chosenStructures, 
+        chosenStructures,
         setChosenStructures,
         isChanged,
         changeInput,
@@ -70,7 +70,7 @@ const PlanStructuresInfo = (props: Props) => {
       updatedState[fieldIndex] = !updatedState[fieldIndex]
       setIsStructureChoose(updatedState)
     }
-    
+
     const handleStructureInfoModal = () => setShowStructureInfo(!showStructureInfo)
 
     useGetAllBoxesQuery(undefined)
@@ -93,12 +93,12 @@ const PlanStructuresInfo = (props: Props) => {
         const updatedState = [...prevState]
         updatedState[index] = val
         return updatedState
-      }) 
+      })
 
     function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
         const newValue = event.target.value.replace(/,/g, '')
         const numberValue = convertToNumber(newValue)
-        const formattedValue = numberValue !== null ? 
+        const formattedValue = numberValue !== null ?
             new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
         setValue(prop, formattedValue)
     }
@@ -110,11 +110,10 @@ const PlanStructuresInfo = (props: Props) => {
             return structure ? structure.name : 'انتخاب سازه'
           })
           setThisStructures(updatedStructures)
-        } 
-      }, [formVals])  
-
+        }
+      }, [formVals])
+console.log("combinedStructures", combinedStructures)
     if((page=== 'edit' && !plan) || !boxStructures[0] || !inBoxStructures[0]) return <Loading />
-
     return (
       mark === 'regular' ?
         <RegularPlanStructureInfo
@@ -170,7 +169,7 @@ const PlanStructuresInfo = (props: Props) => {
           control={control}
           removeStructure={removeStructure}
           handleTextbox1Change={handleTextbox1Change}
-        /> 
+        />
     )
 }
 
