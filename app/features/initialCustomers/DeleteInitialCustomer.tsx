@@ -5,45 +5,45 @@ import Loading from '../loading/Loading'
 import { toast } from 'react-toastify'
 
 type Props = {
-  initialCustomer: InitialCustomerObject 
+  initialCustomer: InitialCustomerObject
   handleModal: () => void
 }
 
 const DeleteInitialCustomer = (props: Props) => {
 
-    const {
-      initialCustomer,
-      handleModal
-    } = props
+  const {
+    initialCustomer,
+    handleModal
+  } = props
 
-    const [deleteInitialCustomer, {
-        isLoading, 
-    }] = useDeleteInitialCustomerMutation()
+  const [deleteInitialCustomer, {
+    isLoading,
+  }] = useDeleteInitialCustomerMutation()
 
-    const onDeleteInitialCustomerClick = async () => {
-        const abc = await deleteInitialCustomer({ id: initialCustomer?.id })
-        handleModal()
-        toast.success(`مشتری  ${initialCustomer?.name} با موفقیت حذف شد`)
-    }
+  const onDeleteInitialCustomerClick = async () => {
+    const abc = await deleteInitialCustomer({ id: initialCustomer?.id })
+    handleModal()
+    toast.success(`مشتری  ${initialCustomer?.name} با موفقیت حذف شد`)
+  }
 
   if(isLoading) return <Loading/>
 
   return (
     <div className="flex items-center gap-6">
       <button
-          onClick={onDeleteInitialCustomerClick}
-          className="deleteConfirmButton"
+        onClick={onDeleteInitialCustomerClick}
+        className="deleteConfirmButton"
       >
-          حذف مشتری اولیه
+        حذف مشتری اولیه
       </button>
 
-      <button 
-          onClick={handleModal}
-          className="cancelButton"
+      <button
+        onClick={handleModal}
+        className="cancelButton"
       >
         لغو
       </button>
-  </div>
+    </div>
   )
 }
 

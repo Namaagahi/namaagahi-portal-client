@@ -51,13 +51,16 @@ const InitialCustomers = () => {
   }, [allInitialCustomers])
 
   // useEffect(() => {
+  //   console.log("USEEFFECT CALLED")
   //   allInitialCustomers.forEach(async(initialCustomer: any) => {
   //       await updateInitialCustomer({
   //         userId: initialCustomer?.userId,
   //         id: initialCustomer?.id,
   //         name: initialCustomer?.name,
-  //         phoneNumber: '',
-  //         introductionMethod: ''
+  //         agentName: "",
+  //         role: "",
+  //         phoneNumber: initialCustomer?.phoneNumber,
+  //         introductionMethod: initialCustomer?.introductionMethod,
   //       })
   //   })
   // },[])
@@ -84,9 +87,33 @@ const InitialCustomers = () => {
             },
             {
               accessorFn: row => row.name,
-              id: 'نام',
+              id: 'نام پروژه',
               cell: info => info.getValue(),
-              header: () => <span>نام</span>,
+              header: () => <span>نام پروژه</span>,
+            },
+            {
+              accessorFn: row => row.agentName,
+              id: 'نام نماینده',
+              cell: info => {
+                return (
+                  <p className={`${!info.getValue()&& 'text-red-500'}`}>
+                    {!info.getValue()? "تعیین نشده" : info.getValue()}
+                  </p>
+                )
+              },
+              header: () => <span>نام نماینده</span>,
+            },
+            {
+              accessorFn: row => row.role,
+              id: 'سمت',
+              cell: info => {
+                return (
+                  <p className={`${!info.getValue()&& 'text-red-500'}`}>
+                    {!info.getValue()? "تعیین نشده" : info.getValue()}
+                  </p>
+                )
+              },
+              header: () => <span>سمت</span>,
             },
             {
               accessorFn: row => row.phoneNumber,

@@ -1,10 +1,10 @@
-import { NoteObject, StructureObject, UserObject } from "@/app/lib/interfaces"
+import { StructureObject, UserObject } from "@/app/lib/interfaces"
 import LogoutModalContent from "../main/LogoutModalContent"
 import DeleteModalContent from "../main/DeleteModalContent"
 
 type Props = {
   type: string
-  prop?: UserObject | NoteObject | StructureObject | undefined | any
+  prop?: UserObject | StructureObject | undefined | any
   handleModal: () => void
   deleteType?: string
 }
@@ -20,27 +20,27 @@ const ConfirmModal = (props: Props) => {
 
   return (
     <div className="modalContainer">
-      <div 
-        onClick={handleModal} 
+      <div
+        onClick={handleModal}
         className="backdropContainer"
       ></div>
 
       <div className="confirmModalContentContainer">
         {
-          type === 'delete' ? 
+          type === 'delete' ?
           <DeleteModalContent
             handleModal={handleModal}
             prop={prop}
             deleteType={deleteType!}
           />
-          : 
-          <LogoutModalContent 
+          :
+          <LogoutModalContent
             handleModal={handleModal}
           />
         }
-      </div>     
+      </div>
     </div>
   )
 }
 
-export default ConfirmModal 
+export default ConfirmModal

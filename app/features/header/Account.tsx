@@ -15,7 +15,6 @@ import Loading from "../loading/Loading"
 
 const Account = () => {
 
-  
   const {
     id,
     status,
@@ -24,11 +23,10 @@ const Account = () => {
   const {
     isLoading,
     isError,
-  } = useGetUsersQuery(undefined, { 
+  } = useGetUsersQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: true,
-    // pollingInterval: 5000
-  }) 
+  })
 
   const user: UserObject = useSelector(state => selectUserById(state, id) as UserObject)
 
@@ -43,20 +41,20 @@ const Account = () => {
   if(!user) return <Loading />
   return (
     <>
-      <div 
+      <div
         className="accountContainer"
         onClick={() => setShowAccountMenu(!showAccountMenu)}
       >
-        <Image 
-            className="rounded-full cursor-pointer hover:scale-110 transition-all w-11 h-11"
-            src={user.avatar}
-            alt="profile-image"
-            width={35}
-            height={35}
+        <Image
+          className="rounded-full cursor-pointer hover:scale-110 transition-all w-11 h-11"
+          src={user.avatar}
+          alt="profile-image"
+          width={35}
+          height={35}
         />
         <p className="text-white dark:text-black font-bold">{user?.name}</p>
         <p className="text-white dark:text-black">{status}</p>
-          
+
         {showAccountMenu &&
           <div className="accountMenuContainer z-[1000]">
             <ul className="space-y-3">
@@ -96,20 +94,20 @@ const Account = () => {
           </div>
         }
       </div>
-    
+
       {
         isLogout &&
-          <ConfirmModal 
+          <ConfirmModal
           type={'logout'}
           handleModal={handleLogout}
           />
       }
 
       {
-        isEditProfile && 
+        isEditProfile &&
         <CreateUpdateModal
           type={'editProfile'}
-          handleModal={handleEditProfile} 
+          handleModal={handleEditProfile}
           prop={user}
         />
       }

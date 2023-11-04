@@ -1,10 +1,8 @@
 import NewInitialCustomerForm from "@/app/features/initialCustomers/NewInitialCustomerForm"
-import { NoteObject, StructureObject, UserObject } from "@/app/lib/interfaces"
+import { StructureObject, UserObject } from "@/app/lib/interfaces"
 import EditStructure from "@/app/features/structures/EditStructure"
 import NewUserForm from "@/app/features/users/NewUserForm"
 import EditUser from "@/app/features/users/EditUser"
-import EditNote from "@/app/features/note/EditNote"
-import NewNote from "@/app/features/note/NewNote"
 import EditFinalCustomer from "@/app/features/finalCustomers/EditFinalCustomer"
 import NewFinalCustomerForm from "@/app/features/finalCustomers/NewFinalCustomerForm"
 import NewProjectCodeForm from "@/app/features/projectCodes/NewProjectCodeForm"
@@ -16,7 +14,7 @@ import EditInitialCustomer from "@/app/features/initialCustomers/EditInitialCust
 type Props = {
   handleModal: () => void
   type: string
-  prop?: UserObject | NoteObject | StructureObject | undefined | any
+  prop?: UserObject | StructureObject | undefined | any
 }
 
 const CreateUpdateModal = (props: Props) => {
@@ -38,31 +36,27 @@ const CreateUpdateModal = (props: Props) => {
         {
           type === 'newUser' ?
             <NewUserForm handleModal={handleModal} />
-                : type === 'editUser'?
-                <EditUser handleModal={handleModal} user={prop} />
-                : type === 'editProfile'?
-                <EditProfile handleModal={handleModal} user={prop} />
-                : type === 'newTask'?
-                <NewNote handleModal={handleModal} />
-                : type === 'editTask'?
-                <EditNote handleModal={handleModal} note={prop} />
-                : type === 'editStructure'?
-                <EditStructure handleModal={handleModal} structure={prop} />
-                : type === 'newInitialCustomer'?
-                <NewInitialCustomerForm handleModal={handleModal} />
-                : type === 'editInitialCustomer'?
-                <EditInitialCustomer handleModal={handleModal} initialCustomer={prop} />
-                : type === 'newFinalCustomer'?
-                <NewFinalCustomerForm handleModal={handleModal} />
-                : type === 'editFinalCustomer'?
-                <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
-                : type === 'newProjectCode'?
-                <NewProjectCodeForm handleModal={handleModal} />
-                : type === 'editProjectCode'?
-                <EditProjectCode handleModal={handleModal} projectCode={prop} />
-                : type === 'newChatroom'?
-                <NewChatroom handleModal={handleModal} />
-                : null
+              : type === 'editUser'?
+              <EditUser handleModal={handleModal} user={prop} />
+              : type === 'editProfile'?
+              <EditProfile handleModal={handleModal} user={prop} />
+              : type === 'editStructure'?
+              <EditStructure handleModal={handleModal} structure={prop} />
+              : type === 'newInitialCustomer'?
+              <NewInitialCustomerForm handleModal={handleModal} />
+              : type === 'editInitialCustomer'?
+              <EditInitialCustomer handleModal={handleModal} initialCustomer={prop} />
+              : type === 'newFinalCustomer'?
+              <NewFinalCustomerForm handleModal={handleModal} />
+              : type === 'editFinalCustomer'?
+              <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
+              : type === 'newProjectCode'?
+              <NewProjectCodeForm handleModal={handleModal} />
+              : type === 'editProjectCode'?
+              <EditProjectCode handleModal={handleModal} projectCode={prop} />
+              : type === 'newChatroom'?
+              <NewChatroom handleModal={handleModal} />
+              : null
         }
       </div>
     </div>

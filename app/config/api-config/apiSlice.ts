@@ -4,7 +4,7 @@ import { setCredentials } from '@/app/apiSlices/authSlice'
 import { CustomError } from '@/app/lib/interfaces'
 import { RootState } from '../state-config/store'
 
-const baseQuery = fetchBaseQuery({ 
+const baseQuery = fetchBaseQuery({
 
     baseUrl: process.env.SERVER,
     credentials: 'include',
@@ -16,8 +16,8 @@ const baseQuery = fetchBaseQuery({
 }) as BaseQueryFn<string | FetchArgs, unknown, CustomError | undefined, {}>
 
 const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError | CustomError | undefined >= async (args, api, extraOptions) => {
-    
-    let result = await baseQuery(args, api, extraOptions) 
+
+    let result = await baseQuery(args, api, extraOptions)
     if(result?.error?.status === 403) {
         const refreshResult = await baseQuery('/auth/refresh', api, extraOptions)
 
@@ -34,6 +34,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['Note', 'User', 'Structure', 'Box'],
+    tagTypes: ['User', 'Structure', 'Box'],
     endpoints: builder => ({})
 })

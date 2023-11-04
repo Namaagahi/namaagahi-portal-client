@@ -15,7 +15,6 @@ import { GiPackedPlanks } from 'react-icons/gi'
 export const USER_REGEX = /^[A-z]{3,20}$/
 export const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/
 export const DASH_REGEX = /^\/dashboard(\/)?$/
-export const NOTES_REGEX = /^\/dashboard\/tasks(\/)?$/
 export const USERS_REGEX = /^\/dashboard\/users(\/)?$/
 export const variableCostNames2 = ['برق', 'پایش', 'بیمه', 'نگهداری', 'سایر', 'رنگ آمیزی']
 
@@ -30,17 +29,17 @@ export const boxStructureHeadings = [
     'تاریخ شروع',
     'تاریخ پایان',
     'طول دوره',
-    'تیپ', 
-    'وجه', 
+    'تیپ',
+    'وجه',
     'طول',
     'عرض',
     'متراژ چاپ',
     'متراژ واقعی',
-    'تمام شده متر مربع', 
-    'تمام شده روزانه', 
+    'تمام شده متر مربع',
+    'تمام شده روزانه',
     'تمام شده ماهیانه',
     'تمام شده دوره',
-    
+
 ].concat(variableCostNames2).concat(['جمع هزینه سربار روزانه', 'هزینه روزانه کل', 'هزینه ماهیانه کل', 'هزینه دوره کل'])
 
 export const plannedStructureHeadings = ['کد سامانه', 'شماره پلن', 'نام مشتری', 'مسیر', 'قیمت فروش دوره', 'تاریخ شروع پلن', 'تاریخ پایان پلن', ]
@@ -52,7 +51,7 @@ export const structuresTableHeadings = [
     'کاربر ایجاد کننده',
     'کد سامانه',
     'منطقه',
-    'مسیر', 
+    'مسیر',
     'نشانی',
     'وضعیت',
     'باکس',
@@ -67,8 +66,8 @@ export const billboardPagePropsObject = [
         id: 1,
         title: 'باکس',
         main:'همه باکس ها',
-        mainLink:'/dashboard/billboard/boxes', 
-        subTitle:'باکس جدید', 
+        mainLink:'/dashboard/billboard/boxes',
+        subTitle:'باکس جدید',
         subTitleLink:'/dashboard/billboard/boxes/createbox'
     },
     {
@@ -76,9 +75,9 @@ export const billboardPagePropsObject = [
         title: 'پلن',
         main:'همه پلن ها',
         main2: 'پلن های من',
-        mainLink:'/dashboard/billboard/plans', 
-        main2Link:'/dashboard/billboard/plans/myplans', 
-        subTitle:'پلن جدید', 
+        mainLink:'/dashboard/billboard/plans',
+        main2Link:'/dashboard/billboard/plans/myplans',
+        subTitle:'پلن جدید',
         subTitleLink:'/dashboard/billboard/plans/createplan'
     },
     {
@@ -86,9 +85,9 @@ export const billboardPagePropsObject = [
         title: 'سازه',
         main:'همه سازه ها',
         main2:'سازه های من',
-        mainLink:'/dashboard/billboard/structures', 
-        main2Link:'/dashboard/billboard/structures/mystructures', 
-        subTitle:'سازه جدید', 
+        mainLink:'/dashboard/billboard/structures',
+        main2Link:'/dashboard/billboard/structures/mystructures',
+        subTitle:'سازه جدید',
         subTitleLink:'/dashboard/billboard/structures/createstructure',
     },
     {
@@ -96,13 +95,10 @@ export const billboardPagePropsObject = [
         title: 'مشتری',
         main:'مشتریان اولیه ',
         main2:'مشتریان نهایی',
-        mainLink:'/dashboard/billboard/initial-customers', 
-        main2Link:'/dashboard/billboard/final-customers', 
+        mainLink:'/dashboard/billboard/initial-customers',
+        main2Link:'/dashboard/billboard/final-customers',
     },
 ]
-
-// TASKS PAGE =======================================================
-export const notesTableHeadings = ['کاربر', 'عنوان', 'شرح', 'وضعیت','عملیات', 'تاریخ ایجاد', 'تاریخ به روزرسانی']
 
 // USERS PAGE =======================================================
 export const usersTableHeadings = ['آواتار', 'نام', 'نام کاربری', 'سطح دسترسی', 'عملیات', 'وضعیت']
@@ -112,7 +108,7 @@ export const menuItems: MenuItemsObj[] = [{
   name: 'داشبورد',
   path: '/dashboard',
   icon: <IoGrid size={20} />
-}, 
+},
 {
   name: 'کاربران',
   path: '/dashboard/users',
@@ -236,8 +232,8 @@ export const billboardMenuList = [
 //       id: 1,
 //       title: 'باکس',
 //       main:'همه باکس ها',
-//       mainLink:'/dashboard/billboard/boxes', 
-//       subTitle:'باکس جدید', 
+//       mainLink:'/dashboard/billboard/boxes',
+//       subTitle:'باکس جدید',
 //       subTitleLink:'/dashboard/billboard/boxes/createbox'
 //   },
 //   {
@@ -245,9 +241,9 @@ export const billboardMenuList = [
 //       title: 'پلن',
 //       main:'همه پلن ها',
 //       main2: 'پلن های من',
-//       mainLink:'/dashboard/billboard/plans', 
-//       main2Link:'/dashboard/billboard/plans/myplans', 
-//       subTitle:'پلن جدید', 
+//       mainLink:'/dashboard/billboard/plans',
+//       main2Link:'/dashboard/billboard/plans/myplans',
+//       subTitle:'پلن جدید',
 //       subTitleLink:'/dashboard/billboard/plans/createplan'
 //   },
 //   {
@@ -255,9 +251,9 @@ export const billboardMenuList = [
 //       title: 'سازه',
 //       main:'همه سازه ها',
 //       main2:'سازه های من',
-//       mainLink:'/dashboard/billboard/structures', 
-//       main2Link:'/dashboard/billboard/structures/mystructures', 
-//       subTitle:'سازه جدید', 
+//       mainLink:'/dashboard/billboard/structures',
+//       main2Link:'/dashboard/billboard/structures/mystructures',
+//       subTitle:'سازه جدید',
 //       subTitleLink:'/dashboard/billboard/structures/createstructure',
 //   },
 //   {
@@ -265,12 +261,12 @@ export const billboardMenuList = [
 //       title: 'مشتری',
 //       main:'مشتریان اولیه ',
 //       main2:'مشتریان نهایی',
-//       mainLink:'/dashboard/billboard/initial-customers', 
-//       main2Link:'/dashboard/billboard/final-customers', 
+//       mainLink:'/dashboard/billboard/initial-customers',
+//       main2Link:'/dashboard/billboard/final-customers',
 //   },
 // ]
 
- 
+
 // NEW BOX =======================================================
 export const newBoxDefaultValues = {
   boxId: `box_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,
@@ -367,7 +363,7 @@ export const variableCostNames = ['برق', 'پایش', 'بیمه', 'نگهدا�
 
 export const structureVariableCostsFormValues = {
   name: '',
-  figures: { 
+  figures: {
       monthlyCost: ''
   }
 }
@@ -401,28 +397,28 @@ export const planStructureFormValues: any = {
   monthlyFee: '',
   monthlyFeeWithDiscount:'',
   discountFee: '',
-  
+
 }
 
 // PLANS =======================================================
 export const plansPagePropsObject = [
-  { 
+  {
     id:1,
     title: 'پلنهای پیشنهادی',
     main:'مشاهده پلنهای پیشنهادی',
-    mainLink:'/dashboard/billboard/plans/suggested', 
+    mainLink:'/dashboard/billboard/plans/suggested',
   },
-  { 
+  {
     id:2,
     title: 'پلنهای تایید شده',
     main:'مشاهده پلنهای تایید شده',
-    mainLink:'/dashboard/billboard/plans/done', 
+    mainLink:'/dashboard/billboard/plans/done',
   },
-  { 
+  {
     id:2,
     title: 'پلنهای رد شده',
     main:'مشاهده پلنهای رد شده',
-    mainLink:'/dashboard/billboard/plans/rejected', 
+    mainLink:'/dashboard/billboard/plans/rejected',
   },
 ]
 

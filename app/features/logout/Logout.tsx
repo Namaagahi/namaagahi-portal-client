@@ -20,7 +20,7 @@ const Logout = (props: Props) => {
   const [sendLogout, {
     isLoading,
   }] = useSendLogoutMutation()
-  
+
   const onLogoutHandler = async () => {
     await sendLogout(undefined)
     push('/')
@@ -31,15 +31,15 @@ const Logout = (props: Props) => {
   return (
     <div className="flex items-center gap-6">
       <button
-          onClick={onLogoutHandler}
-          className="deleteConfirmButton"
+        onClick={onLogoutHandler}
+        className="deleteConfirmButton"
       >
-          تایید
+        تایید
       </button>
 
-      <button 
-          onClick={handleModal}
-          className="cancelButton"
+      <button
+        onClick={handleModal}
+        className="cancelButton"
       >
         لغو
       </button>

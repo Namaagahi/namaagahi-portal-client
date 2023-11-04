@@ -30,26 +30,6 @@ export interface UserData {
   active?: boolean
 }
 
-// NOTE ===========================================================================
-export interface NoteObject {
-  id? : string,
-  _id: string,
-  user: string,
-  title: string,
-  text: string,
-  completed?: boolean
-  createdAt: string,
-  updatedAt: string,
-  username: string
-}
-
-export interface NoteData {
-  title?: string,
-  text?: string,
-  completed?: boolean
-  userId?:string
-}
-
 // BOX ===========================================================================
 export interface BoxStructure {
     id? : string
@@ -441,6 +421,8 @@ export interface InitialCustomerObject {
   userId: string
   username?: string
   name: string
+  agentName: string
+  role: string
   phoneNumber: number | null
   introductionMethod: string
   createdAt: string
@@ -450,6 +432,8 @@ export interface InitialCustomerObject {
 
 export interface EditInitialCustomerForm {
   name: string
+  agentName: string
+  role: string
   phoneNumber: number | null
   introductionMethod: string
 }
