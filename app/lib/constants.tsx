@@ -132,7 +132,7 @@ export const projectList = [
     icon: <AiTwotoneProject size={20} />,
     menus: [
       {
-        name: 'درخواست پروپوزال',
+        name: 'پروپوزال',
         icon: <AiOutlinePullRequest size={20} />,
         path: '/dashboard/proposal'
       },

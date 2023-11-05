@@ -560,3 +560,22 @@ export interface MessageObject extends ChatroomObject {
   createdAt?: string
   updatedAt?: string
 }
+
+// PROPOSAL ===========================================================================
+export interface ProposalObject {
+  _id? : string
+  id?: string
+  userId: string
+  subject: string
+  initialCustomerId: string
+  startDate: number
+  endDate: number
+  priority: string
+  status: string
+  type: string
+  description: string
+  assignedUsers: string[]
+  createdAt: string
+  updatedAt: string
+  username?: string
+}

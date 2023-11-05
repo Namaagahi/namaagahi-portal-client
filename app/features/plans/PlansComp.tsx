@@ -15,7 +15,7 @@ import SearchContainer from '@/app/components/main/SearchContainer'
 import Button from '@/app/components/main/Button'
 import { useRouter } from 'next/navigation'
 
-type Props = { 
+type Props = {
   page: string
 }
 
@@ -25,7 +25,7 @@ const PlansComp = (props: Props) => {
   const { id } = useAuth()
   const { push } = useRouter()
 
-  const { 
+  const {
     isLoading,
     isError,
   } = useGetAllPlansQuery(undefined, {
@@ -33,10 +33,10 @@ const PlansComp = (props: Props) => {
     refetchOnMountOrArgChange: false
   })
 
-  useGetAllInitialCustomersQuery(undefined, { 
-      refetchOnFocus: false, 
+  useGetAllInitialCustomersQuery(undefined, {
+      refetchOnFocus: false,
       refetchOnMountOrArgChange: false
-  })  
+  })
 
   useGetAllBoxesQuery(undefined, {
     refetchOnFocus: false,
@@ -44,7 +44,7 @@ const PlansComp = (props: Props) => {
   })
 
   const [planId, setPlanId] = useState<string | any | EntityId>('')
-  const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[]) 
+  const allPlans: PlanObject[] = useSelector(state => selectAllPlans(state) as PlanObject[])
   const plan: PlanObject = useSelector(state => selectPlanById(state, planId!) as PlanObject)
   const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
   const [data, setData] = useState<PlanObject[] | []>([])
@@ -57,23 +57,7 @@ const PlansComp = (props: Props) => {
     }
     }, [allPlans])
 
-  if(isLoading || !allInitialCustomers[0]) return <Loading /> 
-  if(!data[0]) return (
-    <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-      <p className='text-xl'>
-        شما هیچ پلنی ثبت نکرده اید
-      </p>
-
-      <p>
-        برای ایجاد پلن جدید 
-        <Link href={'/dashboard/billboard/plans/createplan'}>
-          <span className='text-cyan-300'>
-            کلیک کنید
-          </span>
-        </Link>
-      </p>
-    </div>
-  )
+  if(isLoading || !allInitialCustomers[0]) return <Loading />
 
   if(isError) return (
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
@@ -82,7 +66,7 @@ const PlansComp = (props: Props) => {
       </p>
 
       <p>
-        برای ایجاد پلن جدید 
+        برای ایجاد پلن جدید
         <Link href={'/dashboard/billboard/plans/createplan'}>
           <span className='text-cyan-300'>
             کلیک کنید
@@ -91,14 +75,14 @@ const PlansComp = (props: Props) => {
       </p>
     </div>
   )
-  
+
   return (
     <>
       <PageTitle name={'پلن ها'} />
 
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />
-        <Button 
+        <Button
           onClickHandler={() => push('/dashboard/billboard/plans/createplan')}
           title="پلن جدید"
         />

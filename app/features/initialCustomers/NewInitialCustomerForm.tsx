@@ -52,7 +52,7 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
     const data = await createNewInitialCustomer({ userId:id, name })
     if(!data.error) {
       handleModal()
-      toast.success('مشتری اولیه جدید با موفقیت ساخته شد')
+      toast.success('پروژه جدید با موفقیت ساخته شد')
     }
 
     if(data.error?.status === 409)
@@ -70,7 +70,7 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
       >
         <div className="flex justify-between items-center">
           <p className="md:text-2xl text-xl font-bold">
-            مشتری اولیه جدید
+            پروژه جدید
           </p>
 
           <AiOutlineClose className="cursor-pointer text-xl hover:text-2xl transition-all" onClick={handleModal}/>
@@ -106,7 +106,7 @@ const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
         <ul className='mb-4 bg-gray-200 text-gray-700 font-bold rounded-md p-3 h-[100px] overflow-y-auto'>
           {getInitalCustomersIsError ?
             <p>
-              هیچ مشتری اولیه ای تعریف نشده است
+              هیچ پروژه ای تعریف نشده است
             </p>
           :
           filteredCustomers && filteredCustomers.map((customer: InitialCustomerObject) => (

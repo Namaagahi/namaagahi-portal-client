@@ -24,7 +24,7 @@ const AllPlansTable = (props: any) => {
         [
           {
             header: 'جدول پلن ها',
-            columns: [ 
+            columns: [
               {
                 accessorKey: "_id",
                 accessorFn: row => row.id,
@@ -74,7 +74,7 @@ const AllPlansTable = (props: any) => {
                 id: 'برند',
                 cell: info => info.getValue(),
                 header: () => <span>برند</span>,
-                
+
               },
               {
                 accessorFn: row => row.structures,
@@ -101,13 +101,13 @@ const AllPlansTable = (props: any) => {
                           status = {'تایید شده'}
                           bgColor = {'#439400'}
                           textColor = {'#FFFFFF'}
-                      /> 
+                      />
                       : status === 'pending'?
                       <Status
                           status = {'معلق'}
                           bgColor = {'#b56a35'}
                           textColor = {'#FFFFFF'}
-                      /> 
+                      />
                       : status === 'rejected' &&
                       <Status
                       status = {'رد شده'}
@@ -116,7 +116,7 @@ const AllPlansTable = (props: any) => {
                   />
                   }
                   </div>
-                  ) 
+                  )
                 },
                 header: () => <span>وضعیت</span>,
               },
@@ -143,16 +143,16 @@ const AllPlansTable = (props: any) => {
                   const row = info.row.original
                   return (
                     <div className="flex items-center justify-center gap-2" onClick={() => setPlanId(row.id)}>
-                        {isMaster && page === 'all' ? 
+                        {isMaster && page === 'all' ?
                         <>
                           <Link href={`/dashboard/billboard/plans/editplan/${row.id}`}>
                             <AiFillEdit
                               className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
                             />
                           </Link>
-                          <AiFillDelete 
+                          <AiFillDelete
                             className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
-                            onClick={handleDeletePlan}    
+                            onClick={handleDeletePlan}
                           />
                         </>
                         : (isMaster || isMediaManager || isAdmin) && page === 'all' ?
@@ -173,10 +173,10 @@ const AllPlansTable = (props: any) => {
                               className="text-black dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md cursor-pointer" size={20}
                             />
                           </Link>
-                      
-                          <AiFillDelete 
+
+                          <AiFillDelete
                             className="text-orange-600 dark:text-white hover:scale-125 transition-all p-1 border-[1px] border-[#737373] rounded-md" size={20}
-                            onClick={handleDeletePlan}    
+                            onClick={handleDeletePlan}
                           />
                         </>
                         }
@@ -226,19 +226,19 @@ const AllPlansTable = (props: any) => {
 
   return (
     <>
-        <TableComponent 
+        <TableComponent
             columns={columns}
             data={data}
         />
-      
+
       {
-        isDeletePlan && 
-        <ConfirmModal 
-          prop={plan} 
+        isDeletePlan &&
+        <ConfirmModal
+          prop={plan}
           handleModal={handleDeletePlan}
-          type={'delete'} 
+          type={'delete'}
           deleteType="plan"
-        /> 
+        />
       }
     </>
   )

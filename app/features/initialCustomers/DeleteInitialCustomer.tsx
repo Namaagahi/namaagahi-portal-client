@@ -23,7 +23,7 @@ const DeleteInitialCustomer = (props: Props) => {
   const onDeleteInitialCustomerClick = async () => {
     const abc = await deleteInitialCustomer({ id: initialCustomer?.id })
     handleModal()
-    toast.success(`مشتری  ${initialCustomer?.name} با موفقیت حذف شد`)
+    toast.success(`پروژه  ${initialCustomer?.name} با موفقیت حذف شد`)
   }
 
   if(isLoading) return <Loading/>
@@ -34,7 +34,7 @@ const DeleteInitialCustomer = (props: Props) => {
         onClick={onDeleteInitialCustomerClick}
         className="deleteConfirmButton"
       >
-        حذف مشتری اولیه
+        حذف پروژه
       </button>
 
       <button

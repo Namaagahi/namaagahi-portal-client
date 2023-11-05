@@ -201,7 +201,7 @@ const InitialCustomers = () => {
 
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
       <p className='text-xl'>
-        هیچ مشتری اولیه ای وجود ندارد
+        هیچ پروژه ای وجود ندارد
       </p>
     </div>
   )
