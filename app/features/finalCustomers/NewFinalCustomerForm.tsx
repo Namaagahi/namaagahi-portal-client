@@ -23,10 +23,10 @@ const NewFinalCustomerForm = (props: Props) => {
     const { push } = useRouter()
 
     const [createNewFinalCustomer, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
+      isLoading,
+      isSuccess,
+      isError,
+      error
     }] = useCreateNewFinalCustomerMutation()
 
     const [contractType, setContractType] = useState('official')
@@ -34,8 +34,11 @@ const NewFinalCustomerForm = (props: Props) => {
     const [errMsg, setErrMsg] = useState<string | null>(null)
 
     const createFinalCustomerForm = useForm<AddFinalCustomerForm>({
-        defaultValues: {...newFinalCustomerDefaultValues, finalCustomerId: `fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`,},
-            mode: 'onSubmit'
+      defaultValues: {
+        ...newFinalCustomerDefaultValues,
+        finalCustomerId:`fc_${new Date().getTime() + String(Math.random()).replace('.', '').slice(0, 6)}`
+      },
+      mode: 'onSubmit'
     })
 
     const {
@@ -45,23 +48,23 @@ const NewFinalCustomerForm = (props: Props) => {
     } = createFinalCustomerForm
 
     const {
-        fields: agentField,
-        append: appendAgent,
-        remove: removeAgent
-      } = useFieldArray({
-        control,
-        name: "agent",
-      })
+      fields: agentField,
+      append: appendAgent,
+      remove: removeAgent
+    } = useFieldArray({
+      control,
+      name: "agent",
+    })
 
     const onSubmit = async(data: any) => {
         const abc1 = await createNewFinalCustomer({
             finalCustomerId: data.finalCustomerId,
             userId: id,
             name: data.name,
-            contractType: contractType, 
+            contractType: contractType,
             customerType: customerType,
             agent: data.agent,
-            nationalId: parseFloat(data.nationalId), 
+            nationalId: parseFloat(data.nationalId),
             ecoCode: parseFloat(data.ecoCode),
             regNum: parseFloat(data.regNum),
             address: data.address,
@@ -159,13 +162,13 @@ const NewFinalCustomerForm = (props: Props) => {
                     ایجاد مشتری نهایی
                 </p>
 
-                <AiOutlineClose 
-                    className="cursor-pointer text-xl hover:text-2xl transition-all" 
+                <AiOutlineClose
+                    className="cursor-pointer text-xl hover:text-2xl transition-all"
                     onClick={handleModal}
                 />
             </div>
 
-            <FinalCustomerTypes 
+            <FinalCustomerTypes
                 contractType={contractType}
                 setContractType={setContractType}
                 customerType={customerType}
@@ -174,10 +177,10 @@ const NewFinalCustomerForm = (props: Props) => {
 
             <div className="relative w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-2 gap-4 lg:gap-2 mt-4">
                 {customInputs.map((customInput) => (
-                    <CustomInput 
+                    <CustomInput
                         key={customInput.id}
                         control={control}
-                        name={customInput.name} 
+                        name={customInput.name}
                         label={customInput.label}
                         type={customInput.type}
                         required={customInput.required}
@@ -190,19 +193,19 @@ const NewFinalCustomerForm = (props: Props) => {
                 <p className="text-red-500">{errMsg? errMsg : ' '}</p>
             </div>
             {(contractType === 'legal' || customerType === 'legal') &&
-                <Agents 
-                    agentField={agentField}
-                    control={control}
-                    appendAgent={appendAgent}
-                    removeAgent={removeAgent}
-                />
+              <Agents
+                agentField={agentField}
+                control={control}
+                appendAgent={appendAgent}
+                removeAgent={removeAgent}
+              />
             }
             <div className="flex items-center gap-6">
                 <button className={`confirmButton`}>
                     ذخیره
                 </button>
 
-                <button 
+                <button
                     onClick={handleModal}
                     className="cancelButton"
                 >

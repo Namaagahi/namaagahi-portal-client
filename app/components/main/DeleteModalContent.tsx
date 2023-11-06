@@ -9,6 +9,7 @@ import DeleteFinalCustomer from "@/app/features/finalCustomers/DeleteFinalCustom
 import DeleteProjectCode from "@/app/features/projectCodes/DeleteProjectCode"
 import DeleteChatroom from "@/app/features/chatrooms/DeleteChatroom"
 import DeleteAllMessages from "@/app/features/chatrooms/DeleteAllMessages"
+import DeleteProposal from "@/app/features/proposal/DeleteProposal"
 
 interface Props {
     handleModal: () => void
@@ -92,6 +93,11 @@ const DeleteModalContent = (props: Props) => {
           : deleteType === 'allMessages'?
           <DeleteAllMessages
             chatroomId={prop}
+            handleModal={handleModal}
+          />
+          : deleteType === 'proposal'?
+          <DeleteProposal
+            proposal={prop}
             handleModal={handleModal}
           />
           : null

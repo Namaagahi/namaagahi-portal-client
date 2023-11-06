@@ -17,13 +17,12 @@ import Loading from "../loading/Loading"
 
 type Props = {
     mark: string
-  }
+}
 
 const NewPlan = (props: Props) => {
-    
-  const { mark } = props
 
-  const { id } = useAuth()  
+  const { mark } = props
+  const { id } = useAuth()
   const { push } = useRouter()
   const [discountType, setDiscountType] = useState('percentage')
   const [isChanged, setIsChanged] = useState(false)
@@ -34,14 +33,14 @@ const NewPlan = (props: Props) => {
     isSuccess,
     isError,
     error
-}] = useCreateNewPlanMutation()
+  }] = useCreateNewPlanMutation()
 
+  useGetAllBoxesQuery(undefined, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false,
+  })
 
-useGetAllBoxesQuery(undefined, {
-  refetchOnFocus: false,
-  refetchOnMountOrArgChange: false,
-})
-const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
+  const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
 
   const createPlanForm = useForm<AddPlanForm>({
     defaultValues: newPlanDefaultValues,
@@ -58,9 +57,9 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
     handleSubmit,
     formState: {errors},
     setValue,
-    watch 
+    watch
 } = createPlanForm
-  
+
   const {
     fields: structuresField,
     append: appendStructure,
@@ -73,7 +72,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
   const onSubmit = async(data: any) => {
 
     const newData = {
-      ...data, 
+      ...data,
       structures: data.structures.map((structure: StructurePlanObject) => ({
         ...structure,
         monthlyFee: convertToNumber(structure.monthlyFee),
@@ -85,7 +84,7 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       userId: id,
       mark: {
         name: newData.mark
-      }, 
+      },
       initialCustomerId: newData.initialCustomerId,
       finalCustomerId: newData.finalCustomerId,
       userDefinedMonthlyFeeWithDiscount: isDiscountedInput,
@@ -94,8 +93,8 @@ const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxO
       structures: newData.structures,
       totalPackagePrice: mark === 'package' ? convertToNumber(newData.totalPackagePrice) : null
     })
-console.log("abc", abc)
-  } 
+  console.log("abc", abc)
+  }
 
   if(isError) {
     'status' in error! && error.status === 409 && toast.error('این نام پلن قبلا ثبت شده است')
@@ -117,7 +116,7 @@ useEffect(() => {
         برای ایجاد پلن باید سازه ها در باکس ثبت شده باشند. در حال حاضر هیچ باکسی وجود ندارد.
       </p>
       <p>
-        برای ایجاد باکس جدید 
+        برای ایجاد باکس جدید
         <Link href={'/dashboard/billboard/boxes/createbox'}>
           <span className='text-cyan-300'>
             کلیک کنید

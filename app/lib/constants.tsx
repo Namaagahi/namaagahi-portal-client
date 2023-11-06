@@ -512,3 +512,33 @@ export const jalaliMonths = [
   {id: '11', name: 'بهمن'},
   {id: '12', name: 'اسفند'},
 ]
+
+export const newProposalDefaultValues = {
+  subject: '',
+  initialCustomerId: '',
+  startDate: new Date().getTime() / 1000,
+  endDate: new Date().getTime() / 1000,
+  priority: '',
+  status: '',
+  type: '',
+  description: '',
+  assignedUsers: []
+}
+
+export const priorityTypes = [
+  { id: "low", name: 'کم'},
+  { id: "medium", name: 'متوسط'},
+  { id: "high", name: 'زیاد'},
+]
+
+export const proposalStatusTypes = [
+  { id: "in-progress", name: 'درجریان'},
+  { id: "done", name: 'تمام شده'},
+]
+
+export const proposalTypeTypes = [
+  { id: "billboard", name: 'بیلبورد'},
+  { id: "metro", name: 'مترو'},
+  { id: "bus", name: 'اتوبوس'},
+  { id: "namava", name: 'نماوا'},
+]

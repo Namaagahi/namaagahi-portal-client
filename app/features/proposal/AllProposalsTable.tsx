@@ -96,13 +96,13 @@ const AllProposalsTable = (props: Props) => {
                         bgColor = {'#96ffb9'}
                         textColor = {'#0f0405'}
                     />
-                    : status === 'medium'?
+                    : priority === 'medium'?
                     <Status
                         status = {'متوسط'}
                         bgColor = {'#dbde85'}
                         textColor = {'#0f0405'}
                     />
-                    : status === 'high' &&
+                    : priority === 'high' &&
                     <Status
                       status = {'بالا'}
                       bgColor = {'#bd4254'}

@@ -10,40 +10,40 @@ type Props = {
 
 const DeleteChatroom = (props: Props) => {
 
-    const {
-        chatroom,
-        handleModal
-    } = props
+  const {
+      chatroom,
+      handleModal
+  } = props
 
-    const [deleteChatroom, {
-        isLoading, 
-    }] = useDeleteChatroomMutation()
-    
-    const onDeleteChatroomClick = async () => {
-        const abc = await deleteChatroom({ id: chatroom?.id })
-        handleModal()
-        toast.success(`روم  ${chatroom?.name} با موفقیت حذف شد`)
-    }
+  const [deleteChatroom, {
+      isLoading,
+  }] = useDeleteChatroomMutation()
 
-    if(isLoading) return <Loading/>
+  const onDeleteChatroomClick = async () => {
+      const abc = await deleteChatroom({ id: chatroom?.id })
+      handleModal()
+      toast.success(`روم  ${chatroom?.name} با موفقیت حذف شد`)
+  }
 
-    return (
-        <div className="flex items-center gap-6">
-            <button
-                onClick={onDeleteChatroomClick}
-                className="deleteConfirmButton"
-            >
-                حذف چت روم
-            </button>
-    
-            <button 
-                onClick={handleModal}
-                className="cancelButton"
-            >
-            لغو
-            </button>
-        </div>
-    )
+  if(isLoading) return <Loading/>
+
+  return (
+    <div className="flex items-center gap-6">
+        <button
+            onClick={onDeleteChatroomClick}
+            className="deleteConfirmButton"
+        >
+            حذف چت روم
+        </button>
+
+        <button
+            onClick={handleModal}
+            className="cancelButton"
+        >
+        لغو
+        </button>
+    </div>
+  )
 }
 
 export default DeleteChatroom

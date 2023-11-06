@@ -579,3 +579,15 @@ export interface ProposalObject {
   updatedAt: string
   username?: string
 }
+
+export interface AddProposalForm {
+  subject: string
+  initialCustomerId: string
+  startDate: number
+  endDate: number
+  priority: string
+  status: string
+  type: string
+  description: string
+  assignedUsers: any
+}
