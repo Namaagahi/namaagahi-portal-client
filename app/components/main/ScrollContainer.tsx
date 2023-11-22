@@ -8,19 +8,19 @@ const ScrollContainer = () => {
   const { showScrollButtonToTop, handleScrollToTop } = useScrollToTop()
 
   return (
-    <>    
-        {showScrollButtonToBottom && (
-            <BsFillArrowDownCircleFill
-                className="scroll-to-bottom-button fixed left-3 top-1/2 cursor-pointer text-xl hover:text-bgform transition-all duration-300"
-                onClick={handleScrollToBottom}
-            />
-        )}
-        {showScrollButtonToTop && (
-            <BsFillArrowUpCircleFill
-                className="scroll-to-top-button fixed left-3 top-[47.5%] cursor-pointer text-xl hover:text-bgform transition-all duration-300"
-                onClick={handleScrollToTop}
-            />
-        )}
+    <>
+      {showScrollButtonToBottom && (
+        <BsFillArrowDownCircleFill
+          className="scroll-to-bottom-button fixed left-3 top-1/2 cursor-pointer text-xl hover:text-bgform transition-all duration-300"
+          onClick={handleScrollToBottom}
+        />
+      )}
+      {showScrollButtonToTop && (
+        <BsFillArrowUpCircleFill
+          className="scroll-to-top-button fixed left-3 top-[47.5%] cursor-pointer text-xl hover:text-bgform transition-all duration-300"
+          onClick={handleScrollToTop}
+        />
+      )}
     </>
   )
 }

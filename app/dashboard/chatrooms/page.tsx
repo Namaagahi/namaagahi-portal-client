@@ -29,14 +29,14 @@ const Chatrooms = () => {
   useEffect(() => {
     setupSocket()
   }, [])
-  
+
   const {
     isLoading,
     isError,
-  } = useGetAllChatroomsQuery(undefined, { 
+  } = useGetAllChatroomsQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
-  }) 
+  })
 
   const allChatrooms: ChatroomObject[] = useSelector(state => selectAllChatrooms(state) as ChatroomObject[])
   const [isNewChatroom, setIsNewChatroom] = useState<boolean>(false)
@@ -79,7 +79,7 @@ const Chatrooms = () => {
               header: () => <span>نام</span>,
             },
             {
-              id: 'عملیات', 
+              id: 'عملیات',
               header: () => <span>عملیات</span>,
               cell: (info) => {
                 const row = info.row.original
@@ -149,18 +149,18 @@ const Chatrooms = () => {
     <>
       <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
         <p className='text-xl'>
-      هیچ چت رومی تعریف نشده است
+          هیچ چت رومی تعریف نشده است
         </p>
 
         <p>
-        برای ایجاد چت روم جدید جدید 
-            <span className='text-cyan-300 cursor-pointer' onClick={handleNewChatroomModal}>
-            کلیک کنید
-            </span>
+          برای ایجاد چت روم جدید جدید
+          <span className='text-cyan-300 cursor-pointer' onClick={handleNewChatroomModal}>
+          کلیک کنید
+          </span>
         </p>
       </div>
       {
-        isNewChatroom && 
+        isNewChatroom &&
         <CreateUpdateModal
           type={'newChatroom'}
           handleModal={handleNewChatroomModal}
@@ -173,25 +173,24 @@ const Chatrooms = () => {
   return (
     <>
       <PageTitle name={'چت روم ها'} />
-
       <div className="flex items-center justify-between gap-3">
-          <SearchContainer />
+        <SearchContainer />
 
-          {(isAdmin || isMaster) &&
-              <Button 
-                  onClickHandler={handleNewChatroomModal}
-                  title="چت روم جدید"
-              />
-          }
+        {(isAdmin || isMaster) &&
+          <Button
+            onClickHandler={handleNewChatroomModal}
+            title="چت روم جدید"
+          />
+        }
       </div>
 
-      <TableComponent 
-          columns={columns}
-          data={data}
+      <TableComponent
+        columns={columns}
+        data={data}
       />
 
       {
-        isNewChatroom && 
+        isNewChatroom &&
         <CreateUpdateModal
           type={'newChatroom'}
           handleModal={handleNewChatroomModal}
@@ -199,16 +198,16 @@ const Chatrooms = () => {
       }
 
       {
-        isDeleteChatroom && 
-        <ConfirmModal 
-          prop={chatroom} 
+        isDeleteChatroom &&
+        <ConfirmModal
+          prop={chatroom}
           handleModal={handleDeleteChatroom}
           type={'delete'}
           deleteType="chatroom"
         />
       }
     </>
-  ) 
+  )
 }
 
 export default Chatrooms

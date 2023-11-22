@@ -21,13 +21,11 @@ const EditBox = () => {
 const abc = window.localStorage.getItem('editBoxForm')
 useEffect(() => {
   if(data) {
-    // console.log("LOCALSTORAGE + data", data && localStorage.getItem('editBoxForm') && {...JSON.parse(localStorage.getItem('editBoxForm') as string) ,...JSON.parse(JSON.stringify(data?.entities[id] as BoxObject))});
     localStorage.getItem('editBoxForm') ?
       setBox({...JSON.parse(localStorage.getItem('editBoxForm') as string) , ...JSON.parse(JSON.stringify(data?.entities[id as string] as BoxObject))})
       :
       setBox(JSON.parse(JSON.stringify(data?.entities[id as string] as BoxObject)))
   }
-  // return() => localStorage.removeItem('editBoxForm')
 }, [data, refetch])
 
   if(isLoading || isFetching || !box) return <Loading />

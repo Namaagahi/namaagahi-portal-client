@@ -35,31 +35,31 @@ const CreateUpdateModal = (props: Props) => {
 
       <div className={`createUpdateModalContentContainer ${type === 'editBox' && 'h-[80%]'}`}>
         {
-          type === 'newUser' ?
-            <NewUserForm handleModal={handleModal} />
-              : type === 'editUser'?
-              <EditUser handleModal={handleModal} user={prop} />
-              : type === 'editProfile'?
-              <EditProfile handleModal={handleModal} user={prop} />
-              : type === 'editStructure'?
-              <EditStructure handleModal={handleModal} structure={prop} />
-              : type === 'newInitialCustomer'?
-              <NewInitialCustomerForm handleModal={handleModal} />
-              : type === 'editInitialCustomer'?
-              <EditInitialCustomer handleModal={handleModal} initialCustomer={prop} />
-              : type === 'newFinalCustomer'?
-              <NewFinalCustomerForm handleModal={handleModal} />
-              : type === 'editFinalCustomer'?
-              <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
-              : type === 'newProjectCode'?
-              <NewProjectCodeForm handleModal={handleModal} />
-              : type === 'editProjectCode'?
-              <EditProjectCode handleModal={handleModal} projectCode={prop} />
-              : type === 'newChatroom'?
-              <NewChatroom handleModal={handleModal} />
-              : type === 'newProposal'?
-              <NewProposal handleModal={handleModal} />
-              : null
+        type === 'newUser' ?
+          <NewUserForm handleModal={handleModal} />
+          : type === 'editUser'?
+          <EditUser handleModal={handleModal} user={prop} />
+          : type === 'editProfile'?
+          <EditProfile handleModal={handleModal} user={prop} />
+          : type === 'editStructure'?
+          <EditStructure handleModal={handleModal} structure={prop} />
+          : type === 'newInitialCustomer'?
+          <NewInitialCustomerForm handleModal={handleModal} />
+          : type === 'editInitialCustomer'?
+          <EditInitialCustomer handleModal={handleModal} initialCustomer={prop} />
+          : type === 'newFinalCustomer'?
+          <NewFinalCustomerForm handleModal={handleModal} />
+          : type === 'editFinalCustomer'?
+          <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
+          : type === 'newProjectCode'?
+          <NewProjectCodeForm handleModal={handleModal} />
+          : type === 'editProjectCode'?
+          <EditProjectCode handleModal={handleModal} projectCode={prop} />
+          : type === 'newChatroom'?
+          <NewChatroom handleModal={handleModal} />
+          : type === 'newProposal'?
+          <NewProposal handleModal={handleModal} />
+          : null
         }
       </div>
     </div>

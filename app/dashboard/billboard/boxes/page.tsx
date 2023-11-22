@@ -5,9 +5,9 @@ import usePageTitle from '@/app/hooks/usePageTitle'
 const Boxes = () => {
   usePageTitle('باکسها')
 
-    return (
-        <BoxComp page='all' />
-    )
+  return (
+    <BoxComp page='all' />
+  )
 }
 
 export default Boxes

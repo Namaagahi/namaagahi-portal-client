@@ -3,11 +3,11 @@ import PlansComp from '@/app/features/plans/PlansComp'
 import usePageTitle from '@/app/hooks/usePageTitle'
 
 const Plans = () => {
-    usePageTitle('پلنها')
+  usePageTitle('پلنها')
 
-    return (
-        <PlansComp page={'all'} />
-    )
+  return (
+    <PlansComp page={'all'} />
+  )
 }
 
 export default Plans

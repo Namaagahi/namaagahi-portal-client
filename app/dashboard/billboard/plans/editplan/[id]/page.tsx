@@ -12,11 +12,11 @@ const EditPlan = () => {
   usePageTitle('ویرایش پلن')
 
   const { id } = useParams()
-  
+
   const { isLoading, data: planData } = useGetAllPlansQuery(undefined, {
-      refetchOnFocus: false,
-      refetchOnMountOrArgChange: false
-    })
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false
+  })
 
   const plan: PlanObject = useSelector(state => selectPlanById(state as PlanObject , id as string) as PlanObject)
 
@@ -27,7 +27,7 @@ const EditPlan = () => {
       <ScrollContainer />
     </>
   )
-  
+
 }
 
 export default EditPlan

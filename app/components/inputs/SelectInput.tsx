@@ -8,7 +8,7 @@ type SelectInputProps = {
     required?: boolean
     options: any[]
     errors?: string
-  }
+}
 
 const SelectInput = (props: SelectInputProps) => {
 

@@ -1,5 +1,5 @@
 "use client"
-import { selectAllInitialCustomers, selectInitialCustomerById, useGetAllInitialCustomersQuery, useUpdateInitialCustomerMutation } from '@/app/apiSlices/initialCustomersApiSlice'
+import { selectAllInitialCustomers, selectInitialCustomerById, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
 import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
 import TableComponent from '@/app/components/table/TableComponent'
 import ConfirmModal from '@/app/components/modals/ConfirmModal'
@@ -30,11 +30,6 @@ const InitialCustomers = () => {
     refetchOnMountOrArgChange: false
   })
 
-  const [updateInitialCustomer, {
-    isSuccess,
-    error,
-}] = useUpdateInitialCustomerMutation()
-
   const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
   const [isNewInitialCustomer, setIsNewInitialCustomer] = useState<boolean>(false)
   const [isDeleteInitialCustomer, setIsDeleteInitialCustomer] = useState<boolean>(false)
@@ -49,21 +44,6 @@ const InitialCustomers = () => {
   useEffect(() => {
     setData(allInitialCustomers)
   }, [allInitialCustomers])
-
-  // useEffect(() => {
-  //   console.log("USEEFFECT CALLED")
-  //   allInitialCustomers.forEach(async(initialCustomer: any) => {
-  //       await updateInitialCustomer({
-  //         userId: initialCustomer?.userId,
-  //         id: initialCustomer?.id,
-  //         name: initialCustomer?.name,
-  //         agentName: "",
-  //         role: "",
-  //         phoneNumber: initialCustomer?.phoneNumber,
-  //         introductionMethod: initialCustomer?.introductionMethod,
-  //       })
-  //   })
-  // },[])
 
   const columns = useMemo<ColumnDef<InitialCustomerObject, any>[]>(() => {
     return(
@@ -190,15 +170,13 @@ const InitialCustomers = () => {
           ],
         }
       ]
-    )
-  },
+    )},
   []
   )
 
   if(isLoading) return <Loading />
 
   if(isError) return (
-
     <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
       <p className='text-xl'>
         هیچ پروژه ای وجود ندارد
@@ -222,7 +200,6 @@ const InitialCustomers = () => {
         columns={columns}
         data={data}
       />
-
       {
         isNewInitialCustomer &&
           <CreateUpdateModal

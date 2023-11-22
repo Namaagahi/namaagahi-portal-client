@@ -12,46 +12,44 @@ const CreatePlan = () => {
   const [planMark, setPlanMark] = useState<string>('')
 
   return (
-      <main className="min-h-screen">
-        <PageTitle name={'ایجاد پلن جدید'} />
-        <SearchContainer />
-        <div className='flex flex-col gap-9 justify-center'>
-          <div className='formContainer'>
-            <small className="pr-3 text-slate-500 inline-block font-bold">
-              نوع پلن
-            </small>
+    <main className="min-h-screen">
+      <PageTitle name={'ایجاد پلن جدید'} />
+      <SearchContainer />
+      <div className='flex flex-col gap-9 justify-center'>
+        <div className='formContainer'>
+          <small className="pr-3 text-slate-500 inline-block font-bold">
+            نوع پلن
+          </small>
 
-            <p className='font-bold text-lg dark:text-gray-200'>
-              نوع پلن را انتخاب کنید
-            </p>
+          <p className='font-bold text-lg dark:text-gray-200'>
+            نوع پلن را انتخاب کنید
+          </p>
 
-            <div className='w-full grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-12 items-center'>
-              <button
-                type='button'
-                onClick={() => setPlanMark('regular')} 
-                className={`${planMark === 'regular' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
-              >
-                 عادی
-              </button>
+          <div className='w-full grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-12 items-center'>
+            <button
+              type='button'
+              onClick={() => setPlanMark('regular')}
+              className={`${planMark === 'regular' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+            >
+              عادی
+            </button>
 
-              <button
-                type='button'
-                onClick={() => setPlanMark('package')} 
-                className={`${planMark === 'package' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
-              >
-                پکیج
-              </button>
-
-            </div>
+            <button
+              type='button'
+              onClick={() => setPlanMark('package')}
+              className={`${planMark === 'package' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+            >
+              پکیج
+            </button>
           </div>
-          {
-            planMark &&
-              <NewPlan mark={planMark}/>
-          }
         </div>
-        <ScrollContainer />
-      </main>
-
+        {
+          planMark &&
+            <NewPlan mark={planMark}/>
+        }
+      </div>
+      <ScrollContainer />
+    </main>
   )
 }
 

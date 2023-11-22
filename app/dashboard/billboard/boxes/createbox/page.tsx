@@ -15,49 +15,49 @@ const CreateBox = () => {
   const [boxMark, setBoxMark] = useState<string>('')
 
   return (
-      <main className="min-h-screen">
-        <PageTitle name={'ایجاد باکس جدید'} />
-        <SearchContainer />
-        <div className='flex flex-col gap-9 justify-center'>
-          <div className='formContainer'>
-            <small className="pr-3 text-slate-500 inline-block font-bold">
-              نوع باکس
-            </small>
+    <main className="min-h-screen">
+      <PageTitle name={'ایجاد باکس جدید'} />
+      <SearchContainer />
+      <div className='flex flex-col gap-9 justify-center'>
+        <div className='formContainer'>
+          <small className="pr-3 text-slate-500 inline-block font-bold">
+            نوع باکس
+          </small>
 
-            <p className='font-bold text-lg dark:text-gray-200'>
-              نوع باکس را انتخاب کنید
-            </p>
+          <p className='font-bold text-lg dark:text-gray-200'>
+            نوع باکس را انتخاب کنید
+          </p>
 
-            <div className='w-full grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-12 items-center'>
-              <button
-                onClick={() => setBoxMark('owner')} 
-                className={`${boxMark === 'owner' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
-              >
-                 مزایده ای
-              </button>
+          <div className='w-full grid grid-cols-2 md:grid-cols-6 gap-6 md:gap-12 items-center'>
+            <button
+              onClick={() => setBoxMark('owner')}
+              className={`${boxMark === 'owner' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+            >
+              مزایده ای
+            </button>
 
-              <button
-                onClick={() => setBoxMark('buyShort')} 
-                className={`${boxMark === 'buyShort' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
-              >
-                 خرید کوتاه مدت
-              </button>
+            <button
+              onClick={() => setBoxMark('buyShort')}
+              className={`${boxMark === 'buyShort' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+            >
+              خرید کوتاه مدت
+            </button>
 
-              <button
-                onClick={() => setBoxMark('buyLong')}
-                className={`${boxMark === 'buyLong' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
-              >
-                 خرید بلند مدت
-              </button>
-            </div>
+            <button
+              onClick={() => setBoxMark('buyLong')}
+              className={`${boxMark === 'buyLong' && 'bg-primary text-white shadow-md'} formChooseButton w-full`}
+            >
+              خرید بلند مدت
+            </button>
           </div>
-          {
-            boxMark &&
-              <NewBox mark={boxMark}/>
-          }
         </div>
-        <ScrollContainer />
-      </main>
+        {
+          boxMark &&
+            <NewBox mark={boxMark}/>
+        }
+      </div>
+      <ScrollContainer />
+    </main>
   )
 }
 

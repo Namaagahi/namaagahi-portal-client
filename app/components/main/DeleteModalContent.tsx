@@ -15,7 +15,7 @@ interface Props {
     handleModal: () => void
     prop?: UserObject | StructureObject | PlanObject | InitialCustomerObject | any
     deleteType: string
-  }
+}
 
 const DeleteModalContent = (props: Props) => {
 
@@ -46,62 +46,62 @@ const DeleteModalContent = (props: Props) => {
         </div>
       </div>
 
-        {
-          deleteType === 'user'?
-          <DeleteUser
-            user={prop}
-            handleModal={handleModal}
-          />
-          :
-          deleteType === 'structure'?
-          <DeleteStructure
-            structure={prop}
-            handleModal={handleModal}
-          />
-          :
-          deleteType === 'box'?
-          <DeleteBox
-            box={prop}
-            handleModal={handleModal}
-          />
-          :
-          deleteType === 'initialCustomer'?
-          <DeleteInitialCustomer
-            initialCustomer={prop}
-            handleModal={handleModal}
-          />
-          : deleteType === 'plan'?
-          <DeletePlan
-            plan={prop}
-            handleModal={handleModal}
-          />
-          : deleteType === 'finalCustomer'?
-          <DeleteFinalCustomer
-            finalCustomer={prop}
-            handleModal={handleModal}
-          />
-          : deleteType === 'projectCode'?
-          <DeleteProjectCode
-            projectCode={prop}
-            handleModal={handleModal}
-          />
-          : deleteType === 'chatroom'?
-          <DeleteChatroom
-            chatroom={prop}
-            handleModal={handleModal}
-          />
-          : deleteType === 'allMessages'?
-          <DeleteAllMessages
-            chatroomId={prop}
-            handleModal={handleModal}
-          />
-          : deleteType === 'proposal'?
-          <DeleteProposal
-            proposal={prop}
-            handleModal={handleModal}
-          />
-          : null
-        }
+      {
+        deleteType === 'user'?
+        <DeleteUser
+          user={prop}
+          handleModal={handleModal}
+        />
+        :
+        deleteType === 'structure'?
+        <DeleteStructure
+          structure={prop}
+          handleModal={handleModal}
+        />
+        :
+        deleteType === 'box'?
+        <DeleteBox
+          box={prop}
+          handleModal={handleModal}
+        />
+        :
+        deleteType === 'initialCustomer'?
+        <DeleteInitialCustomer
+          initialCustomer={prop}
+          handleModal={handleModal}
+        />
+        : deleteType === 'plan'?
+        <DeletePlan
+          plan={prop}
+          handleModal={handleModal}
+        />
+        : deleteType === 'finalCustomer'?
+        <DeleteFinalCustomer
+          finalCustomer={prop}
+          handleModal={handleModal}
+        />
+        : deleteType === 'projectCode'?
+        <DeleteProjectCode
+          projectCode={prop}
+          handleModal={handleModal}
+        />
+        : deleteType === 'chatroom'?
+        <DeleteChatroom
+          chatroom={prop}
+          handleModal={handleModal}
+        />
+        : deleteType === 'allMessages'?
+        <DeleteAllMessages
+          chatroomId={prop}
+          handleModal={handleModal}
+        />
+        : deleteType === 'proposal'?
+        <DeleteProposal
+          proposal={prop}
+          handleModal={handleModal}
+        />
+        : null
+      }
     </div>
   )
 }

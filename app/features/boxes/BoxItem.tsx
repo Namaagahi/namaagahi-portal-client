@@ -10,55 +10,54 @@ const ListItem = dynamic(
 
 type Props = {
   boxId: string
-  index: number 
+  index: number
   page: string
 }
 
 const BoxItem = (props: Props) => {
-  
+
   const {
     boxId,
     index,
     page
-  } = props 
+  } = props
 
   const { id } = useAuth()
-  
   const box: BoxObject = useSelector(state => selectBoxById(state, boxId) as BoxObject)
   return (
-    page === 'my' && box.userId === id ?
-      <ListItem 
-        number={index}
-        param={boxId}
-        prop={box}
-        startDate={box.duration.startDate}
-        endDate={box.duration.endDate}
-        diff={box.duration.diff}
-        titles={{
-            'نام باکس': box.name,
-            'نوع باکس': box.mark.name,
-            'کاربر ایجاد کننده': box.username,
-            'کد پروژه': box.mark.markOptions?.projectNumber,
-            'برند': box.mark.markOptions?.brand
-        }}
-      />
-      :
-      <ListItem 
-        number={index}
-        param={boxId}
-        prop={box}
-        startDate={box.duration.startDate}
-        endDate={box.duration.endDate}
-        diff={box.duration.diff}
-        titles={{
-            'نام باکس': box.name,
-            'نوع باکس': box.mark.name,
-            'کاربر ایجاد کننده': box.username,
-            'کد پروژه': box.mark.markOptions?.projectNumber,
-            'برند': box.mark.markOptions?.brand
-        }}
-      />
+  page === 'my' && box.userId === id ?
+    <ListItem
+      number={index}
+      param={boxId}
+      prop={box}
+      startDate={box.duration.startDate}
+      endDate={box.duration.endDate}
+      diff={box.duration.diff}
+      titles={{
+        'نام باکس': box.name,
+        'نوع باکس': box.mark.name,
+        'کاربر ایجاد کننده': box.username,
+        'کد پروژه': box.mark.markOptions?.projectNumber,
+        'برند': box.mark.markOptions?.brand
+      }}
+    />
+    :
+    <ListItem
+      number={index}
+      param={boxId}
+      prop={box}
+      startDate={box.duration.startDate}
+      endDate={box.duration.endDate}
+      diff={box.duration.diff}
+      titles={{
+        'نام باکس': box.name,
+        'نوع باکس': box.mark.name,
+        'کاربر ایجاد کننده': box.username,
+        'کد پروژه': box.mark.markOptions?.projectNumber,
+        'برند': box.mark.markOptions?.brand
+      }}
+    />
   )
-} 
+}
 
 export default BoxItem
