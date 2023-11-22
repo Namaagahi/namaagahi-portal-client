@@ -162,4 +162,4 @@ Until this point, users are defined and authenticated/authorized to the platform
 
 
 - **Front-End Architecture-pattern:**
- ![](https://drive.google.com/file/d/14gvx3U6gi8KcFSeoV0YVcbNjXWeA24kx/view?usp=drive_link)
+ ![](https://s30.picofile.com/file/8469795650/Untitled_Diagram_drawio.png)
