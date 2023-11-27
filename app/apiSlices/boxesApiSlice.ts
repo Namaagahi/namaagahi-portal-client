@@ -7,6 +7,7 @@ import { BoxObject } from "@/app/lib/interfaces"
   * Getting All Boxes from databse
   * Creating a new box
   * Updating an existing box
+  * Getting a single box by Id
   * Deleting an existing box
 */
 

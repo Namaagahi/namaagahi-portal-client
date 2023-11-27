@@ -41,7 +41,7 @@ const NewBox = (props: Props) => {
 
   const structures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
 
-  const { id } = useAuth()  
+  const { id } = useAuth()
 
   const [createNewBox, {
       isSuccess,
@@ -51,7 +51,7 @@ const NewBox = (props: Props) => {
 
   const [startDate, setStartDate] = useState<number>(new Date().getTime())
   const [endDate, setEndDate] = useState<number>(new Date().getTime())
-  
+
   const handleStartDate = (value: DateObject | DateObject[] | null) => {
 
     if (value instanceof DateObject) {
@@ -75,7 +75,7 @@ const NewBox = (props: Props) => {
   }
 
   const { push } = useRouter()
-    
+
   const createBoxForm = useForm<AddBoxForm>({
     defaultValues: newBoxDefaultValues,
     mode: 'onSubmit'
@@ -139,8 +139,8 @@ const NewBox = (props: Props) => {
     }
 
     if(isError) {
-        'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')
-        'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
+      'status' in error! && error.status === 409 && toast.error('این نام باکس قبلا ثبت شده است')
+      'status' in error! && error.status === 400 && toast.error('همه فیلدها را تکمیل کنید')
     }
 
   if(endDate - startDate < 0) {
@@ -150,7 +150,7 @@ const NewBox = (props: Props) => {
       boxId: newData.boxId,
       userId: id,
       name: newData.name,
-      mark: { 
+      mark: {
         name: mark,
         markOptions: {
           projectNumber: newData.projectNumber,
@@ -170,7 +170,7 @@ const NewBox = (props: Props) => {
     toast.success(`باکس جدید با موفقیت ساخته شد.`)
     push('/dashboard/billboard/boxes')
   }
-  
+console.log("createBoxForm", createBoxForm.getValues())
     return (
       <form
         noValidate
@@ -178,15 +178,17 @@ const NewBox = (props: Props) => {
         className='w-full flex flex-col gap-9 justify-center'
       >
         <BasicBoxInfoFormSection
-          page={'create'} 
-          control={control} 
+          page={'create'}
+          control={control}
           mark={mark}
           errors={errors}
           handleStartDate={handleStartDate}
           handleEndDate={handleEndDate}
+          setValue={setValue}
         />
 
-        <BoxStructuresFormSection 
+        <BoxStructuresFormSection
+          mark={mark}
           page={'create'}
           register={register}
           errors={errors}

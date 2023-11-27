@@ -6,16 +6,16 @@ import { useGetStructuresQuery } from "../../apiSlices/structuresApiSlice"
 import { Dispatch, SetStateAction, useEffect, useState } from "react"
 import { AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai'
 import VariableCostsFormSection from "./VariableCostsFormSection"
-import DatePicker, { DateObject } from "react-multi-date-picker" 
+import DatePicker, { DateObject } from "react-multi-date-picker"
 import SelectInput from "@/app/components/inputs/SelectInput"
 import CustomInput from "@/app/components/inputs/CustomInput"
 import persian_fa from "react-date-object/locales/persian_fa"
 import persian from "react-date-object/calendars/persian"
 import moment from "jalali-moment"
 
-type Props = { 
+type Props = {
   page: string
-  register: UseFormRegister<AddBoxForm> | UseFormRegister<EditBoxForm> 
+  register: UseFormRegister<AddBoxForm> | UseFormRegister<EditBoxForm>
   errors: FieldErrors<AddBoxForm>
   structuresField: FieldArrayWithId<AddBoxForm, "structures", "id">[] | FieldArrayWithId<EditBoxForm, "structures", "id">[]
   appendStructure: UseFieldArrayAppend<AddBoxForm, "structures"> | UseFieldArrayAppend<EditBoxForm, "structures">
@@ -27,6 +27,7 @@ type Props = {
   formVals?: any
   chosenStructures?: string[]
   setChosenStructures?: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
+  mark: string
 }
 
 const BoxStructuresFormSection = (props: Props) => {
@@ -35,7 +36,7 @@ const BoxStructuresFormSection = (props: Props) => {
     page,
     register,
     errors,
-    structuresField, 
+    structuresField,
     appendStructure,
     removeStructure,
     control,
@@ -43,9 +44,10 @@ const BoxStructuresFormSection = (props: Props) => {
     structures,
     convertToNumber,
     formVals,
+    mark
   } = props
 
-  useGetStructuresQuery(undefined, { 
+  useGetStructuresQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
 })
@@ -73,8 +75,8 @@ const BoxStructuresFormSection = (props: Props) => {
         return structure ? structure.name : 'انتخاب سازه'
       })
       setThisStructures(updatedStructures)
-    } 
-  }, [formVals])  
+    }
+  }, [formVals])
 
   function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
     const newValue = event.target.value.replace(/,/g, '')
@@ -83,7 +85,7 @@ const BoxStructuresFormSection = (props: Props) => {
     setValue(prop, formattedValue)
   }
 
-  return ( 
+  return (
     <div className='formContainer'>
       <small className="pr-3 text-slate-500 inline-block font-bold">اطلاعات سازه ها</small>
       {structuresField.map((item, fieldIndex) =>{
@@ -110,7 +112,7 @@ const BoxStructuresFormSection = (props: Props) => {
               errors: (errors?.structures?.[fieldIndex]?.marks?.markOptions?.face as FieldError)?.message
             }
           ]
-          
+
           const customInputs = [
             {
               id: 1,
@@ -164,7 +166,7 @@ const BoxStructuresFormSection = (props: Props) => {
               onChange: (event: any) => handleTextbox1Change(event, 0, `structures.${fieldIndex}.monthlyBaseFee`)
             },
           ]
-         
+
         return (
           <div
             className="rounded-md flex flex-col items-end dark:bg-primary bg-secondary w-full"
@@ -177,7 +179,7 @@ const BoxStructuresFormSection = (props: Props) => {
 
               <div className="flex flex-col gap-3">
                 <label
-                  htmlFor={"strChoose"} 
+                  htmlFor={"strChoose"}
                   className='text-[#767676] dark:text-white font-bold mr-3'
                 >
                   کد سامانه
@@ -197,12 +199,12 @@ const BoxStructuresFormSection = (props: Props) => {
                     fieldIndex={fieldIndex}
                     setValue={setValue}
                     handleThisStructuresChange={handleThisStructuresChange}
-                    chosenStructures={[]} 
+                    chosenStructures={[]}
                     setChosenStructures={() => console.log("HEY!")}
                   />
                 )}
               </div>
-              
+
               {selectInputs.map((selectInput: any, index: number)=> {
                 return(
                   <SelectInput
@@ -237,8 +239,8 @@ const BoxStructuresFormSection = (props: Props) => {
                 page === 'edit' &&
                 <div className="flex items-center gap-2">
                    <div className='flex flex-col gap-3 '>
-                    <label 
-                      htmlFor="startDate" 
+                    <label
+                      htmlFor="startDate"
                       className='text-[#767676] dark:text-white font-bold'
                     >
                       تاریخ شروع
@@ -252,9 +254,9 @@ const BoxStructuresFormSection = (props: Props) => {
                       locale={persian_fa}
                       calendarPosition="bottom-right"
                       onChange={(e) => {
-                        if (e instanceof DateObject) 
+                        if (e instanceof DateObject)
                           setValue(`structures.${fieldIndex}.duration.startDate` , e.unix)
-                        } 
+                        }
                       }
                     />
 
@@ -264,8 +266,8 @@ const BoxStructuresFormSection = (props: Props) => {
                 </div>
 
                 <div className='flex flex-col gap-3'>
-                    <label 
-                      htmlFor="endDate" 
+                    <label
+                      htmlFor="endDate"
                       className='text-[#767676] dark:text-white font-bold'
                     >
                       تاریخ پایان
@@ -279,9 +281,9 @@ const BoxStructuresFormSection = (props: Props) => {
                       locale={persian_fa}
                       calendarPosition="bottom-right"
                       onChange={(e) => {
-                        if (e instanceof DateObject) 
+                        if (e instanceof DateObject)
                           setValue(`structures.${fieldIndex}.duration.endDate` , e.unix)
-                        } 
+                        }
                       }
                     />
 
@@ -294,30 +296,32 @@ const BoxStructuresFormSection = (props: Props) => {
 
               <AiFillMinusCircle
                 className={`absolute left-0 ${fieldIndex === 0 ? 'hidden' : 'block'} cursor-pointer text-2xl dark:text-white hover:text-red-700 transition-all`}
-                onClick={() => removeStructure(fieldIndex)} 
+                onClick={() => removeStructure(fieldIndex)}
               />
             </div>
 
 
-            <VariableCostsFormSection 
-              errors={errors}
-              register={register}
-              control={control}
-              fieldIndex={fieldIndex}
-              handleTextbox1Change={handleTextbox1Change}
-            />
+            {  mark !== 'buyShort' &&
+              <VariableCostsFormSection
+                errors={errors}
+                register={register}
+                control={control}
+                fieldIndex={fieldIndex}
+                handleTextbox1Change={handleTextbox1Change}
+              />
+            }
           </div>
         )
-      } 
+      }
       )}
 
-        <AiFillPlusCircle 
+        <AiFillPlusCircle
           className="cursor-pointer text-2xl dark:text-white hover:text-green-700 transition-all"
           onClick={() => appendStructure(boxStructureFormValues)}
         />
     </div>
 
-  ) 
+  )
 }
 
 export default BoxStructuresFormSection

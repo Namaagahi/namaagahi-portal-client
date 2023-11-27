@@ -73,7 +73,7 @@ const SingleBox = () => {
   }, [box, allStructures])
 
   const fixedCostsMonthlySum = box?.structures.reduce((sum: number, structure) => {
-    return sum + structure.costs.fixedCosts.monthlyCost
+    return sum + structure.costs.totalPeriodCost
   }, 0)
 
   const totalMonthlyCostSum = box?.structures.reduce((sum: number, structure) => {

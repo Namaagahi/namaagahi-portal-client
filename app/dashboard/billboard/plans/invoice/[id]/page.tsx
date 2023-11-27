@@ -23,14 +23,14 @@ const Invoice = () => {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false
   })
-  
+
   const plan: PlanObject = useSelector((state) =>selectPlanById(state as PlanObject, id as string) as PlanObject)
   const customer: InitialCustomerObject = useSelector(state => selectInitialCustomerById(state, plan?.initialCustomerId) as InitialCustomerObject)
 
   if ( isLoading || !plan) return <Loading />
   return (
     <>
-      <PDFViewer height={800}>
+      <PDFViewer height={800} >
         <PlanPdfDoc plan={plan} customer={customer}  />
       </PDFViewer>
     </>

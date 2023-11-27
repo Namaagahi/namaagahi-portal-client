@@ -62,17 +62,17 @@ const PlanPdfDoc = (props: Props) => {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-between',
-      alignItems: 'center', 
+      alignItems: 'center',
       width: '100%'
-    }, 
+    },
     subHeaderContainer: {
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-start',
-      alignItems: 'center', 
+      alignItems: 'center',
       gap: '20px',
       width: '100%'
-    }, 
+    },
     text: {
       margin: 12,
       fontSize: 14,
@@ -96,29 +96,29 @@ const PlanPdfDoc = (props: Props) => {
       textAlign: 'center',
       color: 'grey',
     },
-    table: { 
-      width: "auto", 
+    table: {
+      width: "auto",
       borderStyle: "solid",
-      borderWidth: 1, 
-      borderRightWidth: 0, 
-      borderBottomWidth: 0 
-    }, 
-    tableRow: { 
-      margin: "auto", 
+      borderWidth: 1,
+      borderRightWidth: 0,
+      borderBottomWidth: 0
+    },
+    tableRow: {
+      margin: "auto",
       flexDirection: "row",
-      fontSize: 7, 
-    }, 
-    tableCol: { 
-      width: "12.5%", 
-      borderStyle: "solid", 
-      borderWidth: 1, 
-      borderLeftWidth: 0, 
-      borderTopWidth: 0 
-    }, 
-    tableCell: { 
-      margin: "auto", 
-      marginTop: 5, 
-      fontSize: 7 
+      fontSize: 7,
+    },
+    tableCol: {
+      width: "12.5%",
+      borderStyle: "solid",
+      borderWidth: 1,
+      borderLeftWidth: 0,
+      borderTopWidth: 0
+    },
+    tableCell: {
+      margin: "auto",
+      marginTop: 5,
+      fontSize: 7
     }
   })
 
@@ -126,10 +126,10 @@ const PlanPdfDoc = (props: Props) => {
 
   return (
     <Document>
-      <Page style={styles.body} orientation='landscape'>
+      <Page size="A4" style={styles.body} orientation='landscape'>
         <View style={styles.headerContainer}>
           <Text style={styles.subtitle}>
-            {moment(Date.now()).format('jYYYY/jM/jD')}تاریخ : 
+            {moment(Date.now()).format('jYYYY/jM/jD')}تاریخ :
           </Text>
 
           <Text style={styles.title}>
@@ -151,14 +151,14 @@ const PlanPdfDoc = (props: Props) => {
               </Text>
             </View>
 
-            <View style={styles.table}> 
-              <View style={styles.tableRow}> 
+            <View style={styles.table}>
+              <View style={styles.tableRow}>
                 {columnsHeader.map((heading, colIndex) => (
-                  <View style={[styles.tableCol, { width: heading.width }]} key={colIndex}> 
+                  <View style={[styles.tableCol, { width: heading.width }]} key={colIndex}>
                     <Text style={styles.tableCell}>
                       {heading.content}
-                    </Text> 
-                  </View> 
+                    </Text>
+                  </View>
                 ))}
               </View>
 
@@ -176,7 +176,7 @@ const PlanPdfDoc = (props: Props) => {
                         {formatNumber(strucuture.monthlyFeeWithDiscount, ',')}
                       </Text>
                     </View>
-{/* 
+{/*
                     <View style={[styles.tableCol, { width: '7%' }]}>
                       <Text style={styles.tableCell}>
                         {`${strucuture.discountType === 'percentage'? "درصد" : "ریال"} `}
@@ -251,13 +251,13 @@ const PlanPdfDoc = (props: Props) => {
                   <View style={[styles.tableCol, { width: '8%' }]}>
                     <Text style={styles.tableCell}>
                       {formatNumber(plan.structures.reduce((sum: number, structure: any) => sum + structure.totalPeriodCost , 0), ',')}
-                    </Text> 
+                    </Text>
                   </View>
 
                   <View style={[styles.tableCol, { width: '92%' }]}>
                     <Text style={styles.tableCell}>
                       جمع
-                    </Text> 
+                    </Text>
                   </View>
                 </View>
             </View>
