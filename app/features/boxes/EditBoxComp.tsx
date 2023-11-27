@@ -197,10 +197,13 @@ const EditBoxComp = (props: Props) => {
             errors={errors}
             handleStartDate={(val) => handleStartDate(val)}
             handleEndDate={(val) => handleEndDate(val)}
+            setValue={setValue}
+
           />
 
           <BoxStructuresFormSection
             page={'edit'}
+            mark={box?.mark.name}
             register={register}
             errors={errors}
             structuresField={fields}
