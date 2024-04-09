@@ -1,150 +1,152 @@
-"use client"
-import { selectAllUsers, selectUserById, useGetUsersQuery } from '@/app/apiSlices/usersApiSlice'
-import CreateUpdateModal from '@/app/components/modals/CreateUpdateModal'
-import TableComponent from '@/app/components/table/TableComponent'
-import ConfirmModal from '@/app/components/modals/ConfirmModal'
-import AccessDenied from '@/app/components/main/AccessDenied'
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
-import PageTitle from '@/app/components/main/PageTitle'
-import Loading from '@/app/features/loading/Loading'
-import { useEffect, useMemo, useState } from 'react'
-import { UserObject } from '@/app/lib/interfaces'
-import { ColumnDef } from '@tanstack/react-table'
-import Status from '@/app/components/main/Status'
-import Button from '@/app/components/main/Button'
-import { EntityId } from '@reduxjs/toolkit'
-import { useSelector } from 'react-redux'
-import useAuth from '@/app/hooks/useAuth'
-import Image from 'next/image'
-import usePageTitle from '@/app/hooks/usePageTitle'
-import SearchContainer from '@/app/components/main/SearchContainer'
+"use client";
+import {
+  selectAllUsers,
+  selectUserById,
+  useGetUsersQuery,
+} from "@/app/apiSlices/usersApiSlice";
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal";
+import TableComponent from "@/app/components/table/TableComponent";
+import ConfirmModal from "@/app/components/modals/ConfirmModal";
+import AccessDenied from "@/app/components/main/AccessDenied";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import PageTitle from "@/app/components/main/PageTitle";
+import Loading from "@/app/features/loading/Loading";
+import { useEffect, useMemo, useState } from "react";
+import { UserObject } from "@/app/lib/interfaces";
+import { ColumnDef } from "@tanstack/react-table";
+import Status from "@/app/components/main/Status";
+import Button from "@/app/components/main/Button";
+import { EntityId } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import useAuth from "@/app/hooks/useAuth";
+import Image from "next/image";
+import usePageTitle from "@/app/hooks/usePageTitle";
+import SearchContainer from "@/app/components/main/SearchContainer";
 
 const Users = () => {
-  usePageTitle('کاربران')
+  usePageTitle("کاربران");
 
-  const { isAdmin, isMaster } = useAuth()
+  const { isAdmin, isMaster } = useAuth();
 
-  const {
-    isLoading,
-    isError,
-  } = useGetUsersQuery(undefined, { 
+  const { isLoading, isError } = useGetUsersQuery(undefined, {
     refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-  }) 
+    refetchOnMountOrArgChange: false,
+  });
 
-  const allUsers: UserObject[] = useSelector(state => selectAllUsers(state) as UserObject[])
-  const [isNewUser, setIsNewUser] = useState<boolean>(false)
-  const [isEditUser, setIsEditUser] = useState<boolean>(false)
-  const [isDeleteUser, setIsDeleteUser] = useState<boolean>(false)
-  const handleNewUserModal = () => setIsNewUser(!isNewUser)
-  const handleEditUser = () => setIsEditUser(!isEditUser)
-  const handleDeleteUser = () => setIsDeleteUser(!isDeleteUser)
-  const [data, setData] = useState<UserObject[]>([])
-  const [userId, setUserId] = useState<string | any | EntityId>('')
-  const user: UserObject | any = useSelector(state => selectUserById(state, userId) as UserObject)
+  const allUsers: UserObject[] = useSelector(
+    (state) => selectAllUsers(state) as UserObject[]
+  );
+  const [isNewUser, setIsNewUser] = useState<boolean>(false);
+  const [isEditUser, setIsEditUser] = useState<boolean>(false);
+  const [isDeleteUser, setIsDeleteUser] = useState<boolean>(false);
+  const handleNewUserModal = () => setIsNewUser(!isNewUser);
+  const handleEditUser = () => setIsEditUser(!isEditUser);
+  const handleDeleteUser = () => setIsDeleteUser(!isDeleteUser);
+  const [data, setData] = useState<UserObject[]>([]);
+  const [userId, setUserId] = useState<string | any | EntityId>("");
+  const user: UserObject | any = useSelector(
+    (state) => selectUserById(state, userId) as UserObject
+  );
 
-  useEffect(() =>{
-    setData(allUsers)
-  }, [allUsers])
+  useEffect(() => {
+    setData(allUsers);
+  }, [allUsers]);
 
   const columns = useMemo<ColumnDef<UserObject, any>[]>(() => {
-    return(
-      [
-        {
-          header: 'جدول کاربران',
-          columns: [
-            {
-              accessorKey: 'avatar',
-              accessorFn: row => row.avatar,
-              id: 'آواتار',
-              cell: info => {
-                const avatar = info.getValue()
-                return (
-                  <div className='flex justify-center'>
-                    <Image src={avatar} alt="avatar" width={35} height={35}  /> 
-                  </div>
-                ) 
-              },
-              header: () => <span>آواتار</span>,
+    return [
+      {
+        header: "جدول کاربران",
+        columns: [
+          {
+            accessorKey: "avatar",
+            accessorFn: (row) => row.avatar,
+            id: "آواتار",
+            cell: (info) => {
+              const avatar = info.getValue();
+              return (
+                <div className="flex justify-center">
+                  <Image src={avatar} alt="avatar" width={35} height={35} />
+                </div>
+              );
             },
-            {
-              accessorFn: row => row.name,
-              id: 'نام',
-              cell: info => info.getValue(),
-              header: () => <span>نام</span>,
+            header: () => <span>آواتار</span>,
+          },
+          {
+            accessorFn: (row) => row.name,
+            id: "نام",
+            cell: (info) => info.getValue(),
+            header: () => <span>نام</span>,
+          },
+          {
+            accessorFn: (row) => row.username,
+            id: "نام کاربری",
+            cell: (info) => info.getValue(),
+            header: () => <span>نام کاربری</span>,
+          },
+          {
+            accessorFn: (row) => row.roles,
+            id: "سطح دسترسی",
+            cell: (info) => {
+              const roles = info.getValue();
+              if (roles?.includes("مستر")) {
+                return <p>مستر</p>;
+              } else if (roles?.includes("ادمین")) {
+                return <p>ادمین</p>;
+              } else if (roles?.includes("مستر")) {
+                return <p>مستر</p>;
+              } else if (roles?.includes("مدیرپروژه")) {
+                return <p>مدیر پروژه</p>;
+              } else if (roles?.includes("مدیررسانه")) {
+                return <p>مدیر رسانه</p>;
+              } else if (roles?.includes("پذیرشگر")) {
+                return <p>پذیرشگر</p>;
+              } else {
+                return null;
+              }
             },
-            {
-              accessorFn: row => row.username,
-              id: 'نام کاربری',
-              cell: info => info.getValue(),
-              header: () => <span>نام کاربری</span>,
-            },
-            {
-              accessorFn: row => row.roles,
-              id: 'سطح دسترسی',
-              cell: info => {
-                const roles = info.getValue()
-                if (roles?.includes('مستر')) {
-                  return <p>مستر</p>
-                } else if (roles?.includes('ادمین')) {
-                  return <p>ادمین</p>
-                } else if (roles?.includes('مستر')) {
-                  return <p>مستر</p> 
-                } else if (roles?.includes('مدیرپروژه')) {
-                  return <p>مدیر پروژه</p> 
-                } else if (roles?.includes('مدیررسانه')) {
-                  return <p>مدیر رسانه</p>
-                } else if (roles?.includes('پذیرشگر')) {
-                  return <p>پذیرشگر</p>
-                } else {
-                  return null
-                }
-              },
-              header: () => <span>سطح دسترسی</span>,
-            },
-            {
-              accessorFn: row => row.active,
-              id: 'وضعیت',
-              cell: info => {
-                const active = info.getValue()
-                if(isAdmin) {
-                  if(active) {
-                    return (
-                      <Status 
-                        status = {'فعال'} 
-                        bgColor = {'#a8edbb'}
-                        textColor = {'#0a541e'}
-                      />
-                    )
-                  } else {
-                    return (
-                      <Status
-                        status = {'غیرفعال'}
-                        bgColor = {'#d96f85'}
-                        textColor = {'#2e030c'}
-                      />   
-                    )
-                  }
+            header: () => <span>سطح دسترسی</span>,
+          },
+          {
+            accessorFn: (row) => row.active,
+            id: "وضعیت",
+            cell: (info) => {
+              const active = info.getValue();
+              if (isAdmin) {
+                if (active) {
+                  return (
+                    <Status
+                      status={"فعال"}
+                      bgColor={"#a8edbb"}
+                      textColor={"#0a541e"}
+                    />
+                  );
                 } else {
                   return (
-                    <p>
-                      دسترسی محدود شده
-                    </p>
-                  )
+                    <Status
+                      status={"غیرفعال"}
+                      bgColor={"#d96f85"}
+                      textColor={"#2e030c"}
+                    />
+                  );
                 }
-               
-              },
-              header: () => <span>وضعیت</span>,
+              } else {
+                return <p>دسترسی محدود شده</p>;
+              }
             },
-            {
-              id: 'عملیات',
-              header: () => <span>عملیات</span>,
-              cell: (info) => {
-                const row = info.row.original
-                return (
-                  <>
-                  {isAdmin?
-                    <p className="px-6 flex items-center justify-center gap-5" onClick={() => setUserId(row.id)}>
+            header: () => <span>وضعیت</span>,
+          },
+          {
+            id: "عملیات",
+            header: () => <span>عملیات</span>,
+            cell: (info) => {
+              const row = info.row.original;
+              return (
+                <>
+                  {isAdmin ? (
+                    <p
+                      className="px-6 flex items-center justify-center gap-5"
+                      onClick={() => setUserId(row.id)}
+                    >
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
                         <AiFillEdit
                           className="text-black dark:text-white hover:scale-125 transition-all"
@@ -160,87 +162,74 @@ const Users = () => {
                         />
                       </div>
                     </p>
-                    :
+                  ) : (
                     <>
-                      <td>
-                        دسترسی محدود شده
-                      </td>
-                      <td>
-                        دسترسی محدود شده
-                      </td>
+                      <td>دسترسی محدود شده</td>
+                      <td>دسترسی محدود شده</td>
                     </>
-                }
-                  </>
-                )}
+                  )}
+                </>
+              );
             },
-          ],
-        }
-      ]
-    )
-  },
-  []
-)
+          },
+        ],
+      },
+    ];
+  }, []);
 
-if(isLoading) return <Loading />
+  if (isLoading) return <Loading />;
 
-if(isError) return (
-  <div className='flex flex-col justify-center items-center min-h-screen gap-3'>
-    <p className='text-xl'>هیچ کاربری وجود ندارد</p>
-  </div>
-)
-
-if(isAdmin || isMaster) {
-  return (
-    <>    
-      <PageTitle name={'کاربران'} />
-      <div className="flex items-center justify-between gap-3">
-        <SearchContainer />
-        {(isAdmin || isMaster) &&
-          <Button
-            onClickHandler={handleNewUserModal}
-            title="کاربر جدید"
-          />
-        }
+  if (isError)
+    return (
+      <div className="flex flex-col justify-center items-center min-h-screen gap-3">
+        <p className="text-xl">هیچ کاربری وجود ندارد</p>
       </div>
+    );
 
-      <TableComponent 
-        columns={columns}
-        data={data}
-      />
+  if (isAdmin || isMaster) {
+    return (
+      <>
+        <PageTitle name={"کاربران"} />
+        <div className="flex items-center justify-between gap-3">
+          <SearchContainer />
+          {(isAdmin || isMaster) && (
+            <Button onClickHandler={handleNewUserModal} title="کاربر جدید" />
+          )}
+        </div>
 
-      {
-        isNewUser && 
+        <TableComponent columns={columns} data={data} />
+
+        {isNewUser && (
           <CreateUpdateModal
-            type={'newUser'}
+            type={"newUser"}
             handleModal={handleNewUserModal}
           />
-      }
-      {
-        isDeleteUser && 
-          <ConfirmModal 
-            prop={user} 
+        )}
+        {isDeleteUser && (
+          <ConfirmModal
+            prop={user}
             handleModal={handleDeleteUser}
-            type={'delete'}
+            type={"delete"}
             deleteType="user"
           />
-      }
+        )}
 
-      {
-        isEditUser && 
-          <CreateUpdateModal 
-            type={'editUser'}
-            handleModal={handleEditUser} 
+        {isEditUser && (
+          <CreateUpdateModal
+            type={"editUser"}
+            handleModal={handleEditUser}
             prop={user}
           />
-      }
-    </>
-  )
-} else return (
-  <>
-    <PageTitle name={'کاربران'} />
-    <AccessDenied />
-  </>
-)
-}
+        )}
+      </>
+    );
+  } else
+    return (
+      <>
+        <PageTitle name={"کاربران"} />
+        <AccessDenied />
+      </>
+    );
+};
 
-export default Users
+export default Users;
