@@ -111,7 +111,7 @@ const Users = () => {
             id: "وضعیت",
             cell: (info) => {
               const active = info.getValue();
-              if (isAdmin) {
+              if (isAdmin || isMaster) {
                 if (active) {
                   return (
                     <Status
@@ -142,7 +142,7 @@ const Users = () => {
               const row = info.row.original;
               return (
                 <>
-                  {isAdmin ? (
+                  {isAdmin || isMaster ? (
                     <p
                       className="px-6 flex items-center justify-center gap-5"
                       onClick={() => setUserId(row.id)}

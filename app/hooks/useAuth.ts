@@ -16,7 +16,7 @@ const useAuth = () => {
     const token = useSelector(selectCurrentToken)
     let isMaster = false
 
-    let isAdmin = false
+    let isAdmin = true
 
     let isProjectManager = false
 
@@ -29,12 +29,12 @@ const useAuth = () => {
         const decoded: any = jwtDecode(token)
 
         const { id, username, name, avatar, roles, active } : UserInfo = decoded.UserInfo
-        
+
         isMediaManager = roles.includes('مدیررسانه')
         isProjectManager = roles.includes('مدیرپروژه')
         isAdmin = roles.includes('ادمین')
         isMaster = roles.includes('مستر')
-
+        
         if(isMediaManager) status = 'مدیررسانه'
         if(isProjectManager) status = 'مدیرپروژه'
         if(isAdmin) status = 'ادمین'
