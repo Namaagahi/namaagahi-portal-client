@@ -1,172 +1,186 @@
-import { selectAllInitialCustomers, useGetAllInitialCustomersQuery } from '@/app/apiSlices/initialCustomersApiSlice'
-import { useCreateNewProposalMutation } from '@/app/apiSlices/proposalApiSlice'
-import useAuth from '@/app/hooks/useAuth'
-import { newProposalDefaultValues, priorityTypes, proposalStatusTypes, proposalTypeTypes } from '@/app/lib/constants'
-import { AddProposalForm, InitialCustomerObject, UserObject } from '@/app/lib/interfaces'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { useFieldArray, useForm } from 'react-hook-form'
-import { AiOutlineClose } from 'react-icons/ai'
-import { useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import Loading from '../loading/Loading'
-import SelectInput from '@/app/components/inputs/SelectInput'
-import CustomInput from '@/app/components/inputs/CustomInput'
-import { selectAllUsers, useGetUsersQuery } from '@/app/apiSlices/usersApiSlice'
-import AssignedUsers from './AssignedUsers'
+import {
+  selectAllInitialCustomers,
+  useGetAllInitialCustomersQuery,
+} from "@/app/apiSlices/initialCustomersApiSlice";
+import { useCreateNewProposalMutation } from "@/app/apiSlices/proposalApiSlice";
+import useAuth from "@/app/hooks/useAuth";
+import {
+  newProposalDefaultValues,
+  priorityTypes,
+  proposalStatusTypes,
+  proposalTypeTypes,
+} from "@/app/lib/constants";
+import {
+  AddProposalForm,
+  InitialCustomerObject,
+  UserObject,
+} from "@/app/lib/interfaces";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Loading from "../loading/Loading";
+import SelectInput from "@/app/components/inputs/SelectInput";
+import CustomInput from "@/app/components/inputs/CustomInput";
+import {
+  selectAllUsers,
+  useGetUsersQuery,
+} from "@/app/apiSlices/usersApiSlice";
+import AssignedUsers from "./AssignedUsers";
 
 type Props = {
-  handleModal: () => void
-}
+  handleModal: () => void;
+};
 
 const NewProposal = (props: Props) => {
+  const { handleModal } = props;
+  const { id } = useAuth();
+  const { push } = useRouter();
 
-  const { handleModal } = props
-  const { id } = useAuth()
-  const { push } = useRouter()
+  const [err, setErr] = useState<string>("");
+  const [createNewProposal, { isLoading, isSuccess, isError, error }] =
+    useCreateNewProposalMutation();
 
-  const [err, setErr] = useState<string>('')
-  const [createNewProposal, {
-    isLoading,
-    isSuccess,
-    isError,
-    error
-  }] = useCreateNewProposalMutation()
-
-  const {
-    isLoading: initialCustomersLoading,
-  } = useGetAllInitialCustomersQuery(undefined)
+  const { isLoading: initialCustomersLoading } =
+    useGetAllInitialCustomersQuery(undefined);
 
   useGetUsersQuery(undefined, {
     refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-  })
+    refetchOnMountOrArgChange: false,
+  });
 
-  const allInitialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
-  const allUsers: UserObject[] = useSelector(state => selectAllUsers(state) as UserObject[])
+  const allInitialCustomers: InitialCustomerObject[] = useSelector(
+    (state) => selectAllInitialCustomers(state) as InitialCustomerObject[]
+  );
+  const allUsers: UserObject[] = useSelector(
+    (state) => selectAllUsers(state) as UserObject[]
+  );
 
-  const initialCustomersOptions = allInitialCustomers.map(project => ({
+  const initialCustomersOptions = allInitialCustomers.map((project) => ({
     id: project._id,
-    name: project.name
-  }))
+    name: project.name,
+  }));
 
-  const usersOptions = allUsers.map(user => ({
+  const usersOptions = allUsers.map((user) => ({
     id: user._id,
-    name: user.name
-  }))
+    name: user.name,
+  }));
 
   const createProposalForm = useForm<AddProposalForm>({
     defaultValues: newProposalDefaultValues,
-    mode: 'onSubmit'
-  })
+    mode: "onSubmit",
+  });
 
   const {
     control,
     handleSubmit,
-    formState: {errors},
-  } = createProposalForm
+    formState: { errors },
+  } = createProposalForm;
 
   const {
     fields: usersField,
     append: appendUser,
-    remove: removeUser
+    remove: removeUser,
   } = useFieldArray({
     control,
     name: "assignedUsers",
-  })
+  });
 
-  const onSubmit = async(data: AddProposalForm) => {
-    if(!data.priority || !data.initialCustomerId || !data.status || !data.type) {
-      setErr('این فیلد الزامی است')
+  const onSubmit = async (data: AddProposalForm) => {
+    if (
+      !data.priority ||
+      !data.initialCustomerId ||
+      !data.status ||
+      !data.type
+    ) {
+      setErr("این فیلد الزامی است");
     } else {
       const abc1 = await createNewProposal({
-        userId : id,
+        userId: id,
         subject: data.subject,
         initialCustomerId: data.initialCustomerId,
         startDate: data.startDate,
-        endDate : data.endDate,
-        priority : data.priority,
-        status : data.status,
+        endDate: data.endDate,
+        priority: data.priority,
+        status: data.status,
         type: data.type,
         description: data.description,
-        assignedUsers: data.assignedUsers,
-      })
-      console.log("abc", abc1)
-      toast.success(`پروپوزال جدید با موفقیت ساخته شد.`)
-      handleModal()
-    }
-  }
+        assignedUsers: data.assignedUsers.map((x: any) => x.id).slice(0, -1),
+      });
 
-  if(isSuccess) handleModal()
+      toast.success(`پروپوزال جدید با موفقیت ساخته شد.`);
+      handleModal();
+    }
+  };
+
+  if (isSuccess) handleModal();
 
   const customInputs = [
     {
       id: 1,
       label: "موضوع",
-      name: 'subject',
-      type:'text',
-      message: 'موضوع الزامیست',
+      name: "subject",
+      type: "text",
+      message: "موضوع الزامیست",
       required: true,
-      errors:  (errors.subject?.message),
+      errors: errors.subject?.message,
     },
     {
       id: 2,
       label: "توضیحات",
-      name: 'description',
-      type:'textarea',
-      message: 'توضیحات الزامیست',
+      name: "description",
+      type: "textarea",
+      message: "توضیحات الزامیست",
       required: true,
-      errors:  (errors.description?.message),
+      errors: errors.description?.message,
     },
-  ]
+  ];
 
   const customSelects = [
     {
       id: 1,
       label: "پروژه",
-      name: 'initialCustomerId',
+      name: "initialCustomerId",
       required: true,
-      message: 'انتخاب پروژه الزامیست',
-      errors:  (errors.initialCustomerId?.message),
-      options: initialCustomersOptions
+      message: "انتخاب پروژه الزامیست",
+      errors: errors.initialCustomerId?.message,
+      options: initialCustomersOptions,
     },
     {
       id: 2,
       label: "اولویت",
-      name: 'priority',
+      name: "priority",
       required: true,
-      errors:  (errors.priority?.message),
-      options: priorityTypes
+      errors: errors.priority?.message,
+      options: priorityTypes,
     },
     {
       id: 3,
       label: "وضعیت",
-      name: 'status',
+      name: "status",
       required: true,
-      errors:  (errors.status?.message),
-      options: proposalStatusTypes
+      errors: errors.status?.message,
+      options: proposalStatusTypes,
     },
     {
       id: 4,
       label: "واحد",
-      name: 'type',
+      name: "type",
       required: true,
-      errors:  (errors.type?.message),
-      options: proposalTypeTypes
+      errors: errors.type?.message,
+      options: proposalTypeTypes,
     },
-  ]
-console.log("err", err)
-  if(isLoading || initialCustomersLoading || !initialCustomersOptions[0]) return <Loading/>
+  ];
+  console.log("err", err);
+  if (isLoading || initialCustomersLoading || !initialCustomersOptions[0])
+    return <Loading />;
   return (
     <div className="py-5 px-8 w-full text-black dark:text-white">
-      <form
-        className="flex flex-col"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between items-center">
-          <p className="md:text-2xl text-xl font-bold">
-            پروپوزال جدید
-          </p>
+          <p className="md:text-2xl text-xl font-bold">پروپوزال جدید</p>
 
           <AiOutlineClose
             className="cursor-pointer text-xl hover:text-2xl transition-all"
@@ -197,7 +211,7 @@ console.log("err", err)
               required={customInput.required}
               message={customInput.message}
               errors={customInput.errors && customInput.errors}
-              className='formInput text-black bg-slate-200'
+              className="formInput text-black bg-slate-200"
             />
           ))}
         </div>
@@ -214,20 +228,15 @@ console.log("err", err)
         </div>
 
         <div className="flex items-center gap-6">
-          <button className={`confirmButton`}>
-            ذخیره
-          </button>
+          <button className={`confirmButton`}>ذخیره</button>
 
-          <button
-            onClick={handleModal}
-            className="cancelButton"
-          >
+          <button onClick={handleModal} className="cancelButton">
             لغو
           </button>
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default NewProposal
+export default NewProposal;

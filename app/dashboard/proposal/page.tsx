@@ -78,7 +78,6 @@ const Proposal = () => {
     setData(allProposals);
   }, [allProposals, allInitialCustomers]);
 
-  console.log("allUsers", allUsers);
   if (isLoading || !allInitialCustomers[0] || !allUsers[0]) return <Loading />;
   if (isError)
     return (
