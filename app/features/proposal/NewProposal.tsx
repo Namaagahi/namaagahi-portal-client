@@ -27,6 +27,7 @@ import CustomInput from "@/app/components/inputs/CustomInput";
 import {
   selectAllUsers,
   useGetUsersQuery,
+  useSendEmailToUserMutation,
 } from "@/app/apiSlices/usersApiSlice";
 import AssignedUsers from "./AssignedUsers";
 
@@ -46,6 +47,7 @@ const NewProposal = (props: Props) => {
   const { isLoading: initialCustomersLoading } =
     useGetAllInitialCustomersQuery(undefined);
 
+  const [sendEmailToUser] = useSendEmailToUserMutation();
   useGetUsersQuery(undefined, {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false,
@@ -97,21 +99,31 @@ const NewProposal = (props: Props) => {
     ) {
       setErr("این فیلد الزامی است");
     } else {
-      const abc1 = await createNewProposal({
-        userId: id,
-        subject: data.subject,
-        initialCustomerId: data.initialCustomerId,
-        startDate: data.startDate,
-        endDate: data.endDate,
-        priority: data.priority,
-        status: data.status,
-        type: data.type,
-        description: data.description,
-        assignedUsers: data.assignedUsers.map((x: any) => x.id).slice(0, -1),
-      });
+      const assignedUserIds = data.assignedUsers
+        .map((x: any) => x.id)
+        .slice(0, -1);
+      try {
+        const proposalResponse = await createNewProposal({
+          userId: id,
+          subject: data.subject,
+          initialCustomerId: data.initialCustomerId,
+          startDate: data.startDate,
+          endDate: data.endDate,
+          priority: data.priority,
+          status: data.status,
+          type: data.type,
+          description: data.description,
+          assignedUsers: assignedUserIds,
+        });
 
-      toast.success(`پروپوزال جدید با موفقیت ساخته شد.`);
-      handleModal();
+        const emailResponse = await sendEmailToUser(assignedUserIds);
+
+        toast.success(`پروپوزال جدید با موفقیت ساخته شد.`);
+        handleModal();
+      } catch (error) {
+        console.error("Error creating proposal or sending email:", error);
+        toast.error("خطا در ساخت پروپوزال یا ارسال ایمیل");
+      }
     }
   };
 
