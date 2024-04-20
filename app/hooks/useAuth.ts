@@ -1,49 +1,71 @@
-import { selectCurrentToken } from "../apiSlices/authSlice"
-import { useSelector } from "react-redux"
-import jwtDecode from 'jwt-decode'
+import { selectCurrentToken } from "../apiSlices/authSlice";
+import { useSelector } from "react-redux";
+import jwtDecode from "jwt-decode";
 
 type UserInfo = {
-    id: string
-    username:string
-    name:string
-    avatar: string
-    roles: string[]
-    active: boolean
-}
+  id: string;
+  username: string;
+  name: string;
+  avatar: string;
+  roles: string[];
+  active: boolean;
+};
 
 const useAuth = () => {
+  const token = useSelector(selectCurrentToken);
+  let isMaster = false;
 
-    const token = useSelector(selectCurrentToken)
-    let isMaster = false
+  let isAdmin = false;
 
-    let isAdmin = true
+  let isProjectManager = false;
 
-    let isProjectManager = false
+  let isMediaManager = false;
 
-    let isMediaManager = false
+  let status = "پذیرشگر";
 
-    let status = 'پذیرشگر'
+  if (token) {
+    const decoded: any = jwtDecode(token);
 
-    if(token) {
+    const { id, username, name, avatar, roles, active }: UserInfo =
+      decoded.UserInfo;
 
-        const decoded: any = jwtDecode(token)
+    isMediaManager = roles.includes("مدیررسانه");
+    isProjectManager = roles.includes("مدیرپروژه");
+    isAdmin = roles.includes("ادمین");
+    isMaster = roles.includes("مستر");
 
-        const { id, username, name, avatar, roles, active } : UserInfo = decoded.UserInfo
+    if (isMediaManager) status = "مدیررسانه";
+    if (isProjectManager) status = "مدیرپروژه";
+    if (isAdmin) status = "ادمین";
+    if (isMaster) status = "مستر";
 
-        isMediaManager = roles.includes('مدیررسانه')
-        isProjectManager = roles.includes('مدیرپروژه')
-        isAdmin = roles.includes('ادمین')
-        isMaster = roles.includes('مستر')
-        
-        if(isMediaManager) status = 'مدیررسانه'
-        if(isProjectManager) status = 'مدیرپروژه'
-        if(isAdmin) status = 'ادمین'
-        if(isMaster) status = 'مستر'
+    return {
+      id,
+      username,
+      name,
+      avatar,
+      roles,
+      active,
+      isMaster,
+      isAdmin,
+      isProjectManager,
+      isMediaManager,
+      status,
+    };
+  }
 
-        return { id, username, name, avatar, roles, active, isMaster, isAdmin, isProjectManager, isMediaManager, status }
-    }
+  return {
+    id: "",
+    username: "",
+    name: "",
+    roles: [],
+    avatar: "",
+    isMediaManager,
+    isProjectManager,
+    isMaster,
+    isAdmin,
+    status,
+  };
+};
 
-    return { id:'', username:'', name:'', roles: [], avatar:'', isMediaManager, isProjectManager, isMaster, isAdmin, status }
-}
-
-export default useAuth
+export default useAuth;
