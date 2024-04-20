@@ -4,11 +4,13 @@ import { setCredentials } from "../../apiSlices/authSlice";
 import LogoSmall from "@/app/components/main/LogoSmall";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Cookies from "universal-cookie";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { selectAllUsers } from "@/app/apiSlices/usersApiSlice";
+import { UserObject } from "@/app/lib/interfaces";
 const Loading = dynamic(() => import("../loading/Loading"), { ssr: false });
 
 const Login = () => {
@@ -22,9 +24,14 @@ const Login = () => {
     password: "",
     errMsg: "",
   });
+
   const { username, password } = loginInfo;
   const accessToken =
     typeof window !== "undefined" && window.localStorage.getItem("CC_Token");
+
+  const allUsers: UserObject[] = useSelector(
+    (state) => selectAllUsers(state) as UserObject[]
+  );
 
   useEffect(() => {
     if (accessToken) {
@@ -54,7 +61,11 @@ const Login = () => {
     try {
       const { accessToken } = await login({ username, password }).unwrap();
       dispatch(setCredentials({ accessToken }));
-      toast.success(`خوش آمدید! ${username}`);
+      toast.success(
+        `${
+          allUsers.filter((x) => x.username === username)[0].name
+        } عزیز خوش آمدید `
+      );
       setLoginInfo({ ...loginInfo, username: "", password: "" });
       push("/dashboard");
     } catch (error: any) {
