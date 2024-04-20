@@ -174,7 +174,7 @@ const NewProposal = (props: Props) => {
       name: "status",
       required: true,
       errors: errors.status?.message,
-      options: proposalStatusTypes,
+      options: proposalStatusTypes.filter((x) => x.name === "درجریان"),
     },
     {
       id: 4,
