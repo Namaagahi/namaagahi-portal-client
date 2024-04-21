@@ -41,7 +41,8 @@ const AllProposalsTable = (props: Props) => {
           },
           {
             accessorKey: "username",
-            accessorFn: (row) => row.username,
+            accessorFn: (row) =>
+              allUsers.filter((x) => x.username === row.username)[0].name,
             id: "کاربر ایجاد کننده",
             cell: (info) => info.getValue(),
             header: () => <span>کاربر ایجاد کننده</span>,
@@ -68,7 +69,14 @@ const AllProposalsTable = (props: Props) => {
             id: "تاریخ شروع",
             cell: (info) => {
               const startDate = info.getValue();
-              return <p>{moment.unix(startDate).format("jYYYY-jM-jD")}</p>;
+              const unixTimestamp = Math.floor(
+                new Date(startDate).getTime() / 1000
+              );
+              return (
+                <p className="w-24">
+                  {moment.unix(unixTimestamp).format("jYYYY-jM-jD")}
+                </p>
+              );
             },
             header: () => <span>تاریخ شروع</span>,
           },
@@ -77,7 +85,14 @@ const AllProposalsTable = (props: Props) => {
             id: "ددلاین",
             cell: (info) => {
               const endDate = info.getValue();
-              return <p>{moment.unix(endDate).format("jYYYY-jM-jD")}</p>;
+              const unixTimestamp = Math.floor(
+                new Date(endDate).getTime() / 1000
+              );
+              return (
+                <p className="w-24">
+                  {moment.unix(unixTimestamp).format("jYYYY-jM-jD")}
+                </p>
+              );
             },
             header: () => <span>ددلاین</span>,
           },
@@ -237,19 +252,23 @@ const AllProposalsTable = (props: Props) => {
             },
           },
           {
+            accessorKey: "createdAt",
+            accessorFn: (row) => moment(row.createdAt).format("jYYYY/jM/jD"),
             id: "تاریخ ایجاد",
             header: () => <span>تاریخ ایجاد</span>,
             cell: (info) => {
               const createdAt = info.getValue();
-              return <p>{moment(createdAt).format("jYYYY/jM/jD")}</p>;
+              return <p>{createdAt}</p>;
             },
           },
           {
+            accessorKey: "updatedAt",
+            accessorFn: (row) => moment(row.updatedAt).format("jYYYY/jM/jD"),
             id: "تاریخ ویرایش",
             header: () => <span>تاریخ ویرایش</span>,
             cell: (info) => {
               const updatedAt = info.getValue();
-              return <p>{moment(updatedAt).format("jYYYY/jM/jD")}</p>;
+              return <p>{updatedAt}</p>;
             },
           },
         ],
@@ -260,7 +279,6 @@ const AllProposalsTable = (props: Props) => {
   return (
     <>
       <TableComponent columns={columns} data={data} />
-
       {isDeleteProposal && (
         <ConfirmModal
           prop={proposal}
