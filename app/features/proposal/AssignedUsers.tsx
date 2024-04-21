@@ -1,9 +1,8 @@
 import SelectInput from "@/app/components/inputs/SelectInput";
 import { AddProposalForm } from "@/app/lib/interfaces";
-import React from "react";
+import React, { useState } from "react";
 import {
   Control,
-  FieldArrayWithId,
   UseFieldArrayAppend,
   UseFieldArrayRemove,
 } from "react-hook-form";
@@ -23,13 +22,15 @@ type Props = {
 const AssignedUsers = (props: Props) => {
   const { usersField, control, appendUser, removeUser, usersOptions, err } =
     props;
+
+  const [flag, setFlag] = useState(true);
+
   const handleAddUser = (fieldIndex: number) => {
     const selectedUserId = usersOptions[fieldIndex]?.id;
     if (selectedUserId) {
       appendUser({ id: selectedUserId });
     }
   };
-  console.log("usersField", usersField);
   return (
     <div className="backdrop-blur bg-white/30 border-[1px] dark:text-black border-gray-400 col-span-2 rounded-md mb-2 pl-2 pr-4">
       {usersField.map((item: any, fieldIndex: number) => {
@@ -41,7 +42,7 @@ const AssignedUsers = (props: Props) => {
             <div className="absolute right-0 top-0 min-h-[10px] overflow-hidden w-4 rounded-md bg-primary text-white flex justify-center items-center font-bold  hover:scale-125 cursor-pointer transition-all">
               {fieldIndex + 1}
             </div>
-            <div className="flex gap-2 justify-between">
+            <div className="flex">
               <SelectInput
                 control={control}
                 name={`assignedUsers[${fieldIndex}].id`} // Use correct name for the input
@@ -50,7 +51,7 @@ const AssignedUsers = (props: Props) => {
                 errors={err}
               />
               <AiFillMinusCircle
-                className={`absolute bottom-0  cursor-pointer text-2xl hover:text-red-700 transition-all`}
+                className={`cursor-pointer text-2xl hover:text-red-700 transition-all`}
                 onClick={() => removeUser(fieldIndex)}
               />
               <AiFillPlusCircle
@@ -61,10 +62,15 @@ const AssignedUsers = (props: Props) => {
           </div>
         );
       })}
-      <AiFillPlusCircle
-        className="cursor-pointer text-2xl hover:text-green-700 transition-all"
-        onClick={() => appendUser("")}
-      />
+      {flag && (
+        <AiFillPlusCircle
+          className="cursor-pointer text-2xl hover:text-green-700 transition-all"
+          onClick={() => {
+            appendUser("");
+            setFlag(false);
+          }}
+        />
+      )}
     </div>
   );
 };
