@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import Loading from "../loading/Loading";
 import SelectInput from "@/app/components/inputs/SelectInput";
 import CustomInput from "@/app/components/inputs/CustomInput";
+import { v4 as uuidv4 } from "uuid";
 import {
   selectAllUsers,
   useGetUsersQuery,
@@ -116,10 +117,20 @@ const NewProposal = (props: Props) => {
       const assignedUserIds = data.assignedUsers
         .map((x: any) => x.id)
         .slice(0, -1);
+      const uuid = uuidv4();
+      const shortID = uuid.substring(0, 7);
+      const passKey =
+        data.type === "billboard"
+          ? "#B"
+          : data.type === "metro"
+          ? "#M"
+          : data.type === "bus"
+          ? "#O"
+          : "#N";
       try {
         const proposalResponse = await createNewProposal({
           userId: id,
-          subject: data.subject,
+          subject: `${passKey}${shortID}-${data.subject}`,
           initialCustomerId: data.initialCustomerId,
           startDate: startDate,
           endDate: endDate,
@@ -129,8 +140,11 @@ const NewProposal = (props: Props) => {
           description: data.description,
           assignedUsers: assignedUserIds,
         });
-        const emailResponse = await sendEmailToUser(assignedUserIds);
 
+        const emailResponse = await sendEmailToUser({
+          userIds: assignedUserIds,
+          uuid: passKey + shortID,
+        });
         toast.success(`پروپوزال جدید با موفقیت ساخته شد.`);
         handleModal();
       } catch (error) {
