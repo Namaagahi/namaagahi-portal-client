@@ -72,10 +72,10 @@ export const usersApiSlice = usersApiSliceTag.injectEndpoints({
       invalidatesTags: (result, error, arg) => [{ type: "User", id: arg.id }],
     }),
     sendEmailToUser: builder.mutation({
-      query: (userIds: string[]) => ({
+      query: ({ userIds, uuid }: { userIds: string[]; uuid: string }) => ({
         url: `/send-email`,
         method: "POST",
-        body: { userIds },
+        body: { userIds, uuid },
       }),
     }),
   }),
