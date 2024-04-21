@@ -50,7 +50,15 @@ const AllProposalsTable = (props: Props) => {
           {
             accessorFn: (row) => row.subject,
             id: "موضوع",
-            cell: (info) => info.getValue(),
+            cell: (info) => {
+              const subject = info.getValue().split("-");
+              return (
+                <div className="flex flex-col">
+                  <div>{subject[0]}</div>
+                  <div>{subject[1]}</div>
+                </div>
+              );
+            },
             header: () => <span>موضوع</span>,
           },
           {
@@ -205,17 +213,18 @@ const AllProposalsTable = (props: Props) => {
             header: () => <span>توضیحات</span>,
           },
           {
-            accessorFn: (row) => row.assignedUsers,
+            accessorFn: (row) =>
+              allUsers
+                .filter((user) => row.assignedUsers.includes(user._id))
+                .map((x: any) => x.name)
+                .join(", "),
             id: "کاربران اساین شده",
             cell: (info) => {
               const assignedUsers = info.getValue();
-              const filteredUsers = allUsers.filter((user) =>
-                assignedUsers.includes(user._id)
-              );
               return (
                 <ul>
-                  {filteredUsers!.map((user: UserObject) => (
-                    <li>{user.name}</li>
+                  {assignedUsers.split(",")?.map((user: any) => (
+                    <li>{user}</li>
                   ))}
                 </ul>
               );
