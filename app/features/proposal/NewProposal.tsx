@@ -16,7 +16,7 @@ import {
   UserObject,
 } from "@/app/lib/interfaces";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { ChangeEventHandler, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
 import { useSelector } from "react-redux";
@@ -30,6 +30,9 @@ import {
   useSendEmailToUserMutation,
 } from "@/app/apiSlices/usersApiSlice";
 import AssignedUsers from "./AssignedUsers";
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
 
 type Props = {
   handleModal: () => void;
@@ -41,6 +44,8 @@ const NewProposal = (props: Props) => {
   const { push } = useRouter();
 
   const [err, setErr] = useState<string>("");
+  const [startDate, setStartDate] = useState<string>("");
+  const [endDate, setEndDate] = useState<string>("");
   const [createNewProposal, { isLoading, isSuccess, isError, error }] =
     useCreateNewProposalMutation();
 
@@ -68,6 +73,7 @@ const NewProposal = (props: Props) => {
   const usersOptions = allUsers.map((user) => ({
     id: user._id,
     name: user.name,
+    roles: user.roles,
   }));
 
   const createProposalForm = useForm<AddProposalForm>({
@@ -90,6 +96,14 @@ const NewProposal = (props: Props) => {
     name: "assignedUsers",
   });
 
+  const handleStartDateChange = (date: any) => {
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date: any) => {
+    setEndDate(date);
+  };
+
   const onSubmit = async (data: AddProposalForm) => {
     if (
       !data.priority ||
@@ -107,15 +121,14 @@ const NewProposal = (props: Props) => {
           userId: id,
           subject: data.subject,
           initialCustomerId: data.initialCustomerId,
-          startDate: data.startDate,
-          endDate: data.endDate,
+          startDate: startDate,
+          endDate: endDate,
           priority: data.priority,
           status: data.status,
           type: data.type,
           description: data.description,
           assignedUsers: assignedUserIds,
         });
-
         const emailResponse = await sendEmailToUser(assignedUserIds);
 
         toast.success(`پروپوزال جدید با موفقیت ساخته شد.`);
@@ -226,6 +239,36 @@ const NewProposal = (props: Props) => {
               className="formInput text-black bg-slate-200"
             />
           ))}
+        </div>
+        <div className="flex justify-between m-2">
+          <div>
+            <label htmlFor="datePicker-start" className="datePickerLabel">
+              تاریخ شروع:
+            </label>
+            <div style={{ direction: "rtl" }}>
+              <DatePicker
+                id="datePicker-start"
+                calendar={persian}
+                locale={persian_fa}
+                calendarPosition="bottom-right"
+                onChange={handleStartDateChange}
+              />
+            </div>
+          </div>
+          <div>
+            <label htmlFor="datePicker-deadline" className="datePickerLabel">
+              ددلاین:
+            </label>
+            <div style={{ direction: "rtl" }}>
+              <DatePicker
+                id="atePicker-deadline"
+                calendar={persian}
+                locale={persian_fa}
+                calendarPosition="bottom-right"
+                onChange={handleEndDateChange}
+              />
+            </div>
+          </div>
         </div>
 
         <div className="relative w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-2 gap-4 lg:gap-2 mt-4">

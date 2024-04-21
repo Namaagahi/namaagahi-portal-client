@@ -1,3 +1,4 @@
+import { ChangeEvent, ChangeEventHandler } from "react";
 import { Control, Controller } from "react-hook-form";
 
 type SelectInputProps = {
