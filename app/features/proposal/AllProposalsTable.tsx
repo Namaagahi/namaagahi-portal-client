@@ -42,7 +42,7 @@ const AllProposalsTable = (props: Props) => {
           {
             accessorKey: "username",
             accessorFn: (row) =>
-              allUsers.filter((x) => x.username === row.username)[0].name,
+              allUsers.filter((x) => x.username === row.username)[0]?.name,
             id: "کاربر ایجاد کننده",
             cell: (info) => info.getValue(),
             header: () => <span>کاربر ایجاد کننده</span>,
