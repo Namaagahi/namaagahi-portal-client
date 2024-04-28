@@ -121,12 +121,12 @@ const NewProposal = (props: Props) => {
       const shortID = uuid.substring(0, 7);
       const passKey =
         data.type === "billboard"
-          ? "#B"
+          ? "BLB"
           : data.type === "metro"
-          ? "#M"
+          ? "MTR"
           : data.type === "bus"
-          ? "#O"
-          : "#N";
+          ? "BUS"
+          : "NMV";
       try {
         const proposalResponse = await createNewProposal({
           userId: id,

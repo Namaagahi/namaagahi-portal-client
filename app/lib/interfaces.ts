@@ -533,6 +533,13 @@ export interface AddProjectCodeForm {
   desc: string;
 }
 
+export interface AddProposalCodeForm {
+  media: string;
+  finalCustomerId: string;
+  brand: string;
+  desc: string;
+}
+
 export interface EditProjectCodeForm {
   media: string;
   year: number;

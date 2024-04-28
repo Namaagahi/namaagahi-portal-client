@@ -20,7 +20,6 @@ import { newPlanDefaultValues } from "@/app/lib/constants";
 import { convertToNumber } from "@/app/utilities/convertToNumber";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import Loading from "../loading/Loading";
 
 type Props = {
   mark: string;
@@ -77,6 +76,7 @@ const NewPlan = (props: Props) => {
   const onSubmit = async (data: any) => {
     const newData = {
       ...data,
+      proposalCode: data.proposalCode.toString(),
       structures: data.structures.map((structure: StructurePlanObject) => ({
         ...structure,
         monthlyFee: convertToNumber(structure.monthlyFee),
@@ -87,6 +87,7 @@ const NewPlan = (props: Props) => {
         discountType: mark === "regular" ? discountType : "percentage",
       })),
     };
+    console.log("data", newData);
     const abc = await createNewPlan({
       userId: id,
       mark: {
