@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import SubMenu from "./SubMenu";
 import {
+  billboardFinancialList,
   billboardSellList,
   billboardSettingsList,
   projectList,
@@ -72,6 +73,12 @@ const Menu = (props: Props) => {
           <div className="border-b border-slate-500 dark:border-slate-300 " />
 
           {billboardSellList.map((item: any) => (
+            <div key={item.name} style={path === item.path ? activeStyle : {}}>
+              <SubMenu data={item} />
+            </div>
+          ))}
+          <div className="border-b border-slate-500 dark:border-slate-300 " />
+          {billboardFinancialList.map((item: any) => (
             <div key={item.name} style={path === item.path ? activeStyle : {}}>
               <SubMenu data={item} />
             </div>
