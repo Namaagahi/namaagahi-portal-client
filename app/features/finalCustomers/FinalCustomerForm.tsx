@@ -331,10 +331,12 @@ const FinalCustomerForm = (props: Props) => {
                     !projectCodeId
                       ? "primaryButton hover:text-black hover:dark:text-buttonHover"
                       : "dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all"
-                  } cursor-pointer`}
+                  }  cursor-pointer`}
                   onClick={handleNewProjectCodeModal}
                 >
-                  {"کد پروژه جدید با کد پروپوزال"}
+                  {plan.proposalCode
+                    ? "کد پروژه جدید با کد پروپوزال"
+                    : "کد پروژه جدید"}
                 </p>
                 <p
                   className={`${
