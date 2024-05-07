@@ -177,7 +177,7 @@ const AllContractsTable: FC<IAllContractsTableProps> = ({
         },
         {
           id: "پیش فاکتور",
-          header: () => <span>پیش فاکتور</span>,
+          header: () => <span>شناسه</span>,
           cell: (info) => {
             const row = info.row.original;
             return (
