@@ -159,20 +159,21 @@ const ContractPdfDoc = (props: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.body} orientation="landscape">
+        <Text style={styles.title}>شناسه اجاره بیلبورد</Text>
         <View style={styles.headerContainer}>
           <div className="flex flex-col justify-center align-center">
+            <Image src="/images/Logo.png" style={styles.image} />
             <Text style={styles.subtitle}>
               {moment(Date.now()).format("jYYYY/jM/jD")}تاریخ :
             </Text>
+          </div>
+
+          <div className="flex flex-col justify-center align-center">
             <Text style={styles.subtitle}>{code}شماره :</Text>
             <Text style={styles.subtitle}>
               {`نام مشتری: ${customer.name} `}
             </Text>
           </div>
-
-          <Text style={styles.title}>شناسه اجاره بیلبورد</Text>
-
-          <Image src="/images/Logo.png" style={styles.image} />
         </View>
 
         {plan && (
@@ -249,7 +250,9 @@ const ContractPdfDoc = (props: Props) => {
                 <View>
                   <View style={styles.contentCell}>
                     <Text>
-                      {finalCustomer?.nationalId}
+                      {finalCustomer?.ecoCode
+                        ? finalCustomer.ecoCode
+                        : finalCustomer?.nationalId}
                       کداقتصادی :{" "}
                     </Text>
                   </View>
