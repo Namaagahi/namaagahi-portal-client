@@ -220,10 +220,7 @@ const AllPlansTable = (props: any) => {
             cell: (info) => {
               const row = info.row.original;
               return (
-                <Link
-                  href={`/dashboard/billboard/plans/invoice/${row.id}`}
-                  target="_blank"
-                >
+                <Link href={`/dashboard/billboard/plans/invoice/${row.id}`}>
                   <div className="flex justify-center text-xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer">
                     <FaFilePdf />
                   </div>
