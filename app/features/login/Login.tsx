@@ -27,7 +27,7 @@ const Login = () => {
 
   const { username, password } = loginInfo;
   const accessToken =
-    typeof window !== "undefined" && window.localStorage.getItem("CC_Token");
+    typeof window !== "undefined" && localStorage.getItem("CC_Token");
 
   const allUsers: UserObject[] = useSelector(
     (state) => selectAllUsers(state) as UserObject[]

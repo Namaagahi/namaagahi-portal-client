@@ -9,6 +9,7 @@ import { MenuItemsObj } from "./interfaces";
 import { HiUsers } from "react-icons/hi2";
 import { IoGrid } from "react-icons/io5";
 import { BsFillBoxFill, BsFillPinMapFill } from "react-icons/bs";
+import { FaSellsy } from "react-icons/fa";
 import { BiCode } from "react-icons/bi";
 import {
   AiFillDollarCircle,
@@ -16,10 +17,10 @@ import {
   AiOutlinePullRequest,
   AiTwotoneProject,
 } from "react-icons/ai";
-import { FaSellsy } from "react-icons/fa";
-import { PiPencilLine } from "react-icons/pi";
 import { IoIosPeople } from "react-icons/io";
+import { GrPlan } from "react-icons/gr";
 import { GiPackedPlanks } from "react-icons/gi";
+import { PiPencilLine } from "react-icons/pi";
 
 // REGEXES =======================================================
 export const USER_REGEX = /^[A-z]{3,20}$/;

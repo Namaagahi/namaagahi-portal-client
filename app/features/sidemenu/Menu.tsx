@@ -30,7 +30,7 @@ const Menu = (props: Props) => {
     <div
       className={`${
         mobileMenu ? "block" : "hidden"
-      } w-full xl:w-[300px] max-h-[800px] bg-gray-200 backdrop-blur dark:bg-darkModeBg/30 p-4 rounded-2xl m-3`}
+      } w-full xl:w-[300px] bg-gray-200 backdrop-blur dark:bg-darkModeBg/30 p-4 rounded-2xl m-3`}
     >
       <div className="border-y py-5 border-slate-500 dark:border-slate-300 ">
         <small className="pr-3 text-slate-500 inline-block mb-2">مدیریت</small>

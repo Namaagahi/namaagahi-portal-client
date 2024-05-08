@@ -45,7 +45,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   }, [trueSuccess]);
 
   const cookies = new Cookies();
-  const accessToken = cookies.get("jwt");
+  // const accessToken = cookies.get("jwt");
+  const accessToken =
+    typeof window !== "undefined" ? localStorage.getItem("CC_Token") : null;
 
   useEffect(() => {
     if (!accessToken) {
