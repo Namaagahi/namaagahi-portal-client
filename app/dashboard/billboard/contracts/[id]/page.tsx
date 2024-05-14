@@ -83,7 +83,9 @@ const ContractInvoice = () => {
 
   const indentifyNumber = projectCode?.code.startsWith("BB")
     ? projectCode?.code.substring(2)
-    : projectCode?.code.substring(3);
+    : projectCode?.code.startsWith("MTR" || "BUS" || "NMV" || "BIL")
+    ? projectCode?.code.substring(3)
+    : projectCode?.code;
 
   if (isLoading || !plan) return <Loading />;
   return (
