@@ -22,6 +22,7 @@ import useAuth from "@/app/hooks/useAuth";
 import Image from "next/image";
 import usePageTitle from "@/app/hooks/usePageTitle";
 import SearchContainer from "@/app/components/main/SearchContainer";
+import { MdAccountCircle } from "react-icons/md";
 
 const Users = () => {
   usePageTitle("کاربران");
@@ -65,7 +66,8 @@ const Users = () => {
               const avatar = info.getValue();
               return (
                 <div className="flex justify-center">
-                  <Image src={avatar} alt="avatar" width={35} height={35} />
+                  {/* <Image src={avatar} alt="avatar" width={35} height={35} /> */}
+                  <MdAccountCircle className="rounded-full cursor-pointer hover:scale-110 transition-all w-7 h-7" />
                 </div>
               );
             },
