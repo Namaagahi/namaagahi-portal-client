@@ -66,7 +66,6 @@ const ContractInvoice = () => {
     (finalCustomer: FinalCustomerObject) =>
       finalCustomer?.finalCustomerId === plan?.finalCustomerId
   );
-  console.log(finalCustomer);
 
   const { isLoading: projectCodesLoading } = useGetAllProjectCodesQuery(
     undefined,
