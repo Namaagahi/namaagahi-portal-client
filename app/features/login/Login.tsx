@@ -33,6 +33,10 @@ const Login = () => {
     (state) => selectAllUsers(state) as UserObject[]
   );
 
+  if (accessToken) {
+    window.location.href = "/dashboard";
+  }
+
   useEffect(() => {
     if (accessToken) {
       push("/dashboard");
@@ -60,14 +64,15 @@ const Login = () => {
     e.preventDefault();
     try {
       const { accessToken } = await login({ username, password }).unwrap();
+      push("/dashboard");
+      window.location.href = "/dashboard";
       dispatch(setCredentials({ accessToken }));
+      setLoginInfo({ ...loginInfo, username: "", password: "" });
       toast.success(
         `${
           allUsers.filter((x) => x.username === username)[0].name
         } عزیز خوش آمدید `
       );
-      setLoginInfo({ ...loginInfo, username: "", password: "" });
-      push("/dashboard");
     } catch (error: any) {
       if (!error.status)
         setLoginInfo({ ...loginInfo, errMsg: "خطای اتصال به سرور" });
