@@ -9,6 +9,8 @@ import { MenuItemsObj } from "./interfaces";
 import { HiUsers } from "react-icons/hi2";
 import { IoGrid } from "react-icons/io5";
 import { BsFillBoxFill, BsFillPinMapFill } from "react-icons/bs";
+import { GiTeamDowngrade } from "react-icons/gi";
+import { RiComputerLine } from "react-icons/ri";
 import { FaSellsy } from "react-icons/fa";
 import { BiCode } from "react-icons/bi";
 import {
@@ -167,6 +169,11 @@ export const menuItems: MenuItemsObj[] = [
     name: "چت روم ها",
     path: "/dashboard/chatrooms",
     icon: <AiFillWechat size={20} />,
+  },
+  {
+    name: "IT",
+    path: "/dashboard/IT",
+    icon: <RiComputerLine size={20} />,
   },
   {
     name: "نقشه",
