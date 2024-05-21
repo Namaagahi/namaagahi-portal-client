@@ -228,6 +228,28 @@ export interface StructureData {
   userId?: string;
 }
 
+// ASSETS ===========================================================================
+export interface AssetObject {
+  id?: string;
+  _id?: string;
+  userId: string;
+  username?: string;
+  personel: {
+    name: String;
+    code: Number;
+  };
+  department?: string;
+  asset: {
+    name: string;
+    serial: string;
+    code: number;
+  };
+  unit?: string;
+  describtion?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // MENU & CUSTOM ERROR ===========================================================================
 export interface MenuItemsObj {
   name: string;
