@@ -197,7 +197,7 @@ const AllAssetsTable = (props: Props) => {
         <CreateUpdateModal
           prop={asset}
           handleModal={handleEditAsset}
-          type={"editStructure"}
+          type={"editAsset"}
         />
       )}
     </>
