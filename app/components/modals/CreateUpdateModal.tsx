@@ -1,5 +1,5 @@
 import NewInitialCustomerForm from "@/app/features/initialCustomers/NewInitialCustomerForm";
-import { StructureObject, UserObject } from "@/app/lib/interfaces";
+import { AssetObject, StructureObject, UserObject } from "@/app/lib/interfaces";
 import EditStructure from "@/app/features/structures/EditStructure";
 import NewUserForm from "@/app/features/users/NewUserForm";
 import EditUser from "@/app/features/users/EditUser";
@@ -11,11 +11,12 @@ import EditProfile from "@/app/features/profile/EditProfile";
 import NewChatroom from "@/app/features/chatrooms/NewChatroom";
 import EditInitialCustomer from "@/app/features/initialCustomers/EditInitialCustomer";
 import NewProposal from "@/app/features/proposal/NewProposal";
+import EditAsset from "@/app/features/itAssets/EditAsset";
 
 type Props = {
   handleModal: () => void;
   type: string;
-  prop?: UserObject | StructureObject | undefined | any;
+  prop?: UserObject | StructureObject | AssetObject | undefined | any;
   code?: string;
 };
 
@@ -39,6 +40,8 @@ const CreateUpdateModal = (props: Props) => {
           <EditProfile handleModal={handleModal} user={prop} />
         ) : type === "editStructure" ? (
           <EditStructure handleModal={handleModal} structure={prop} />
+        ) : type === "editAsset" ? (
+          <EditAsset handleModal={handleModal} asset={prop} />
         ) : type === "newInitialCustomer" ? (
           <NewInitialCustomerForm handleModal={handleModal} />
         ) : type === "editInitialCustomer" ? (
