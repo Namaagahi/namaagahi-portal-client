@@ -188,12 +188,12 @@ export const projectList = [
     icon: <AiTwotoneProject size={20} />,
     menus: [
       {
-        name: "پروپوزال",
+        name: "درخواست پروپوزال",
         icon: <AiOutlinePullRequest size={20} />,
         path: "/dashboard/proposal",
       },
       {
-        name: "پروژه",
+        name: "مشتری اولیه",
         icon: <AiTwotoneProject size={20} />,
         path: "/dashboard/billboard/initial-customers",
       },
@@ -203,7 +203,7 @@ export const projectList = [
         icon: <BiCode size={20} />,
       },
       {
-        name: "مشتریان",
+        name: "مشتریان قطعی",
         icon: <IoIosPeople size={20} />,
         path: "/dashboard/billboard/final-customers",
       },
@@ -213,16 +213,16 @@ export const projectList = [
 
 export const billboardSettingsList = [
   {
-    name: "تنظیمات",
+    name: "تنظیمات محیطی",
     icon: <MdPermMedia size={20} />,
     menus: [
       {
-        name: "باکس",
+        name: "تعریف باکس",
         icon: <BsFillBoxFill size={20} />,
         path: "/dashboard/billboard/boxes",
       },
       {
-        name: "سازه",
+        name: "تعریف سازه",
         icon: <SiInstructure size={20} />,
         path: "/dashboard/billboard/structures",
       },
@@ -232,7 +232,7 @@ export const billboardSettingsList = [
 
 export const billboardSellList = [
   {
-    name: "فروش",
+    name: "پذیرش",
     icon: <FaSellsy size={20} />,
     menus: [
       {
