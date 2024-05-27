@@ -12,9 +12,13 @@ import Button from "@/app/components/main/Button";
 import ScrollContainer from "@/app/components/main/ScrollContainer";
 import AllAssetsTable from "./AllAssetsTable";
 import useAuth from "@/app/hooks/useAuth";
+import NewAsset from "./NewAsset";
 
 const Assets = () => {
   const [data, setData] = useState<AssetObject[]>([]);
+  const [isNewAsset, setIsNewAsset] = useState<boolean>(false);
+
+  const handleNewAsset = () => setIsNewAsset(!isNewAsset);
 
   const { isLoading, isError } = useGetITassetsQuery(undefined, {
     refetchOnFocus: true,
@@ -45,13 +49,11 @@ const Assets = () => {
       <PageTitle name={"دارایی های IT"} />
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />
-        <Button
-          onClickHandler={() => console.log("clicked")}
-          title="ثبت دارایی  جدید"
-        />
+        <Button onClickHandler={handleNewAsset} title="ثبت دارایی  جدید" />
       </div>
       <AllAssetsTable data={data} />
       <ScrollContainer />
+      {isNewAsset && <NewAsset handleModal={handleNewAsset} />}
     </>
   );
 };
