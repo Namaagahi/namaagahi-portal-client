@@ -248,15 +248,14 @@ export const billboardSellList = [
     ],
   },
 ];
-
 export const billboardFinancialList = [
   {
-    name: "مالی",
-    icon: <AiFillDollarCircle size={20} />,
+    name: "گزارشات",
+    icon: <PiPencilLine size={20} />,
     menus: [
       {
         name: "امور قراردادها",
-        icon: <PiPencilLine size={20} />,
+        icon: <AiFillDollarCircle size={20} />,
         path: "/dashboard/billboard/contracts",
       },
     ],
