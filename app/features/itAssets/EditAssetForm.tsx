@@ -89,7 +89,7 @@ const EditAssetForm = (props: Props) => {
     <div className="py-5 px-8 w-full text-black dark:text-white">
       <form className="flex flex-col" onSubmit={onSaveStructureClick}>
         <div className="flex justify-between items-center">
-          <p className="md:text-2xl text-xl font-bold">ویرایش سازه</p>
+          <p className="md:text-2xl text-xl font-bold">ویرایش دارایی</p>
 
           <AiOutlineClose
             className="cursor-pointer text-xl hover:text-2xl transition-all"
@@ -97,15 +97,15 @@ const EditAssetForm = (props: Props) => {
           />
         </div>
 
-        {(isMaster || isAdmin) && (
+        {/* {(isMaster || isAdmin) && (
           <div className="flex items-center justify-between w-full pt-12">
             <label htmlFor="userId">کاربر</label>
           </div>
-        )}
+        )} */}
 
         <div className="flex flex-col pb-7">
-          <div className="flex items-center gap-4 justify-between w-full">
-            <label htmlFor="name">نام سازه</label>
+          <div className="flex items-center gap-4 justify-between w-full pt-12">
+            <label htmlFor="name">مسئول دارایی</label>
 
             <input
               id="name"
@@ -117,7 +117,7 @@ const EditAssetForm = (props: Props) => {
           </div>
 
           <div className="flex items-center gap-4 justify-between w-full">
-            <label htmlFor="code">کد</label>
+            <label htmlFor="code">کد پرسنلی</label>
 
             <input
               id="code"
