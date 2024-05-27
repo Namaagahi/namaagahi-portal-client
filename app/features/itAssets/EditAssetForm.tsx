@@ -82,7 +82,7 @@ const EditAssetForm = (props: Props) => {
     });
 
     handleModal();
-    toast.success(`سازه ${asset!.asset?.name} با موفقیت ویرایش شد`);
+    toast.success(`دارایی ${asset!.asset?.name} با موفقیت ویرایش شد`);
   };
 
   return (
