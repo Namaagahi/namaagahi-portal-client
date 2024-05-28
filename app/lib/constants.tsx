@@ -184,7 +184,7 @@ export const menuItems: MenuItemsObj[] = [
 
 export const projectList = [
   {
-    name: "پروژه",
+    name: "امور مشتریان",
     icon: <AiTwotoneProject size={20} />,
     menus: [
       {
@@ -213,7 +213,7 @@ export const projectList = [
 
 export const billboardSettingsList = [
   {
-    name: "تنظیمات محیطی",
+    name: "تنظیمات ",
     icon: <MdPermMedia size={20} />,
     menus: [
       {
