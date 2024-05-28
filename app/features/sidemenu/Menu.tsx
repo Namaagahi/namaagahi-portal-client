@@ -23,7 +23,6 @@ const Menu = ({ menuItems }: Props) => {
   );
   const path = usePathname();
   const user = useAuth();
-  console.log(user);
   const activeStyle = {
     background: "#faa75c",
     fontWeight: 500,
@@ -36,9 +35,13 @@ const Menu = ({ menuItems }: Props) => {
       const updatedMenuItems = (user?.roles as string[])?.includes("کارشناس IT")
         ? menuItems
         : menuItems.filter((x) => x.name !== "IT");
-      setFilteredMenuItems(updatedMenuItems);
+      if (
+        JSON.stringify(updatedMenuItems) !== JSON.stringify(filteredMenuItems)
+      ) {
+        setFilteredMenuItems(updatedMenuItems);
+      }
     }
-  }, []);
+  }, [user, menuItems]);
 
   return (
     <div
