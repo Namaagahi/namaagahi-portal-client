@@ -248,7 +248,7 @@ export const billboardSellList = [
       {
         name: "پروژه",
         icon: <AiTwotoneProject size={20} />,
-        path: "/dashboard/billboard/ownPlans",
+        path: "/dashboard/billboard/plans/myplans",
       },
     ],
   },
