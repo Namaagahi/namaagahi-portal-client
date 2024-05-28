@@ -9,7 +9,7 @@ import { MenuItemsObj } from "./interfaces";
 import { HiUsers } from "react-icons/hi2";
 import { IoGrid } from "react-icons/io5";
 import { BsFillBoxFill, BsFillPinMapFill } from "react-icons/bs";
-import { GiTeamDowngrade } from "react-icons/gi";
+import { FaPersonCirclePlus } from "react-icons/fa6";
 import { RiComputerLine } from "react-icons/ri";
 import { FaSellsy } from "react-icons/fa";
 import { BiCode } from "react-icons/bi";
@@ -194,7 +194,7 @@ export const projectList = [
       },
       {
         name: "مشتری اولیه",
-        icon: <AiTwotoneProject size={20} />,
+        icon: <FaPersonCirclePlus size={20} />,
         path: "/dashboard/billboard/initial-customers",
       },
       {
@@ -244,6 +244,11 @@ export const billboardSellList = [
         name: "سازه های خالی",
         icon: <SiInstructure size={20} />,
         path: "/dashboard/billboard/structures/availables",
+      },
+      {
+        name: "پروژه",
+        icon: <AiTwotoneProject size={20} />,
+        path: "/dashboard/billboard/ownPlans",
       },
     ],
   },

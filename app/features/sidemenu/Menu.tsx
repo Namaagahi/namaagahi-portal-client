@@ -1,7 +1,7 @@
 "use client";
 import { MenuItemsObj } from "@/app/lib/interfaces";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import SubMenu from "./SubMenu";
 import {
@@ -10,21 +10,35 @@ import {
   billboardSettingsList,
   projectList,
 } from "@/app/lib/constants";
+import useAuth from "@/app/hooks/useAuth";
 
 type Props = {
   menuItems: MenuItemsObj[];
 };
 
-const Menu = (props: Props) => {
-  const { menuItems } = props;
+const Menu = ({ menuItems }: Props) => {
   const [mobileMenu, setMobileMenu] = useState<boolean>(true);
+  const [filteredMenuItems, setFilteredMenuItems] = useState<MenuItemsObj[]>(
+    []
+  );
   const path = usePathname();
+  const user = useAuth();
+  console.log(user);
   const activeStyle = {
     background: "#faa75c",
     fontWeight: 500,
     color: "black",
     border: "#C91416",
   };
+
+  useEffect(() => {
+    if (user) {
+      const updatedMenuItems = (user?.roles as string[])?.includes("کارشناس IT")
+        ? menuItems
+        : menuItems.filter((x) => x.name !== "IT");
+      setFilteredMenuItems(updatedMenuItems);
+    }
+  }, []);
 
   return (
     <div
@@ -36,7 +50,7 @@ const Menu = (props: Props) => {
         <small className="pr-3 text-slate-500 inline-block mb-2">مدیریت</small>
 
         <ul className="flex flex-col gap-1">
-          {menuItems.map((item: MenuItemsObj) => (
+          {filteredMenuItems.map((item: MenuItemsObj) => (
             <Link href={item.path} key={item.name}>
               <li
                 className="flex items-center justify-start gap-1 p-3 cursor-pointer hover:text-buttonHover hover:scale-110 rounded-2xl transition-all"
@@ -58,25 +72,38 @@ const Menu = (props: Props) => {
         </Link>
 
         <ul className="flex flex-col gap-1">
-          {projectList.map((item: any) => (
-            <div key={item.name} style={path === item.path ? activeStyle : {}}>
-              <SubMenu data={item} />
-            </div>
-          ))}
-          <div className="border-b border-slate-500 dark:border-slate-300 " />
-
+          {(user.isMaster || user.isAdmin || user.isProjectManager) && (
+            <>
+              {projectList.map((item: any) => (
+                <div
+                  key={item.name}
+                  style={path === item.path ? activeStyle : {}}
+                >
+                  <SubMenu data={item} />
+                  <div className="border-b border-slate-500 dark:border-slate-300" />
+                </div>
+              ))}
+            </>
+          )}
           {billboardSettingsList.map((item: any) => (
             <div key={item.name} style={path === item.path ? activeStyle : {}}>
               <SubMenu data={item} />
             </div>
           ))}
-          <div className="border-b border-slate-500 dark:border-slate-300 " />
+          {(user.isMaster || user.isAdmin || user.status === "پذیرشگر") && (
+            <>
+              <div className="border-b border-slate-500 dark:border-slate-300 " />
+              {billboardSellList.map((item: any) => (
+                <div
+                  key={item.name}
+                  style={path === item.path ? activeStyle : {}}
+                >
+                  <SubMenu data={item} />
+                </div>
+              ))}
+            </>
+          )}
 
-          {billboardSellList.map((item: any) => (
-            <div key={item.name} style={path === item.path ? activeStyle : {}}>
-              <SubMenu data={item} />
-            </div>
-          ))}
           <div className="border-b border-slate-500 dark:border-slate-300 " />
           {billboardFinancialList.map((item: any) => (
             <div key={item.name} style={path === item.path ? activeStyle : {}}>
