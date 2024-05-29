@@ -24,7 +24,7 @@ import SearchContainer from "@/app/components/main/SearchContainer";
 import { selectAllUsers } from "@/app/apiSlices/usersApiSlice";
 
 const InitialCustomers = () => {
-  usePageTitle("پروژه ها");
+  usePageTitle(" مشتریان اولیه");
 
   const { isMaster, isAdmin, isProjectManager } = useAuth();
 
@@ -200,16 +200,20 @@ const InitialCustomers = () => {
             },
           },
           {
+            accessorFn: (row) => row.createdAt,
             id: "تاریخ ایجاد",
             header: () => <span>تاریخ ایجاد</span>,
+            enableColumnFilter: false,
             cell: (info) => {
               const createdAt = info.getValue();
               return <p>{moment(createdAt).format("jYYYY/jM/jD")}</p>;
             },
           },
           {
+            accessorFn: (row) => row.updatedAt,
             id: "تاریخ ویرایش",
             header: () => <span>تاریخ ویرایش</span>,
+            enableColumnFilter: false,
             cell: (info) => {
               const updatedAt = info.getValue();
               return <p>{moment(updatedAt).format("jYYYY/jM/jD")}</p>;
@@ -231,7 +235,7 @@ const InitialCustomers = () => {
 
   return (
     <>
-      <PageTitle name={"پروژه ها"} />
+      <PageTitle name={" مشتریان اولیه"} />
 
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />

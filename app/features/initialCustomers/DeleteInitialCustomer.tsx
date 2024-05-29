@@ -1,32 +1,27 @@
-import { InitialCustomerObject } from '@/app/lib/interfaces'
-import React from 'react'
-import { useDeleteInitialCustomerMutation } from '../../apiSlices/initialCustomersApiSlice'
-import Loading from '../loading/Loading'
-import { toast } from 'react-toastify'
+import { InitialCustomerObject } from "@/app/lib/interfaces";
+import React from "react";
+import { useDeleteInitialCustomerMutation } from "../../apiSlices/initialCustomersApiSlice";
+import Loading from "../loading/Loading";
+import { toast } from "react-toastify";
 
 type Props = {
-  initialCustomer: InitialCustomerObject
-  handleModal: () => void
-}
+  initialCustomer: InitialCustomerObject;
+  handleModal: () => void;
+};
 
 const DeleteInitialCustomer = (props: Props) => {
+  const { initialCustomer, handleModal } = props;
 
-  const {
-    initialCustomer,
-    handleModal
-  } = props
-
-  const [deleteInitialCustomer, {
-    isLoading,
-  }] = useDeleteInitialCustomerMutation()
+  const [deleteInitialCustomer, { isLoading }] =
+    useDeleteInitialCustomerMutation();
 
   const onDeleteInitialCustomerClick = async () => {
-    const abc = await deleteInitialCustomer({ id: initialCustomer?.id })
-    handleModal()
-    toast.success(`پروژه  ${initialCustomer?.name} با موفقیت حذف شد`)
-  }
+    const abc = await deleteInitialCustomer({ id: initialCustomer?.id });
+    handleModal();
+    toast.success(`پروژه  ${initialCustomer?.name} با موفقیت حذف شد`);
+  };
 
-  if(isLoading) return <Loading/>
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex items-center gap-6">
@@ -34,17 +29,14 @@ const DeleteInitialCustomer = (props: Props) => {
         onClick={onDeleteInitialCustomerClick}
         className="deleteConfirmButton"
       >
-        حذف پروژه
+        حذف مشتری
       </button>
 
-      <button
-        onClick={handleModal}
-        className="cancelButton"
-      >
+      <button onClick={handleModal} className="cancelButton">
         لغو
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default DeleteInitialCustomer
+export default DeleteInitialCustomer;
