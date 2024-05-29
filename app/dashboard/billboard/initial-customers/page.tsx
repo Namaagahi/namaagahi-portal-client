@@ -16,6 +16,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import Button from "@/app/components/main/Button";
 import { EntityId } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
+import { MdFileDownloadDone } from "react-icons/md";
 import useAuth from "@/app/hooks/useAuth";
 import moment from "jalali-moment";
 import usePageTitle from "@/app/hooks/usePageTitle";
@@ -32,6 +33,12 @@ const InitialCustomers = () => {
     refetchOnMountOrArgChange: false,
   });
 
+  const [data, setData] = useState<InitialCustomerObject[] | unknown>([]);
+  const [initialCustomerId, setInitialCustomerId] = useState<
+    string | any | EntityId
+  >("");
+  const [isNewFinalCustomer, setIsNewFinalCustomer] = useState<boolean>(false);
+
   const allInitialCustomers: InitialCustomerObject[] = useSelector(
     (state) => selectAllInitialCustomers(state) as InitialCustomerObject[]
   );
@@ -47,10 +54,9 @@ const InitialCustomers = () => {
     setIsNewInitialCustomer(!isNewInitialCustomer);
   const handleDeleteInitialCustomer = () =>
     setIsDeleteInitialCustomer(!isDeleteInitialCustomer);
-  const [data, setData] = useState<InitialCustomerObject[] | unknown>([]);
-  const [initialCustomerId, setInitialCustomerId] = useState<
-    string | any | EntityId
-  >("");
+  const handleNewFinalCustomerModal = () =>
+    setIsNewFinalCustomer(!isNewFinalCustomer);
+
   const initialCustomer: InitialCustomerObject = useSelector(
     (state) =>
       selectInitialCustomerById(
@@ -140,6 +146,24 @@ const InitialCustomers = () => {
               );
             },
             header: () => <span>نحوه آشنایی</span>,
+          },
+          {
+            id: "تبدیل به قطعی",
+            cell: (info) => {
+              return (
+                <button
+                  type="button"
+                  className="primaryButton text-black dark:text-white hover:scale-125 transition-all"
+                  onClick={() => setInitialCustomerId(info.row.original.id)}
+                >
+                  <MdFileDownloadDone
+                    size={15}
+                    onClick={handleNewFinalCustomerModal}
+                  />
+                </button>
+              );
+            },
+            header: () => <span>تبدیل به قطعی</span>,
           },
           {
             id: "عملیات",
@@ -237,6 +261,12 @@ const InitialCustomers = () => {
           handleModal={handleDeleteInitialCustomer}
           type={"delete"}
           deleteType="initialCustomer"
+        />
+      )}
+      {isNewFinalCustomer && (
+        <CreateUpdateModal
+          type={"newFinalCustomer"}
+          handleModal={handleNewFinalCustomerModal}
         />
       )}
     </>
