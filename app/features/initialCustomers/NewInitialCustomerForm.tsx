@@ -1,134 +1,158 @@
-"use client"
-import { useEffect, useState } from 'react'
-import { selectAllInitialCustomers, useCreateNewInitialCustomerMutation, useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
-import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
-import { AiOutlineClose } from 'react-icons/ai'
-import useAuth from '@/app/hooks/useAuth'
-import { useSelector } from 'react-redux'
-import { InitialCustomerObject } from '@/app/lib/interfaces'
-import Loading from '../loading/Loading'
+"use client";
+import { useEffect, useState } from "react";
+import {
+  selectAllInitialCustomers,
+  useCreateNewInitialCustomerMutation,
+  useGetAllInitialCustomersQuery,
+} from "../../apiSlices/initialCustomersApiSlice";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import { AiOutlineClose } from "react-icons/ai";
+import useAuth from "@/app/hooks/useAuth";
+import { useSelector } from "react-redux";
+import {
+  EditInitialCustomerForm,
+  InitialCustomerObject,
+} from "@/app/lib/interfaces";
+import Loading from "../loading/Loading";
+import CustomInput from "@/app/components/inputs/CustomInput";
+import { useForm } from "react-hook-form";
 
-const NewInitialCustomerForm = ({handleModal}: {handleModal: () => void}) => {
+const NewInitialCustomerForm = ({
+  handleModal,
+}: {
+  handleModal: () => void;
+}) => {
+  const { id } = useAuth();
+  const { push } = useRouter();
 
-  const { id } = useAuth()
-  const { push } = useRouter()
+  const [createNewInitialCustomer, { isLoading, isSuccess, isError, error }] =
+    useCreateNewInitialCustomerMutation();
 
-  const [createNewInitialCustomer, {
-    isLoading,
-    isSuccess,
-    isError,
-    error
-  }] = useCreateNewInitialCustomerMutation()
+  const [errMsg, setErrMsg] = useState<string | null>(null);
+
+  const createInitialCustomerForm = useForm<EditInitialCustomerForm>({});
 
   const {
-    isError: getInitalCustomersIsError,
-  } = useGetAllInitialCustomersQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false
-  })
-  const initialCustomers: InitialCustomerObject[] = useSelector(state => selectAllInitialCustomers(state) as InitialCustomerObject[])
-
-  const [searchQuery, setSearchQuery] = useState<string>("")
-  const [newInitialCustomerData, setNewInitialCustomerData] = useState({
-    name:'',
-    errorMsg:''
-  })
-  const { name, errorMsg } = newInitialCustomerData
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = createInitialCustomerForm;
 
   useEffect(() => {
-    if(isSuccess) {
-      setNewInitialCustomerData({...newInitialCustomerData, name:'' })
-      push('/dashboard/billboard/initial-customers')
+    if (isSuccess) {
+      push("/dashboard/billboard/initial-customers");
     }
-  }, [isSuccess, push])
+  }, [isSuccess, push]);
 
-  const filteredCustomers = initialCustomers.filter((customer: InitialCustomerObject) => customer.name.includes(searchQuery))
-
-  const onSearchQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)
-  const onNameChange = (e: React.ChangeEvent<HTMLInputElement>) => setNewInitialCustomerData({...newInitialCustomerData, name: e.target.value})
-  const onSaveInitialCustomerClick = async(e: any) => {
-    e.preventDefault()
-    const data = await createNewInitialCustomer({ userId:id, name })
-    if(!data.error) {
-      handleModal()
-      toast.success('پروژه جدید با موفقیت ساخته شد')
+  const onSaveInitialCustomerClick = async (data: any) => {
+    const abc = await createNewInitialCustomer({
+      userId: id,
+      name: data.name,
+      agentName: data.agentName,
+      role: data.role,
+      phoneNumber: data.phoneNumber,
+      introductionMethod: data.introductionMethod,
+    });
+    if (!abc.error) {
+      handleModal();
+      toast.success("مشتری جدید با موفقیت ساخته شد");
     }
 
-    if(data.error?.status === 409)
-      setNewInitialCustomerData({...newInitialCustomerData, errorMsg: 'مشتری قبلا تعریف شده است.'})
-    if(data.error?.status === 400)
-      setNewInitialCustomerData({...newInitialCustomerData, errorMsg: 'نام مشتری را وارد کنید.'})
-  }
+    if (isError) {
+      "status" in error! &&
+        error.status === 409 &&
+        setErrMsg("این نام پروژه قبلا ثبت شده است");
+      "status" in error! &&
+        error.status === 400 &&
+        setErrMsg("فیلدهای مورد نیاز را تکمیل کنید");
+    }
+  };
 
-  if(isLoading) return <Loading />
+  const customInputs = [
+    {
+      id: 1,
+      label: "نام پروژه",
+      name: "name",
+      type: "text",
+      message: "نام پزوژه را وارد کنید",
+      required: true,
+      errors: errors.name?.message,
+    },
+    {
+      id: 2,
+      label: "نام نماینده",
+      name: "agentName",
+      type: "text",
+      required: false,
+    },
+    {
+      id: 3,
+      label: "سمت",
+      name: "role",
+      type: "text",
+      required: false,
+    },
+    {
+      id: 4,
+      label: "تلفن",
+      name: "phoneNumber",
+      type: "number",
+      required: false,
+      errors: undefined,
+    },
+    {
+      id: 5,
+      label: "نحوه آشنایی",
+      name: "introductionMethod",
+      type: "text",
+      required: false,
+    },
+  ];
+
+  if (isLoading) return <Loading />;
   return (
-    <div className="py-5 px-8 w-full text-black dark:text-white">
-      <form
-        className="flex flex-col"
-        onSubmit={onSaveInitialCustomerClick}
-      >
-        <div className="flex justify-between items-center">
-          <p className="md:text-2xl text-xl font-bold">
-            پروژه جدید
-          </p>
+    <>
+      <div className="w-full flex justify-between items-center px-8 py-0">
+        <p className="md:text-2xl text-xl font-bold">ساخت مشتری</p>
 
-          <AiOutlineClose className="cursor-pointer text-xl hover:text-2xl transition-all" onClick={handleModal}/>
-        </div>
-
-        <div className="flex flex-col pt-12 pb-7">
-          <label htmlFor="name">
-              نام
-          </label>
-          <input
-            type="text"
-            placeholder="نام مشتری"
-            id="name"
-            value={name}
-            autoComplete="off"
-            onChange={onNameChange}
-            className={`${isError && 'border-rose-700'} formInput2`}
-          />
-
-          <small className="text-xs text-rose-600 ">
-            {errorMsg}
-          </small>
-        </div>
-
-        <input
-          type="text"
-          placeholder="جستجوی مشتری"
-          value={searchQuery}
-          onChange={onSearchQueryChange}
-          className='formInput2 my-4'
+        <AiOutlineClose
+          className="cursor-pointer text-xl hover:text-2xl transition-all"
+          onClick={handleModal}
         />
+      </div>
+      <div className="py-5 px-8 w-full text-black dark:text-white">
+        <form
+          className="flex flex-col"
+          onSubmit={handleSubmit(onSaveInitialCustomerClick)}
+        >
+          <div className="relative w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-2 gap-4 lg:gap-2 mt-4">
+            {customInputs.map((customInput) => (
+              <CustomInput
+                key={customInput.id}
+                control={control}
+                name={customInput.name}
+                label={customInput.label}
+                type={customInput.type}
+                required={customInput.required}
+                message={customInput.message}
+                errors={customInput.errors && customInput.errors}
+                className="p-4 rounded-[50px] bg-blue-100 outline-none text-black"
+              />
+            ))}
+            <p className="text-red-500">{errMsg ? errMsg : " "}</p>
+          </div>
+          <div className="flex items-center gap-6">
+            <button className={`confirmButton`}>ذخیره</button>
 
-        <ul className='mb-4 bg-gray-200 text-gray-700 font-bold rounded-md p-3 h-[100px] overflow-y-auto'>
-          {getInitalCustomersIsError ?
-            <p>
-              هیچ پروژه ای تعریف نشده است
-            </p>
-          :
-          filteredCustomers && filteredCustomers.map((customer: InitialCustomerObject) => (
-            <li key={customer._id}>{customer.name}</li>
-          ))}
-        </ul>
+            <button onClick={handleModal} className="cancelButton">
+              لغو
+            </button>
+          </div>
+        </form>
+      </div>
+    </>
+  );
+};
 
-        <div className="flex items-center gap-6">
-          <button className="confirmButton">
-            ذخیره
-          </button>
-
-          <button
-            onClick={handleModal}
-            className="cancelButton"
-          >
-            لغو
-          </button>
-        </div>
-      </form>
-    </div>
-  )
-}
-
-export default NewInitialCustomerForm
+export default NewInitialCustomerForm;
