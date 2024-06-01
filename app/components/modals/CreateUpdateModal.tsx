@@ -50,7 +50,7 @@ const CreateUpdateModal = (props: Props) => {
             initialCustomer={prop}
           />
         ) : type === "newFinalCustomer" ? (
-          <NewFinalCustomerForm handleModal={handleModal} />
+          <NewFinalCustomerForm handleModal={handleModal} prop={prop} />
         ) : type === "editFinalCustomer" ? (
           <EditFinalCustomer handleModal={handleModal} finalCustomer={prop} />
         ) : type === "newProjectCode" ? (

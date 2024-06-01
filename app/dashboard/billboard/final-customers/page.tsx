@@ -121,7 +121,7 @@ const FinalCustomers = () => {
             header: () => <span>نوع مشتری</span>,
           },
           {
-            accessorFn: (row) => row.agent[0].agentName,
+            accessorFn: (row) => row.agent?.[0]?.agentName,
             id: "نام نماینده اول",
             cell: (info) => {
               return (
@@ -133,7 +133,7 @@ const FinalCustomers = () => {
             header: () => <span>نام نماینده اول</span>,
           },
           {
-            accessorFn: (row) => row.agent[0].post,
+            accessorFn: (row) => row.agent?.[0]?.post,
             id: "پست سازمانی نماینده اول",
             cell: (info) => {
               return (

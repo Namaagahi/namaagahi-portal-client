@@ -271,6 +271,7 @@ const InitialCustomers = () => {
         <CreateUpdateModal
           type={"newFinalCustomer"}
           handleModal={handleNewFinalCustomerModal}
+          prop={initialCustomer}
         />
       )}
     </>
