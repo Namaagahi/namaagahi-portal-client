@@ -251,7 +251,7 @@ const AllPlansTable = (props: any) => {
         ],
       },
     ];
-  }, []);
+  }, [allUsers]);
 
   return (
     <>
