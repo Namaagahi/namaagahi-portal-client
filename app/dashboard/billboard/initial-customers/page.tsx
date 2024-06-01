@@ -34,6 +34,7 @@ const InitialCustomers = () => {
   });
 
   const [data, setData] = useState<InitialCustomerObject[] | unknown>([]);
+  const [users, setUsers] = useState<UserObject[]>([]);
   const [initialCustomerId, setInitialCustomerId] = useState<
     string | any | EntityId
   >("");
@@ -70,7 +71,8 @@ const InitialCustomers = () => {
 
   useEffect(() => {
     setData(allInitialCustomers);
-  }, [allInitialCustomers]);
+    setUsers(allUsers);
+  }, [allInitialCustomers, allUsers]);
 
   const columns = useMemo<ColumnDef<InitialCustomerObject, any>[]>(() => {
     return [
@@ -86,11 +88,12 @@ const InitialCustomers = () => {
           },
           {
             accessorKey: "username",
-            accessorFn: (row) =>
-              allUsers?.filter((x: any) => x.username === row.username)[0]
-                ?.name,
+            accessorFn: (row) => row.username,
             id: "کاربر ایجاد کننده",
-            cell: (info) => info.getValue(),
+            cell: (info) => {
+              const user = users.find((x) => x.username === info.getValue());
+              return <p>{user ? user.name : "Unknown User"}</p>;
+            },
             header: () => <span>کاربر ایجاد کننده</span>,
           },
           {
@@ -222,7 +225,7 @@ const InitialCustomers = () => {
         ],
       },
     ];
-  }, []);
+  }, [users]);
 
   if (isLoading) return <Loading />;
 

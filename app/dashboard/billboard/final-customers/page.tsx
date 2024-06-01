@@ -4,6 +4,7 @@ import {
   selectFinalCustomerById,
   useGetAllFinalCustomersQuery,
 } from "@/app/apiSlices/finalCustomerApiSlice";
+import { selectAllUsers } from "@/app/apiSlices/usersApiSlice";
 import Button from "@/app/components/main/Button";
 import PageTitle from "@/app/components/main/PageTitle";
 import SearchContainer from "@/app/components/main/SearchContainer";
@@ -14,7 +15,7 @@ import TableComponent from "@/app/components/table/TableComponent";
 import Loading from "@/app/features/loading/Loading";
 import useAuth from "@/app/hooks/useAuth";
 import usePageTitle from "@/app/hooks/usePageTitle";
-import { FinalCustomerObject } from "@/app/lib/interfaces";
+import { FinalCustomerObject, UserObject } from "@/app/lib/interfaces";
 import { EntityId } from "@reduxjs/toolkit";
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "jalali-moment";
@@ -36,6 +37,8 @@ const FinalCustomers = () => {
     (state) => selectAllFinalCustomers(state) as FinalCustomerObject[]
   );
   const [data, setData] = useState<FinalCustomerObject[] | unknown>([]);
+  const [users, setUsers] = useState<UserObject[]>([]);
+
   const [isDeleteFinalCustomer, setIsDeleteFinalCustomer] =
     useState<boolean>(false);
   const [isNewFinalCustomer, setIsNewFinalCustomer] = useState<boolean>(false);
@@ -54,10 +57,14 @@ const FinalCustomers = () => {
     (state) =>
       selectFinalCustomerById(state, finalCustomerId) as FinalCustomerObject
   );
+  const allUsers: UserObject[] = useSelector(
+    (state) => selectAllUsers(state) as UserObject[]
+  );
 
   useEffect(() => {
     setData(allFinallCustomers);
-  }, [allFinallCustomers]);
+    setUsers(allUsers);
+  }, [allFinallCustomers, allUsers]);
 
   const columns = useMemo<ColumnDef<FinalCustomerObject, any>[]>(() => {
     return [
@@ -75,7 +82,10 @@ const FinalCustomers = () => {
             accessorKey: "username",
             accessorFn: (row) => row.username,
             id: "کاربر ایجاد کننده",
-            cell: (info) => info.getValue(),
+            cell: (info) => {
+              const user = users.find((x) => x.username === info.getValue());
+              return <p>{user ? user.name : "Unknown User"}</p>;
+            },
             header: () => <span>کاربر ایجاد کننده</span>,
           },
           {
@@ -269,7 +279,7 @@ const FinalCustomers = () => {
         ],
       },
     ];
-  }, []);
+  }, [users]);
 
   if (isLoading) return <Loading />;
   if (isError)
