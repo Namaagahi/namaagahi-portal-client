@@ -161,7 +161,7 @@ const AllPlansTable = (props: any) => {
                   className="flex items-center justify-center gap-2"
                   onClick={() => setPlanId(row.id)}
                 >
-                  {isMaster && page === "all" ? (
+                  {isMaster && (page === "all" || page === "archieve") ? (
                     <>
                       <Link
                         href={`/dashboard/billboard/plans/editplan/${row.id}`}
@@ -178,7 +178,7 @@ const AllPlansTable = (props: any) => {
                       />
                     </>
                   ) : (isMaster || isMediaManager || isAdmin) &&
-                    page === "all" ? (
+                    (page === "all" || page === "archieve") ? (
                     <>
                       <Link
                         href={`/dashboard/billboard/plans/editplan/${row.id}`}
@@ -190,9 +190,11 @@ const AllPlansTable = (props: any) => {
                       </Link>
                     </>
                   ) : (
-                    page === "all" && <p>دسترسی محدود</p>
+                    (page === "all" || page === "archieve") && (
+                      <p>دسترسی محدود</p>
+                    )
                   )}
-                  {(page === "my" || page === "archieve") && (
+                  {page === "my" && (
                     <>
                       <Link
                         href={`/dashboard/billboard/plans/editplan/${row.id}`}
