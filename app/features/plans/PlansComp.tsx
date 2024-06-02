@@ -58,6 +58,14 @@ const PlansComp = (props: Props) => {
   );
   const [data, setData] = useState<PlanObject[] | []>([]);
 
+  function hasOneMonthPassed(dateString: string) {
+    const givenDate = new Date(dateString);
+    const currentDate = new Date();
+    const oneMonthAfterGivenDate = new Date(givenDate);
+    oneMonthAfterGivenDate.setMonth(givenDate.getMonth() + 1);
+    return currentDate >= oneMonthAfterGivenDate;
+  }
+
   useEffect(() => {
     if (page === "my") {
       setData(
@@ -65,8 +73,24 @@ const PlansComp = (props: Props) => {
           .filter((plan) => plan.userId === id)
           .filter((x) => x.status === "done")
       );
+    } else if (page === "archieve") {
+      setData(
+        allPlans
+          .filter((x) => x.status === "pending")
+          .filter((y) => hasOneMonthPassed(y.updatedAt))
+      );
     } else {
-      setData(allPlans);
+      setData(
+        allPlans.filter((x) => {
+          if (x.status !== "pending") {
+            return true;
+          } else if (!hasOneMonthPassed(x.updatedAt)) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
     }
   }, [allPlans]);
 

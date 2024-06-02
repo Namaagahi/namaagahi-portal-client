@@ -12,6 +12,7 @@ import { BsFillBoxFill, BsFillPinMapFill } from "react-icons/bs";
 import { FaPersonCirclePlus } from "react-icons/fa6";
 import { RiComputerLine } from "react-icons/ri";
 import { FaSellsy } from "react-icons/fa";
+import { FaFileArchive } from "react-icons/fa";
 import { BiCode } from "react-icons/bi";
 import {
   AiFillDollarCircle,
@@ -249,6 +250,11 @@ export const billboardSellList = [
         name: "پروژه",
         icon: <AiTwotoneProject size={20} />,
         path: "/dashboard/billboard/plans/myplans",
+      },
+      {
+        name: "آرشیو",
+        icon: <FaFileArchive size={20} />,
+        path: "/dashboard/billboard/plans/archieve",
       },
     ],
   },

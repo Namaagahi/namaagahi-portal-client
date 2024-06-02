@@ -192,7 +192,7 @@ const AllPlansTable = (props: any) => {
                   ) : (
                     page === "all" && <p>دسترسی محدود</p>
                   )}
-                  {page === "my" && (
+                  {(page === "my" || page === "archieve") && (
                     <>
                       <Link
                         href={`/dashboard/billboard/plans/editplan/${row.id}`}
