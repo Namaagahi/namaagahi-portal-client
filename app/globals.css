@@ -199,3 +199,24 @@ td,
     opacity: 1;
   }
 }
+.custom-file-upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: rgb(222, 208, 208);
+  background-color: #bd8dc9;
+  border: 1px solid #ca8bd1;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.custom-file-upload:hover {
+  background-color: #8a6c91;
+  border-color: #77507b;
+}
+
+.hidden {
+  display: none;
+}

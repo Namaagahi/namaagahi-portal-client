@@ -61,8 +61,16 @@ const ExcelUpload: FC<IExcelUploadProps> = ({
           </button>
         </div>
       </div>
-
-      <input type="file" accept=".xlsx, .xls" onChange={handleFileUpload} />
+      <label htmlFor="file-upload" className="custom-file-upload">
+        انتخاب فایل
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        accept=".xlsx, .xls"
+        onChange={handleFileUpload}
+        className="hidden"
+      />
     </div>
   );
 };
