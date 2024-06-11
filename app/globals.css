@@ -203,9 +203,9 @@ td,
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
-  color: rgb(222, 208, 208);
-  background-color: #bd8dc9;
-  border: 1px solid #ca8bd1;
+  color: rgb(223, 210, 210);
+  background-color: #c288be;
+  border: 1px solid #8c5588;
   border-radius: 4px;
   font-size: 14px;
   font-weight: bold;
@@ -213,8 +213,8 @@ td,
 }
 
 .custom-file-upload:hover {
-  background-color: #8a6c91;
-  border-color: #77507b;
+  background-color: #834b86;
+  border-color: #613f67;
 }
 
 .hidden {
