@@ -66,7 +66,8 @@ const NewAsset = (props: Props) => {
   const onDescribtionChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAssetData({ ...assetData, describtion: e.target.value });
 
-  const onSaveStructureClick = async () => {
+  const onSaveStructureClick = async (e: any) => {
+    e.preventDefault();
     await addNewAsset({
       userId: id,
       personel: { name, code },

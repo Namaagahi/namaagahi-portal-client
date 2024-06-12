@@ -70,7 +70,8 @@ const EditAssetForm = (props: Props) => {
   const onDescribtionChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAssetData({ ...assetData, describtion: e.target.value });
 
-  const onSaveStructureClick = async () => {
+  const onSaveStructureClick = async (e: any) => {
+    e.preventDefault();
     await updateAsset({
       id: asset!.id,
       userId: asset?.userId,
