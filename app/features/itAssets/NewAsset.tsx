@@ -53,7 +53,7 @@ const NewAsset = (props: Props) => {
     setAssetData({ ...assetData, name: e.target.value });
   const onCodeChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAssetData({ ...assetData, code: e.target.value });
-  const onDepartmentChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  const onDepartmentChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setAssetData({ ...assetData, department: e.target.value });
   const onUnitChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setAssetData({ ...assetData, unit: e.target.value });
@@ -133,15 +133,21 @@ const NewAsset = (props: Props) => {
               <div className="flex items-center gap-4 justify-between w-full">
                 <label htmlFor="department">ساختمان</label>
 
-                <input
+                <select
                   id="department"
-                  value={department}
-                  type="text"
+                  value={assetData.department}
+                  onChange={onDepartmentChange}
                   className={`${
                     isError && "border-rose-700"
-                  } formInput2 w-[80%]`}
-                  onChange={onDepartmentChange}
-                />
+                  } formInput2 w-[80%] `}
+                >
+                  <option value="" className="bg-black" disabled hidden>
+                    انتخاب کنید
+                  </option>
+                  <option className="bg-black color">نما آگهی</option>
+                  <option className="bg-black">BOOM</option>
+                  <option className="bg-black">باشگاه انقلاب</option>
+                </select>
               </div>
 
               <div className="flex items-center gap-4 justify-between w-full">
