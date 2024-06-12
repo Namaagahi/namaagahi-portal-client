@@ -256,6 +256,11 @@ export const billboardSellList = [
         icon: <FaFileArchive size={20} />,
         path: "/dashboard/billboard/plans/archieve",
       },
+      {
+        name: "پروپوزال ها",
+        icon: <AiOutlinePullRequest size={20} />,
+        path: "/dashboard/proposal",
+      },
     ],
   },
 ];

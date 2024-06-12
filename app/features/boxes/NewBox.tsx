@@ -123,31 +123,17 @@ const NewBox = (props: Props) => {
   };
 
   const onSubmit = async (data: AddBoxForm) => {
-    console.log("Filtered:", filtered);
-    console.log("FileData:", fileData);
-
-    // Extract names from filtered structures
     const array1 = filtered
       ?.map((x) => x.name.replace(/^\D+/g, ""))
-      .map((y) => Number(y)); // Extract codes from fileData
+      .map((y) => Number(y));
     const array2 = fileData.map((x: any) => x.code);
-
-    // Log array1 and array2 to verify their contents
-    console.log("Array1 (names from filtered):", array1);
-    console.log("Array2 (codes from fileData):", array2);
-
-    // Check if every element in array1 is included in array2
     const allElementsInArray = array2.every((element: number) =>
       array1.includes(element)
     );
 
-    // Log the result of the comparison
-    console.log("All elements in array:", allElementsInArray);
-
-    // If the comparison fails, show an error message and return
     if (!allElementsInArray) {
       toast.error("یکی از کد سازه های وارد شده صحیح نیست");
-      return; // Prevent the form submission
+      return;
     }
     const newfileData = fileData
       ? fileData.map((file: any) => {
