@@ -120,6 +120,7 @@ const Proposal = () => {
         <CreateUpdateModal
           type={"newProposal"}
           handleModal={handleNewProposalModal}
+          duty="create"
         />
       )}
     </>

@@ -1,5 +1,6 @@
 import Status from "@/app/components/main/Status";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
+import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal";
 import TableComponent from "@/app/components/table/TableComponent";
 import useAuth from "@/app/hooks/useAuth";
 import {
@@ -10,7 +11,7 @@ import {
 import { ColumnDef } from "@tanstack/react-table";
 import moment from "jalali-moment";
 import React, { useMemo, useState } from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 
 type Props = {
   data: ProposalObject[];
@@ -25,7 +26,9 @@ const AllProposalsTable = (props: Props) => {
     props;
   const { isAdmin, isMaster, isProjectManager } = useAuth();
   const [isDeleteProposal, setIsDeleteProposal] = useState<boolean>(false);
+  const [isEditProposal, setIsEditProposal] = useState<boolean>(false);
   const handleDeleteProposal = () => setIsDeleteProposal(!isDeleteProposal);
+  const handleEditProposal = () => setIsEditProposal(!isEditProposal);
 
   const columns = useMemo<ColumnDef<ProposalObject, any>[]>(() => {
     return [
@@ -244,6 +247,11 @@ const AllProposalsTable = (props: Props) => {
                       onClick={() => setProposalId(row.id)}
                     >
                       <div className="flex items-center p-1 border-[1px] border-[#737373] rounded-md cursor-pointer">
+                        <AiFillEdit
+                          className="text-black dark:text-white hover:scale-125 transition-all"
+                          size={20}
+                          onClick={handleEditProposal}
+                        />
                         <AiFillDelete
                           className="text-black dark:text-white hover:scale-125 transition-all"
                           size={20}
@@ -294,6 +302,14 @@ const AllProposalsTable = (props: Props) => {
           handleModal={handleDeleteProposal}
           type={"delete"}
           deleteType="proposal"
+        />
+      )}
+      {isEditProposal && (
+        <CreateUpdateModal
+          type={"newProposal"}
+          handleModal={handleEditProposal}
+          duty="edit"
+          prop={proposal}
         />
       )}
     </>

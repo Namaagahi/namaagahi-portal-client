@@ -2,7 +2,10 @@ import {
   selectAllInitialCustomers,
   useGetAllInitialCustomersQuery,
 } from "@/app/apiSlices/initialCustomersApiSlice";
-import { useCreateNewProposalMutation } from "@/app/apiSlices/proposalApiSlice";
+import {
+  useCreateNewProposalMutation,
+  useUpdateProposalMutation,
+} from "@/app/apiSlices/proposalApiSlice";
 import useAuth from "@/app/hooks/useAuth";
 import {
   newProposalDefaultValues,
@@ -13,6 +16,7 @@ import {
 import {
   AddProposalForm,
   InitialCustomerObject,
+  ProposalObject,
   UserObject,
 } from "@/app/lib/interfaces";
 import { useRouter } from "next/navigation";
@@ -37,18 +41,21 @@ import persian_fa from "react-date-object/locales/persian_fa";
 
 type Props = {
   handleModal: () => void;
+  duty?: string;
+  prop?: ProposalObject;
 };
 
 const NewProposal = (props: Props) => {
-  const { handleModal } = props;
+  const { handleModal, duty, prop } = props;
   const { id } = useAuth();
   const { push } = useRouter();
 
   const [err, setErr] = useState<string>("");
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
-  const [createNewProposal, { isLoading, isSuccess, isError, error }] =
+  const [createNewProposal, { isLoading, isSuccess }] =
     useCreateNewProposalMutation();
+  const [updateProposal] = useUpdateProposalMutation();
 
   const { isLoading: initialCustomersLoading } =
     useGetAllInitialCustomersQuery(undefined);
@@ -82,11 +89,23 @@ const NewProposal = (props: Props) => {
     mode: "onSubmit",
   });
 
+  const editPropposalForm = useForm<any>({
+    defaultValues: {
+      description: prop?.description,
+      initialCustomerId: prop?.initialCustomerId,
+      priority: prop?.priority,
+      status: prop?.status,
+      subject: prop?.subject,
+      type: prop?.type,
+    },
+    mode: "onSubmit",
+  });
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = createProposalForm;
+  } = duty === "create" ? createProposalForm : editPropposalForm;
 
   const {
     fields: usersField,
@@ -128,24 +147,43 @@ const NewProposal = (props: Props) => {
           ? "BUS"
           : "NMV";
       try {
-        const proposalResponse = await createNewProposal({
-          userId: id,
-          subject: `${passKey}${shortID}-${data.subject}`,
-          initialCustomerId: data.initialCustomerId,
-          startDate: startDate,
-          endDate: endDate,
-          priority: data.priority,
-          status: data.status,
-          type: data.type,
-          description: data.description,
-          assignedUsers: assignedUserIds,
-        });
+        const proposalResponse =
+          duty === "create"
+            ? await createNewProposal({
+                userId: id,
+                subject: `${passKey}${shortID}-${data.subject}`,
+                initialCustomerId: data.initialCustomerId,
+                startDate: startDate,
+                endDate: endDate,
+                priority: data.priority,
+                status: data.status,
+                type: data.type,
+                description: data.description,
+                assignedUsers: assignedUserIds,
+              })
+            : await updateProposal({
+                proposalId: prop?._id,
+                subject: prop?.subject,
+                startDate: startDate,
+                endDate: endDate,
+                priority: data.priority,
+                status: data.status,
+                type: data.type,
+                description: data.description,
+                assignedUsers: prop?.assignedUsers,
+              });
 
-        const emailResponse = await sendEmailToUser({
-          userIds: assignedUserIds,
-          uuid: passKey + shortID,
-        });
-        toast.success(`پروپوزال جدید با موفقیت ساخته شد.`);
+        const emailResponse =
+          duty === "create" &&
+          (await sendEmailToUser({
+            userIds: assignedUserIds,
+            uuid: passKey + shortID,
+          }));
+        const toastMessage =
+          duty === "create"
+            ? `پروپوزال جدید با موفقیت ساخته شد.`
+            : "پروپوزال با موفقیت آپدیت شد";
+        toast.success(toastMessage);
         handleModal();
       } catch (error) {
         console.error("Error creating proposal or sending email:", error);
@@ -164,6 +202,8 @@ const NewProposal = (props: Props) => {
       type: "text",
       message: "موضوع الزامیست",
       required: true,
+      disable: duty !== "create" ? true : false,
+      defaultValue: prop?.subject,
       errors: errors.subject?.message,
     },
     {
@@ -173,6 +213,7 @@ const NewProposal = (props: Props) => {
       type: "textarea",
       message: "توضیحات الزامیست",
       required: true,
+      defaultValue: prop?.description,
       errors: errors.description?.message,
     },
   ];
@@ -183,6 +224,7 @@ const NewProposal = (props: Props) => {
       label: "پروژه",
       name: "initialCustomerId",
       required: true,
+      disable: duty !== "create" ? true : false,
       message: "انتخاب پروژه الزامیست",
       errors: errors.initialCustomerId?.message,
       options: initialCustomersOptions,
@@ -201,7 +243,10 @@ const NewProposal = (props: Props) => {
       name: "status",
       required: true,
       errors: errors.status?.message,
-      options: proposalStatusTypes.filter((x) => x.name === "درجریان"),
+      options:
+        duty === "edit"
+          ? proposalStatusTypes
+          : proposalStatusTypes.filter((x) => x.name === "درجریان"),
     },
     {
       id: 4,
@@ -219,7 +264,9 @@ const NewProposal = (props: Props) => {
     <div className="py-5 px-8 w-full text-black dark:text-white">
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between items-center">
-          <p className="md:text-2xl text-xl font-bold">پروپوزال جدید</p>
+          <p className="md:text-2xl text-xl font-bold">
+            {duty === "create" ? "پروپوزال جدید" : "ویرایش پروپوزال"}
+          </p>
 
           <AiOutlineClose
             className="cursor-pointer text-xl hover:text-2xl transition-all"
@@ -234,6 +281,7 @@ const NewProposal = (props: Props) => {
               control={control}
               name={customSelect.name}
               label={customSelect.label}
+              disabled={customSelect.disable}
               options={customSelect.options}
               errors={err}
             />
@@ -249,6 +297,7 @@ const NewProposal = (props: Props) => {
               type={customInput.type}
               required={customInput.required}
               message={customInput.message}
+              disabled={customInput.disable}
               errors={customInput.errors && customInput.errors}
               className="formInput text-black bg-slate-200"
             />
@@ -266,6 +315,7 @@ const NewProposal = (props: Props) => {
                 locale={persian_fa}
                 calendarPosition="bottom-right"
                 onChange={handleStartDateChange}
+                value={prop?.startDate}
               />
             </div>
           </div>
@@ -280,23 +330,28 @@ const NewProposal = (props: Props) => {
                 locale={persian_fa}
                 calendarPosition="bottom-right"
                 onChange={handleEndDateChange}
+                value={prop?.endDate}
               />
             </div>
           </div>
         </div>
 
-        <div className="relative w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-2 gap-4 lg:gap-2 mt-4">
-          <AssignedUsers
-            usersField={usersField}
-            control={control}
-            appendUser={appendUser}
-            removeUser={removeUser}
-            usersOptions={usersOptions}
-            err={err}
-          />
-        </div>
+        {duty === "create" && (
+          <div className="relative w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 p-2 xl:grid-cols-2 gap-4 lg:gap-2 mt-4">
+            <AssignedUsers
+              usersField={usersField}
+              control={control}
+              appendUser={appendUser}
+              removeUser={removeUser}
+              usersOptions={usersOptions}
+              err={err}
+            />
+          </div>
+        )}
 
-        <div className="flex items-center gap-6">
+        <div
+          className={`flex items-center gap-6 ${duty !== "create" && "mt-10"}`}
+        >
           <button className={`confirmButton`}>ذخیره</button>
 
           <button onClick={handleModal} className="cancelButton">

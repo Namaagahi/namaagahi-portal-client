@@ -1,5 +1,10 @@
 import NewInitialCustomerForm from "@/app/features/initialCustomers/NewInitialCustomerForm";
-import { AssetObject, StructureObject, UserObject } from "@/app/lib/interfaces";
+import {
+  AssetObject,
+  ProposalObject,
+  StructureObject,
+  UserObject,
+} from "@/app/lib/interfaces";
 import EditStructure from "@/app/features/structures/EditStructure";
 import NewUserForm from "@/app/features/users/NewUserForm";
 import EditUser from "@/app/features/users/EditUser";
@@ -16,12 +21,19 @@ import EditAsset from "@/app/features/itAssets/EditAsset";
 type Props = {
   handleModal: () => void;
   type: string;
-  prop?: UserObject | StructureObject | AssetObject | undefined | any;
+  prop?:
+    | UserObject
+    | StructureObject
+    | AssetObject
+    | ProposalObject
+    | undefined
+    | any;
   code?: string;
+  duty?: string;
 };
 
 const CreateUpdateModal = (props: Props) => {
-  const { handleModal, type, code, prop } = props;
+  const { handleModal, type, code, prop, duty } = props;
 
   return (
     <div className="modalContainer">
@@ -60,7 +72,7 @@ const CreateUpdateModal = (props: Props) => {
         ) : type === "newChatroom" ? (
           <NewChatroom handleModal={handleModal} />
         ) : type === "newProposal" ? (
-          <NewProposal handleModal={handleModal} />
+          <NewProposal handleModal={handleModal} duty={duty} prop={prop} />
         ) : null}
       </div>
     </div>

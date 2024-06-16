@@ -9,11 +9,20 @@ type SelectInputProps = {
   required?: boolean;
   options: any[];
   errors?: string;
+  disabled?: boolean;
 };
 
 const SelectInput = (props: SelectInputProps) => {
-  const { control, defaultValue, name, label, required, options, errors } =
-    props;
+  const {
+    control,
+    defaultValue,
+    name,
+    label,
+    required,
+    options,
+    errors,
+    disabled,
+  } = props;
 
   return (
     <div className="flex flex-col gap-3">
@@ -33,6 +42,7 @@ const SelectInput = (props: SelectInputProps) => {
         render={({ field }) => (
           <select
             {...field}
+            disabled={disabled}
             className="formInput p-[4.5px] dark:text-black bg-slate-200"
           >
             <option value="" disabled hidden>
