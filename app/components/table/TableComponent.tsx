@@ -182,7 +182,7 @@ const TableComponent = (props: Props) => {
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
-
+    initialState: { pagination: { pageSize: 30 } },
     debugTable: false,
     debugHeaders: false,
     debugColumns: false,
@@ -420,7 +420,7 @@ const TableComponent = (props: Props) => {
             table.setPageSize(Number(e.target.value));
           }}
         >
-          {[10, 20, 30, 40, 50, 100, 150].map((pageSize) => (
+          {[30, 50, 70, 100, 150, 200, 300].map((pageSize) => (
             <option key={pageSize} value={pageSize} className="text-black">
               نمایش {pageSize}
             </option>
