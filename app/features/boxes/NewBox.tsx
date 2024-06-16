@@ -51,6 +51,7 @@ const NewBox = (props: Props) => {
   const filtered = structures?.filter(
     (structure) => structure.isChosen === false
   );
+  console.log("filtered", filtered);
   const { id } = useAuth();
 
   const [createNewBox, { isSuccess, isError, error }] =
