@@ -3,7 +3,6 @@ import { useGetAllBoxesQuery } from "@/app/apiSlices/boxesApiSlice";
 import Button from "@/app/components/main/Button";
 import PageTitle from "@/app/components/main/PageTitle";
 import SearchContainer from "@/app/components/main/SearchContainer";
-import { BoxObject } from "@/app/lib/interfaces";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -17,10 +16,11 @@ const Loading = dynamic(() => import("@/app/features/loading/Loading"), {
 
 type Props = {
   page: string;
+  archived?: Boolean;
 };
 
 const BoxComp = (props: Props) => {
-  const { page } = props;
+  const { page, archived } = props;
   const { push } = useRouter();
   const [boxes1, setBoxes1] = useState<any[]>([]);
 
@@ -59,16 +59,21 @@ const BoxComp = (props: Props) => {
     );
 
   const boxItemsContent =
-    boxes1?.length &&
-    boxes1
-      .filter((x) => !x.isArchived)
-      .map((x: any, index: number) => (
-        <BoxItem key={x._id} boxId={x._id} index={index} page={page} />
-      ));
+    boxes1?.length && !archived
+      ? boxes1
+          .filter((x) => !x.isArchived)
+          .map((x: any, index: number) => (
+            <BoxItem key={x._id} boxId={x._id} index={index} page={page} />
+          ))
+      : boxes1
+          .filter((x) => x.isArchived)
+          .map((x: any, index: number) => (
+            <BoxItem key={x._id} boxId={x._id} index={index} page={page} />
+          ));
 
   return (
     <main className="min-h-screen">
-      <PageTitle name={"باکس ها"} />
+      <PageTitle name={`${archived ? "باکس های آرشیو شده" : "باکس ها"}`} />
 
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />

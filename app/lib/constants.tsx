@@ -227,6 +227,11 @@ export const billboardSettingsList = [
         icon: <SiInstructure size={20} />,
         path: "/dashboard/billboard/structures",
       },
+      {
+        name: "آرشیو",
+        icon: <FaFileArchive size={20} />,
+        path: "/dashboard/billboard/boxes/archived",
+      },
     ],
   },
 ];
