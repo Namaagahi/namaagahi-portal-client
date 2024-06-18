@@ -41,8 +41,10 @@ const NewBox = (props: Props) => {
   });
 
   useGetStructuresQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false,
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+    pollingInterval: 5000,
   });
 
   const structures: StructureObject[] = useSelector(

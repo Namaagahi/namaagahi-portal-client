@@ -33,7 +33,7 @@ const BoxComp = (props: Props) => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
-    pollingInterval: 50000,
+    pollingInterval: 5000,
   });
 
   useEffect(() => {

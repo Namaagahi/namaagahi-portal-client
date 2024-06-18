@@ -25,22 +25,22 @@ const BoxItem = (props: Props) => {
   const allUsers: UserObject[] = useSelector(
     (state) => selectAllUsers(state) as UserObject[]
   );
-  const user = allUsers.find((x) => x.username === box.username);
+  const user = allUsers.find((x) => x.username === box?.username);
 
-  return page === "my" && box.userId === id ? (
+  return page === "my" && box && box.userId === id ? (
     <ListItem
       number={index}
       param={boxId}
       prop={box}
-      startDate={box.duration.startDate}
-      endDate={box.duration.endDate}
-      diff={box.duration.diff}
+      startDate={box?.duration?.startDate}
+      endDate={box?.duration?.endDate}
+      diff={box?.duration.diff}
       titles={{
-        "نام باکس": box.name,
-        "نوع باکس": box.mark.name,
-        "کاربر ایجاد کننده": box.username,
-        "کد پروژه": box.mark.markOptions?.projectNumber,
-        برند: box.mark.markOptions?.brand,
+        "نام باکس": box?.name,
+        "نوع باکس": box?.mark.name,
+        "کاربر ایجاد کننده": box?.username,
+        "کد پروژه": box?.mark.markOptions?.projectNumber,
+        برند: box?.mark.markOptions?.brand,
       }}
     />
   ) : (
@@ -48,15 +48,15 @@ const BoxItem = (props: Props) => {
       number={index}
       param={boxId}
       prop={box}
-      startDate={box.duration.startDate}
-      endDate={box.duration.endDate}
-      diff={box.duration.diff}
+      startDate={box?.duration?.startDate}
+      endDate={box?.duration?.endDate}
+      diff={box?.duration.diff}
       titles={{
-        "نام باکس": box.name,
-        "نوع باکس": box.mark.name,
+        "نام باکس": box?.name,
+        "نوع باکس": box?.mark.name,
         "کاربر ایجاد کننده": user?.name,
-        "کد پروژه": box.mark.markOptions?.projectNumber,
-        برند: box.mark.markOptions?.brand,
+        "کد پروژه": box?.mark.markOptions?.projectNumber,
+        برند: box?.mark.markOptions?.brand,
       }}
     />
   );
