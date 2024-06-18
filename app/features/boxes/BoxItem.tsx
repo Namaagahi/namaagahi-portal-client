@@ -4,6 +4,7 @@ import useAuth from "@/app/hooks/useAuth";
 import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 import { selectAllUsers } from "@/app/apiSlices/usersApiSlice";
+
 const ListItem = dynamic(() => import("@/app/components/main/ListItem"), {
   ssr: false,
 });
@@ -14,50 +15,53 @@ type Props = {
   page: string;
 };
 
-const BoxItem = (props: Props) => {
-  const { boxId, index, page } = props;
+const BoxItem = ({ boxId, index, page }: Props) => {
   const { id } = useAuth();
 
   const box: BoxObject = useSelector(
-    (state) => selectBoxById(state, boxId) as BoxObject
+    (state: any) => selectBoxById(state, boxId) as BoxObject
   );
 
   const allUsers: UserObject[] = useSelector(
-    (state) => selectAllUsers(state) as UserObject[]
+    (state: any) => selectAllUsers(state) as UserObject[]
   );
-  const user = allUsers.find((x) => x.username === box?.username);
 
-  return page === "my" && box && box.userId === id ? (
+  const user = allUsers.find((user) => user.username === box?.username);
+
+  if (!box) {
+    return <div>Box not found</div>;
+  }
+
+  const titles = {
+    "نام باکس": box.name,
+    "نوع باکس": box.mark.name,
+    "کد پروژه": box.mark.markOptions?.projectNumber,
+    برند: box.mark.markOptions?.brand,
+  };
+
+  if (page === "my" && box.userId === id) {
+    return (
+      <ListItem
+        number={index}
+        param={boxId}
+        prop={box}
+        startDate={box.duration?.startDate}
+        endDate={box.duration?.endDate}
+        diff={box.duration?.diff}
+        titles={{ ...titles, "کاربر ایجاد کننده": box.username }}
+      />
+    );
+  }
+
+  return (
     <ListItem
       number={index}
       param={boxId}
       prop={box}
-      startDate={box?.duration?.startDate}
-      endDate={box?.duration?.endDate}
-      diff={box?.duration.diff}
-      titles={{
-        "نام باکس": box?.name,
-        "نوع باکس": box?.mark.name,
-        "کاربر ایجاد کننده": box?.username,
-        "کد پروژه": box?.mark.markOptions?.projectNumber,
-        برند: box?.mark.markOptions?.brand,
-      }}
-    />
-  ) : (
-    <ListItem
-      number={index}
-      param={boxId}
-      prop={box}
-      startDate={box?.duration?.startDate}
-      endDate={box?.duration?.endDate}
-      diff={box?.duration.diff}
-      titles={{
-        "نام باکس": box?.name,
-        "نوع باکس": box?.mark.name,
-        "کاربر ایجاد کننده": user?.name,
-        "کد پروژه": box?.mark.markOptions?.projectNumber,
-        برند: box?.mark.markOptions?.brand,
-      }}
+      startDate={box.duration?.startDate}
+      endDate={box.duration?.endDate}
+      diff={box.duration?.diff}
+      titles={{ ...titles, "کاربر ایجاد کننده": user?.name }}
     />
   );
 };
