@@ -37,10 +37,27 @@ const BoxComp = (props: Props) => {
   });
 
   useEffect(() => {
-    fetch("http://localhost:3500/boxes")
-      .then((res) => res.json())
-      .then((data) => setBoxes1(data));
-  }, [boxes]);
+    if (isSuccess && Array.isArray(boxes)) {
+      setBoxes1(boxes);
+    } else {
+      fetch("http://localhost:3500/boxes")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) {
+            setBoxes1(data);
+          } else {
+            console.error("Expected an array but got:", data);
+            setBoxes1([]);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching boxes:", error);
+          setBoxes1([]);
+        });
+    }
+  }, [boxes, isSuccess]);
+
+  console.log(boxes1);
 
   if (isLoading) return <Loading />;
 
