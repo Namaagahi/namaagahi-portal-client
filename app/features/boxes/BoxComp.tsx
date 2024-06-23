@@ -40,7 +40,7 @@ const BoxComp = (props: Props) => {
     if (isSuccess && Array.isArray(boxes)) {
       setBoxes1(boxes);
     } else {
-      fetch("http://localhost:3500/boxes")
+      fetch("http://portal.namaagahi.com:3500/boxes")
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data)) {
