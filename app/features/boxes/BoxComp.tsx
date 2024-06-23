@@ -94,10 +94,12 @@ const BoxComp = (props: Props) => {
 
       <div className="flex items-center justify-between gap-3">
         <SearchContainer />
-        <Button
-          onClickHandler={() => push("/dashboard/billboard/boxes/createbox")}
-          title="باکس جدید"
-        />
+        {!archived && (
+          <Button
+            onClickHandler={() => push("/dashboard/billboard/boxes/createbox")}
+            title="باکس جدید"
+          />
+        )}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {boxItemsContent}
