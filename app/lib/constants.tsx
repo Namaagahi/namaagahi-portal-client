@@ -581,6 +581,8 @@ export const codeMap: { [key: string]: string } = {
   MTR: "مترو",
   BUS: "اتوبوس",
   NMV: "نماوا",
+  STR: "استرابورد",
+  BRB: "برایت بورد",
 };
 
 export const newProjectCodeDefaultValues = {
