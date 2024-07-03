@@ -596,6 +596,8 @@ export const mediaTypes = [
   { id: "MTR", name: "مترو" },
   { id: "BUS", name: "اتوبوس" },
   { id: "NMV", name: "نماوا" },
+  { id: "STR", name: "استرابورد" },
+  { id: "BRB", name: "برایت بورد" },
 ];
 
 export const years = [
