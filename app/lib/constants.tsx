@@ -26,7 +26,7 @@ import { GiPackedPlanks } from "react-icons/gi";
 import { PiPencilLine } from "react-icons/pi";
 
 // REGEXES =======================================================
-export const USER_REGEX = /^[A-z]{3,20}$/;
+export const USER_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 export const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 export const DASH_REGEX = /^\/dashboard(\/)?$/;
 export const USERS_REGEX = /^\/dashboard\/users(\/)?$/;
