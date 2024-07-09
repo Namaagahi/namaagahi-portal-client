@@ -126,11 +126,10 @@ const NewBox = (props: Props) => {
   };
 
   const onSubmit = async (data: AddBoxForm) => {
-    const array1 = filtered
-      ?.map((x) => x.name.replace(/^\D+/g, ""))
-      .map((y) => Number(y));
+    const array1 = filtered?.map((x) => x.name);
     const array2 = fileData.map((x: any) => x.code);
-    const allElementsInArray = array2.every((element: number) =>
+
+    const allElementsInArray = array2.every((element: any) =>
       array1.includes(element)
     );
 
