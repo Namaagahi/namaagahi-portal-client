@@ -57,8 +57,6 @@ const BoxComp = (props: Props) => {
     }
   }, [boxes, isSuccess]);
 
-  console.log(boxes1);
-
   if (isLoading) return <Loading />;
 
   if (isError)

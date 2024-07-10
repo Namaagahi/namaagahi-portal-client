@@ -53,7 +53,6 @@ const NewBox = (props: Props) => {
   const filtered = structures?.filter(
     (structure) => structure.isChosen === false
   );
-  console.log("filtered", filtered);
   const { id } = useAuth();
 
   const [createNewBox, { isSuccess, isError, error }] =
@@ -147,8 +146,8 @@ const NewBox = (props: Props) => {
               markOptions: {
                 style: file.style,
                 face: file.face,
-                length: file.length,
-                width: file.width,
+                length: file.length.toString(),
+                width: file.width.toString(),
                 printSize: file.printSize,
                 docSize: file.docSize,
               },
@@ -163,7 +162,6 @@ const NewBox = (props: Props) => {
           };
         })
       : null;
-    console.log(newfileData);
     const newData = {
       ...data,
       structures: useExcel
