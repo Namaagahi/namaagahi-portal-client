@@ -1,29 +1,34 @@
 "use client";
-import { useRefreshMutation } from "../apiSlices/authApiSlice";
-import { selectCurrentToken } from "../apiSlices/authSlice";
+import {
+  useRefreshMutation,
+  useSendLogoutMutation,
+} from "../apiSlices/authApiSlice";
+import { selectCurrentToken, setCredentials } from "../apiSlices/authSlice";
 import { menuItems } from "../lib/constants";
 import { useEffect, useRef, useState } from "react";
 import Header from "../features/header/Header";
 import Footer from "../features/footer/Footer";
 import Menu from "../features/sidemenu/Menu";
 import { useRouter } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ROLES } from "../config/roles";
 import useAuth from "../hooks/useAuth";
-import Cookies from "universal-cookie";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { SocketProvider } from "../config/state-config/SocketContext";
+
 const Loading = dynamic(() => import("../features/loading/Loading"), {
   ssr: false,
 });
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { roles } = useAuth();
+  const dispatch = useDispatch();
   const token = useSelector(selectCurrentToken);
   const effectRan = useRef<boolean>(false);
   const [trueSuccess, setTrueSuccess] = useState<boolean>(false);
   const { push } = useRouter();
+  const [sendLogout] = useSendLogoutMutation();
 
   const [refresh, { isUninitialized, isLoading, isSuccess, isError }] =
     useRefreshMutation();
@@ -31,21 +36,23 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
-        await refresh(undefined);
+        await refresh(undefined).unwrap(); // Ensure the refresh mutation is awaited properly
         setTrueSuccess(true);
       } catch (error) {
-        console.log(error);
+        console.log("error", error);
+        await sendLogout(undefined);
+        push("/");
       }
     };
-    if (!token) verifyRefreshToken();
+    if (!token && !effectRan.current) {
+      verifyRefreshToken();
+    }
     return () => {
       effectRan.current = true;
     };
     // eslint-disable-next-line
-  }, [trueSuccess]);
+  }, [token]);
 
-  const cookies = new Cookies();
-  // const accessToken = cookies.get("jwt");
   const accessToken =
     typeof window !== "undefined" ? localStorage.getItem("CC_Token") : null;
 
@@ -70,7 +77,15 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       content = children;
     } else if (token && isUninitialized) {
       content = children;
+    } else {
+      content = <Loading />;
     }
+  } else {
+    content = (
+      <p>
+        <Link href={"/"}>دوباره وارد شوید</Link>
+      </p>
+    );
   }
 
   return (
