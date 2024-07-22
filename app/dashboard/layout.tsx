@@ -38,10 +38,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       try {
         await refresh(undefined).unwrap(); // Ensure the refresh mutation is awaited properly
         setTrueSuccess(true);
-      } catch (error) {
+      } catch (error: any) {
         console.log("error", error);
-        await sendLogout(undefined);
-        push("/");
+        if (error.status == 403) {
+          await sendLogout(undefined);
+          push("/");
+        }
       }
     };
     if (!token && !effectRan.current) {
