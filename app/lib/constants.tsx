@@ -271,7 +271,7 @@ export const billboardSellList = [
 ];
 export const billboardFinancialList = [
   {
-    name: "گزارشات",
+    name: "مالی",
     icon: <PiPencilLine size={20} />,
     menus: [
       {
