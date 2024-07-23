@@ -124,10 +124,48 @@ const NewBox = (props: Props) => {
     return res;
   };
 
+  const calculateMonthDifference = (
+    startTimestamp: number,
+    endTimestamp: number
+  ) => {
+    const millisecondsInASecond = 1000;
+    const secondsInAMinute = 60;
+    const minutesInAnHour = 60;
+    const hoursInADay = 24;
+    const daysInAYear = 365; // Average including leap years
+    const monthsInAYear = 12;
+
+    const averageMillisecondsInAMonth =
+      (daysInAYear *
+        hoursInADay *
+        minutesInAnHour *
+        secondsInAMinute *
+        millisecondsInASecond) /
+      monthsInAYear;
+
+    const startDateInMilliseconds = startTimestamp * millisecondsInASecond;
+    const endDateInMilliseconds = endTimestamp * millisecondsInASecond;
+
+    const differenceInMilliseconds =
+      endDateInMilliseconds - startDateInMilliseconds;
+    const differenceInMonths =
+      differenceInMilliseconds / averageMillisecondsInAMonth;
+
+    return differenceInMonths + 0.02;
+  };
+
   const onSubmit = async (data: AddBoxForm) => {
     const array1 = filtered?.map((x) => x.name);
     const array2 = fileData.map((x: any) => x.code);
-
+    console.log(data.startDate);
+    console.log(mark);
+    console.log(calculateMonthDifference(data.startDate, data.endDate));
+    if (mark === "buyLong") {
+      if (calculateMonthDifference(data.startDate, data.endDate) < 6) {
+        toast.error("تاریخ قرارداد بلند مدت نمیتواند کمتر از 6 ماه باشد");
+        return;
+      }
+    }
     const allElementsInArray = array2.every((element: any) =>
       array1.includes(element)
     );
