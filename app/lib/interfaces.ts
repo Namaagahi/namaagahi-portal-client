@@ -152,6 +152,7 @@ export interface EditBoxForm {
   brand: string;
   startDate: number;
   endDate: number;
+  pricePercent?: number;
   structures: {
     structureId: string;
     duration: {
