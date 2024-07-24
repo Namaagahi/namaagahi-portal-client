@@ -40,7 +40,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         setTrueSuccess(true);
       } catch (error: any) {
         console.log("error", error);
-        if (error.status == 403) {
+        if (error.status == 403 || error.status === "FETCH_ERROR") {
           await sendLogout(undefined);
           push("/");
         }

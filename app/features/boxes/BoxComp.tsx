@@ -33,14 +33,12 @@ const BoxComp = (props: Props) => {
     refetchOnFocus: true,
     refetchOnMountOrArgChange: true,
     refetchOnReconnect: true,
-    pollingInterval: 5000,
   });
-
   useEffect(() => {
     if (isSuccess && Array.isArray(boxes)) {
       setBoxes1(boxes);
     } else {
-      fetch("http://portal.namaagahi.com:3500/boxes")
+      fetch(`${process.env.SERVER}/boxes`)
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data)) {
