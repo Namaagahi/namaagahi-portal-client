@@ -34,6 +34,7 @@ import moment from "jalali-moment";
 import { useTheme } from "next-themes";
 import { FaToggleOff } from "react-icons/fa";
 import { FaToggleOn } from "react-icons/fa6";
+import { useParams, usePathname } from "next/navigation";
 
 type Props = {
   page: string;
@@ -47,7 +48,7 @@ type Props = {
     | UseFieldArrayAppend<EditBoxForm, "structures">;
   removeStructure: UseFieldArrayRemove;
   control: Control<AddBoxForm, any> | Control<EditBoxForm, any>;
-  setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm>;
+  setValue: UseFormSetValue<AddBoxForm> | UseFormSetValue<EditBoxForm> | any;
   structures: StructureObject[];
   convertToNumber: (value: string) => number | null;
   formVals?: any;
@@ -134,6 +135,8 @@ const BoxStructuresFormSection = (props: Props) => {
         : "";
     setValue(prop, formattedValue);
   }
+  const params = usePathname();
+  console.log(params);
 
   return (
     <div className="formContainer">
@@ -141,15 +144,17 @@ const BoxStructuresFormSection = (props: Props) => {
         <small className="pr-3 mt-1.5 text-slate-500 inline-block font-bold">
           اطلاعات سازه ها
         </small>
-        <div className="flex mx-4">
-          <button
-            style={{ color: color }}
-            type="button"
-            onClick={() => setUseExcel(!useExcel)}
-          >
-            {useExcel ? <FaToggleOff size={25} /> : <FaToggleOn size={25} />}
-          </button>
-        </div>
+        {params.endsWith("createbox") && (
+          <div className="flex mx-4">
+            <button
+              style={{ color: color }}
+              type="button"
+              onClick={() => setUseExcel(!useExcel)}
+            >
+              {useExcel ? <FaToggleOff size={25} /> : <FaToggleOn size={25} />}
+            </button>
+          </div>
+        )}
       </div>
       {structuresField.map((item, fieldIndex) => {
         const selectInputs = [

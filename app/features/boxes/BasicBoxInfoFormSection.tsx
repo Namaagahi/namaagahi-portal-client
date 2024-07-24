@@ -23,6 +23,7 @@ import {
   useGetAllFinalCustomersQuery,
 } from "@/app/apiSlices/finalCustomerApiSlice";
 import Loading from "../loading/Loading";
+import { usePathname } from "next/navigation";
 
 type Props = {
   page: string;
@@ -46,6 +47,8 @@ const BasicBoxInfoFormSection = (props: Props) => {
     handleEndDate,
     setValue,
   } = props;
+
+  const path = usePathname();
 
   useGetAllFinalCustomersQuery(undefined, {
     refetchOnFocus: false,
@@ -91,7 +94,6 @@ const BasicBoxInfoFormSection = (props: Props) => {
   }, [projectCode]);
 
   if (projectCodesLoading) return <Loading />;
-  console.log("projectCodeId", projectCodeId);
   return (
     <div className="formContainer">
       <small className="pr-3 text-slate-500 inline-block font-bold">
@@ -183,6 +185,16 @@ const BasicBoxInfoFormSection = (props: Props) => {
               {errors.endDate?.message}
             </small>
           </div>
+          {!path.endsWith("createbox") && (
+            <CustomInput
+              control={control}
+              label="درصد افزایش قیمت"
+              name={"pricePercent"}
+              type="number"
+              message={"درصد را وارد کنید"}
+              className="formInput"
+            />
+          )}
         </div>
       </div>
     </div>
