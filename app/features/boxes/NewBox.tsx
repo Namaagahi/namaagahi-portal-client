@@ -246,9 +246,6 @@ const NewBox = (props: Props) => {
       "status" in error! &&
         error.status === 400 &&
         toast.error("همه فیلدها را تکمیل کنید");
-      if (!allElementsInArray) {
-        toast.error("یکی از کد سازه های وارد شده صحیح نیست");
-      }
     }
 
     if (endDate - startDate < 0) {

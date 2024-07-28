@@ -5,6 +5,8 @@ import useAuth from "@/app/hooks/useAuth";
 import moment from "jalali-moment";
 import { useState } from "react";
 import Link from "next/link";
+import RenewalBox from "@/app/features/boxes/RenewalBox";
+import { usePathname } from "next/navigation";
 
 type Props = {
   number: number;
@@ -21,7 +23,10 @@ const ListItem = (props: Props) => {
 
   const { isAdmin, isMaster, isMediaManager } = useAuth();
   const [isDeleteBox, setIsDeleteBox] = useState(false);
+  const [isRenewal, setIsRenewal] = useState(false);
   const handleDeleteModal = () => setIsDeleteBox(!isDeleteBox);
+  const handleRenewal = () => setIsRenewal(!isRenewal);
+  const url = usePathname();
 
   return (
     <>
@@ -78,12 +83,20 @@ const ListItem = (props: Props) => {
             </div>
           ))}
         </div>
-
-        <Link href={`/dashboard/billboard/boxes/${param}`}>
-          <div className="absolute bottom-0 right-0 p-3 hover:bg-[#034726] duration-500 rounded-l-[38px] bg-[#18A661] flex justify-start items-center cursor-pointer text-white font-bold">
-            مشاهده
-          </div>
-        </Link>
+        <div className="flex justify-between items-cente w-[100%]">
+          <Link href={`/dashboard/billboard/boxes/${param}`}>
+            <div className="p-3 hover:bg-[#034726] duration-500 rounded-[50%] w-[70px] bg-[#18A661] flex justify-center items-center cursor-pointer text-white font-bold">
+              مشاهده
+            </div>
+          </Link>
+          {url.includes("archived") && (
+            <button onClick={handleRenewal}>
+              <div className="p-3 hover:bg-[#034726] duration-500 rounded-[50%] w-[70px] bg-[#18A661] flex justify-center items-center cursor-pointer text-white font-bold">
+                تمدید
+              </div>
+            </button>
+          )}
+        </div>
       </div>
 
       {isDeleteBox && (
@@ -94,6 +107,7 @@ const ListItem = (props: Props) => {
           deleteType="box"
         />
       )}
+      {isRenewal && <RenewalBox handleModal={handleRenewal} boxId={param} />}
     </>
   );
 };

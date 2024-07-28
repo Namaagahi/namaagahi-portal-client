@@ -36,7 +36,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
-        await refresh(undefined).unwrap(); // Ensure the refresh mutation is awaited properly
+        await refresh(undefined);
         setTrueSuccess(true);
       } catch (error: any) {
         console.log("error", error);
@@ -46,14 +46,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         }
       }
     };
-    if (!token && !effectRan.current) {
-      verifyRefreshToken();
-    }
+    if (!token) verifyRefreshToken();
     return () => {
       effectRan.current = true;
     };
     // eslint-disable-next-line
-  }, [token]);
+  }, [trueSuccess]);
 
   const accessToken =
     typeof window !== "undefined" ? localStorage.getItem("CC_Token") : null;

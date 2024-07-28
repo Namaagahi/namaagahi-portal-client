@@ -20,6 +20,7 @@ const EditBox = () => {
       // refetchOnFocus: true
     }
   );
+  console.log(data);
 
   const abc = localStorage.getItem("editBoxForm");
   useEffect(() => {
