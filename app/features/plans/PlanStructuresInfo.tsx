@@ -1,176 +1,236 @@
-import { Control, FieldArrayWithId, FieldErrors, UseFieldArrayAppend, UseFieldArrayRemove, UseFormRegister, UseFormSetValue } from 'react-hook-form'
-import { AddPlanForm, BoxObject, BoxStructure, CombinedStructure, EditPlanForm, PlanObject, StructureObject } from '@/app/lib/interfaces'
-import { selectAllStructures, useGetStructuresQuery } from '../../apiSlices/structuresApiSlice'
-import { useGetAllInitialCustomersQuery } from '../../apiSlices/initialCustomersApiSlice'
-import { selectAllBoxes, useGetAllBoxesQuery } from '../../apiSlices/boxesApiSlice'
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux'
-import Loading from '../loading/Loading'
-import RegularPlanStructureInfo from './RegularPlanStructureInfo'
-import PackagePlanStructureInfo from './PackagePlanStructureInfo'
+import {
+  Control,
+  FieldArrayWithId,
+  FieldErrors,
+  UseFieldArrayAppend,
+  UseFieldArrayRemove,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
+import {
+  AddPlanForm,
+  BoxObject,
+  BoxStructure,
+  CombinedStructure,
+  EditPlanForm,
+  PlanObject,
+  StructureObject,
+} from "@/app/lib/interfaces";
+import {
+  selectAllStructures,
+  useGetStructuresQuery,
+} from "../../apiSlices/structuresApiSlice";
+import { useGetAllInitialCustomersQuery } from "../../apiSlices/initialCustomersApiSlice";
+import {
+  selectAllBoxes,
+  useGetAllBoxesQuery,
+} from "../../apiSlices/boxesApiSlice";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useSelector } from "react-redux";
+import Loading from "../loading/Loading";
+import RegularPlanStructureInfo from "./RegularPlanStructureInfo";
+import PackagePlanStructureInfo from "./PackagePlanStructureInfo";
 
 type Props = {
-    page: string
-    mark: string
-    control: Control<EditPlanForm, any> | Control<AddPlanForm, any>
-    plan?: PlanObject | any
-    errors: FieldErrors<EditPlanForm>
-    field: FieldArrayWithId<EditPlanForm, "structures", "id">[] | FieldArrayWithId<AddPlanForm, "structures", "id">[]
-    discountType: string
-    convertToNumber: (value: string | number) => number | any
-    handleDiscountType: (val: string) =>void
-    setValue: UseFormSetValue<EditPlanForm> |  UseFormSetValue<AddPlanForm>
-    appendStructure: UseFieldArrayAppend<EditPlanForm, "structures">  | UseFieldArrayAppend<AddPlanForm, "structures">
-    removeStructure: UseFieldArrayRemove
-    watch: any
-    register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>
-    formVals?: any
-    chosenStructures?: string[]
-    setChosenStructures?: Dispatch<SetStateAction<never[]>> | Dispatch<SetStateAction<string[]>>
-    isChanged: boolean
-    changeInput: boolean
-    setChangeInput: React.Dispatch<React.SetStateAction<boolean>>
-    isDiscountedInput: boolean
-    setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>
-  }
+  page: string;
+  mark: string;
+  control: Control<EditPlanForm, any> | Control<AddPlanForm, any>;
+  plan?: PlanObject | any;
+  errors: FieldErrors<EditPlanForm>;
+  field:
+    | FieldArrayWithId<EditPlanForm, "structures", "id">[]
+    | FieldArrayWithId<AddPlanForm, "structures", "id">[];
+  discountType: string;
+  convertToNumber: (value: string | number) => number | any;
+  handleDiscountType: (val: string) => void;
+  setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>;
+  appendStructure:
+    | UseFieldArrayAppend<EditPlanForm, "structures">
+    | UseFieldArrayAppend<AddPlanForm, "structures">;
+  removeStructure: UseFieldArrayRemove;
+  watch: any;
+  register: UseFormRegister<EditPlanForm> | UseFormRegister<AddPlanForm>;
+  formVals?: any;
+  chosenStructures?: string[];
+  setChosenStructures?:
+    | Dispatch<SetStateAction<never[]>>
+    | Dispatch<SetStateAction<string[]>>;
+  isChanged: boolean;
+  changeInput: boolean;
+  setChangeInput: React.Dispatch<React.SetStateAction<boolean>>;
+  isDiscountedInput: boolean;
+  setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 const PlanStructuresInfo = (props: Props) => {
+  const {
+    page,
+    mark,
+    control,
+    plan,
+    errors,
+    field,
+    discountType,
+    convertToNumber,
+    handleDiscountType,
+    setValue,
+    appendStructure,
+    removeStructure,
+    watch,
+    register,
+    formVals,
+    chosenStructures,
+    setChosenStructures,
+    isChanged,
+    changeInput,
+    setChangeInput,
+    isDiscountedInput,
+    setIsDiscountedInput,
+  } = props;
 
-    const {
-        page,
-        mark,
-        control,
-        plan,
-        errors,
-        field,
-        discountType,
-        convertToNumber,
-        handleDiscountType,
-        setValue,
-        appendStructure,
-        removeStructure,
-        watch,
-        register,
-        formVals,
-        chosenStructures,
-        setChosenStructures,
-        isChanged,
-        changeInput,
-        setChangeInput,
-        isDiscountedInput,
-        setIsDiscountedInput
-    } = props
+  const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false);
+  const [isStructureChoose, setIsStructureChoose] = useState(
+    Array(field.length).fill(false)
+  );
+  const [thisStructures, setThisStructures] = useState<string[]>([]);
 
-    const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false)
-    const [isStructureChoose, setIsStructureChoose] = useState(Array(field.length).fill(false))
-    const [thisStructures, setThisStructures] = useState<string[]>([])
+  const handleModalToggle = (fieldIndex: number) => {
+    const updatedState = [...isStructureChoose];
+    updatedState[fieldIndex] = !updatedState[fieldIndex];
+    setIsStructureChoose(updatedState);
+  };
 
-    const handleModalToggle = (fieldIndex: number) => {
-      const updatedState = [...isStructureChoose]
-      updatedState[fieldIndex] = !updatedState[fieldIndex]
-      setIsStructureChoose(updatedState)
+  const handleStructureInfoModal = () =>
+    setShowStructureInfo(!showStructureInfo);
+
+  useGetAllBoxesQuery(undefined);
+  useGetStructuresQuery(undefined);
+  useGetAllInitialCustomersQuery(undefined);
+
+  const allStructures: StructureObject[] = useSelector(
+    (state) => selectAllStructures(state) as StructureObject[]
+  );
+  const allBoxes: BoxObject[] = useSelector(
+    (state) => selectAllBoxes(state) as BoxObject[]
+  );
+  const inBoxStructures = allStructures.filter(
+    (structure: any) => structure.isChosen
+  );
+  const boxStructures = allBoxes.flatMap((box: any) => box.structures);
+  const inBoxStructuresLookup = inBoxStructures.reduce(
+    (acc: any, chosenStructure: any) => ({
+      ...acc,
+      [chosenStructure.id]: chosenStructure,
+    }),
+    {}
+  );
+
+  const combinedStructures: CombinedStructure[] = boxStructures.map(
+    (boxStructure: CombinedStructure) => ({
+      ...boxStructure,
+      ...inBoxStructuresLookup[boxStructure.structureId],
+    })
+  );
+
+  const handleThisStructuresChange = (index: number, val: string) =>
+    setThisStructures((prevState) => {
+      const updatedState = [...prevState];
+      updatedState[index] = val;
+      return updatedState;
+    });
+
+  function handleTextbox1Change(
+    event: React.ChangeEvent<HTMLInputElement>,
+    fieldIndex: number,
+    prop: any
+  ) {
+    const newValue = event.target.value.replace(/,/g, "");
+    const numberValue = convertToNumber(newValue);
+    const formattedValue =
+      numberValue !== null
+        ? new Intl.NumberFormat("en-US", {
+            style: "decimal",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2,
+          }).format(numberValue)
+        : "";
+    setValue(prop, formattedValue);
+  }
+
+  useEffect(() => {
+    if (formVals) {
+      const updatedStructures = formVals.map((item: BoxStructure) => {
+        const structure = allStructures.find(
+          (str) => str.id === item.structureId
+        );
+        return structure ? structure.name : "انتخاب سازه";
+      });
+      setThisStructures(updatedStructures);
     }
+  }, [formVals]);
 
-    const handleStructureInfoModal = () => setShowStructureInfo(!showStructureInfo)
+  if ((page === "edit" && !plan) || !boxStructures[0] || !inBoxStructures[0])
+    return <Loading />;
+  return mark === "regular" ? (
+    <RegularPlanStructureInfo
+      changeInput={changeInput}
+      setChangeInput={setChangeInput}
+      handleDiscountType={handleDiscountType}
+      page={page}
+      mark={mark}
+      discountType={discountType}
+      field={field}
+      watch={watch}
+      // combinedStructures={combinedStructures}
+      combinedStructures={allStructures}
+      setValue={setValue}
+      showStructureInfo={showStructureInfo}
+      handleStructureInfoModal={handleStructureInfoModal}
+      handleModalToggle={handleModalToggle}
+      isStructureChoose={isStructureChoose}
+      thisStructures={thisStructures}
+      handleThisStructuresChange={handleThisStructuresChange}
+      plan={plan}
+      errors={errors}
+      control={control}
+      handleTextbox1Change={handleTextbox1Change}
+      register={register}
+      convertToNumber={convertToNumber}
+      isChanged={isChanged}
+      removeStructure={removeStructure}
+      appendStructure={appendStructure}
+      isDiscountedInput={isDiscountedInput}
+      setIsDiscountedInput={setIsDiscountedInput}
+    />
+  ) : (
+    <PackagePlanStructureInfo
+      changeInput={changeInput}
+      setChangeInput={setChangeInput}
+      appendStructure={appendStructure}
+      field={field}
+      watch={watch}
+      combinedStructures={combinedStructures}
+      setValue={setValue}
+      showStructureInfo={showStructureInfo}
+      handleThisStructuresChange={handleThisStructuresChange}
+      handleStructureInfoModal={handleStructureInfoModal}
+      handleModalToggle={handleModalToggle}
+      thisStructures={thisStructures}
+      isStructureChoose={isStructureChoose}
+      page={page}
+      plan={plan}
+      errors={errors}
+      control={control}
+      removeStructure={removeStructure}
+      handleTextbox1Change={handleTextbox1Change}
+    />
+  );
+};
 
-    useGetAllBoxesQuery(undefined)
-    useGetStructuresQuery(undefined)
-    useGetAllInitialCustomersQuery(undefined)
-
-    const allStructures: StructureObject[] = useSelector(state => selectAllStructures(state) as StructureObject[])
-    const allBoxes: BoxObject[] = useSelector(state => selectAllBoxes(state) as BoxObject[])
-    const inBoxStructures = allStructures.filter((structure: any) => structure.isChosen)
-    const boxStructures = allBoxes.flatMap((box: any) => box.structures)
-    const inBoxStructuresLookup = inBoxStructures.reduce(
-    (acc: any, chosenStructure: any) => ({ ...acc, [chosenStructure.id]: chosenStructure }),{})
-
-    const combinedStructures: CombinedStructure[] = boxStructures.map((boxStructure: CombinedStructure) => ({
-    ...boxStructure,
-    ...(inBoxStructuresLookup[boxStructure.structureId]),
-    }))
-
-    const handleThisStructuresChange = (index: number, val: string) => setThisStructures((prevState) => {
-        const updatedState = [...prevState]
-        updatedState[index] = val
-        return updatedState
-      })
-
-    function handleTextbox1Change(event: React.ChangeEvent<HTMLInputElement>, fieldIndex: number, prop: any) {
-        const newValue = event.target.value.replace(/,/g, '')
-        const numberValue = convertToNumber(newValue)
-        const formattedValue = numberValue !== null ?
-            new Intl.NumberFormat('en-US', { style: 'decimal', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(numberValue) : ''
-        setValue(prop, formattedValue)
-    }
-
-    useEffect(() => {
-        if (formVals) {
-          const updatedStructures = formVals.map((item: BoxStructure) => {
-            const structure = allStructures.find((str) => str.id === item.structureId)
-            return structure ? structure.name : 'انتخاب سازه'
-          })
-          setThisStructures(updatedStructures)
-        }
-      }, [formVals])
-console.log("combinedStructures", combinedStructures)
-    if((page=== 'edit' && !plan) || !boxStructures[0] || !inBoxStructures[0]) return <Loading />
-    return (
-      mark === 'regular' ?
-        <RegularPlanStructureInfo
-          changeInput={changeInput}
-          setChangeInput={setChangeInput}
-          handleDiscountType={handleDiscountType}
-          page={page}
-          mark={mark}
-          discountType={discountType}
-          field={field}
-          watch={watch}
-          combinedStructures={combinedStructures}
-          setValue={setValue}
-          showStructureInfo={showStructureInfo}
-          handleStructureInfoModal={handleStructureInfoModal}
-          handleModalToggle={handleModalToggle}
-          isStructureChoose={isStructureChoose}
-          thisStructures={thisStructures}
-          handleThisStructuresChange={handleThisStructuresChange}
-          plan={plan}
-          errors={errors}
-          control={control}
-          handleTextbox1Change={handleTextbox1Change}
-          register={register}
-          convertToNumber={convertToNumber}
-          isChanged={isChanged}
-          removeStructure={removeStructure}
-          appendStructure={appendStructure}
-          isDiscountedInput={isDiscountedInput}
-          setIsDiscountedInput={setIsDiscountedInput}
-
-        />
-
-        :
-
-        <PackagePlanStructureInfo
-          changeInput={changeInput}
-          setChangeInput={setChangeInput}
-          appendStructure={appendStructure}
-          field={field}
-          watch={watch}
-          combinedStructures={combinedStructures}
-          setValue={setValue}
-          showStructureInfo={showStructureInfo}
-          handleThisStructuresChange={handleThisStructuresChange}
-          handleStructureInfoModal={handleStructureInfoModal}
-          handleModalToggle={handleModalToggle}
-          thisStructures={thisStructures}
-          isStructureChoose={isStructureChoose}
-          page={page}
-          plan={plan}
-          errors={errors}
-          control={control}
-          removeStructure={removeStructure}
-          handleTextbox1Change={handleTextbox1Change}
-        />
-    )
-}
-
-export default PlanStructuresInfo
+export default PlanStructuresInfo;
