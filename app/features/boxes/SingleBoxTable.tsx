@@ -242,6 +242,7 @@ const SingleBoxTable = (props: Props) => {
             accessorFn: (row) => row.myCustomCost,
             id: `${variableCostNames2[5]}`,
             cell: (info) => {
+              // row.costs.fixedCosts.monthlyCost
               const myCustomCost = info.getValue();
               return formatNumber(myCustomCost[variableCostNames2[5]], ",");
             },
@@ -276,10 +277,21 @@ const SingleBoxTable = (props: Props) => {
             header: () => <span>هزینه روزانه کل</span>,
           },
           {
-            accessorFn: (row) => row.costs.totalMonthlyCost,
+            accessorFn: (row) => row,
             id: "هزینه ماهیانه کل",
             cell: (info) => {
-              const totalMonthlyCost = info.getValue();
+              const info1 = info.getValue();
+              const myCustomCost = info1.myCustomCost;
+              const monthlyCost = info1.costs.fixedCosts.monthlyCost;
+              const totalMonthlyCost =
+                [
+                  myCustomCost[variableCostNames2[0]],
+                  myCustomCost[variableCostNames2[1]],
+                  myCustomCost[variableCostNames2[2]],
+                  myCustomCost[variableCostNames2[3]],
+                  myCustomCost[variableCostNames2[4]],
+                  myCustomCost[variableCostNames2[5]],
+                ].reduce((a, b) => a + b) + monthlyCost;
               return isAdmin || isMediaManager ? (
                 formatNumber(totalMonthlyCost, ",")
               ) : (

@@ -87,19 +87,21 @@ const SingleBox = () => {
     setLoading(false);
   }, [box, allStructures]);
 
-  // const fixedCostsMonthlySum = box?.structures.reduce(
+  const totalMonthlyCostSum =
+    newBox?.structures
+      ?.map((x: any, i: number) =>
+        Object.values(x.myCustomCost).reduce((a: number, b: any) => a + b, 0)
+      )
+      .reduce((a: number, b: any) => a + b, 0) +
+    newBox?.structures
+      ?.map((x: any) => x.costs.fixedCosts.monthlyCost)
+      .reduce((a: number, b: any) => a + b, 0);
+  // const totalMonthlyCostSum = box?.structures.reduce(
   //   (sum: number, structure) => {
-  //     return sum + structure.costs.totalPeriodCost;
+  //     return sum + structure.costs.totalMonthlyCost;
   //   },
   //   0
   // );
-
-  const totalMonthlyCostSum = box?.structures.reduce(
-    (sum: number, structure) => {
-      return sum + structure.costs.totalMonthlyCost;
-    },
-    0
-  );
 
   if (!newBox || !box || !structures[0] || loading) return <Loading />;
   return (

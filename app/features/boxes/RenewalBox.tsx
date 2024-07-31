@@ -110,6 +110,18 @@ const RenewalBox = (props: Props) => {
       return;
     }
 
+    const str = box?.structures[0];
+    console.log(str);
+    console.log(
+      "first",
+      convertToNumber(
+        (
+          Number(str.costs.fixedCosts.squareCost) +
+          (Number(str.costs.fixedCosts.squareCost) * Number(data.price)) / 100
+        ).toString()
+      )
+    );
+
     const transformedStructures = box?.structures?.map((structure: any) => ({
       ...structure,
       costs: {
