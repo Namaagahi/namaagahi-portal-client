@@ -48,8 +48,8 @@ const EditBoxComp = (props: Props) => {
     defaultValues: {
       boxId: box.boxId,
       name: box.name,
-      projectNumber: box.mark.markOptions.projectNumber,
-      brand: box.mark.markOptions.brand,
+      projectNumber: box.mark?.markOptions?.projectNumber,
+      brand: box.mark?.markOptions?.brand,
       startDate: startDate,
       endDate: endDate,
       structures: JSON.parse(JSON.stringify(box.structures)),

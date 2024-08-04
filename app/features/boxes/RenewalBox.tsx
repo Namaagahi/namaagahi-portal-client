@@ -110,105 +110,89 @@ const RenewalBox = (props: Props) => {
       return;
     }
 
-    const str = box?.structures[0];
-    console.log(str);
-    console.log(
-      "first",
-      convertToNumber(
-        (
-          Number(str.costs.fixedCosts.squareCost) +
-          (Number(str.costs.fixedCosts.squareCost) * Number(data.price)) / 100
-        ).toString()
-      )
-    );
-
-    const transformedStructures = box?.structures?.map((structure: any) => ({
-      ...structure,
-      costs: {
-        ...structure.costs,
-        fixedCosts: {
-          ...structure.costs.fixedCosts,
-          squareCost: data.price
-            ? convertToNumber(
-                (
-                  Number(structure.costs.fixedCosts.squareCost) +
-                  (Number(structure.costs.fixedCosts.squareCost) *
-                    Number(data.price)) /
-                    100
-                ).toString()
-              )
-            : convertToNumber(structure.costs.fixedCosts.squareCost),
-        },
-        variableCosts: structure.costs.variableCosts.map((cost: any) => ({
-          ...cost,
-          figures: {
-            ...cost.figures,
-            monthlyCost:
-              cost.figures.name === "برق"
-                ? convertToNumber(
-                    (
-                      Number(cost.figures.monthlyCost) +
-                      (Number(cost.figures.monthlyCost) *
-                        (data.power ? Number(data.power) : 100)) /
-                        100
-                    ).toString()
-                  )
-                : cost.figures.name === "پایش"
-                ? convertToNumber(
-                    (
-                      Number(cost.figures.monthlyCost) +
-                      (Number(cost.figures.monthlyCost) *
-                        (data.monitoring ? Number(data.monitoring) : 100)) /
-                        100
-                    ).toString()
-                  )
-                : cost.figures.name === "بیمه"
-                ? convertToNumber(
-                    (
-                      Number(cost.figures.monthlyCost) +
-                      (Number(cost.figures.monthlyCost) *
-                        (data.insurance ? Number(data.insurance) : 100)) /
-                        100
-                    ).toString()
-                  )
-                : cost.figures.name === "نگهداری"
-                ? convertToNumber(
-                    (
-                      Number(cost.figures.monthlyCost) +
-                      (Number(cost.figures.monthlyCost) *
-                        (data.maintenance ? Number(data.maintenance) : 100)) /
-                        100
-                    ).toString()
-                  )
-                : cost.figures.name === "رنگ آمیزی"
-                ? convertToNumber(
-                    (
-                      Number(cost.figures.monthlyCost) +
-                      (Number(cost.figures.monthlyCost) *
-                        (data.coloring ? Number(data.coloring) : 100)) /
-                        100
-                    ).toString()
-                  )
-                : convertToNumber(
-                    (
-                      Number(cost.figures.monthlyCost) +
-                      (Number(cost.figures.monthlyCost) *
-                        (data.others ? Number(data.others) : 100)) /
-                        100
-                    ).toString()
-                  ),
-          },
-        })),
-      },
-      monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
-    }));
-
-    const newBox = {
+    const transformedStructures = {
       ...box,
-      structures: transformedStructures,
+      structures: box?.structures?.map((structure: any) => ({
+        ...structure,
+        costs: {
+          ...structure.costs,
+          fixedCosts: {
+            ...structure.costs.fixedCosts,
+            squareCost: data.price
+              ? convertToNumber(
+                  (
+                    Number(structure.costs.fixedCosts.squareCost) +
+                    (Number(structure.costs.fixedCosts.squareCost) *
+                      Number(data.price)) /
+                      100
+                  ).toString()
+                )
+              : convertToNumber(structure.costs.fixedCosts.squareCost),
+          },
+          variableCosts: structure.costs.variableCosts.map((cost: any) => ({
+            ...cost,
+            figures: {
+              ...cost.figures,
+              monthlyCost:
+                cost.figures.name === "برق"
+                  ? convertToNumber(
+                      (
+                        Number(cost.figures.monthlyCost) +
+                        (Number(cost.figures.monthlyCost) *
+                          (data.power ? Number(data.power) : 100)) /
+                          100
+                      ).toString()
+                    )
+                  : cost.figures.name === "پایش"
+                  ? convertToNumber(
+                      (
+                        Number(cost.figures.monthlyCost) +
+                        (Number(cost.figures.monthlyCost) *
+                          (data.monitoring ? Number(data.monitoring) : 100)) /
+                          100
+                      ).toString()
+                    )
+                  : cost.figures.name === "بیمه"
+                  ? convertToNumber(
+                      (
+                        Number(cost.figures.monthlyCost) +
+                        (Number(cost.figures.monthlyCost) *
+                          (data.insurance ? Number(data.insurance) : 100)) /
+                          100
+                      ).toString()
+                    )
+                  : cost.figures.name === "نگهداری"
+                  ? convertToNumber(
+                      (
+                        Number(cost.figures.monthlyCost) +
+                        (Number(cost.figures.monthlyCost) *
+                          (data.maintenance ? Number(data.maintenance) : 100)) /
+                          100
+                      ).toString()
+                    )
+                  : cost.figures.name === "رنگ آمیزی"
+                  ? convertToNumber(
+                      (
+                        Number(cost.figures.monthlyCost) +
+                        (Number(cost.figures.monthlyCost) *
+                          (data.coloring ? Number(data.coloring) : 100)) /
+                          100
+                      ).toString()
+                    )
+                  : convertToNumber(
+                      (
+                        Number(cost.figures.monthlyCost) +
+                        (Number(cost.figures.monthlyCost) *
+                          (data.others ? Number(data.others) : 100)) /
+                          100
+                      ).toString()
+                    ),
+            },
+          })),
+        },
+        monthlyBaseFee: convertToNumber(structure.monthlyBaseFee),
+      })),
     };
-    console.log("newBox", newBox.structures);
-    console.log("box", box.structures);
 
     if (isError) {
       "status" in error! &&
@@ -223,15 +207,21 @@ const RenewalBox = (props: Props) => {
       toast.error("تاریخ پایان نمی تواند عقب تر از تاریخ شروع باشد.");
     } else {
       await createNewBox({
-        boxId: box.boxId,
+        boxId: transformedStructures.boxId,
         userId: id,
-        name: box.name,
-        mark: box.mark,
+        name: transformedStructures.name,
+        mark: {
+          name: transformedStructures.mark.name,
+          markOptions: {
+            projectNumber: transformedStructures.projectNumber,
+            brand: transformedStructures.brand,
+          },
+        },
         duration: {
           startDate: Number(startDate),
           endDate: Number(endDate),
         },
-        structures: newBox?.structures,
+        structures: transformedStructures?.structures,
       });
     }
     handleModal();

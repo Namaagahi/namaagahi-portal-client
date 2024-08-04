@@ -185,16 +185,6 @@ const BasicBoxInfoFormSection = (props: Props) => {
               {errors.endDate?.message}
             </small>
           </div>
-          {!path.endsWith("createbox") && (
-            <CustomInput
-              control={control}
-              label="درصد افزایش قیمت"
-              name={"pricePercent"}
-              type="number"
-              message={"درصد را وارد کنید"}
-              className="formInput"
-            />
-          )}
         </div>
       </div>
     </div>

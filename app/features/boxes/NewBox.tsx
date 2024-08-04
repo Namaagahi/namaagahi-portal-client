@@ -53,6 +53,7 @@ const NewBox = (props: Props) => {
   const filtered = structures?.filter(
     (structure) => structure.isChosen === false
   );
+  console.log(filtered);
   const { id } = useAuth();
 
   const [createNewBox, { isSuccess, isError, error }] =
@@ -156,7 +157,7 @@ const NewBox = (props: Props) => {
 
   const onSubmit = async (data: AddBoxForm) => {
     const array1 = filtered?.map((x) => x.name);
-    const array2 = fileData.map((x: any) => x.code);
+    const array2 = fileData && fileData.map((x: any) => x.code);
     console.log(data.startDate);
     console.log(mark);
     console.log(calculateMonthDifference(data.startDate, data.endDate));
@@ -166,11 +167,10 @@ const NewBox = (props: Props) => {
         return;
       }
     }
-    const allElementsInArray = array2.every((element: any) =>
-      array1.includes(element)
-    );
+    const allElementsInArray =
+      array2 && array2.every((element: any) => array1.includes(element));
 
-    if (!allElementsInArray) {
+    if (!allElementsInArray && fileData) {
       toast.error("یکی از کد سازه های وارد شده صحیح نیست");
       return;
     }
