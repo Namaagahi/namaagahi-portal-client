@@ -100,12 +100,23 @@ const RegularPlanStructureInfo = (props: Props) => {
   } = props;
 
   const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
+  const [discountFlags, setDiscountFlags] = useState<boolean[]>(
+    field.map(() => false)
+  );
 
   const toggleFlag = (index: number) => {
     setFlags((prevFlags) => {
       const newFlags = [...prevFlags];
       newFlags[index] = !newFlags[index];
       return newFlags;
+    });
+  };
+
+  const toggleDiscountFlag = (index: number) => {
+    setDiscountFlags((prevFlags) => {
+      const newDiscountFlags = [...prevFlags];
+      newDiscountFlags[index] = !newDiscountFlags[index];
+      return newDiscountFlags;
     });
   };
 
@@ -123,7 +134,7 @@ const RegularPlanStructureInfo = (props: Props) => {
           <p className="dark:text-white">ویرایش تعرفه های ماهیانه</p>
         </div> */}
 
-        <div className="flex gap-3 items-center">
+        {/* <div className="flex gap-3 items-center">
           <input
             type="checkbox"
             checked={isDiscountedInput}
@@ -133,7 +144,7 @@ const RegularPlanStructureInfo = (props: Props) => {
             }}
           />
           <p className="dark:text-white">ورود تعرفه ماهیانه نهایی</p>
-        </div>
+        </div> */}
 
         {page !== "edit" && isDiscountedInput && (
           <div className="flex gap-3 items-center dark:text-white">
@@ -351,13 +362,24 @@ const RegularPlanStructureInfo = (props: Props) => {
                 })}
 
                 <div className="flex flex-col gap-3">
-                  <label
-                    htmlFor="discountFee"
-                    className="text-[#767676] font-bold"
-                  >
-                    تخفیف
-                  </label>
-                  {!isDiscountedInput && mark === "regular" ? (
+                  <div className="flex gap-3 items-center">
+                    <input
+                      type="checkbox"
+                      checked={!discountFlags[fieldIndex]}
+                      onChange={() => {
+                        toggleDiscountFlag(fieldIndex);
+                        handleDiscountType("percentage");
+                      }}
+                      id={`structures.${fieldIndex}.discount`}
+                    />
+                    <label
+                      htmlFor={`structures.${fieldIndex}.discount`}
+                      className="text-[#767676] font-bold"
+                    >
+                      تخفیف
+                    </label>
+                  </div>
+                  {!discountFlags[fieldIndex] && mark === "regular" ? (
                     <DiscountFeeInput
                       page={page}
                       discountType={discountType}
@@ -368,7 +390,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                       errors={errors}
                       convertToNumber={convertToNumber}
                       selectedStructure={selectedStructure}
-                      isDiscountedInput={isDiscountedInput}
+                      isDiscountedInput={discountFlags[fieldIndex]}
                       setValue={setValue}
                       watch={watch}
                     />
@@ -383,7 +405,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                       setValue={setValue}
                       selectedStructure={selectedStructure!}
                       changeInput={flags[fieldIndex]}
-                      isDiscountedInput={isDiscountedInput}
+                      isDiscountedInput={discountFlags[fieldIndex]}
                       plan={plan}
                       item={item}
                     />
@@ -399,7 +421,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                   </small>
                 </div>
 
-                {isDiscountedInput ? (
+                {discountFlags[fieldIndex] ? (
                   <div className="flex flex-col gap-3">
                     <label
                       htmlFor="discountedMothlyFee"

@@ -90,7 +90,7 @@ const MonthlyFeeInput = (props: Props) => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="flex flex-col">
       <div className="flex justify-between gap-3 items-center w-full">
         <div className="flex gap-3 items-center">
           <input
