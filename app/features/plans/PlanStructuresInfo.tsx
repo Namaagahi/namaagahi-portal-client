@@ -131,12 +131,15 @@ const PlanStructuresInfo = (props: Props) => {
     {}
   );
 
-  const combinedStructures: CombinedStructure[] = boxStructures.map(
-    (boxStructure: CombinedStructure) => ({
+  const combinedStructures: CombinedStructure[] = boxStructures
+    .map((boxStructure: CombinedStructure) => ({
       ...boxStructure,
       ...inBoxStructuresLookup[boxStructure.structureId],
-    })
-  );
+    }))
+    .filter((x) => x.isChosen)
+    .filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
+    );
 
   const handleThisStructuresChange = (index: number, val: string) =>
     setThisStructures((prevState) => {
@@ -187,8 +190,7 @@ const PlanStructuresInfo = (props: Props) => {
       discountType={discountType}
       field={field}
       watch={watch}
-      // combinedStructures={combinedStructures}
-      combinedStructures={allStructures}
+      combinedStructures={combinedStructures}
       setValue={setValue}
       showStructureInfo={showStructureInfo}
       handleStructureInfoModal={handleStructureInfoModal}
