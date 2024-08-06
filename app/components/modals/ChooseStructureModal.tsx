@@ -65,7 +65,6 @@ const ChooseStructureModal = (props: Props) => {
       }
     }
   };
-  console.log("data", data);
 
   return (
     <div className="modalContainer">

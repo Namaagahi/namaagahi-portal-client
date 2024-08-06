@@ -14,14 +14,13 @@ import {
 } from "@/app/lib/interfaces";
 import CustomInput from "@/app/components/inputs/CustomInput";
 import { formatNumber } from "@/app/utilities/formatNumber";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectAllBoxes } from "@/app/apiSlices/boxesApiSlice";
 
 type Props = {
   page: string;
   item: FieldArrayWithId<EditPlanForm, "structures", "id">;
-  changeInput: boolean;
   selectedStructure: CombinedStructure;
   control: Control<EditPlanForm, any> | Control<AddPlanForm, any>;
   fieldIndex: number;
@@ -33,14 +32,14 @@ type Props = {
   errors: FieldErrors<EditPlanForm>;
   setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>;
   plan: PlanObject;
-  structureId?: string;
+  changeInput: boolean;
+  setChangeInput: any;
 };
 
 const MonthlyFeeInput = (props: Props) => {
   const {
     page,
     item,
-    changeInput,
     selectedStructure,
     control,
     fieldIndex,
@@ -48,20 +47,9 @@ const MonthlyFeeInput = (props: Props) => {
     errors,
     setValue,
     plan,
-    structureId,
+    changeInput,
+    setChangeInput,
   } = props;
-
-  const allBoxes: BoxObject[] = useSelector(
-    (state) => selectAllBoxes(state) as BoxObject[]
-  );
-
-  const selectedStructureFromBox: any = allBoxes
-    .map((box) => box.structures)
-    .flat()
-    .filter((str) => str.structureId === structureId);
-
-  const structureFee =
-    selectedStructureFromBox[selectedStructureFromBox.length - 1];
 
   useEffect(() => {
     if (page === "edit") {
@@ -70,7 +58,7 @@ const MonthlyFeeInput = (props: Props) => {
           () =>
             setValue(
               `structures.${fieldIndex}.monthlyFee`,
-              String(structureFee?.monthlyFee)
+              String(item?.monthlyFee)
             ),
           1000
         );
@@ -82,7 +70,7 @@ const MonthlyFeeInput = (props: Props) => {
           () =>
             setValue(
               `structures.${fieldIndex}.monthlyFee`,
-              String(structureFee?.monthlyFee)
+              String(item?.monthlyFee)
             ),
           1000
         );
@@ -93,7 +81,7 @@ const MonthlyFeeInput = (props: Props) => {
           () =>
             setValue(
               `structures.${fieldIndex}.monthlyFee`,
-              String(structureFee?.monthlyBaseFee)
+              String(selectedStructure?.monthlyBaseFee)
             ),
           1000
         );
@@ -103,24 +91,33 @@ const MonthlyFeeInput = (props: Props) => {
 
   return (
     <div className="flex flex-col gap-3">
-      {!changeInput ? (
-        <>
+      <div className="flex justify-between gap-3 items-center w-full">
+        <div className="flex gap-3 items-center">
+          <input
+            type="checkbox"
+            onChange={() => setChangeInput(!changeInput)}
+            id={`structures.${fieldIndex}.monthlyFee`}
+          />
           <label
             htmlFor={`structures.${fieldIndex}.monthlyFee`}
             className="text-[#767676] font-bold"
           >
             تعرفه ماهیانه سازه
-          </label>
+          </label>{" "}
+        </div>
+      </div>
+      {!changeInput ? (
+        <>
           {page === "edit" && fieldIndex + 1 <= plan.structures.length ? (
             <p className="p-4 text-primary dark:text-secondary">
-              {structureFee?.monthlyFee
-                ? formatNumber(Number(structureFee?.monthlyFee), ",")
+              {item?.monthlyFee
+                ? formatNumber(Number(item?.monthlyFee), ",")
                 : "تعرفه های ماهیانه این پلن ویرایش شده اند!"}
             </p>
           ) : (
             page !== "edit" && (
               <p className="p-4 text-primary dark:text-secondary">
-                {formatNumber(structureFee?.monthlyBaseFee, ",")}
+                {formatNumber(selectedStructure?.monthlyBaseFee, ",")}
               </p>
             )
           )}
@@ -130,9 +127,7 @@ const MonthlyFeeInput = (props: Props) => {
           control={control}
           type="text"
           name={`structures.${fieldIndex}.monthlyFee`}
-          defaultValue={
-            page === "edit" ? String(structureFee.monthlyFee) : undefined
-          }
+          defaultValue={page === "edit" ? String(item.monthlyFee) : undefined}
           onChange={(event: any) =>
             handleTextbox1Change(
               event,
@@ -140,7 +135,6 @@ const MonthlyFeeInput = (props: Props) => {
               `structures.${fieldIndex}.monthlyFee`
             )
           }
-          label="تعرفه ماهیانه سازه"
           required={true}
           errors={
             (errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)

@@ -41,7 +41,7 @@ type Props = {
     | FieldArrayWithId<EditPlanForm, "structures", "id">[]
     | FieldArrayWithId<AddPlanForm, "structures", "id">[];
   watch: any;
-  combinedStructures: CombinedStructure[] | any;
+  combinedStructures: CombinedStructure[];
   setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>;
   showStructureInfo: boolean;
   handleStructureInfoModal: () => void;
@@ -99,19 +99,29 @@ const RegularPlanStructureInfo = (props: Props) => {
     setIsDiscountedInput,
   } = props;
 
+  const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
+
+  const toggleFlag = (index: number) => {
+    setFlags((prevFlags) => {
+      const newFlags = [...prevFlags];
+      newFlags[index] = !newFlags[index];
+      return newFlags;
+    });
+  };
+
   return (
     <div className="formContainer">
       <small className="pr-3 text-slate-500 inline-block font-bold">
         اطلاعات سازه ها
       </small>
       <div className="flex justify-between gap-3 items-center w-full">
-        <div className="flex gap-3 items-center">
+        {/* <div className="flex gap-3 items-center">
           <input
             type="checkbox"
             onChange={() => setChangeInput(!changeInput)}
           />
           <p className="dark:text-white">ویرایش تعرفه های ماهیانه</p>
-        </div>
+        </div> */}
 
         <div className="flex gap-3 items-center">
           <input
@@ -160,7 +170,7 @@ const RegularPlanStructureInfo = (props: Props) => {
           `structures.${fieldIndex}.discountFee`
         );
         const selectedStructure = combinedStructures.find(
-          (str: any) => str.structureId === selectedStructureId
+          (str) => str.structureId === selectedStructureId
         );
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
@@ -243,15 +253,14 @@ const RegularPlanStructureInfo = (props: Props) => {
                 </div>
 
                 <div className="flex flex-col gap-3 col-span-3 bg-white bg-opacity-40 p-2 rounded-md overflow-x-auto">
-                  {combinedStructures.map((structure: any) => {
-                    if (structure._id === selectedStructureId)
+                  {combinedStructures.map((structure) => {
+                    if (structure.structureId === selectedStructureId)
                       return (
                         <SummaryBox
                           structure={structure}
                           selectedStructure={selectedStructure!}
                           setValue={setValue}
                           fieldIndex={fieldIndex}
-                          structureId={selectedStructureId}
                         />
                       );
                   })}
@@ -321,13 +330,12 @@ const RegularPlanStructureInfo = (props: Props) => {
                   </small>
                 </div>
 
-                {combinedStructures.map((structure: any) => {
+                {combinedStructures.map((structure) => {
                   return (
-                    structure._id === selectedStructureId && (
+                    structure.structureId === selectedStructureId && (
                       <MonthlyFeeInput
                         page={page}
                         item={item}
-                        changeInput={changeInput}
                         selectedStructure={selectedStructure!}
                         control={control}
                         fieldIndex={fieldIndex}
@@ -335,7 +343,8 @@ const RegularPlanStructureInfo = (props: Props) => {
                         handleTextbox1Change={handleTextbox1Change}
                         errors={errors}
                         setValue={setValue}
-                        structureId={selectedStructureId}
+                        changeInput={flags[fieldIndex]}
+                        setChangeInput={() => toggleFlag(fieldIndex)}
                       />
                     )
                   );
@@ -373,11 +382,10 @@ const RegularPlanStructureInfo = (props: Props) => {
                       fieldIndex={fieldIndex}
                       setValue={setValue}
                       selectedStructure={selectedStructure!}
-                      changeInput={changeInput}
+                      changeInput={flags[fieldIndex]}
                       isDiscountedInput={isDiscountedInput}
                       plan={plan}
                       item={item}
-                      structureId={selectedStructureId}
                     />
                   )}
 
@@ -434,7 +442,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                     item={item}
                     isChanged={isChanged}
                     selectedStructure={selectedStructure}
-                    changeInput={changeInput}
+                    changeInput={flags[fieldIndex]}
                     discountType={discountType}
                     convertToNumber={convertToNumber}
                     selectedMonthlyFee={selectedMonthlyFee}
@@ -442,7 +450,6 @@ const RegularPlanStructureInfo = (props: Props) => {
                     errors={errors}
                     fieldIndex={fieldIndex}
                     setValue={setValue}
-                    structureId={selectedStructureId}
                   />
                 )}
               </div>

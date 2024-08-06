@@ -8,12 +8,9 @@ import { useEffect, useRef, useState } from "react";
 import { formatNumber } from "@/app/utilities/formatNumber";
 import {
   AddPlanForm,
-  BoxObject,
   CombinedStructure,
   EditPlanForm,
 } from "@/app/lib/interfaces";
-import { useSelector } from "react-redux";
-import { selectAllBoxes } from "@/app/apiSlices/boxesApiSlice";
 
 type Props = {
   page: string;
@@ -27,7 +24,7 @@ type Props = {
   errors: FieldErrors<EditPlanForm>;
   fieldIndex: number;
   setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>;
-  structureId?: string;
+
   isChanged: boolean;
 };
 
@@ -45,20 +42,7 @@ const DiscountedMonthlyFee = (props: Props) => {
     fieldIndex,
     setValue,
     isChanged,
-    structureId,
   } = props;
-
-  const allBoxes: BoxObject[] = useSelector(
-    (state) => selectAllBoxes(state) as BoxObject[]
-  );
-
-  const selectedStructureFromBox: any = allBoxes
-    .map((box) => box.structures)
-    .flat()
-    .filter((str) => str.structureId === structureId);
-
-  const structureFee =
-    selectedStructureFromBox[selectedStructureFromBox.length - 1];
 
   return (
     <div className="flex flex-col gap-3">
@@ -74,7 +58,7 @@ const DiscountedMonthlyFee = (props: Props) => {
           // !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
           // :
           page === "edit"
-            ? structureFee && discountType === "percentage"
+            ? selectedStructure && discountType === "percentage"
               ? formatNumber(
                   convertToNumber(selectedMonthlyFee) -
                     (convertToNumber(selectedMonthlyFee) *
@@ -82,9 +66,9 @@ const DiscountedMonthlyFee = (props: Props) => {
                       100,
                   ","
                 )
-              : structureFee && !changeInput && discountType === "number"
+              : selectedStructure && !changeInput && discountType === "number"
               ? formatNumber(
-                  structureFee?.monthlyBaseFee! -
+                  selectedStructure?.monthlyBaseFee! -
                     convertToNumber(selectedDiscount),
                   ","
                 )
@@ -106,7 +90,7 @@ const DiscountedMonthlyFee = (props: Props) => {
                   Number(item.monthlyFee) - convertToNumber(selectedDiscount),
                   ","
                 )
-            : structureFee && changeInput && discountType === "percentage"
+            : selectedStructure && changeInput && discountType === "percentage"
             ? formatNumber(
                 convertToNumber(selectedMonthlyFee) -
                   (convertToNumber(selectedMonthlyFee) *
@@ -114,23 +98,23 @@ const DiscountedMonthlyFee = (props: Props) => {
                     100,
                 ","
               )
-            : structureFee && changeInput && discountType === "number"
+            : selectedStructure && changeInput && discountType === "number"
             ? formatNumber(
                 convertToNumber(selectedMonthlyFee) -
                   convertToNumber(selectedDiscount),
                 ","
               )
-            : structureFee && !changeInput && discountType === "percentage"
+            : selectedStructure && !changeInput && discountType === "percentage"
             ? formatNumber(
-                structureFee?.monthlyBaseFee! -
-                  (structureFee?.monthlyBaseFee! *
+                selectedStructure?.monthlyBaseFee! -
+                  (selectedStructure?.monthlyBaseFee! *
                     convertToNumber(selectedDiscount)) /
                     100,
                 ","
               )
-            : structureFee && !changeInput && discountType === "number"
+            : selectedStructure && !changeInput && discountType === "number"
             ? formatNumber(
-                structureFee?.monthlyBaseFee! -
+                selectedStructure?.monthlyBaseFee! -
                   convertToNumber(selectedDiscount),
                 ","
               )
