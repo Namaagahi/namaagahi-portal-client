@@ -103,6 +103,9 @@ const RegularPlanStructureInfo = (props: Props) => {
   const [discountFlags, setDiscountFlags] = useState<boolean[]>(
     field.map(() => false)
   );
+  const [discountTypes, setDiscountTypes] = useState<string[]>(
+    field.map(() => "percentage")
+  );
 
   const toggleFlag = (index: number) => {
     setFlags((prevFlags) => {
@@ -117,6 +120,14 @@ const RegularPlanStructureInfo = (props: Props) => {
       const newDiscountFlags = [...prevFlags];
       newDiscountFlags[index] = !newDiscountFlags[index];
       return newDiscountFlags;
+    });
+  };
+
+  const setDiscountType = (index: number, type: string) => {
+    setDiscountTypes((prevTypes) => {
+      const newTypes = [...prevTypes];
+      newTypes[index] = type;
+      return newTypes;
     });
   };
 
@@ -146,13 +157,12 @@ const RegularPlanStructureInfo = (props: Props) => {
           <p className="dark:text-white">ورود تعرفه ماهیانه نهایی</p>
         </div> */}
 
-        {page !== "edit" && isDiscountedInput && (
+        {/* {page !== "edit" && isDiscountedInput && (
           <div className="flex gap-3 items-center dark:text-white">
-            <p>مقیاس تخفیف</p>
             <FaPercentage
               className={`${
                 discountType === "percentage"
-                  ? "text-purple-700 scale-150"
+                  ? "text-purple-700 scale-180"
                   : "text-purple-400"
               } hover:scale-150 transition-all cursor-pointer `}
               onClick={() => handleDiscountType("percentage")}
@@ -160,13 +170,13 @@ const RegularPlanStructureInfo = (props: Props) => {
             <FaDollarSign
               className={`${
                 discountType === "number"
-                  ? "text-purple-700 scale-150"
+                  ? "text-purple-700 scale-180"
                   : "text-purple-400"
               } hover:scale-150 transition-all cursor-pointer`}
               onClick={() => handleDiscountType("number")}
             />
           </div>
-        )}
+        )} */}
       </div>
 
       {field.map((item, fieldIndex) => {
@@ -378,11 +388,37 @@ const RegularPlanStructureInfo = (props: Props) => {
                     >
                       تخفیف
                     </label>
+                    <div className="flex gap-3 items-center dark:text-white">
+                      {page !== "edit" && !discountFlags[fieldIndex] && (
+                        <>
+                          <FaPercentage
+                            className={`${
+                              discountTypes[fieldIndex] === "percentage"
+                                ? "text-purple-700 scale-150"
+                                : "text-purple-400"
+                            } hover:scale-150 transition-all cursor-pointer `}
+                            onClick={() =>
+                              setDiscountType(fieldIndex, "percentage")
+                            }
+                          />
+                          <FaDollarSign
+                            className={`${
+                              discountTypes[fieldIndex] === "number"
+                                ? "text-purple-700 scale-150"
+                                : "text-purple-400"
+                            } hover:scale-150 transition-all cursor-pointer`}
+                            onClick={() =>
+                              setDiscountType(fieldIndex, "number")
+                            }
+                          />
+                        </>
+                      )}
+                    </div>
                   </div>
                   {!discountFlags[fieldIndex] && mark === "regular" ? (
                     <DiscountFeeInput
                       page={page}
-                      discountType={discountType}
+                      discountType={discountTypes[fieldIndex]}
                       register={register}
                       fieldIndex={fieldIndex}
                       item={item}
@@ -465,7 +501,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                     isChanged={isChanged}
                     selectedStructure={selectedStructure}
                     changeInput={flags[fieldIndex]}
-                    discountType={discountType}
+                    discountType={discountTypes[fieldIndex]}
                     convertToNumber={convertToNumber}
                     selectedMonthlyFee={selectedMonthlyFee}
                     selectedDiscount={selectedDiscount}

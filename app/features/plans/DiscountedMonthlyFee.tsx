@@ -43,6 +43,7 @@ const DiscountedMonthlyFee = (props: Props) => {
     setValue,
     isChanged,
   } = props;
+  console.log(discountType);
 
   return (
     <div className="flex flex-col gap-3">
