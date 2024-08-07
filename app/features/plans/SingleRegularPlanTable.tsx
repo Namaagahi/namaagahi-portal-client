@@ -111,10 +111,12 @@ const SingleRegularPlanTable = (props: any) => {
               return (
                 <div className="flex justify-center items-center bg-white border-b dark:bg-gray-800 dark:border-gray-700 rounded-xl ">
                   {formatNumber(
-                    data?.reduce(
-                      (total: any, item: any) => total + item.totalPeriodCost,
-                      0
-                    ),
+                    Math.round(
+                      data?.reduce(
+                        (total: any, item: any) => total + item.totalPeriodCost,
+                        0
+                      ) / 1000
+                    ) * 1000,
                     ","
                   )}
                 </div>
