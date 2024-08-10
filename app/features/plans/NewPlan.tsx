@@ -29,10 +29,7 @@ const NewPlan = (props: Props) => {
   const { mark } = props;
   const { id } = useAuth();
   const { push } = useRouter();
-  const [discountType, setDiscountType] = useState("percentage");
   const [isChanged, setIsChanged] = useState(false);
-  const [changeInput, setChangeInput] = useState<boolean>(false);
-  const [isDiscountedInput, setIsDiscountedInput] = useState<boolean>(true);
 
   const [createNewPlan, { isSuccess, isError, error }] =
     useCreateNewPlanMutation();
@@ -73,19 +70,57 @@ const NewPlan = (props: Props) => {
     name: "structures",
   });
 
+  const [flags, setFlags] = useState<boolean[]>(
+    structuresField.map(() => false)
+  );
+
+  const [discountFlags, setDiscountFlags] = useState<boolean[]>(
+    structuresField.map(() => false)
+  );
+  const [discountTypes, setDiscountTypes] = useState<string[]>(
+    structuresField.map(() => "percentage")
+  );
+
+  const toggleFlag = (index: number) => {
+    setFlags((prevFlags) => {
+      const newFlags = [...prevFlags];
+      newFlags[index] = !newFlags[index];
+      return newFlags;
+    });
+  };
+
+  const toggleDiscountFlag = (index: number) => {
+    setDiscountFlags((prevFlags) => {
+      const newDiscountFlags = [...prevFlags];
+      newDiscountFlags[index] = !newDiscountFlags[index];
+      return newDiscountFlags;
+    });
+  };
+
+  const setDiscountType = (index: number, type: string) => {
+    setDiscountTypes((prevTypes) => {
+      const newTypes = [...prevTypes];
+      newTypes[index] = type;
+      return newTypes;
+    });
+  };
+
   const onSubmit = async (data: any) => {
     const newData = {
       ...data,
       proposalCode: data.proposalCode.toString(),
-      structures: data.structures.map((structure: StructurePlanObject) => ({
-        ...structure,
-        monthlyFee: convertToNumber(structure.monthlyFee),
-        monthlyFeeWithDiscount:
-          mark === "regular"
-            ? convertToNumber(structure.monthlyFeeWithDiscount)
-            : "0",
-        discountType: mark === "regular" ? discountType : "percentage",
-      })),
+      structures: data.structures.map(
+        (structure: StructurePlanObject, index: number) => ({
+          ...structure,
+          monthlyFee: convertToNumber(structure.monthlyFee),
+          monthlyFeeWithDiscount:
+            mark === "regular"
+              ? convertToNumber(structure.monthlyFeeWithDiscount)
+              : "0",
+          discountType:
+            mark === "regular" ? discountTypes[index] : "percentage",
+        })
+      ),
     };
     console.log("data", newData);
     const abc = await createNewPlan({
@@ -95,7 +130,7 @@ const NewPlan = (props: Props) => {
       },
       initialCustomerId: newData.initialCustomerId,
       finalCustomerId: newData.finalCustomerId,
-      userDefinedMonthlyFeeWithDiscount: isDiscountedInput,
+      userDefinedMonthlyFeeWithDiscount: !discountFlags[0],
       projectCodeId: null,
       brand: newData.brand,
       proposalCode: newData.proposalCode,
@@ -160,9 +195,9 @@ const NewPlan = (props: Props) => {
           mark={mark}
           control={control}
           errors={errors}
-          discountType={discountType}
+          discountTypes={discountTypes}
           convertToNumber={convertToNumber}
-          handleDiscountType={(val: string) => setDiscountType(val)}
+          setDiscountType={setDiscountType}
           setValue={setValue}
           field={structuresField}
           appendStructure={appendStructure}
@@ -170,10 +205,10 @@ const NewPlan = (props: Props) => {
           watch={watch}
           register={register}
           isChanged={isChanged}
-          changeInput={changeInput}
-          setChangeInput={setChangeInput}
-          isDiscountedInput={isDiscountedInput}
-          setIsDiscountedInput={setIsDiscountedInput}
+          flags={flags}
+          toggleFlag={toggleFlag}
+          discountFlags={discountFlags}
+          toggleDiscountFlag={toggleDiscountFlag}
         />
 
         <button className="primaryButton w-1/4 mx-auto">افزودن پلن</button>

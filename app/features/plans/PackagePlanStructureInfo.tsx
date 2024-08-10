@@ -25,8 +25,8 @@ import MonthlyFeeInput from "./MonthlyFeeInput";
 import { useState } from "react";
 
 type Props = {
-  changeInput: boolean;
-  setChangeInput: React.Dispatch<React.SetStateAction<boolean>>;
+  flags: boolean[];
+  toggleFlag: any;
   appendStructure:
     | UseFieldArrayAppend<EditPlanForm, "structures">
     | UseFieldArrayAppend<AddPlanForm, "structures">;
@@ -56,8 +56,8 @@ type Props = {
 
 const PackagePlanStructureInfo = (props: Props) => {
   const {
-    changeInput,
-    setChangeInput,
+    flags,
+    toggleFlag,
     appendStructure,
     field,
     watch,
@@ -77,15 +77,15 @@ const PackagePlanStructureInfo = (props: Props) => {
     handleTextbox1Change,
   } = props;
 
-  const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
+  //   const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
 
-  const toggleFlag = (index: number) => {
-    setFlags((prevFlags) => {
-      const newFlags = [...prevFlags];
-      newFlags[index] = !newFlags[index];
-      return newFlags;
-    });
-  };
+  //   const toggleFlag = (index: number) => {
+  //     setFlags((prevFlags) => {
+  //       const newFlags = [...prevFlags];
+  //       newFlags[index] = !newFlags[index];
+  //       return newFlags;
+  //     });
+  //   };
 
   return (
     <div className="formContainer">

@@ -46,9 +46,9 @@ type Props = {
   field:
     | FieldArrayWithId<EditPlanForm, "structures", "id">[]
     | FieldArrayWithId<AddPlanForm, "structures", "id">[];
-  discountType: string;
+  discountTypes: string[];
   convertToNumber: (value: string | number) => number | any;
-  handleDiscountType: (val: string) => void;
+  setDiscountType: any;
   setValue: UseFormSetValue<EditPlanForm> | UseFormSetValue<AddPlanForm>;
   appendStructure:
     | UseFieldArrayAppend<EditPlanForm, "structures">
@@ -62,10 +62,10 @@ type Props = {
     | Dispatch<SetStateAction<never[]>>
     | Dispatch<SetStateAction<string[]>>;
   isChanged: boolean;
-  changeInput: boolean;
-  setChangeInput: React.Dispatch<React.SetStateAction<boolean>>;
-  isDiscountedInput: boolean;
-  setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>;
+  flags: boolean[];
+  toggleFlag: any;
+  discountFlags: boolean[];
+  toggleDiscountFlag: any;
 };
 
 const PlanStructuresInfo = (props: Props) => {
@@ -76,9 +76,9 @@ const PlanStructuresInfo = (props: Props) => {
     plan,
     errors,
     field,
-    discountType,
+    discountTypes,
     convertToNumber,
-    handleDiscountType,
+    setDiscountType,
     setValue,
     appendStructure,
     removeStructure,
@@ -88,10 +88,10 @@ const PlanStructuresInfo = (props: Props) => {
     chosenStructures,
     setChosenStructures,
     isChanged,
-    changeInput,
-    setChangeInput,
-    isDiscountedInput,
-    setIsDiscountedInput,
+    flags,
+    toggleFlag,
+    discountFlags,
+    toggleDiscountFlag,
   } = props;
 
   const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false);
@@ -118,7 +118,7 @@ const PlanStructuresInfo = (props: Props) => {
   );
   const allBoxes: BoxObject[] = useSelector(
     (state) => selectAllBoxes(state) as BoxObject[]
-  );
+  ).filter((x) => !x.isArchived);
   const inBoxStructures = allStructures.filter(
     (structure: any) => structure.isChosen
   );
@@ -182,12 +182,12 @@ const PlanStructuresInfo = (props: Props) => {
     return <Loading />;
   return mark === "regular" ? (
     <RegularPlanStructureInfo
-      changeInput={changeInput}
-      setChangeInput={setChangeInput}
-      handleDiscountType={handleDiscountType}
+      flags={flags}
+      toggleFlag={toggleFlag}
+      setDiscountType={setDiscountType}
       page={page}
       mark={mark}
-      discountType={discountType}
+      discountTypes={discountTypes}
       field={field}
       watch={watch}
       combinedStructures={combinedStructures}
@@ -207,13 +207,13 @@ const PlanStructuresInfo = (props: Props) => {
       isChanged={isChanged}
       removeStructure={removeStructure}
       appendStructure={appendStructure}
-      isDiscountedInput={isDiscountedInput}
-      setIsDiscountedInput={setIsDiscountedInput}
+      discountFlags={discountFlags}
+      toggleDiscountFlag={toggleDiscountFlag}
     />
   ) : (
     <PackagePlanStructureInfo
-      changeInput={changeInput}
-      setChangeInput={setChangeInput}
+      flags={flags}
+      toggleFlag={toggleFlag}
       appendStructure={appendStructure}
       field={field}
       watch={watch}

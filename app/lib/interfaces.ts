@@ -99,6 +99,7 @@ export interface BoxObject {
   updatedAt: string;
   username: string;
   version: number;
+  isArchived: boolean;
 }
 
 export interface AddBoxForm {

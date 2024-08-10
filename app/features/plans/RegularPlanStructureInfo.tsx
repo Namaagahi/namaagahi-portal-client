@@ -31,12 +31,12 @@ import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { planStructureFormValues } from "@/app/lib/constants";
 
 type Props = {
-  changeInput: boolean;
-  setChangeInput: React.Dispatch<React.SetStateAction<boolean>>;
-  handleDiscountType: (val: string) => void;
+  flags: boolean[];
+  toggleFlag: any;
+  setDiscountType: any;
   page: string;
   mark: string;
-  discountType: string;
+  discountTypes: string[];
   field:
     | FieldArrayWithId<EditPlanForm, "structures", "id">[]
     | FieldArrayWithId<AddPlanForm, "structures", "id">[];
@@ -64,18 +64,18 @@ type Props = {
   appendStructure:
     | UseFieldArrayAppend<EditPlanForm, "structures">
     | UseFieldArrayAppend<AddPlanForm, "structures">;
-  isDiscountedInput: boolean;
-  setIsDiscountedInput: React.Dispatch<React.SetStateAction<boolean>>;
+  discountFlags: boolean[];
+  toggleDiscountFlag: any;
 };
 
 const RegularPlanStructureInfo = (props: Props) => {
   const {
-    changeInput,
-    setChangeInput,
-    handleDiscountType,
+    flags,
+    toggleFlag,
+    setDiscountType,
     page,
     mark,
-    discountType,
+    discountTypes,
     field,
     watch,
     combinedStructures,
@@ -95,41 +95,41 @@ const RegularPlanStructureInfo = (props: Props) => {
     isChanged,
     removeStructure,
     appendStructure,
-    isDiscountedInput,
-    setIsDiscountedInput,
+    discountFlags,
+    toggleDiscountFlag,
   } = props;
 
-  const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
-  const [discountFlags, setDiscountFlags] = useState<boolean[]>(
-    field.map(() => false)
-  );
-  const [discountTypes, setDiscountTypes] = useState<string[]>(
-    field.map(() => "percentage")
-  );
+  //   const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
+  //   const [discountFlags, setDiscountFlags] = useState<boolean[]>(
+  //     field.map(() => false)
+  //   );
+  //   const [discountTypes, setDiscountTypes] = useState<string[]>(
+  //     field.map(() => "percentage")
+  //   );
 
-  const toggleFlag = (index: number) => {
-    setFlags((prevFlags) => {
-      const newFlags = [...prevFlags];
-      newFlags[index] = !newFlags[index];
-      return newFlags;
-    });
-  };
+  //   const toggleFlag = (index: number) => {
+  //     setFlags((prevFlags) => {
+  //       const newFlags = [...prevFlags];
+  //       newFlags[index] = !newFlags[index];
+  //       return newFlags;
+  //     });
+  //   };
 
-  const toggleDiscountFlag = (index: number) => {
-    setDiscountFlags((prevFlags) => {
-      const newDiscountFlags = [...prevFlags];
-      newDiscountFlags[index] = !newDiscountFlags[index];
-      return newDiscountFlags;
-    });
-  };
+  //   const toggleDiscountFlag = (index: number) => {
+  //     setDiscountFlags((prevFlags) => {
+  //       const newDiscountFlags = [...prevFlags];
+  //       newDiscountFlags[index] = !newDiscountFlags[index];
+  //       return newDiscountFlags;
+  //     });
+  //   };
 
-  const setDiscountType = (index: number, type: string) => {
-    setDiscountTypes((prevTypes) => {
-      const newTypes = [...prevTypes];
-      newTypes[index] = type;
-      return newTypes;
-    });
-  };
+  //   const setDiscountType = (index: number, type: string) => {
+  //     setDiscountTypes((prevTypes) => {
+  //       const newTypes = [...prevTypes];
+  //       newTypes[index] = type;
+  //       return newTypes;
+  //     });
+  //   };
 
   return (
     <div className="formContainer">
@@ -151,7 +151,7 @@ const RegularPlanStructureInfo = (props: Props) => {
             checked={isDiscountedInput}
             onChange={() => {
               setIsDiscountedInput(!isDiscountedInput);
-              handleDiscountType("percentage");
+              setDiscountType("percentage");
             }}
           />
           <p className="dark:text-white">ورود تعرفه ماهیانه نهایی</p>
@@ -165,7 +165,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                   ? "text-purple-700 scale-180"
                   : "text-purple-400"
               } hover:scale-150 transition-all cursor-pointer `}
-              onClick={() => handleDiscountType("percentage")}
+              onClick={() => setDiscountType("percentage")}
             />
             <FaDollarSign
               className={`${
@@ -173,7 +173,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                   ? "text-purple-700 scale-180"
                   : "text-purple-400"
               } hover:scale-150 transition-all cursor-pointer`}
-              onClick={() => handleDiscountType("number")}
+              onClick={() => setDiscountType("number")}
             />
           </div>
         )} */}
@@ -364,7 +364,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                         handleTextbox1Change={handleTextbox1Change}
                         errors={errors}
                         setValue={setValue}
-                        changeInput={flags[fieldIndex]}
+                        changeInput={flags && flags[fieldIndex]}
                         setChangeInput={() => toggleFlag(fieldIndex)}
                       />
                     )
@@ -375,10 +375,10 @@ const RegularPlanStructureInfo = (props: Props) => {
                   <div className="flex gap-3 items-center">
                     <input
                       type="checkbox"
-                      checked={!discountFlags[fieldIndex]}
+                      checked={discountFlags && !discountFlags[fieldIndex]}
                       onChange={() => {
                         toggleDiscountFlag(fieldIndex);
-                        handleDiscountType("percentage");
+                        setDiscountType("percentage");
                       }}
                       id={`structures.${fieldIndex}.discount`}
                     />
@@ -415,7 +415,9 @@ const RegularPlanStructureInfo = (props: Props) => {
                       )}
                     </div>
                   </div>
-                  {!discountFlags[fieldIndex] && mark === "regular" ? (
+                  {discountFlags &&
+                  !discountFlags[fieldIndex] &&
+                  mark === "regular" ? (
                     <DiscountFeeInput
                       page={page}
                       discountType={discountTypes[fieldIndex]}
@@ -440,8 +442,10 @@ const RegularPlanStructureInfo = (props: Props) => {
                       fieldIndex={fieldIndex}
                       setValue={setValue}
                       selectedStructure={selectedStructure!}
-                      changeInput={flags[fieldIndex]}
-                      isDiscountedInput={discountFlags[fieldIndex]}
+                      changeInput={flags && flags[fieldIndex]}
+                      isDiscountedInput={
+                        discountFlags && discountFlags[fieldIndex]
+                      }
                       plan={plan}
                       item={item}
                     />
@@ -457,7 +461,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                   </small>
                 </div>
 
-                {discountFlags[fieldIndex] ? (
+                {discountFlags && discountFlags[fieldIndex] ? (
                   <div className="flex flex-col gap-3">
                     <label
                       htmlFor="discountedMothlyFee"
@@ -500,8 +504,8 @@ const RegularPlanStructureInfo = (props: Props) => {
                     item={item}
                     isChanged={isChanged}
                     selectedStructure={selectedStructure}
-                    changeInput={flags[fieldIndex]}
-                    discountType={discountTypes[fieldIndex]}
+                    changeInput={flags && flags[fieldIndex]}
+                    discountType={discountTypes && discountTypes[fieldIndex]}
                     convertToNumber={convertToNumber}
                     selectedMonthlyFee={selectedMonthlyFee}
                     selectedDiscount={selectedDiscount}
