@@ -62,9 +62,9 @@ type Props = {
     | Dispatch<SetStateAction<never[]>>
     | Dispatch<SetStateAction<string[]>>;
   isChanged: boolean;
-  flags: boolean[];
+  flags: boolean[] | any;
   toggleFlag: any;
-  discountFlags: boolean[];
+  discountFlags: boolean[] | any;
   toggleDiscountFlag: any;
 };
 
