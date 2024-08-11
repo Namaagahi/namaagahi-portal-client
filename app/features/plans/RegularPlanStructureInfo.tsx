@@ -194,6 +194,10 @@ const RegularPlanStructureInfo = (props: Props) => {
           (str) => str.structureId === selectedStructureId
         );
 
+        useEffect(() => {
+          setDiscountType(fieldIndex, item.discountType);
+        }, [item]);
+
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
             setValue(`structures.${fieldIndex}.duration.sellStart`, value.unix);
@@ -389,7 +393,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                       تخفیف
                     </label>
                     <div className="flex gap-3 items-center dark:text-white">
-                      {page !== "edit" && !discountFlags[fieldIndex] && (
+                      {!discountFlags[fieldIndex] && (
                         <>
                           <FaPercentage
                             className={`${
@@ -415,9 +419,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                       )}
                     </div>
                   </div>
-                  {discountFlags &&
-                  !discountFlags[fieldIndex] &&
-                  mark === "regular" ? (
+                  {!discountFlags[fieldIndex] && mark === "regular" ? (
                     <DiscountFeeInput
                       page={page}
                       discountType={discountTypes[fieldIndex]}
@@ -434,6 +436,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                     />
                   ) : (
                     <CalculatedDiscount
+                      page={page}
                       selectedDiscountedMonthlyFee={
                         selectedDiscountedMonthlyFee
                       }
