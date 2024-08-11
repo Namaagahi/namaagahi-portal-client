@@ -43,7 +43,6 @@ const DiscountedMonthlyFee = (props: Props) => {
     setValue,
     isChanged,
   } = props;
-  console.log(discountType);
 
   return (
     <div className="flex flex-col gap-3">
@@ -59,7 +58,7 @@ const DiscountedMonthlyFee = (props: Props) => {
           // !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
           // :
           page === "edit"
-            ? selectedStructure && discountType === "percentage"
+            ? selectedStructure && !changeInput && discountType === "percentage"
               ? formatNumber(
                   convertToNumber(selectedMonthlyFee) -
                     (convertToNumber(selectedMonthlyFee) *
@@ -67,21 +66,20 @@ const DiscountedMonthlyFee = (props: Props) => {
                       100,
                   ","
                 )
-              : selectedStructure && !changeInput && discountType === "number"
+              : selectedStructure && changeInput && discountType === "number"
               ? formatNumber(
-                  selectedStructure?.monthlyBaseFee! -
-                    convertToNumber(selectedDiscount),
+                  Number(item.monthlyFee) - convertToNumber(selectedDiscount),
                   ","
                 )
               : changeInput && discountType === "percentage"
-              ? // formatNumber(
-                //     convertToNumber(selectedMonthlyFee) - (convertToNumber(selectedMonthlyFee) * convertToNumber(selectedDiscount) ) / 100,
-                // ',')
-                "salam"
-              : !changeInput && discountType === "percentage"
-              ? // formatNumber((Number(item.monthlyFee) - (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100) , ',' )
-                "salam"
-              : changeInput && discountType === "number"
+              ? formatNumber(
+                  Number(item.monthlyFee) -
+                    (Number(item.monthlyFee) *
+                      convertToNumber(selectedDiscount)) /
+                      100,
+                  ","
+                )
+              : !changeInput && discountType === "number"
               ? formatNumber(
                   convertToNumber(selectedMonthlyFee) -
                     convertToNumber(selectedDiscount),
@@ -91,7 +89,7 @@ const DiscountedMonthlyFee = (props: Props) => {
                   Number(item.monthlyFee) - convertToNumber(selectedDiscount),
                   ","
                 )
-            : selectedStructure && changeInput && discountType === "percentage"
+            : selectedStructure && !changeInput && discountType === "percentage"
             ? formatNumber(
                 convertToNumber(selectedMonthlyFee) -
                   (convertToNumber(selectedMonthlyFee) *
@@ -99,13 +97,13 @@ const DiscountedMonthlyFee = (props: Props) => {
                     100,
                 ","
               )
-            : selectedStructure && changeInput && discountType === "number"
+            : selectedStructure && !changeInput && discountType === "number"
             ? formatNumber(
                 convertToNumber(selectedMonthlyFee) -
                   convertToNumber(selectedDiscount),
                 ","
               )
-            : selectedStructure && !changeInput && discountType === "percentage"
+            : selectedStructure && changeInput && discountType === "percentage"
             ? formatNumber(
                 selectedStructure?.monthlyBaseFee! -
                   (selectedStructure?.monthlyBaseFee! *
@@ -113,7 +111,7 @@ const DiscountedMonthlyFee = (props: Props) => {
                     100,
                 ","
               )
-            : selectedStructure && !changeInput && discountType === "number"
+            : selectedStructure && changeInput && discountType === "number"
             ? formatNumber(
                 selectedStructure?.monthlyBaseFee! -
                   convertToNumber(selectedDiscount),
