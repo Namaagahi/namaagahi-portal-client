@@ -18,6 +18,7 @@ type Props = {
   isDiscountedInput: boolean;
   plan: PlanObject;
   item: FieldArrayWithId<EditPlanForm, "structures", "id">;
+  page: string;
 };
 
 const CalculatedDiscount = (props: Props) => {
@@ -32,17 +33,24 @@ const CalculatedDiscount = (props: Props) => {
     isDiscountedInput,
     plan,
     item,
+    page,
   } = props;
   return (
     <p className="p-4 text-primary dark:text-secondary" id="discount">
       {
-        !changeInput && isDiscountedInput
-          ? (
-              100 -
-              (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
-                selectedStructure?.monthlyBaseFee
-            ).toFixed(2)
-          : changeInput && isDiscountedInput
+        changeInput && isDiscountedInput
+          ? page === "edit"
+            ? (
+                100 -
+                (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
+                  Number(item.monthlyFee)
+              ).toFixed(2)
+            : (
+                100 -
+                (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
+                  selectedStructure?.monthlyBaseFee
+              ).toFixed(2)
+          : !changeInput && isDiscountedInput
           ? (
               100 -
               (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
