@@ -106,7 +106,7 @@ const MonthlyFeeInput = (props: Props) => {
           </label>{" "}
         </div>
       </div>
-      {changeInput ? (
+      {!changeInput ? (
         <>
           {page === "edit" && fieldIndex + 1 <= plan.structures.length ? (
             <p className="p-4 text-primary dark:text-secondary">
