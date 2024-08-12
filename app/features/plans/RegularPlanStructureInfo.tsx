@@ -194,9 +194,12 @@ const RegularPlanStructureInfo = (props: Props) => {
           (str) => str.structureId === selectedStructureId
         );
 
-        useEffect(() => {
-          setDiscountType(fieldIndex, item.discountType);
-        }, [item]);
+        {
+          page === "edit" &&
+            useEffect(() => {
+              setDiscountType(fieldIndex, item.discountType);
+            }, []);
+        }
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
