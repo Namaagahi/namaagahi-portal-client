@@ -3,7 +3,11 @@ import { useUpdateStructureMutation } from "../../apiSlices/structuresApiSlice";
 import { useUpdatePlanMutation } from "../../apiSlices/plansApiSlice";
 import SearchContainer from "@/app/components/main/SearchContainer";
 import { convertToNumber } from "@/app/utilities/convertToNumber";
-import { EditPlanForm, PlanObject } from "@/app/lib/interfaces";
+import {
+  EditPlanForm,
+  PlanObject,
+  StructurePlanObject,
+} from "@/app/lib/interfaces";
 import { useFieldArray, useForm } from "react-hook-form";
 import PageTitle from "@/app/components/main/PageTitle";
 import PlanStructuresInfo from "./PlanStructuresInfo";
@@ -112,17 +116,19 @@ const EditPlanComp = (props: Props) => {
   const onSubmit = async (data: any) => {
     const newData = {
       ...data,
-      structures: data.structures.map((structure: any, index: number) => ({
-        ...structure,
-        monthlyFee: convertToNumber(structure.monthlyFee),
-        monthlyFeeWithDiscount:
-          plan.mark.name === "regular"
-            ? convertToNumber(structure.monthlyFeeWithDiscount)
-            : null,
-        discountType:
-          plan.mark.name === "regular" ? discountTypes[index] : null,
-        structureRecord: structure.structureRecord,
-      })),
+      structures: data.structures.map(
+        (structure: StructurePlanObject, index: number) => ({
+          ...structure,
+          monthlyFee: convertToNumber(structure.monthlyFee),
+          monthlyFeeWithDiscount:
+            plan.mark.name === "regular"
+              ? convertToNumber(structure.monthlyFeeWithDiscount)
+              : null,
+          discountType:
+            plan.mark.name === "regular" ? discountTypes[index] : null,
+          structureRecord: structure.structureRecord,
+        })
+      ),
     };
 
     const abc = await updatePlan({
@@ -145,7 +151,6 @@ const EditPlanComp = (props: Props) => {
           ? convertToNumber(newData.totalPackagePrice)
           : null,
     });
-    console.log("abc", abc);
   };
 
   if (isError) {

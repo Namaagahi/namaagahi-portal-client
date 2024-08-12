@@ -44,6 +44,46 @@ const DiscountedMonthlyFee = (props: Props) => {
     isChanged,
   } = props;
 
+  const discountedMonthlyFee =
+    page === "edit"
+      ? selectedStructure && changeInput && discountType === "percentage"
+        ? convertToNumber(selectedMonthlyFee) -
+          (convertToNumber(selectedMonthlyFee) *
+            convertToNumber(selectedDiscount)) /
+            100
+        : selectedStructure && !changeInput && discountType === "number"
+        ? Number(item.monthlyFee) - convertToNumber(selectedDiscount)
+        : !changeInput && discountType === "percentage"
+        ? Number(item.monthlyFee) -
+          (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100
+        : changeInput && discountType === "number"
+        ? convertToNumber(selectedMonthlyFee) -
+          convertToNumber(selectedDiscount)
+        : Number(item.monthlyFee) - convertToNumber(selectedDiscount)
+      : selectedStructure && changeInput && discountType === "percentage"
+      ? convertToNumber(selectedMonthlyFee) -
+        (convertToNumber(selectedMonthlyFee) *
+          convertToNumber(selectedDiscount)) /
+          100
+      : selectedStructure && changeInput && discountType === "number"
+      ? convertToNumber(selectedMonthlyFee) - convertToNumber(selectedDiscount)
+      : selectedStructure && !changeInput && discountType === "percentage"
+      ? selectedStructure?.monthlyBaseFee! -
+        (selectedStructure?.monthlyBaseFee! *
+          convertToNumber(selectedDiscount)) /
+          100
+      : selectedStructure && !changeInput && discountType === "number"
+      ? selectedStructure?.monthlyBaseFee! - convertToNumber(selectedDiscount)
+      : 0;
+
+  // Set the discounted monthly fee in the form state
+  useEffect(() => {
+    setValue(
+      `structures.${fieldIndex}.monthlyFeeWithDiscount`,
+      discountedMonthlyFee.toString()
+    );
+  }, [discountedMonthlyFee, setValue, fieldIndex]);
+
   return (
     <div className="flex flex-col gap-3">
       <label htmlFor="discountedMothlyFee" className="text-[#767676] font-bold">
@@ -54,74 +94,10 @@ const DiscountedMonthlyFee = (props: Props) => {
         className="p-4 text-primary dark:text-secondary"
         id="discountedMothlyFee"
       >
-        {
-          // !isChanged ? formatNumber(Number(item.monthlyFeeWithDiscount), ',')
-          // :
-          page === "edit"
-            ? selectedStructure && !changeInput && discountType === "percentage"
-              ? formatNumber(
-                  convertToNumber(selectedMonthlyFee) -
-                    (convertToNumber(selectedMonthlyFee) *
-                      convertToNumber(selectedDiscount)) /
-                      100,
-                  ","
-                )
-              : selectedStructure && changeInput && discountType === "number"
-              ? formatNumber(
-                  Number(item.monthlyFee) - convertToNumber(selectedDiscount),
-                  ","
-                )
-              : changeInput && discountType === "percentage"
-              ? formatNumber(
-                  Number(item.monthlyFee) -
-                    (Number(item.monthlyFee) *
-                      convertToNumber(selectedDiscount)) /
-                      100,
-                  ","
-                )
-              : !changeInput && discountType === "number"
-              ? formatNumber(
-                  convertToNumber(selectedMonthlyFee) -
-                    convertToNumber(selectedDiscount),
-                  ","
-                )
-              : formatNumber(
-                  Number(item.monthlyFee) - convertToNumber(selectedDiscount),
-                  ","
-                )
-            : selectedStructure && !changeInput && discountType === "percentage"
-            ? formatNumber(
-                convertToNumber(selectedMonthlyFee) -
-                  (convertToNumber(selectedMonthlyFee) *
-                    convertToNumber(selectedDiscount)) /
-                    100,
-                ","
-              )
-            : selectedStructure && !changeInput && discountType === "number"
-            ? formatNumber(
-                convertToNumber(selectedMonthlyFee) -
-                  convertToNumber(selectedDiscount),
-                ","
-              )
-            : selectedStructure && changeInput && discountType === "percentage"
-            ? formatNumber(
-                selectedStructure?.monthlyBaseFee! -
-                  (selectedStructure?.monthlyBaseFee! *
-                    convertToNumber(selectedDiscount)) /
-                    100,
-                ","
-              )
-            : selectedStructure && changeInput && discountType === "number"
-            ? formatNumber(
-                selectedStructure?.monthlyBaseFee! -
-                  convertToNumber(selectedDiscount),
-                ","
-              )
-            : ""
-        }
+        {formatNumber(discountedMonthlyFee, ",")}
       </p>
 
-      <small className="text-xs text-rose-600 ">
+      <small className="text-xs text-rose-600">
         {(errors?.structures?.[fieldIndex]?.monthlyFee as FieldError)?.message}
       </small>
     </div>
