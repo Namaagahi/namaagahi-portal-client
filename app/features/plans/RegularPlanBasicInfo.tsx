@@ -11,10 +11,11 @@ type Props = {
   control: Control<EditPlanForm, any> | Control<AddPlanForm, any>;
   allInitialCustomers: InitialCustomerObject[];
   errors: FieldErrors<EditPlanForm>;
+  page: string;
 };
 
 const RegularPlanBasicInfo = (props: Props) => {
-  const { control, allInitialCustomers, errors } = props;
+  const { control, allInitialCustomers, errors, page } = props;
 
   return (
     <div className="formContainer">
@@ -41,16 +42,18 @@ const RegularPlanBasicInfo = (props: Props) => {
             type={"text"}
             className="formInput"
           />
-          <CustomInput
-            control={control}
-            name={"proposalCode"}
-            label={"کد پروپوزال"}
-            errors={errors.proposalCode?.message}
-            required={true}
-            message="کد پروپوزال را وارد کنید"
-            type={"text"}
-            className="formInput"
-          />
+          {page !== "edit" && (
+            <CustomInput
+              control={control}
+              name={"proposalCode"}
+              label={"کد پروپوزال"}
+              errors={errors.proposalCode?.message}
+              required={true}
+              message="کد پروپوزال را وارد کنید"
+              type={"text"}
+              className="formInput"
+            />
+          )}
         </div>
       </div>
     </div>

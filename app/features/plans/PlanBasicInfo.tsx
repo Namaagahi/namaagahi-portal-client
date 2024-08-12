@@ -36,6 +36,7 @@ const PlanBasicInfo = (props: Props) => {
 
   return mark === "regular" ? (
     <RegularPlanBasicInfo
+      page={page}
       control={control}
       allInitialCustomers={allInitialCustomers}
       errors={errors}
