@@ -87,7 +87,7 @@
     @apply font-medium flex items-center gap-3 justify-start transform transition-colors duration-200 border-r-4 cursor-pointer
   }
   .badge {
-    @apply absolute inline-flex items-center justify-center w-8 h-8 text-lg font-bold text-white bg-red-500 border-2 border-white rounded-md -top-2 -right-2 dark:border-gray-900
+    @apply absolute inline-flex items-center justify-center w-8 h-8 text-lg font-bold text-white bg-purple-700 dark:bg-purple-900 border-2 border-white rounded-md -top-2 -right-2 dark:border-gray-900
   }
 }
 

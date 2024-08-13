@@ -230,92 +230,104 @@ const Availables = () => {
         ))}
       </div>
 
-      <ul className="flex flex-col mx-auto gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
         {Array.from(availableStructures.entries())
           .filter(([key, value]) => value.availableRanges.length)
           .map(([key, value]) => {
-            console.log(value.availableRanges);
-            if (
-              selectedPaths.length === 0 ||
-              selectedPaths.includes(value.location.path)
-            ) {
-              return (
-                <li
-                  key={key}
-                  className="flex flex-col justify-center w-full md:w-[60%] mx-auto text-lg bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25 rounded-md p-2 gap-2 hover:scale-110 transition-all cursor-pointer"
-                >
-                  <div className="flex justify-between items-center gap-3">
+            return (
+              <div
+                key={key}
+                className="flex flex-col max-w-full w-full text-lg bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25 rounded-md p-2 gap-2 hover:scale-105 transition-all cursor-pointer"
+              >
+                <div className="flex flex-col">
+                  <div className="flex justify-between items-center gap-3 px-1">
                     <p className="text-xl font-bold">{key}</p>
                     <p className="text-sm md:text-lg">{value.location.path}</p>
-                    <p className="text-sm md:text-lg">
-                      {value.location.address}
-                    </p>
+                    <div className="relative flex justify-center items-center">
+                      <div className="group">
+                        <p className="text-xl font-bold bg-orange-300 text-black py-1 px-3 rounded-md cursor-pointer transition-transform transform group-hover:scale-90 hover:bg-orange-200 hover:text-gray-500">
+                          آدرس
+                        </p>
+                        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col items-center">
+                          <div className="relative w-64 z-10 p-2 text-sm leading-none text-white dark:text-black bg-gray-600 dark:bg-gray-200 shadow-lg rounded-md">
+                            {value.location.address}
+                          </div>
+                          <div className="w-3 h-3 -mt-2 rotate-45 bg-gray-800"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  {value.availableRanges.map(
-                    (dateRange: Range, index: number, ref: any) => (
-                      <div className=" flex justify-between gap-4 p-2">
-                        <Badge index={index} />
-                        {index === 0 ? (
-                          <>
-                            <p>از</p>
-                            <p className="text-2xl dark:text-yellow-300 text-gray-700">
-                              {moment.unix(dateRange.startDate).jDate() !== 1
-                                ? moment
-                                    .unix(dateRange.startDate)
-                                    .add(1, "d")
-                                    .format("jYYYY-jMM-jDD")
-                                : moment
-                                    .unix(dateRange.startDate)
-                                    .format("jYYYY-jMM-jDD")}
-                            </p>
-                            <p>تا</p>
-                            <p className="text-2xl dark:text-yellow-300 text-gray-700">
-                              {moment.unix(dateRange.endDate).jDate() ===
-                              moment.unix(dateRange.endDate).jDaysInMonth()
-                                ? moment
-                                    .unix(dateRange.endDate)
-                                    .format("jYYYY-jMM-jDD")
-                                : moment
+                </div>
+                <div className="flex justify-center items-center">
+                  <div className="flex flex-col justify-center max-w-full w-full text-lg bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25 ">
+                    {value.availableRanges.map(
+                      (dateRange: Range, index: number, ref: any) => (
+                        <div
+                          key={index}
+                          className="flex justify-between gap-4 p-2"
+                        >
+                          <Badge index={index} />
+                          {index === 0 ? (
+                            <>
+                              <p>از</p>
+                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                {moment.unix(dateRange.startDate).jDate() !== 1
+                                  ? moment
+                                      .unix(dateRange.startDate)
+                                      .add(1, "d")
+                                      .format("jYYYY-jMM-jDD")
+                                  : moment
+                                      .unix(dateRange.startDate)
+                                      .format("jYYYY-jMM-jDD")}
+                              </p>
+                              <p>تا</p>
+                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                {moment.unix(dateRange.endDate).jDate() ===
+                                moment.unix(dateRange.endDate).jDaysInMonth()
+                                  ? moment
+                                      .unix(dateRange.endDate)
+                                      .format("jYYYY-jMM-jDD")
+                                  : moment
+                                      .unix(dateRange.endDate)
+                                      .subtract(1, "d")
+                                      .format("jYYYY-jMM-jDD")}
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p>از</p>
+                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                {moment
+                                  .unix(dateRange.startDate)
+                                  .add(1, "d")
+                                  .format("jYYYY-jMM-jDD")}
+                              </p>
+                              <p>تا</p>
+                              {index !== ref.length - 1 ? (
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment
                                     .unix(dateRange.endDate)
                                     .subtract(1, "d")
                                     .format("jYYYY-jMM-jDD")}
-                            </p>
-                          </>
-                        ) : (
-                          <>
-                            <p>از</p>
-                            <p className="text-2xl dark:text-yellow-300 text-gray-700">
-                              {moment
-                                .unix(dateRange.startDate)
-                                .add(1, "d")
-                                .format("jYYYY-jMM-jDD")}
-                            </p>
-                            <p>تا</p>
-                            {index !== ref.length - 1 ? (
-                              <p className="text-2xl dark:text-yellow-300 text-gray-700">
-                                {moment
-                                  .unix(dateRange.endDate)
-                                  .subtract(1, "d")
-                                  .format("jYYYY-jMM-jDD")}
-                              </p>
-                            ) : (
-                              <p className="text-2xl dark:text-yellow-300 text-gray-700">
-                                {moment
-                                  .unix(dateRange.endDate)
-                                  .format("jYYYY-jMM-jDD")}
-                              </p>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    )
-                  )}
-                </li>
-              );
-            }
-            return null;
+                                </p>
+                              ) : (
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment
+                                    .unix(dateRange.endDate)
+                                    .format("jYYYY-jMM-jDD")}
+                                </p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
           })}
-      </ul>
+      </div>
     </div>
   );
 };
