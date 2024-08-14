@@ -261,7 +261,10 @@ const RegularPlanStructureInfo = (props: Props) => {
                   </label>
                   <button
                     type="button"
-                    onClick={() => handleModalToggle(fieldIndex)}
+                    onClick={() => {
+                      handleModalToggle(fieldIndex);
+                      setDiscountType(fieldIndex, "percentage");
+                    }}
                     id="strChoose"
                     className="bg-black p-[4.5px] text-white rounded-md hover:text-black hover:bg-white transition-colors"
                   >
