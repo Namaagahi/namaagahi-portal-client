@@ -217,16 +217,18 @@ const Availables = () => {
 
       <div className="max-w-full flex flex-wrap gap-2 my-3">
         <h3>فیلتر بر اساس مسیر:</h3>
-        {uniquePaths.map((path, index) => (
-          <label key={index} className="flex items-center m-1 gap-1">
-            <input
-              type="checkbox"
-              checked={selectedPaths.includes(path)}
-              onChange={() => togglePath(path)}
-            />
-            {path}
-          </label>
-        ))}
+        {uniquePaths
+          .sort((a, b) => a.localeCompare(b))
+          .map((path, index) => (
+            <label key={index} className="flex items-center m-2 gap-1">
+              <input
+                type="checkbox"
+                checked={selectedPaths.includes(path)}
+                onChange={() => togglePath(path)}
+              />
+              {path}
+            </label>
+          ))}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
