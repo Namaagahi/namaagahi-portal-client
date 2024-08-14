@@ -30,6 +30,7 @@ const NewPlan = (props: Props) => {
   const { id } = useAuth();
   const { push } = useRouter();
   const [isChanged, setIsChanged] = useState(false);
+  const [flag, setFlag] = useState(false);
 
   const [createNewPlan, { isSuccess, isError, error }] =
     useCreateNewPlanMutation();
@@ -106,6 +107,10 @@ const NewPlan = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
+    const condition = data.structures.filter(
+      (element: any) =>
+        element.duration.sellEnd - element.duration.sellStart < 0
+    );
     const newData = {
       ...data,
       proposalCode: data.proposalCode.toString(),
@@ -122,7 +127,10 @@ const NewPlan = (props: Props) => {
         })
       ),
     };
-    console.log("data", newData);
+    if (condition.length) {
+      toast.error("تاریخ پایان نمی تواند عقب تر از تاریخ شروع باشد.");
+      return;
+    }
     const abc = await createNewPlan({
       userId: id,
       mark: {
@@ -138,7 +146,6 @@ const NewPlan = (props: Props) => {
       totalPackagePrice:
         mark === "package" ? convertToNumber(newData.totalPackagePrice) : null,
     });
-    console.log("abc", abc);
   };
 
   if (isError) {
