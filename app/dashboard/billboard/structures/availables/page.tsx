@@ -166,7 +166,6 @@ const Availables = () => {
   };
 
   const generatePDF = () => captureContent();
-
   return (
     <div id="content-to-capture">
       <PageTitle name="گزارش سازه های خالی" />
@@ -233,6 +232,7 @@ const Availables = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
         {Array.from(availableStructures.entries())
           .filter(([key, value]) => value.availableRanges.length)
+          .sort((a, b) => a[1].location.path.localeCompare(b[1].location.path))
           .map(([key, value]) => {
             if (
               selectedPaths.length === 0 ||
