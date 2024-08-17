@@ -238,9 +238,9 @@ const Availables = () => {
   return (
     <div id="content-to-capture">
       <PageTitle name="گزارش سازه های خالی" />
-      <SearchContainer />
+      {/* <SearchContainer /> */}
 
-      <div className="flex items-start flex-col justify-center gap-3 mb-10 md:flex-row">
+      <div className="flex items-start flex-col justify-center gap-3 my-10 md:flex-row">
         <div className="flex items-center gap-3 w-1/3">
           <label htmlFor="startDate" className="text-[#767676] font-bold">
             تاریخ شروع
