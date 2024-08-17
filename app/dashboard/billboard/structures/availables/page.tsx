@@ -46,6 +46,8 @@ const Availables = () => {
   const [availableStructures, setAvailableStructures] = useState<Map<any, any>>(
     new Map()
   );
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { isLoading, isError } = useGetAllPlansQuery(undefined, {
     refetchOnFocus: false,
@@ -282,7 +284,7 @@ const Availables = () => {
         />
       </div>
 
-      <div className="max-w-full flex flex-wrap gap-2 my-3">
+      {/* <div className="max-w-full flex flex-wrap gap-2 my-3">
         <h3>فیلتر بر اساس مسیر:</h3>
         {[
           ...new Set(
@@ -302,6 +304,69 @@ const Availables = () => {
               {path}
             </label>
           ))}
+      </div> */}
+
+      <div className="relative w-full mx-2 mb-10">
+        <div
+          className="flex items-center gap-2 w-full cursor-pointer"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <label htmlFor="paths" className="text-lg font-semibold">
+            فیلتر بر اساس مسیر :
+          </label>
+
+          <div
+            id="paths"
+            className={`${
+              isOpen ? "ring-2 ring-blue-500" : ""
+            } p-2 border border-gray-300 w-[20%] rounded-md shadow-sm focus:outline-none`}
+          >
+            {selectedPaths.length > 0
+              ? selectedPaths.join(", ")
+              : "انتخاب کنید"}
+          </div>
+        </div>
+
+        {isOpen && (
+          <div className="absolute top-full right-[8%] w-[20%] bg-white dark:bg-black border border-gray-300 rounded-md mt-2 shadow-lg z-10">
+            <div className="p-2">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="جستجو..."
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
+            </div>
+            <ul className="max-h-[500px] overflow-y-auto p-2">
+              {[
+                ...new Set(
+                  Array.from(availableStructures.entries()).map(
+                    ([key, value]) => value.location.path.trim()
+                  )
+                ),
+              ]
+                .sort((a, b) => a.localeCompare(b))
+                .filter((path) =>
+                  path.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                .map((path, index) => (
+                  <li key={index} className="flex items-center gap-2 p-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedPaths.includes(path)}
+                      onChange={() => togglePath(path)}
+                      id={`path-${index}`}
+                      className="cursor-pointer"
+                    />
+                    <label htmlFor={`path-${index}`} className="cursor-pointer">
+                      {path}
+                    </label>
+                  </li>
+                ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
