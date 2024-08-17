@@ -420,7 +420,7 @@ const Availables = () => {
                   <div
                     className={`flex flex-col justify-center max-w-full w-full text-lg ${
                       value.location.color === "red"
-                        ? "bg-sky-300"
+                        ? "bg-purple-300"
                         : "bg-gray-400"
                     } ${
                       value.location.color === "red"
