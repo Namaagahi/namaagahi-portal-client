@@ -284,7 +284,13 @@ const Availables = () => {
 
       <div className="max-w-full flex flex-wrap gap-2 my-3">
         <h3>فیلتر بر اساس مسیر:</h3>
-        {uniquePaths
+        {[
+          ...new Set(
+            Array.from(availableStructures.entries()).map(([key, value]) =>
+              value.location.path.trim()
+            )
+          ),
+        ]
           .sort((a, b) => a.localeCompare(b))
           .map((path, index) => (
             <label key={index} className="flex items-center m-2 gap-1">
@@ -318,7 +324,7 @@ const Availables = () => {
           .map(([key, value]) => {
             if (
               selectedPaths.length === 0 ||
-              selectedPaths.includes(value.location.path)
+              selectedPaths.includes(value.location.path.trim())
             ) {
               return (
                 <div
