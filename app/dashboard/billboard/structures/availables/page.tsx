@@ -1,5 +1,10 @@
 "use client";
-import { StructureObject, PlanObject } from "@/app/lib/interfaces";
+import {
+  StructureObject,
+  PlanObject,
+  BoxObject,
+  CombinedStructure,
+} from "@/app/lib/interfaces";
 import {
   selectAllStructures,
   useGetStructuresQuery,
@@ -21,6 +26,10 @@ import Badge from "@/app/components/main/Badge";
 import domtoimage from "dom-to-image";
 import { jsPDF } from "jspdf";
 import { FaFilePdf } from "react-icons/fa";
+import {
+  selectAllBoxes,
+  useGetAllBoxesQuery,
+} from "@/app/apiSlices/boxesApiSlice";
 
 type Range = {
   startDate: number;
@@ -47,6 +56,7 @@ const Availables = () => {
     refetchOnFocus: false,
     refetchOnMountOrArgChange: false,
   });
+  useGetAllBoxesQuery(undefined);
 
   const allPlans: PlanObject[] = useSelector(
     (state) => selectAllPlans(state) as PlanObject[]
@@ -54,6 +64,33 @@ const Availables = () => {
   const allStructures: StructureObject[] = useSelector(
     (state) => selectAllStructures(state) as StructureObject[]
   );
+
+  const allBoxes: BoxObject[] = useSelector(
+    (state) => selectAllBoxes(state) as BoxObject[]
+  ).filter((x) => !x.isArchived);
+  const inBoxStructures = allStructures.filter(
+    (structure: any) => structure.isChosen
+  );
+  const boxStructures = allBoxes.flatMap((box: any) => box.structures);
+
+  const inBoxStructuresLookup = inBoxStructures.reduce(
+    (acc: any, chosenStructure: any) => ({
+      ...acc,
+      [chosenStructure.id]: chosenStructure,
+    }),
+    {}
+  );
+
+  const combinedStructures: CombinedStructure[] = boxStructures
+    .map((boxStructure: CombinedStructure) => ({
+      ...boxStructure,
+      ...inBoxStructuresLookup[boxStructure.structureId],
+    }))
+    .filter((x) => x.isChosen)
+    .filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
+    );
+
   const uniquePaths = [
     ...new Set(allStructures.map((structure) => structure.location.path)),
   ];
@@ -62,6 +99,7 @@ const Availables = () => {
   const calculateAvailableDates = (
     structures: StructureObject[],
     plans: PlanObject[],
+    combinedStructures: CombinedStructure[],
     startDate: number,
     endDate: number
   ) => {
@@ -88,6 +126,7 @@ const Availables = () => {
                 location: {
                   path: structure.location.path,
                   address: structure.location.address,
+                  color: "red",
                 },
                 availableRanges: [
                   {
@@ -128,12 +167,40 @@ const Availables = () => {
       }
     }
 
+    const mainCombinedStructures = combinedStructures.filter(
+      (x) => x.duration.startDate <= startDate && x.duration.endDate >= endDate
+    );
+    for (const structure1 of mainCombinedStructures) {
+      const structureName = structure1?.name;
+
+      if (!availableDatesWithInfo.has(structureName)) {
+        availableDatesWithInfo.set(structureName, {
+          location: {
+            path: structure1?.location.path,
+            address: structure1?.location.address,
+            color: "white",
+          },
+          availableRanges: [
+            {
+              startDate: startDate - 1,
+              endDate: endDate,
+            },
+          ],
+        });
+      }
+    }
+
     return availableDatesWithInfo;
   };
-
   const handleFilterClick = () =>
     setAvailableStructures(
-      calculateAvailableDates(allStructures, allPlans, startDate, endDate)
+      calculateAvailableDates(
+        allStructures,
+        allPlans,
+        combinedStructures,
+        startDate,
+        endDate
+      )
     );
 
   const togglePath = (path: string) => {
@@ -234,7 +301,20 @@ const Availables = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
         {Array.from(availableStructures.entries())
           .filter(([key, value]) => value.availableRanges.length)
-          .sort((a, b) => a[1].location.path.localeCompare(b[1].location.path))
+          .sort((a, b) => {
+            if (
+              a[1].location.color === "red" &&
+              b[1].location.color !== "red"
+            ) {
+              return -1;
+            } else if (
+              a[1].location.color !== "red" &&
+              b[1].location.color === "red"
+            ) {
+              return 1;
+            }
+            return a[1].location.path.localeCompare(b[1].location.path);
+          })
           .map(([key, value]) => {
             if (
               selectedPaths.length === 0 ||
@@ -266,72 +346,79 @@ const Availables = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="flex justify-center items-center">
-                    <div className="flex flex-col justify-center max-w-full w-full text-lg bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25 ">
-                      {value.availableRanges.map(
-                        (dateRange: Range, index: number, ref: any) => (
-                          <div
-                            key={index}
-                            className="flex justify-between gap-4 p-2"
-                          >
-                            <Badge index={index} />
-                            {index === 0 ? (
-                              <>
-                                <p>از</p>
-                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                  {moment.unix(dateRange.startDate).jDate() !==
-                                  1
-                                    ? moment
-                                        .unix(dateRange.startDate)
-                                        .add(1, "d")
-                                        .format("jYYYY-jMM-jDD")
-                                    : moment
-                                        .unix(dateRange.startDate)
-                                        .format("jYYYY-jMM-jDD")}
-                                </p>
-                                <p>تا</p>
-                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                  {moment.unix(dateRange.endDate).jDate() ===
-                                  moment.unix(dateRange.endDate).jDaysInMonth()
-                                    ? moment
-                                        .unix(dateRange.endDate)
-                                        .format("jYYYY-jMM-jDD")
-                                    : moment
-                                        .unix(dateRange.endDate)
-                                        .subtract(1, "d")
-                                        .format("jYYYY-jMM-jDD")}
-                                </p>
-                              </>
-                            ) : (
-                              <>
-                                <p>از</p>
-                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                  {moment
-                                    .unix(dateRange.startDate)
-                                    .add(1, "d")
-                                    .format("jYYYY-jMM-jDD")}
-                                </p>
-                                <p>تا</p>
-                                {index !== ref.length - 1 ? (
-                                  <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                    {moment
+                  <div
+                    className={`flex flex-col justify-center max-w-full w-full text-lg ${
+                      value.location.color === "red"
+                        ? "bg-sky-300"
+                        : "bg-gray-400"
+                    } ${
+                      value.location.color === "red"
+                        ? "dark:bg-purple-300"
+                        : "dark:bg-white"
+                    } dark:bg-opacity-25 bg-opacity-25`}
+                  >
+                    {value.availableRanges.map(
+                      (dateRange: Range, index: number, ref: any) => (
+                        <div
+                          key={index}
+                          className="flex justify-between gap-4 p-2"
+                        >
+                          <Badge index={index} />
+                          {index === 0 ? (
+                            <>
+                              <p>از</p>
+                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                {moment.unix(dateRange.startDate).jDate() !== 1
+                                  ? moment
+                                      .unix(dateRange.startDate)
+                                      .add(1, "d")
+                                      .format("jYYYY-jMM-jDD")
+                                  : moment
+                                      .unix(dateRange.startDate)
+                                      .format("jYYYY-jMM-jDD")}
+                              </p>
+                              <p>تا</p>
+                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                {moment.unix(dateRange.endDate).jDate() ===
+                                moment.unix(dateRange.endDate).jDaysInMonth()
+                                  ? moment
+                                      .unix(dateRange.endDate)
+                                      .format("jYYYY-jMM-jDD")
+                                  : moment
                                       .unix(dateRange.endDate)
                                       .subtract(1, "d")
                                       .format("jYYYY-jMM-jDD")}
-                                  </p>
-                                ) : (
-                                  <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                    {moment
-                                      .unix(dateRange.endDate)
-                                      .format("jYYYY-jMM-jDD")}
-                                  </p>
-                                )}
-                              </>
-                            )}
-                          </div>
-                        )
-                      )}
-                    </div>
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p>از</p>
+                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                {moment
+                                  .unix(dateRange.startDate)
+                                  .add(1, "d")
+                                  .format("jYYYY-jMM-jDD")}
+                              </p>
+                              <p>تا</p>
+                              {index !== ref.length - 1 ? (
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment
+                                    .unix(dateRange.endDate)
+                                    .subtract(1, "d")
+                                    .format("jYYYY-jMM-jDD")}
+                                </p>
+                              ) : (
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment
+                                    .unix(dateRange.endDate)
+                                    .format("jYYYY-jMM-jDD")}
+                                </p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      )
+                    )}
                   </div>
                 </div>
               );
