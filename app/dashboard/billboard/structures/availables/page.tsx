@@ -30,6 +30,8 @@ import {
   selectAllBoxes,
   useGetAllBoxesQuery,
 } from "@/app/apiSlices/boxesApiSlice";
+import Link from "next/link";
+import AvailablesReport from "@/app/features/availableStructures/report/AvailablesReport";
 
 type Range = {
   startDate: number;
@@ -47,6 +49,7 @@ const Availables = () => {
     new Map()
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [isPDF, setIsPDF] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const { isLoading, isError } = useGetAllPlansQuery(undefined, {
@@ -215,26 +218,44 @@ const Availables = () => {
     }
   };
 
-  const captureContent = () => {
-    const element = document.getElementById("content-to-capture");
+  const availableReportStructure =
+    selectedPaths.length !== 0
+      ? Array.from(availableStructures.entries())
+          .filter(([key, value]) => value.availableRanges.length)
+          .sort((a, b) => {
+            if (
+              a[1].location.color === "red" &&
+              b[1].location.color !== "red"
+            ) {
+              return -1;
+            } else if (
+              a[1].location.color !== "red" &&
+              b[1].location.color === "red"
+            ) {
+              return 1;
+            }
+            return a[1].location.path.localeCompare(b[1].location.path);
+          })
+          .filter(([key, value]) =>
+            selectedPaths.includes(value.location.path.trim())
+          )
+      : Array.from(availableStructures.entries())
+          .filter(([key, value]) => value.availableRanges.length)
+          .sort((a, b) => {
+            if (
+              a[1].location.color === "red" &&
+              b[1].location.color !== "red"
+            ) {
+              return -1;
+            } else if (
+              a[1].location.color !== "red" &&
+              b[1].location.color === "red"
+            ) {
+              return 1;
+            }
+            return a[1].location.path.localeCompare(b[1].location.path);
+          });
 
-    domtoimage
-      .toPng(element!)
-      .then((dataUrl) => {
-        const pdf = new jsPDF();
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight =
-          (element!.offsetHeight * pdfWidth) / element!.offsetWidth;
-
-        pdf.addImage(dataUrl, "PNG", 0, 0, pdfWidth, pdfHeight);
-        pdf.save("document.pdf");
-      })
-      .catch((error) => {
-        console.error("An error occurred while generating the PDF:", error);
-      });
-  };
-
-  const generatePDF = () => captureContent();
   return (
     <div id="content-to-capture">
       <PageTitle name="گزارش سازه های خالی" />
@@ -277,34 +298,15 @@ const Availables = () => {
         >
           اعمال فیلتر
         </button>
-
         <FaFilePdf
-          onClick={generatePDF}
-          className="text-5xl text-red-600 dark:text-red-300 transition-all dark:hover:text-gray-300 hover:text-gray-500 cursor-pointer"
+          onClick={() => setIsPDF(!isPDF)}
+          className={`text-5xl mx-2 pb-1  ${
+            !isPDF ? "text-red-600" : "text-gray-300"
+          } dark:${
+            !isPDF ? "text-red-300" : "text-gray-300"
+          } transition-all dark:hover:text-gray-300 hover:scale-110 hover:text-gray-500 cursor-pointer`}
         />
       </div>
-
-      {/* <div className="max-w-full flex flex-wrap gap-2 my-3">
-        <h3>فیلتر بر اساس مسیر:</h3>
-        {[
-          ...new Set(
-            Array.from(availableStructures.entries()).map(([key, value]) =>
-              value.location.path.trim()
-            )
-          ),
-        ]
-          .sort((a, b) => a.localeCompare(b))
-          .map((path, index) => (
-            <label key={index} className="flex items-center m-2 gap-1">
-              <input
-                type="checkbox"
-                checked={selectedPaths.includes(path)}
-                onChange={() => togglePath(path)}
-              />
-              {path}
-            </label>
-          ))}
-      </div> */}
 
       <div className="relative w-full mx-2 mb-10">
         <div
@@ -369,133 +371,138 @@ const Availables = () => {
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
-        {Array.from(availableStructures.entries())
-          .filter(([key, value]) => value.availableRanges.length)
-          .sort((a, b) => {
-            if (
-              a[1].location.color === "red" &&
-              b[1].location.color !== "red"
-            ) {
-              return -1;
-            } else if (
-              a[1].location.color !== "red" &&
-              b[1].location.color === "red"
-            ) {
-              return 1;
-            }
-            return a[1].location.path.localeCompare(b[1].location.path);
-          })
-          .map(([key, value]) => {
-            if (
-              selectedPaths.length === 0 ||
-              selectedPaths.includes(value.location.path.trim())
-            ) {
-              return (
-                <div
-                  key={key}
-                  className="flex flex-col max-w-full w-full text-lg bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25 rounded-md p-2 gap-2 hover:scale-105 transition-all cursor-pointer"
-                >
-                  <div className="flex flex-col">
-                    <div className="flex justify-between items-center gap-3 px-1">
-                      <p className="text-xl font-bold">{key}</p>
-                      <p className="text-sm md:text-lg">
-                        {value.location.path}
-                      </p>
-                      <div className="relative flex justify-center items-center">
-                        <div className="group">
-                          <p className="text-xl font-bold bg-orange-300 text-black py-1 px-3 rounded-md cursor-pointer transition-transform transform group-hover:scale-90 hover:bg-orange-200 hover:text-gray-500">
-                            آدرس
-                          </p>
-                          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col items-center">
-                            <div className="relative w-64 z-10 p-2 text-sm leading-none text-white dark:text-black bg-gray-600 dark:bg-gray-200 shadow-lg rounded-md">
-                              {value.location.address}
+      {!isPDF ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6 my-6 mx-3">
+          {Array.from(availableStructures.entries())
+            .filter(([key, value]) => value.availableRanges.length)
+            .sort((a, b) => {
+              if (
+                a[1].location.color === "red" &&
+                b[1].location.color !== "red"
+              ) {
+                return -1;
+              } else if (
+                a[1].location.color !== "red" &&
+                b[1].location.color === "red"
+              ) {
+                return 1;
+              }
+              return a[1].location.path.localeCompare(b[1].location.path);
+            })
+            .map(([key, value]) => {
+              if (
+                selectedPaths.length === 0 ||
+                selectedPaths.includes(value.location.path.trim())
+              ) {
+                return (
+                  <div
+                    key={key}
+                    className="flex flex-col max-w-full w-full text-lg bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25 rounded-md p-2 gap-2 hover:scale-105 transition-all cursor-pointer"
+                  >
+                    <div className="flex flex-col">
+                      <div className="flex justify-between items-center gap-3 px-1">
+                        <p className="text-xl font-bold">{key}</p>
+                        <p className="text-sm md:text-lg">
+                          {value.location.path}
+                        </p>
+                        <div className="relative flex justify-center items-center">
+                          <div className="group">
+                            <p className="text-xl font-bold bg-orange-300 text-black py-1 px-3 rounded-md cursor-pointer transition-transform transform group-hover:scale-90 hover:bg-orange-200 hover:text-gray-500">
+                              آدرس
+                            </p>
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 hidden group-hover:flex flex-col items-center">
+                              <div className="relative w-64 z-10 p-2 text-sm leading-none text-white dark:text-black bg-gray-600 dark:bg-gray-200 shadow-lg rounded-md">
+                                {value.location.address}
+                              </div>
+                              <div className="w-3 h-3 -mt-2 rotate-45 bg-gray-800"></div>
                             </div>
-                            <div className="w-3 h-3 -mt-2 rotate-45 bg-gray-800"></div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div
-                    className={`flex flex-col justify-center max-w-full w-full text-lg ${
-                      value.location.color === "red"
-                        ? "bg-purple-300"
-                        : "bg-gray-400"
-                    } ${
-                      value.location.color === "red"
-                        ? "dark:bg-purple-300"
-                        : "dark:bg-white"
-                    } dark:bg-opacity-25 bg-opacity-25`}
-                  >
-                    {value.availableRanges.map(
-                      (dateRange: Range, index: number, ref: any) => (
-                        <div
-                          key={index}
-                          className="flex justify-between gap-4 p-2"
-                        >
-                          <Badge index={index} />
-                          {index === 0 ? (
-                            <>
-                              <p>از</p>
-                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                {moment.unix(dateRange.startDate).jDate() !== 1
-                                  ? moment
-                                      .unix(dateRange.startDate)
-                                      .add(1, "d")
-                                      .format("jYYYY-jMM-jDD")
-                                  : moment
-                                      .unix(dateRange.startDate)
-                                      .format("jYYYY-jMM-jDD")}
-                              </p>
-                              <p>تا</p>
-                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                {moment.unix(dateRange.endDate).jDate() ===
-                                moment.unix(dateRange.endDate).jDaysInMonth()
-                                  ? moment
-                                      .unix(dateRange.endDate)
-                                      .format("jYYYY-jMM-jDD")
-                                  : moment
+                    <div
+                      className={`flex flex-col justify-center max-w-full w-full text-lg ${
+                        value.location.color === "red"
+                          ? "bg-purple-300"
+                          : "bg-gray-400"
+                      } ${
+                        value.location.color === "red"
+                          ? "dark:bg-purple-300"
+                          : "dark:bg-white"
+                      } dark:bg-opacity-25 bg-opacity-25`}
+                    >
+                      {value.availableRanges.map(
+                        (dateRange: Range, index: number, ref: any) => (
+                          <div
+                            key={index}
+                            className="flex justify-between gap-4 p-2"
+                          >
+                            <Badge index={index} />
+                            {index === 0 ? (
+                              <>
+                                <p>از</p>
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment.unix(dateRange.startDate).jDate() !==
+                                  1
+                                    ? moment
+                                        .unix(dateRange.startDate)
+                                        .add(1, "d")
+                                        .format("jYYYY-jMM-jDD")
+                                    : moment
+                                        .unix(dateRange.startDate)
+                                        .format("jYYYY-jMM-jDD")}
+                                </p>
+                                <p>تا</p>
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment.unix(dateRange.endDate).jDate() ===
+                                  moment.unix(dateRange.endDate).jDaysInMonth()
+                                    ? moment
+                                        .unix(dateRange.endDate)
+                                        .format("jYYYY-jMM-jDD")
+                                    : moment
+                                        .unix(dateRange.endDate)
+                                        .subtract(1, "d")
+                                        .format("jYYYY-jMM-jDD")}
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <p>از</p>
+                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                  {moment
+                                    .unix(dateRange.startDate)
+                                    .add(1, "d")
+                                    .format("jYYYY-jMM-jDD")}
+                                </p>
+                                <p>تا</p>
+                                {index !== ref.length - 1 ? (
+                                  <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                    {moment
                                       .unix(dateRange.endDate)
                                       .subtract(1, "d")
                                       .format("jYYYY-jMM-jDD")}
-                              </p>
-                            </>
-                          ) : (
-                            <>
-                              <p>از</p>
-                              <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                {moment
-                                  .unix(dateRange.startDate)
-                                  .add(1, "d")
-                                  .format("jYYYY-jMM-jDD")}
-                              </p>
-                              <p>تا</p>
-                              {index !== ref.length - 1 ? (
-                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                  {moment
-                                    .unix(dateRange.endDate)
-                                    .subtract(1, "d")
-                                    .format("jYYYY-jMM-jDD")}
-                                </p>
-                              ) : (
-                                <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
-                                  {moment
-                                    .unix(dateRange.endDate)
-                                    .format("jYYYY-jMM-jDD")}
-                                </p>
-                              )}
-                            </>
-                          )}
-                        </div>
-                      )
-                    )}
+                                  </p>
+                                ) : (
+                                  <p className="text-2xl text-purple-900 dark:text-purple-200 text-gray-700">
+                                    {moment
+                                      .unix(dateRange.endDate)
+                                      .format("jYYYY-jMM-jDD")}
+                                  </p>
+                                )}
+                              </>
+                            )}
+                          </div>
+                        )
+                      )}
+                    </div>
                   </div>
-                </div>
-              );
-            }
-          })}
-      </div>
+                );
+              }
+            })}
+        </div>
+      ) : (
+        <AvailablesReport availableStructures={availableReportStructure} />
+      )}
     </div>
   );
 };
