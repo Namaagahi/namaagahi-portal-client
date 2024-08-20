@@ -39,22 +39,16 @@ const CalculatedDiscount = (props: Props) => {
   const disAmount =
     !changeInput && isDiscountedInput
       ? page === "edit"
-        ? (
-            100 -
-            (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
-              Number(item.monthlyFee)
-          ).toFixed(2)
-        : (
-            100 -
-            (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
-              selectedStructure?.monthlyBaseFee
-          ).toFixed(2)
-      : changeInput && isDiscountedInput
-      ? (
-          100 -
+        ? 100 -
           (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
-            convertToNumber(selectedMonthlyFee)
-        ).toFixed(2)
+            Number(item.monthlyFee)
+        : 100 -
+          (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
+            selectedStructure?.monthlyBaseFee
+      : changeInput && isDiscountedInput
+      ? 100 -
+        (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
+          convertToNumber(selectedMonthlyFee)
       : 0;
 
   useEffect(() => {
@@ -64,7 +58,7 @@ const CalculatedDiscount = (props: Props) => {
   return (
     <p className="p-4 text-primary dark:text-secondary" id="discount">
       {
-        disAmount
+        disAmount.toFixed(2)
         // :
         // changeInput && !isDiscountedInput
         // ?
