@@ -48,7 +48,7 @@ const RegularPlanBasicInfo = (props: Props) => {
               name={"proposalCode"}
               label={"کد پروپوزال"}
               errors={errors.proposalCode?.message}
-              required={true}
+              required={false}
               message="کد پروپوزال را وارد کنید"
               type={"text"}
               className="formInput"

@@ -113,7 +113,7 @@ const NewPlan = (props: Props) => {
     );
     const newData = {
       ...data,
-      proposalCode: data.proposalCode.toString(),
+      proposalCode: data.proposalCode ? data.proposalCode.toString() : "",
       structures: data.structures.map(
         (structure: StructurePlanObject, index: number) => ({
           ...structure,
