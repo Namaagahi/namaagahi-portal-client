@@ -27,7 +27,7 @@ import { MdAccountCircle } from "react-icons/md";
 const Users = () => {
   usePageTitle("کاربران");
 
-  const { isAdmin, isMaster } = useAuth();
+  const { isMaster } = useAuth();
 
   const { isLoading, isError } = useGetUsersQuery(undefined, {
     refetchOnFocus: false,
@@ -113,7 +113,7 @@ const Users = () => {
             id: "وضعیت",
             cell: (info) => {
               const active = info.getValue();
-              if (isAdmin || isMaster) {
+              if (isMaster) {
                 if (active) {
                   return (
                     <Status
@@ -144,7 +144,7 @@ const Users = () => {
               const row = info.row.original;
               return (
                 <>
-                  {isAdmin || isMaster ? (
+                  {isMaster ? (
                     <p
                       className="px-6 flex items-center justify-center gap-5"
                       onClick={() => setUserId(row.id)}
@@ -188,13 +188,13 @@ const Users = () => {
       </div>
     );
 
-  if (isAdmin || isMaster) {
+  if (isMaster) {
     return (
       <>
         <PageTitle name={"کاربران"} />
         <div className="flex items-center justify-between gap-3">
           <SearchContainer />
-          {(isAdmin || isMaster) && (
+          {isMaster && (
             <Button onClickHandler={handleNewUserModal} title="کاربر جدید" />
           )}
         </div>
