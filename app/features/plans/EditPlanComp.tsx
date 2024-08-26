@@ -116,6 +116,7 @@ const EditPlanComp = (props: Props) => {
   const onSubmit = async (data: any) => {
     const newData = {
       ...data,
+      proposalCode: data.proposalCode ? data.proposalCode.toString() : "",
       structures: data.structures.map(
         (structure: StructurePlanObject, index: number) => ({
           ...structure,
@@ -130,7 +131,6 @@ const EditPlanComp = (props: Props) => {
         })
       ),
     };
-
     const abc = await updatePlan({
       id: plan?.id,
       planId: plan?.planId,
@@ -141,6 +141,7 @@ const EditPlanComp = (props: Props) => {
       username: plan.username,
       initialCustomerId: newData.initialCustomerId,
       brand: newData.brand,
+      proposalCode: newData.proposalCode,
       userDefinedMonthlyFeeWithDiscount: !discountFlags[0],
       status: "suggested",
       structures: newData.structures,

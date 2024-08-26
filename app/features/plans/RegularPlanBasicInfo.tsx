@@ -4,6 +4,7 @@ import {
   AddPlanForm,
   EditPlanForm,
   InitialCustomerObject,
+  PlanObject,
 } from "@/app/lib/interfaces";
 import { Control, FieldErrors } from "react-hook-form";
 
@@ -11,11 +12,12 @@ type Props = {
   control: Control<EditPlanForm, any> | Control<AddPlanForm, any>;
   allInitialCustomers: InitialCustomerObject[];
   errors: FieldErrors<EditPlanForm>;
-  page: string;
+  page?: string;
+  plan?: PlanObject;
 };
 
 const RegularPlanBasicInfo = (props: Props) => {
-  const { control, allInitialCustomers, errors, page } = props;
+  const { control, allInitialCustomers, errors, plan } = props;
 
   return (
     <div className="formContainer">
@@ -42,18 +44,17 @@ const RegularPlanBasicInfo = (props: Props) => {
             type={"text"}
             className="formInput"
           />
-          {page !== "edit" && (
-            <CustomInput
-              control={control}
-              name={"proposalCode"}
-              label={"کد پروپوزال"}
-              errors={errors.proposalCode?.message}
-              required={false}
-              message="کد پروپوزال را وارد کنید"
-              type={"text"}
-              className="formInput"
-            />
-          )}
+          <CustomInput
+            control={control}
+            defaultValue={plan?.proposalCode}
+            name={"proposalCode"}
+            label={"کد پروپوزال"}
+            errors={errors.proposalCode?.message}
+            required={true}
+            message="کد پروپوزال را وارد کنید"
+            type={"text"}
+            className="formInput"
+          />
         </div>
       </div>
     </div>

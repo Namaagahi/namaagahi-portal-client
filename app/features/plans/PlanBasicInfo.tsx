@@ -40,6 +40,7 @@ const PlanBasicInfo = (props: Props) => {
       control={control}
       allInitialCustomers={allInitialCustomers}
       errors={errors}
+      plan={plan}
     />
   ) : (
     <PackagePlanBasicInfo
