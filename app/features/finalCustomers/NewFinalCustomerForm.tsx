@@ -198,7 +198,7 @@ const NewFinalCustomerForm = (props: Props) => {
               message={customInput.message}
               errors={customInput.errors && customInput.errors}
               colSpan={customInput.colSpan}
-              className="formInput text-black"
+              className="p-4 rounded-[50px] bg-blue-100 outline-none text-black"
             />
           ))}
           <p className="text-red-500">{errMsg ? errMsg : " "}</p>
