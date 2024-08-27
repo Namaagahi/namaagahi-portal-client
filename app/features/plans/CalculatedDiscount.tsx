@@ -39,9 +39,13 @@ const CalculatedDiscount = (props: Props) => {
   const disAmount =
     !changeInput && isDiscountedInput
       ? page === "edit"
-        ? 100 -
-          (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
-            Number(item.monthlyFee)
+        ? Number(item.monthlyFee) === selectedMonthlyFee
+          ? 100 -
+            (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
+              Number(item.monthlyFee)
+          : 100 -
+            (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
+              Number(selectedStructure?.monthlyBaseFee)
         : 100 -
           (convertToNumber(selectedDiscountedMonthlyFee) * 100) /
             selectedStructure?.monthlyBaseFee

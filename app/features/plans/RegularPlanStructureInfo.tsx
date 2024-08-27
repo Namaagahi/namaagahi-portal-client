@@ -194,13 +194,6 @@ const RegularPlanStructureInfo = (props: Props) => {
           (str) => str.structureId === selectedStructureId
         );
 
-        {
-          page === "edit" &&
-            useEffect(() => {
-              setDiscountType(fieldIndex, item.discountType);
-            }, []);
-        }
-
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
             setValue(`structures.${fieldIndex}.duration.sellStart`, value.unix);

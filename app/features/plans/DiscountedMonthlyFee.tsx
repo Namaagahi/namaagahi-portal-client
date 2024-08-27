@@ -52,10 +52,18 @@ const DiscountedMonthlyFee = (props: Props) => {
             convertToNumber(selectedDiscount)) /
             100
         : selectedStructure && !changeInput && discountType === "number"
-        ? Number(item.monthlyFee) - convertToNumber(selectedDiscount)
+        ? item.monthlyFee
+          ? Number(item.monthlyFee) - convertToNumber(selectedDiscount)
+          : Number(selectedStructure?.monthlyBaseFee) -
+            convertToNumber(selectedDiscount)
         : !changeInput && discountType === "percentage"
-        ? Number(item.monthlyFee) -
-          (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100
+        ? Number(item.monthlyFee) === selectedMonthlyFee
+          ? Number(item.monthlyFee) -
+            (Number(item.monthlyFee) * convertToNumber(selectedDiscount)) / 100
+          : Number(selectedStructure?.monthlyBaseFee) -
+            (Number(selectedStructure?.monthlyBaseFee) *
+              convertToNumber(selectedDiscount)) /
+              100
         : changeInput && discountType === "number"
         ? convertToNumber(selectedMonthlyFee) -
           convertToNumber(selectedDiscount)

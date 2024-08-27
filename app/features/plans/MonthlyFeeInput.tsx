@@ -56,10 +56,15 @@ const MonthlyFeeInput = (props: Props) => {
       if (!changeInput) {
         setTimeout(
           () =>
-            setValue(
-              `structures.${fieldIndex}.monthlyFee`,
-              String(item?.monthlyFee)
-            ),
+            item?.monthlyFee
+              ? setValue(
+                  `structures.${fieldIndex}.monthlyFee`,
+                  String(item?.monthlyFee)
+                )
+              : setValue(
+                  `structures.${fieldIndex}.monthlyFee`,
+                  String(selectedStructure?.monthlyBaseFee)
+                ),
           1000
         );
       }
@@ -114,12 +119,14 @@ const MonthlyFeeInput = (props: Props) => {
                 ? formatNumber(Number(item?.monthlyFee), ",")
                 : "تعرفه های ماهیانه این پلن ویرایش شده اند!"}
             </p>
+          ) : page !== "edit" ? (
+            <p className="p-4 text-primary dark:text-secondary">
+              {formatNumber(selectedStructure?.monthlyBaseFee, ",")}
+            </p>
           ) : (
-            page !== "edit" && (
-              <p className="p-4 text-primary dark:text-secondary">
-                {formatNumber(selectedStructure?.monthlyBaseFee, ",")}
-              </p>
-            )
+            <p className="p-4 text-primary dark:text-secondary">
+              {formatNumber(selectedStructure?.monthlyBaseFee, ",")}
+            </p>
           )}
         </>
       ) : (
