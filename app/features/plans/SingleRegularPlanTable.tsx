@@ -115,8 +115,8 @@ const SingleRegularPlanTable = (props: any) => {
                       data?.reduce(
                         (total: any, item: any) => total + item.totalPeriodCost,
                         0
-                      ) / 1000
-                    ) * 1000,
+                      )
+                    ),
                     ","
                   )}
                 </div>
