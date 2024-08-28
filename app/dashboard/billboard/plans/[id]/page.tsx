@@ -87,6 +87,7 @@ const SinglePlan = () => {
       status: "pending",
       structures: plan?.structures,
       finalCustomerId: "",
+      proposalCode: plan.proposalCode,
       projectCodeId: null,
       totalPackagePrice: plan.totalPackagePrice,
     });
