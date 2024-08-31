@@ -136,48 +136,7 @@ const RegularPlanStructureInfo = (props: Props) => {
       <small className="pr-3 text-slate-500 inline-block font-bold">
         اطلاعات سازه ها
       </small>
-      <div className="flex justify-between gap-3 items-center w-full">
-        {/* <div className="flex gap-3 items-center">
-          <input
-            type="checkbox"
-            onChange={() => setChangeInput(!changeInput)}
-          />
-          <p className="dark:text-white">ویرایش تعرفه های ماهیانه</p>
-        </div> */}
-
-        {/* <div className="flex gap-3 items-center">
-          <input
-            type="checkbox"
-            checked={isDiscountedInput}
-            onChange={() => {
-              setIsDiscountedInput(!isDiscountedInput);
-              setDiscountType("percentage");
-            }}
-          />
-          <p className="dark:text-white">ورود تعرفه ماهیانه نهایی</p>
-        </div> */}
-
-        {/* {page !== "edit" && isDiscountedInput && (
-          <div className="flex gap-3 items-center dark:text-white">
-            <FaPercentage
-              className={`${
-                discountType === "percentage"
-                  ? "text-purple-700 scale-180"
-                  : "text-purple-400"
-              } hover:scale-150 transition-all cursor-pointer `}
-              onClick={() => setDiscountType("percentage")}
-            />
-            <FaDollarSign
-              className={`${
-                discountType === "number"
-                  ? "text-purple-700 scale-180"
-                  : "text-purple-400"
-              } hover:scale-150 transition-all cursor-pointer`}
-              onClick={() => setDiscountType("number")}
-            />
-          </div>
-        )} */}
-      </div>
+      <div className="flex justify-between gap-3 items-center w-full"></div>
 
       {field.map((item, fieldIndex) => {
         const selectedStructureId: string = watch(
@@ -261,7 +220,9 @@ const RegularPlanStructureInfo = (props: Props) => {
                     id="strChoose"
                     className="bg-black p-[4.5px] text-white rounded-md hover:text-black hover:bg-white transition-colors"
                   >
-                    {thisStructures[fieldIndex] || "انتخاب سازه"}
+                    {thisStructures[fieldIndex] ||
+                      selectedStructure?.name ||
+                      "انتخاب سازه"}
                   </button>
                   {isStructureChoose[fieldIndex] && (
                     <ChooseStructureModal
