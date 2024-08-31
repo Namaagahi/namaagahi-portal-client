@@ -308,7 +308,11 @@ const PlanPdfDoc = (props: Props) => {
               }}
             >
               <Image
-                src={`/images/1008.JPG`}
+                src={`${
+                  strucuture.structureRecord.name.startsWith("B")
+                    ? `/images/${strucuture.structureRecord.name}.jpg`
+                    : `/images/${strucuture.structureRecord.name.slice(1)}.jpg`
+                }`}
                 style={{
                   position: "absolute",
                   width: "100%",
