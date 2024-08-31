@@ -68,6 +68,41 @@ const NewAsset = (props: Props) => {
 
   const onSaveStructureClick = async (e: any) => {
     e.preventDefault();
+    if (!name) {
+      handleModal();
+      toast.error("مسئول دارایی باید ثبت شود");
+      return;
+    }
+    if (!code) {
+      handleModal();
+      toast.error("کد پرسنلی باید ثبت شود");
+      return;
+    }
+    if (!department) {
+      handleModal();
+      toast.error(" ساختمان باید ثبت شود");
+      return;
+    }
+    if (!unit) {
+      handleModal();
+      toast.error(" واحد باید ثبت شود");
+      return;
+    }
+    if (!assetName) {
+      handleModal();
+      toast.error(" شرح دارایی باید ثبت شود");
+      return;
+    }
+    if (!serial) {
+      handleModal();
+      toast.error(" سریال باید ثبت شود");
+      return;
+    }
+    if (!assetCode) {
+      handleModal();
+      toast.error("کد اموال باید ثبت شود");
+      return;
+    }
     await addNewAsset({
       userId: id,
       personel: { name, code },
