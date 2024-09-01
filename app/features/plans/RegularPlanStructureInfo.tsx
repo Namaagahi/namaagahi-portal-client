@@ -186,7 +186,6 @@ const RegularPlanStructureInfo = (props: Props) => {
             );
           }
         };
-
         return (
           <>
             {selectedStructure && showStructureInfo && (
@@ -215,14 +214,13 @@ const RegularPlanStructureInfo = (props: Props) => {
                     type="button"
                     onClick={() => {
                       handleModalToggle(fieldIndex);
-                      setDiscountType(fieldIndex, "percentage");
+                      if (page !== "edit")
+                        setDiscountType(fieldIndex, "percentage");
                     }}
                     id="strChoose"
                     className="bg-black p-[4.5px] text-white rounded-md hover:text-black hover:bg-white transition-colors"
                   >
-                    {thisStructures[fieldIndex] ||
-                      selectedStructure?.name ||
-                      "انتخاب سازه"}
+                    {thisStructures[fieldIndex] || "انتخاب سازه"}
                   </button>
                   {isStructureChoose[fieldIndex] && (
                     <ChooseStructureModal
