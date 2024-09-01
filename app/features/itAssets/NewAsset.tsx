@@ -240,7 +240,10 @@ const NewAsset = (props: Props) => {
                 />
               </div>
               <div className="flex items-center gap-4 justify-between w-full">
-                <label htmlFor="describtion">توضیحات</label>
+                <label htmlFor="describtion">
+                  <span className="m-1">توضیحات</span>{" "}
+                  <span className="italic text-sm"> ( اختیاری )</span>
+                </label>
 
                 <input
                   id="describtion"
