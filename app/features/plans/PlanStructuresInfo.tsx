@@ -167,7 +167,7 @@ const PlanStructuresInfo = (props: Props) => {
   }
 
   useEffect(() => {
-    if (formVals) {
+    if (formVals && allStructures.length > 0) {
       const updatedStructures = formVals.map((item: BoxStructure) => {
         const structure = allStructures.find(
           (str) => str.id === item.structureId
@@ -176,7 +176,7 @@ const PlanStructuresInfo = (props: Props) => {
       });
       setThisStructures(updatedStructures);
     }
-  }, [formVals]);
+  }, [formVals, allStructures]);
 
   if ((page === "edit" && !plan) || !boxStructures[0] || !inBoxStructures[0])
     return <Loading />;
