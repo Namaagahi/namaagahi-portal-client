@@ -21,23 +21,24 @@ const PlanPdfDoc = (props: Props) => {
   const { plan, customer } = props;
 
   Font.register({
-    family: "sahel",
+    family: "Anjoman",
     fonts: [
       {
-        src: "/fonts/Sahel-FD.ttf",
+        src: "/fonts/AnjomanFaNum-Medium.ttf",
         fontWeight: 400,
+        color: "white",
       },
     ],
   });
 
   const columnsHeader = [
-    { content: "جمع دوره", width: "8%" },
+    { content: "جمع دوره", width: "10%" },
     { content: "پس از تخفیف", width: "8%" },
     // { content: 'تخفیف', width: "7%" },
     { content: "تعرفه ماهیانه", width: "8%" },
     { content: "اکران", width: "4%" },
-    { content: "تاریخ پایان", width: "8%" },
-    { content: "تاریخ شروع", width: "8%" },
+    { content: "تاریخ پایان", width: "7%" },
+    { content: "تاریخ شروع", width: "7%" },
     { content: "مساحت", width: "4%" },
     { content: "نوع سازه", width: "7%" },
     { content: "نشانی", width: "30%" },
@@ -45,25 +46,29 @@ const PlanPdfDoc = (props: Props) => {
     { content: "سامانه", width: "5%" },
     { content: "ردیف", width: "2%" },
   ];
+  const fontColor = "white";
 
   const styles = StyleSheet.create({
     body: {
       padding: 35,
-      fontFamily: "sahel",
+      fontFamily: "Anjoman",
     },
     title: {
       fontSize: 24,
       textAlign: "center",
+      color: fontColor,
     },
     subtitle: {
       fontSize: 14,
       margin: 12,
       textAlign: "center",
+      color: fontColor,
     },
     smallText: {
       fontSize: 12,
       textAlign: "center",
       marginBottom: 10,
+      color: fontColor,
     },
     headerContainer: {
       display: "flex",
@@ -75,18 +80,20 @@ const PlanPdfDoc = (props: Props) => {
     subHeaderContainer: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "flex-start",
+      justifyContent: "flex-end",
       alignItems: "center",
       gap: "20px",
       width: "100%",
+      padding: 10,
     },
     text: {
       margin: 12,
       fontSize: 14,
+      color: fontColor,
     },
     image: {
-      width: "50px",
-      height: "50px",
+      width: "110px",
+      height: "40px",
     },
     header: {
       fontSize: 12,
@@ -106,6 +113,8 @@ const PlanPdfDoc = (props: Props) => {
     table: {
       width: "auto",
       borderStyle: "solid",
+      borderColor: fontColor,
+      backgroundColor: fontColor,
       borderWidth: 1,
       borderRightWidth: 0,
       borderBottomWidth: 0,
@@ -125,174 +134,252 @@ const PlanPdfDoc = (props: Props) => {
     tableCell: {
       margin: "auto",
       marginTop: 5,
-      fontSize: 7,
+      fontSize: 10,
+    },
+    backImage: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      zIndex: -1,
     },
   });
 
   if (!plan || !customer) return <Loading />;
 
+  // Function to split array into chunks
+  const chunkArray = (arr: any[], size: number) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  };
+
+  // Split structures into chunks of 24 rows per chunk
+  const chunkedStructures = chunkArray(plan.structures, 24);
+
+  const formatAddress = (address: any) => {
+    // Replace English parentheses with Persian ones
+    let persianAddress = address.replace(/[()]/g, (match: any) =>
+      match === "(" ? ")" : "("
+    );
+
+    persianAddress = persianAddress.replace(/\d+/g, (digitSequence: any) =>
+      digitSequence.split("").reverse().join("")
+    );
+
+    // Wrap the address in RLM for RTL direction
+    return persianAddress;
+  };
+
   return (
     <Document>
       <Page
         size={{ width: 720, height: 1280 }}
-        style={styles.body}
+        style={[styles.body, { padding: 0 }]}
         orientation="landscape"
       >
-        <View style={styles.headerContainer}>
-          <Text style={styles.subtitle}>
-            {moment(Date.now()).format("jYYYY/jM/jD")}تاریخ :
-          </Text>
+        <Image src="/images/OHH.png" style={styles.backImage} />
+      </Page>
+      <Page
+        size={{ width: 720, height: 1280 }}
+        style={[styles.body, { padding: 0 }]}
+        orientation="landscape"
+      >
+        <Image src="/images/Billboard.png" style={styles.backImage} />
+      </Page>
+      <Page
+        size={{ width: 720, height: 1280 }}
+        style={[styles.body, { padding: 0 }]}
+        orientation="landscape"
+      >
+        <Image src="/images/about.png" style={styles.backImage} />
+      </Page>
+      {chunkedStructures.map((chunk, chunkIndex) => (
+        <Page
+          key={chunkIndex}
+          size={{ width: 720, height: 1280 }}
+          style={[styles.body, { padding: 0 }]}
+          orientation="landscape"
+        >
+          <View
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "100%",
+            }}
+          >
+            <Image src="/images/Back-Black.png" style={styles.backImage} />
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                right: 0,
+                paddingHorizontal: 55,
+                paddingVertical: 40,
+              }}
+            >
+              <View style={styles.headerContainer}>
+                <Image src="/images/logo-En-V1.png" style={styles.image} />
+                <Text style={styles.subtitle}>
+                  {moment(Date.now()).format("jYYYY/jM/jD")}تاریخ :
+                </Text>
+              </View>
 
-          <Text style={styles.title}>پلن پیشنهادی</Text>
+              <View style={styles.subHeaderContainer}>
+                <Text style={styles.smallText} fixed>
+                  {`نام برند: ${plan.brand} `}
+                </Text>
 
-          <Image src="/images/Logo.png" style={styles.image} />
-        </View>
+                <Text style={styles.smallText} fixed>
+                  {`نام مشتری: ${customer.name} `}
+                </Text>
+              </View>
 
-        {plan && (
-          <>
-            <View style={styles.subHeaderContainer}>
-              <Text style={styles.smallText} fixed>
-                {`نام برند: ${plan.brand} `}
-              </Text>
+              <View style={styles.table}>
+                <View style={styles.tableRow}>
+                  {columnsHeader.map((heading, colIndex) => (
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: heading.width,
+                          backgroundColor: "black",
+                          borderColor: fontColor,
+                        },
+                      ]}
+                      key={colIndex}
+                    >
+                      <Text
+                        style={[
+                          styles.tableCell,
+                          { color: fontColor, fontSize: 11 },
+                        ]}
+                      >
+                        {heading.content}
+                      </Text>
+                    </View>
+                  ))}
+                </View>
 
-              <Text style={styles.smallText} fixed>
-                {`نام مشتری: ${customer.name} `}
-              </Text>
-            </View>
+                {chunk.map((structure: any, structureIndex: number) => (
+                  <View style={styles.tableRow} key={structureIndex}>
+                    <View style={[styles.tableCol, { width: "10%" }]}>
+                      <Text style={styles.tableCell}>
+                        {formatNumber(structure.totalPeriodCost, ",")}
+                      </Text>
+                    </View>
 
-            <View style={styles.table}>
-              <View style={styles.tableRow}>
-                {columnsHeader.map((heading, colIndex) => (
-                  <View
-                    style={[styles.tableCol, { width: heading.width }]}
-                    key={colIndex}
-                  >
-                    <Text style={styles.tableCell}>{heading.content}</Text>
+                    <View style={[styles.tableCol, { width: "8%" }]}>
+                      <Text style={styles.tableCell}>
+                        {formatNumber(structure.monthlyFeeWithDiscount, ",")}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "8%" }]}>
+                      <Text style={styles.tableCell}>
+                        {formatNumber(structure.monthlyFee, ",")}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "4%" }]}>
+                      <Text style={styles.tableCell}>
+                        {structure.duration.diff}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "7%" }]}>
+                      <Text style={styles.tableCell}>
+                        {moment
+                          .unix(structure.duration.sellEnd)
+                          .format("jYYYY-jMM-jDD")}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "7%" }]}>
+                      <Text style={styles.tableCell}>
+                        {moment
+                          .unix(structure.duration.sellStart)
+                          .format("jYYYY-jMM-jDD")}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "4%" }]}>
+                      <Text style={styles.tableCell}>
+                        {structure.structureRecord.marks.markOptions.docSize}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "7%" }]}>
+                      <Text style={styles.tableCell}>
+                        {structure.structureRecord.marks.name}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "30%" }]}>
+                      <Text style={styles.tableCell}>
+                        {formatAddress(
+                          structure.structureRecord.location.address
+                        )}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "8%" }]}>
+                      <Text style={styles.tableCell}>
+                        {structure.structureRecord.location.path}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "5%" }]}>
+                      <Text style={styles.tableCell}>
+                        {structure.structureRecord.name}
+                      </Text>
+                    </View>
+
+                    <View style={[styles.tableCol, { width: "2%" }]}>
+                      <Text style={styles.tableCell}>
+                        {chunkIndex * 24 + structureIndex + 1}
+                      </Text>
+                    </View>
                   </View>
                 ))}
-              </View>
 
-              {plan.structures.map(
-                (strucuture: any, structureIndex: number) => {
-                  return (
-                    <View style={styles.tableRow} key={structureIndex}>
-                      <View style={[styles.tableCol, { width: "8%" }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.totalPeriodCost, ",")}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "8%" }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFeeWithDiscount, ",")}
-                        </Text>
-                      </View>
-                      {/*
-                    <View style={[styles.tableCol, { width: '7%' }]}>
+                {/* Footer row for totals */}
+                {chunkIndex === chunkedStructures.length - 1 && (
+                  <View style={styles.tableRow}>
+                    <View style={[styles.tableCol, { width: "10%" }]}>
                       <Text style={styles.tableCell}>
-                        {`${strucuture.discountType === 'percentage'? "درصد" : "ریال"} `}
-                        {` ${Number(strucuture.discountFee).toFixed(0)}`}
+                        {formatNumber(
+                          plan.structures.reduce(
+                            (sum: number, structure: any) =>
+                              sum + structure.totalPeriodCost,
+                            0
+                          ),
+                          ","
+                        )}
                       </Text>
-                    </View> */}
-
-                      <View style={[styles.tableCol, { width: "8%" }]}>
-                        <Text style={styles.tableCell}>
-                          {formatNumber(strucuture.monthlyFee, ",")}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "4%" }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.duration.diff}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "8%" }]}>
-                        <Text style={styles.tableCell}>
-                          {moment
-                            .unix(strucuture.duration.sellEnd)
-                            .format("jYYYY-jMM-jDD")}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "8%" }]}>
-                        <Text style={styles.tableCell}>
-                          {moment
-                            .unix(strucuture.duration.sellStart)
-                            .format("jYYYY-jMM-jDD")}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "4%" }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.marks.markOptions.docSize}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "7%" }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.marks.name}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "30%" }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.location.address}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "8%" }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.location.path}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "5%" }]}>
-                        <Text style={styles.tableCell}>
-                          {strucuture.structureRecord.name}
-                        </Text>
-                      </View>
-
-                      <View style={[styles.tableCol, { width: "2%" }]}>
-                        <Text style={styles.tableCell}>
-                          {structureIndex + 1}
-                        </Text>
-                      </View>
                     </View>
-                  );
-                }
-              )}
 
-              <View style={styles.tableRow}>
-                <View style={[styles.tableCol, { width: "8%" }]}>
-                  <Text style={styles.tableCell}>
-                    {formatNumber(
-                      plan.structures.reduce(
-                        (sum: number, structure: any) =>
-                          sum + structure.totalPeriodCost,
-                        0
-                      ),
-                      ","
-                    )}
-                  </Text>
-                </View>
-
-                <View style={[styles.tableCol, { width: "92%" }]}>
-                  <Text style={styles.tableCell}>جمع</Text>
-                </View>
+                    <View style={[styles.tableCol, { width: "92%" }]}>
+                      <Text style={styles.tableCell}>جمع</Text>
+                    </View>
+                  </View>
+                )}
               </View>
             </View>
-          </>
-        )}
+          </View>
 
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
+          <Text
+            style={styles.pageNumber}
+            render={({ pageNumber, totalPages }) =>
+              `${pageNumber} / ${totalPages}`
+            }
+            fixed
+          />
+        </Page>
+      ))}
       <Page
         size={{ width: 720, height: 1280 }}
         style={{ padding: 0 }}
@@ -313,14 +400,7 @@ const PlanPdfDoc = (props: Props) => {
                     ? strucuture.structureRecord.name
                     : strucuture.structureRecord.name.slice(1)
                 }.png`}
-                style={{
-                  position: "absolute",
-                  width: "100%",
-                  height: "100%",
-                  top: 0,
-                  left: 0,
-                  zIndex: -1,
-                }}
+                style={styles.backImage}
               />
               <View
                 style={{
@@ -340,62 +420,6 @@ const PlanPdfDoc = (props: Props) => {
                 </Text>
               </View>
             </View>
-            // <View
-            //   style={{
-            //     display: "flex",
-            //     flexDirection: "row",
-            //     width: "100%",
-            //     height: "100%",
-            //   }}
-            // >
-            //   <View
-            //     style={{
-            //       width: "100%",
-            //       height: "100%",
-            //       padding: 0,
-            //       margin: 0,
-            //     }}
-            //   >
-            // <Image
-            //   src={`/images/${strucuture.structureRecord.name.slice(1)}.jpg`}
-            //   style={{
-            //     width: "88%",
-            //     height: "80%",
-            //     marginVertical: "auto",
-            //   }}
-            // />
-            /* </View>
-              <View
-                style={{
-                  height: "80%",
-                  width: "12%",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  alignContent: "flex-end",
-                  marginVertical: "auto",
-                  marginHorizontal: 0,
-                  padding: 0,
-                }}
-              >
-                <View>
-                  <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                    {strucuture.structureRecord.location.path}
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                    }}
-                  >
-                    {strucuture.structureRecord.location.address}
-                  </Text>
-                </View>
-                <View>
-                  <Text>{strucuture.structureRecord.location.path}</Text>
-                  <Text>{strucuture.structureRecord.location.path}</Text>
-                </View>
-              </View>
-            </View> */
           );
         })}
         <Text
@@ -405,6 +429,29 @@ const PlanPdfDoc = (props: Props) => {
           }
           fixed
         />
+      </Page>
+      <Page
+        size={{ width: 720, height: 1280 }}
+        style={[styles.body, { padding: 0 }]}
+        orientation="landscape"
+      >
+        <Image src="/images/contact.png" style={styles.backImage} />
+      </Page>
+      <Page
+        size={{ width: 720, height: 1280 }}
+        style={[styles.body, { padding: 0 }]}
+        orientation="landscape"
+      >
+        <View
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Image src="/images/Back-Black.png" style={styles.backImage} />
+          <Image src="/images/last-page.png" />
+        </View>
       </Page>
     </Document>
   );
