@@ -31,6 +31,17 @@ const PlanPdfDoc = (props: Props) => {
     ],
   });
 
+  Font.register({
+    family: "Arial",
+    fonts: [
+      {
+        src: "/fonts/arialbd_0.ttf",
+        fontWeight: 500,
+        color: "white",
+      },
+    ],
+  });
+
   const columnsHeader = [
     { content: "جمع دوره", width: "10%" },
     { content: "پس از تخفیف", width: "8%" },
@@ -40,11 +51,11 @@ const PlanPdfDoc = (props: Props) => {
     { content: "تاریخ پایان", width: "7%" },
     { content: "تاریخ شروع", width: "7%" },
     { content: "مساحت", width: "4%" },
-    { content: "نوع سازه", width: "7%" },
-    { content: "نشانی", width: "30%" },
-    { content: "مسیر", width: "8%" },
+    { content: "نوع سازه", width: "6%" },
+    { content: "نشانی", width: "32%" },
+    { content: "مسیر", width: "6%" },
     { content: "سامانه", width: "5%" },
-    { content: "ردیف", width: "2%" },
+    { content: "ردیف", width: "3%" },
   ];
   const fontColor = "white";
 
@@ -133,7 +144,7 @@ const PlanPdfDoc = (props: Props) => {
     },
     tableCell: {
       margin: "auto",
-      marginTop: 5,
+      padding: 3,
       fontSize: 10,
     },
     backImage: {
@@ -312,13 +323,13 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "7%" }]}>
+                    <View style={[styles.tableCol, { width: "6%" }]}>
                       <Text style={styles.tableCell}>
                         {structure.structureRecord.marks.name}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "30%" }]}>
+                    <View style={[styles.tableCol, { width: "32%" }]}>
                       <Text style={styles.tableCell}>
                         {formatAddress(
                           structure.structureRecord.location.address
@@ -326,9 +337,9 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "8%" }]}>
+                    <View style={[styles.tableCol, { width: "6%" }]}>
                       <Text style={styles.tableCell}>
-                        {structure.structureRecord.location.path}
+                        {formatAddress(structure.structureRecord.location.path)}
                       </Text>
                     </View>
 
@@ -338,7 +349,7 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "2%" }]}>
+                    <View style={[styles.tableCol, { width: "3%" }]}>
                       <Text style={styles.tableCell}>
                         {chunkIndex * 24 + structureIndex + 1}
                       </Text>
@@ -405,12 +416,13 @@ const PlanPdfDoc = (props: Props) => {
               <View
                 style={{
                   position: "absolute",
-                  bottom: 130,
-                  right: 42,
+                  bottom: 127,
+                  right: 44,
                 }}
               >
                 <Text
                   style={{
+                    fontFamily: "Arial",
                     color: "white",
                     fontSize: 20,
                     fontWeight: "bold",
