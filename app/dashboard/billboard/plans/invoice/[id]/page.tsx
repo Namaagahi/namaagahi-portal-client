@@ -14,9 +14,12 @@ import { PDFViewer } from "@react-pdf/renderer";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import usePageTitle from "@/app/hooks/usePageTitle";
+import { useEffect, useState } from "react";
 
 const Invoice = () => {
   usePageTitle("پیش فاکتور پلن");
+  const [totalCheck, setTotalCheck] = useState(false);
+  const [afterDiscount, setAfterDiscount] = useState(false);
 
   const { id } = useParams();
 
@@ -44,8 +47,34 @@ const Invoice = () => {
   if (isLoading || !plan) return <Loading />;
   return (
     <>
+      <div className="flex flex-row justify-evenly align-center my-8 py-6 w-[15%]  border-solid border-2 rounded-xl border-sky-500 bg-slate-100 dark:bg-slate-900">
+        <div className="gap-2 flex align-center">
+          <label htmlFor="totalCheck">جمع دوره</label>
+          <input
+            type="checkbox"
+            id="totalCheck"
+            checked={totalCheck}
+            onClick={() => setTotalCheck(!totalCheck)}
+          />
+        </div>
+        <div className="gap-2 flex align-center">
+          <label htmlFor="afterDiscount"> پس از تخفیف</label>
+          <input
+            type="checkbox"
+            id="afterDiscount"
+            checked={afterDiscount}
+            onClick={() => setAfterDiscount(!afterDiscount)}
+          />
+        </div>
+      </div>
+
       <PDFViewer height={900}>
-        <PlanPdfDoc plan={plan} customer={customer} />
+        <PlanPdfDoc
+          plan={plan}
+          customer={customer}
+          totalCheck={totalCheck}
+          afterDiscount={afterDiscount}
+        />
       </PDFViewer>
     </>
   );

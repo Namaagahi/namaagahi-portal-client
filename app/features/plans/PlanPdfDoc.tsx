@@ -11,14 +11,17 @@ import { InitialCustomerObject, PlanObject } from "@/app/lib/interfaces";
 import { formatNumber } from "@/app/utilities/formatNumber";
 import Loading from "../loading/Loading";
 import moment from "jalali-moment";
+import { useEffect } from "react";
 
 type Props = {
   plan: PlanObject;
   customer: InitialCustomerObject;
+  totalCheck: boolean;
+  afterDiscount: boolean;
 };
 
 const PlanPdfDoc = (props: Props) => {
-  const { plan, customer } = props;
+  const { plan, customer, totalCheck, afterDiscount } = props;
 
   Font.register({
     family: "Anjoman",
@@ -43,19 +46,108 @@ const PlanPdfDoc = (props: Props) => {
   });
 
   const columnsHeader = [
-    { content: "جمع دوره", width: "10%" },
-    { content: "پس از تخفیف", width: "8%" },
-    // { content: 'تخفیف', width: "7%" },
-    { content: "تعرفه ماهیانه", width: "8%" },
-    { content: "اکران", width: "4%" },
-    { content: "تاریخ پایان", width: "7%" },
-    { content: "تاریخ شروع", width: "7%" },
-    { content: "مساحت", width: "4%" },
-    { content: "نوع سازه", width: "6%" },
-    { content: "نشانی", width: "32%" },
-    { content: "مسیر", width: "6%" },
-    { content: "سامانه", width: "5%" },
-    { content: "ردیف", width: "3%" },
+    {
+      content: "جمع دوره",
+      width: `${totalCheck ? "10%" : "0%"}`,
+    },
+    {
+      content: "پس از تخفیف",
+      width: `${afterDiscount ? (totalCheck ? "8%" : "10%") : "0%"}`,
+    },
+    {
+      content: "تعرفه ماهیانه",
+      width: `${
+        totalCheck && afterDiscount
+          ? "8%"
+          : totalCheck || afterDiscount
+          ? "9%"
+          : "10%"
+      }`,
+    },
+    {
+      content: "اکران",
+      width: `${
+        totalCheck && afterDiscount
+          ? "4%"
+          : totalCheck || afterDiscount
+          ? "5%"
+          : "6%"
+      }`,
+    },
+    {
+      content: "تاریخ پایان",
+      width: `${
+        totalCheck && afterDiscount
+          ? "7%"
+          : totalCheck || afterDiscount
+          ? "8%"
+          : "9%"
+      }`,
+    },
+    {
+      content: "تاریخ شروع",
+      width: `${
+        totalCheck && afterDiscount
+          ? "7%"
+          : totalCheck || afterDiscount
+          ? "8%"
+          : "9%"
+      }`,
+    },
+    {
+      content: "مساحت",
+      width: `${
+        totalCheck && afterDiscount
+          ? "4%"
+          : totalCheck || afterDiscount
+          ? "5%"
+          : "6%"
+      }`,
+    },
+    {
+      content: "نوع سازه",
+      width: `${
+        totalCheck && afterDiscount
+          ? "6%"
+          : totalCheck || afterDiscount
+          ? "7%"
+          : "8%"
+      }`,
+    },
+    {
+      content: "نشانی",
+      width: `${
+        totalCheck && afterDiscount
+          ? "32%"
+          : totalCheck || afterDiscount
+          ? "33%"
+          : "34%"
+      }`,
+    },
+    {
+      content: "مسیر",
+      width: `${
+        totalCheck && afterDiscount
+          ? "6%"
+          : totalCheck || afterDiscount
+          ? "7%"
+          : "8%"
+      }`,
+    },
+    {
+      content: "سامانه",
+      width: `${
+        totalCheck && afterDiscount
+          ? "5%"
+          : totalCheck || afterDiscount
+          ? "5%"
+          : "7%"
+      }`,
+    },
+    {
+      content: "ردیف",
+      width: "3%",
+    },
   ];
   const fontColor = "white";
 
@@ -169,7 +261,10 @@ const PlanPdfDoc = (props: Props) => {
   };
 
   // Split structures into chunks of 24 rows per chunk
-  const chunkedStructures = chunkArray(plan.structures, 24);
+  const chunkedStructures = chunkArray(
+    plan.structures,
+    totalCheck && afterDiscount ? 24 : 23
+  );
 
   const formatAddress = (address: any) => {
     // Replace English parentheses with Persian ones
@@ -186,7 +281,7 @@ const PlanPdfDoc = (props: Props) => {
   };
 
   return (
-    <Document>
+    <Document title={`proposal-${plan.planId.toString()}`}>
       <Page
         size={{ width: 720, height: 1280 }}
         style={[styles.body, { padding: 0 }]}
@@ -277,31 +372,90 @@ const PlanPdfDoc = (props: Props) => {
 
                 {chunk.map((structure: any, structureIndex: number) => (
                   <View style={styles.tableRow} key={structureIndex}>
-                    <View style={[styles.tableCol, { width: "10%" }]}>
-                      <Text style={styles.tableCell}>
-                        {formatNumber(structure.totalPeriodCost, ",")}
-                      </Text>
-                    </View>
+                    {totalCheck && (
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${totalCheck ? "10%" : "0%"}`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {formatNumber(structure.totalPeriodCost, ",")}
+                        </Text>
+                      </View>
+                    )}
 
-                    <View style={[styles.tableCol, { width: "8%" }]}>
-                      <Text style={styles.tableCell}>
-                        {formatNumber(structure.monthlyFeeWithDiscount, ",")}
-                      </Text>
-                    </View>
+                    {afterDiscount && (
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${
+                              afterDiscount ? (totalCheck ? "8%" : "10%") : "0%"
+                            }`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {formatNumber(structure.monthlyFeeWithDiscount, ",")}
+                        </Text>
+                      </View>
+                    )}
 
-                    <View style={[styles.tableCol, { width: "8%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "8%"
+                              : totalCheck || afterDiscount
+                              ? "9%"
+                              : "10%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {formatNumber(structure.monthlyFee, ",")}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "4%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "4%"
+                              : totalCheck || afterDiscount
+                              ? "5%"
+                              : "6%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {structure.duration.diff}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "7%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "7%"
+                              : totalCheck || afterDiscount
+                              ? "8%"
+                              : "9%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {moment
                           .unix(structure.duration.sellEnd)
@@ -309,7 +463,20 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "7%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "7%"
+                              : totalCheck || afterDiscount
+                              ? "8%"
+                              : "9%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {moment
                           .unix(structure.duration.sellStart)
@@ -317,19 +484,58 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "4%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "4%"
+                              : totalCheck || afterDiscount
+                              ? "5%"
+                              : "6%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {structure.structureRecord.marks.markOptions.docSize}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "6%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "6%"
+                              : totalCheck || afterDiscount
+                              ? "7%"
+                              : "8%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {structure.structureRecord.marks.name}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "32%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "32%"
+                              : totalCheck || afterDiscount
+                              ? "33%"
+                              : "34%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {formatAddress(
                           structure.structureRecord.location.address
@@ -337,13 +543,39 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "6%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "6%"
+                              : totalCheck || afterDiscount
+                              ? "7%"
+                              : "8%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {formatAddress(structure.structureRecord.location.path)}
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "5%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        {
+                          width: `${
+                            totalCheck && afterDiscount
+                              ? "5%"
+                              : totalCheck || afterDiscount
+                              ? "5%"
+                              : "7%"
+                          }`,
+                        },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {structure.structureRecord.name}
                       </Text>
@@ -351,14 +583,16 @@ const PlanPdfDoc = (props: Props) => {
 
                     <View style={[styles.tableCol, { width: "3%" }]}>
                       <Text style={styles.tableCell}>
-                        {chunkIndex * 24 + structureIndex + 1}
+                        {chunkIndex * (totalCheck && afterDiscount ? 24 : 23) +
+                          structureIndex +
+                          1}
                       </Text>
                     </View>
                   </View>
                 ))}
 
                 {/* Footer row for totals */}
-                {chunkIndex === chunkedStructures.length - 1 && (
+                {totalCheck && chunkIndex === chunkedStructures.length - 1 && (
                   <View style={styles.tableRow}>
                     <View style={[styles.tableCol, { width: "10%" }]}>
                       <Text style={styles.tableCell}>
