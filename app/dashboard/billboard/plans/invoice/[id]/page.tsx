@@ -18,8 +18,19 @@ import { useEffect, useState } from "react";
 
 const Invoice = () => {
   usePageTitle("پیش فاکتور پلن");
-  const [totalCheck, setTotalCheck] = useState(false);
-  const [afterDiscount, setAfterDiscount] = useState(false);
+  const [totalCheck, setTotalCheck] = useState(true);
+  const [afterDiscount, setAfterDiscount] = useState(true);
+  const [duration, setDuration] = useState(true);
+  const [endDate, setEndDate] = useState(true);
+  const [number, setNumber] = useState(0);
+
+  useEffect(() => {
+    let x = 0;
+    if (totalCheck) x++;
+    if (afterDiscount) x++;
+
+    setNumber(x);
+  }, [totalCheck, afterDiscount]);
 
   const { id } = useParams();
 
@@ -47,7 +58,7 @@ const Invoice = () => {
   if (isLoading || !plan) return <Loading />;
   return (
     <>
-      <div className="flex flex-row justify-evenly align-center my-8 py-6 w-[15%]  border-solid border-2 rounded-xl border-sky-500 bg-slate-100 dark:bg-slate-900">
+      <div className="flex flex-row justify-evenly align-center my-8 py-6 w-[27%]  border-solid border-2 rounded-xl border-sky-500 bg-slate-100 dark:bg-slate-900">
         <div className="gap-2 flex align-center">
           <label htmlFor="totalCheck">جمع دوره</label>
           <input
@@ -66,14 +77,34 @@ const Invoice = () => {
             onClick={() => setAfterDiscount(!afterDiscount)}
           />
         </div>
+        <div className="gap-2 flex align-center">
+          <label htmlFor="endDate">تاریخ پایان</label>
+          <input
+            type="checkbox"
+            id="endDate"
+            checked={endDate}
+            onClick={() => setEndDate(!endDate)}
+          />
+        </div>
+        <div className="gap-2 flex align-center">
+          <label htmlFor="duration">اکران</label>
+          <input
+            type="checkbox"
+            id="duration"
+            checked={duration}
+            onClick={() => setDuration(!duration)}
+          />
+        </div>
       </div>
-
       <PDFViewer height={900}>
         <PlanPdfDoc
           plan={plan}
           customer={customer}
           totalCheck={totalCheck}
           afterDiscount={afterDiscount}
+          number={number}
+          duration={duration}
+          endDate={endDate}
         />
       </PDFViewer>
     </>

@@ -11,17 +11,27 @@ import { InitialCustomerObject, PlanObject } from "@/app/lib/interfaces";
 import { formatNumber } from "@/app/utilities/formatNumber";
 import Loading from "../loading/Loading";
 import moment from "jalali-moment";
-import { useEffect } from "react";
 
 type Props = {
   plan: PlanObject;
   customer: InitialCustomerObject;
   totalCheck: boolean;
   afterDiscount: boolean;
+  duration: boolean;
+  endDate: boolean;
+  number: number;
 };
 
 const PlanPdfDoc = (props: Props) => {
-  const { plan, customer, totalCheck, afterDiscount } = props;
+  const {
+    plan,
+    customer,
+    totalCheck,
+    afterDiscount,
+    number,
+    duration,
+    endDate,
+  } = props;
 
   Font.register({
     family: "Anjoman",
@@ -48,105 +58,51 @@ const PlanPdfDoc = (props: Props) => {
   const columnsHeader = [
     {
       content: "جمع دوره",
-      width: `${totalCheck ? "10%" : "0%"}`,
+      width: `${totalCheck ? `${10}%` : "0%"}`,
     },
     {
       content: "پس از تخفیف",
-      width: `${afterDiscount ? (totalCheck ? "8%" : "10%") : "0%"}`,
+      width: `${afterDiscount ? `${11 - number}%` : "0%"}`,
     },
     {
       content: "تعرفه ماهیانه",
-      width: `${
-        totalCheck && afterDiscount
-          ? "8%"
-          : totalCheck || afterDiscount
-          ? "9%"
-          : "10%"
-      }`,
+      width: `${10 - number}%`,
     },
     {
       content: "اکران",
-      width: `${
-        totalCheck && afterDiscount
-          ? "4%"
-          : totalCheck || afterDiscount
-          ? "5%"
-          : "6%"
-      }`,
+      width: duration ? `${6 - number}%` : "0%",
     },
     {
       content: "تاریخ پایان",
-      width: `${
-        totalCheck && afterDiscount
-          ? "7%"
-          : totalCheck || afterDiscount
-          ? "8%"
-          : "9%"
-      }`,
+      width: endDate ? `${9 - number}%` : "0%",
     },
     {
       content: "تاریخ شروع",
-      width: `${
-        totalCheck && afterDiscount
-          ? "7%"
-          : totalCheck || afterDiscount
-          ? "8%"
-          : "9%"
-      }`,
+      width: `${9 - number + (endDate ? 0 : 9 - number)}%`,
     },
     {
       content: "مساحت",
-      width: `${
-        totalCheck && afterDiscount
-          ? "4%"
-          : totalCheck || afterDiscount
-          ? "5%"
-          : "6%"
-      }`,
+      width: `${6 - number}%`,
     },
     {
       content: "نوع سازه",
-      width: `${
-        totalCheck && afterDiscount
-          ? "6%"
-          : totalCheck || afterDiscount
-          ? "7%"
-          : "8%"
-      }`,
+      width: `${8 - number}%`,
     },
     {
       content: "نشانی",
-      width: `${
-        totalCheck && afterDiscount
-          ? "32%"
-          : totalCheck || afterDiscount
-          ? "33%"
-          : "34%"
-      }`,
+      width: `${34 - number + (duration ? 0 : 6 - number)}%`,
     },
     {
       content: "مسیر",
-      width: `${
-        totalCheck && afterDiscount
-          ? "6%"
-          : totalCheck || afterDiscount
-          ? "7%"
-          : "8%"
-      }`,
+      width: `${8 - number}%`,
     },
     {
       content: "سامانه",
-      width: `${
-        totalCheck && afterDiscount
-          ? "5%"
-          : totalCheck || afterDiscount
-          ? "5%"
-          : "7%"
-      }`,
+      width: `${6 - number}%`,
     },
     {
       content: "ردیف",
-      width: "3%",
+      width: `${!totalCheck && !afterDiscount ? 4 : 3}%`,
     },
   ];
   const fontColor = "white";
@@ -377,7 +333,7 @@ const PlanPdfDoc = (props: Props) => {
                         style={[
                           styles.tableCol,
                           {
-                            width: `${totalCheck ? "10%" : "0%"}`,
+                            width: `${totalCheck ? `${10}%` : "0%"}`,
                           },
                         ]}
                       >
@@ -393,7 +349,7 @@ const PlanPdfDoc = (props: Props) => {
                           styles.tableCol,
                           {
                             width: `${
-                              afterDiscount ? (totalCheck ? "8%" : "10%") : "0%"
+                              afterDiscount ? `${11 - number}%` : "0%"
                             }`,
                           },
                         ]}
@@ -408,13 +364,7 @@ const PlanPdfDoc = (props: Props) => {
                       style={[
                         styles.tableCol,
                         {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "8%"
-                              : totalCheck || afterDiscount
-                              ? "9%"
-                              : "10%"
-                          }`,
+                          width: `${10 - number}%`,
                         },
                       ]}
                     >
@@ -423,57 +373,43 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "4%"
-                              : totalCheck || afterDiscount
-                              ? "5%"
-                              : "6%"
-                          }`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {structure.duration.diff}
-                      </Text>
-                    </View>
+                    {duration && (
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${6 - number}%`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {structure.duration.diff}
+                        </Text>
+                      </View>
+                    )}
+
+                    {endDate && (
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${9 - number}%`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {moment
+                            .unix(structure.duration.sellEnd)
+                            .format("jYYYY-jMM-jDD")}
+                        </Text>
+                      </View>
+                    )}
 
                     <View
                       style={[
                         styles.tableCol,
                         {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "7%"
-                              : totalCheck || afterDiscount
-                              ? "8%"
-                              : "9%"
-                          }`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {moment
-                          .unix(structure.duration.sellEnd)
-                          .format("jYYYY-jMM-jDD")}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "7%"
-                              : totalCheck || afterDiscount
-                              ? "8%"
-                              : "9%"
-                          }`,
+                          width: `${9 - number + (endDate ? 0 : 9 - number)}%`,
                         },
                       ]}
                     >
@@ -488,13 +424,7 @@ const PlanPdfDoc = (props: Props) => {
                       style={[
                         styles.tableCol,
                         {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "4%"
-                              : totalCheck || afterDiscount
-                              ? "5%"
-                              : "6%"
-                          }`,
+                          width: `${6 - number}%`,
                         },
                       ]}
                     >
@@ -507,13 +437,7 @@ const PlanPdfDoc = (props: Props) => {
                       style={[
                         styles.tableCol,
                         {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "6%"
-                              : totalCheck || afterDiscount
-                              ? "7%"
-                              : "8%"
-                          }`,
+                          width: `${8 - number}%`,
                         },
                       ]}
                     >
@@ -527,12 +451,8 @@ const PlanPdfDoc = (props: Props) => {
                         styles.tableCol,
                         {
                           width: `${
-                            totalCheck && afterDiscount
-                              ? "32%"
-                              : totalCheck || afterDiscount
-                              ? "33%"
-                              : "34%"
-                          }`,
+                            34 - number + (duration ? 0 : 6 - number)
+                          }%`,
                         },
                       ]}
                     >
@@ -547,13 +467,7 @@ const PlanPdfDoc = (props: Props) => {
                       style={[
                         styles.tableCol,
                         {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "6%"
-                              : totalCheck || afterDiscount
-                              ? "7%"
-                              : "8%"
-                          }`,
+                          width: `${8 - number}%`,
                         },
                       ]}
                     >
@@ -566,13 +480,7 @@ const PlanPdfDoc = (props: Props) => {
                       style={[
                         styles.tableCol,
                         {
-                          width: `${
-                            totalCheck && afterDiscount
-                              ? "5%"
-                              : totalCheck || afterDiscount
-                              ? "5%"
-                              : "7%"
-                          }`,
+                          width: `${6 - number}%`,
                         },
                       ]}
                     >
@@ -581,7 +489,12 @@ const PlanPdfDoc = (props: Props) => {
                       </Text>
                     </View>
 
-                    <View style={[styles.tableCol, { width: "3%" }]}>
+                    <View
+                      style={[
+                        styles.tableCol,
+                        { width: `${!totalCheck && !afterDiscount ? 4 : 3}%` },
+                      ]}
+                    >
                       <Text style={styles.tableCell}>
                         {chunkIndex * (totalCheck && afterDiscount ? 24 : 23) +
                           structureIndex +
