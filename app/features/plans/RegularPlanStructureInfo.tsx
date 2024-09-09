@@ -99,38 +99,6 @@ const RegularPlanStructureInfo = (props: Props) => {
     toggleDiscountFlag,
   } = props;
 
-  //   const [flags, setFlags] = useState<boolean[]>(field.map(() => false));
-  //   const [discountFlags, setDiscountFlags] = useState<boolean[]>(
-  //     field.map(() => false)
-  //   );
-  //   const [discountTypes, setDiscountTypes] = useState<string[]>(
-  //     field.map(() => "percentage")
-  //   );
-
-  //   const toggleFlag = (index: number) => {
-  //     setFlags((prevFlags) => {
-  //       const newFlags = [...prevFlags];
-  //       newFlags[index] = !newFlags[index];
-  //       return newFlags;
-  //     });
-  //   };
-
-  //   const toggleDiscountFlag = (index: number) => {
-  //     setDiscountFlags((prevFlags) => {
-  //       const newDiscountFlags = [...prevFlags];
-  //       newDiscountFlags[index] = !newDiscountFlags[index];
-  //       return newDiscountFlags;
-  //     });
-  //   };
-
-  //   const setDiscountType = (index: number, type: string) => {
-  //     setDiscountTypes((prevTypes) => {
-  //       const newTypes = [...prevTypes];
-  //       newTypes[index] = type;
-  //       return newTypes;
-  //     });
-  //   };
-
   return (
     <div className="formContainer">
       <small className="pr-3 text-slate-500 inline-block font-bold">

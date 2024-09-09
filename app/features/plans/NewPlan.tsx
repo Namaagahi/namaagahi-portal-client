@@ -12,6 +12,8 @@ import {
 import {
   AddPlanForm,
   BoxObject,
+  CombinedStructure,
+  StructureObject,
   StructurePlanObject,
 } from "@/app/lib/interfaces";
 import { useSelector } from "react-redux";
@@ -20,6 +22,12 @@ import { newPlanDefaultValues } from "@/app/lib/constants";
 import { convertToNumber } from "@/app/utilities/convertToNumber";
 import { toast } from "react-toastify";
 import Link from "next/link";
+import {
+  selectAllStructures,
+  useGetStructuresQuery,
+} from "@/app/apiSlices/structuresApiSlice";
+import { useGetAllInitialCustomersQuery } from "@/app/apiSlices/initialCustomersApiSlice";
+import ChoosePlanStructures from "@/app/components/modals/ChoosePlanStructures";
 
 type Props = {
   mark: string;
@@ -30,7 +38,8 @@ const NewPlan = (props: Props) => {
   const { id } = useAuth();
   const { push } = useRouter();
   const [isChanged, setIsChanged] = useState(false);
-  const [flag, setFlag] = useState(false);
+  const [toggleModal, setTogglemodal] = useState(false);
+  const [totalStructures, setTotalStructures] = useState([]);
 
   const [createNewPlan, { isSuccess, isError, error }] =
     useCreateNewPlanMutation();
@@ -71,6 +80,9 @@ const NewPlan = (props: Props) => {
     name: "structures",
   });
 
+  console.log("structuresField", structuresField);
+  console.log("totalStructures", totalStructures);
+
   const [flags, setFlags] = useState<boolean[]>(
     structuresField.map(() => false)
   );
@@ -105,6 +117,36 @@ const NewPlan = (props: Props) => {
       return newTypes;
     });
   };
+
+  useGetAllBoxesQuery(undefined);
+  useGetStructuresQuery(undefined);
+  useGetAllInitialCustomersQuery(undefined);
+
+  const allStructures: StructureObject[] = useSelector(
+    (state) => selectAllStructures(state) as StructureObject[]
+  );
+  const allMyBoxes: BoxObject[] = allBoxes.filter((x) => !x.isArchived);
+  const inBoxStructures = allStructures.filter(
+    (structure: any) => structure.isChosen
+  );
+  const boxStructures = allMyBoxes.flatMap((box: any) => box.structures);
+  const inBoxStructuresLookup = inBoxStructures.reduce(
+    (acc: any, chosenStructure: any) => ({
+      ...acc,
+      [chosenStructure.id]: chosenStructure,
+    }),
+    {}
+  );
+
+  const combinedStructures: CombinedStructure[] = boxStructures
+    .map((boxStructure: CombinedStructure) => ({
+      ...boxStructure,
+      ...inBoxStructuresLookup[boxStructure.structureId],
+    }))
+    .filter((x) => x.isChosen)
+    .filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
+    );
 
   const onSubmit = async (data: any) => {
     const condition = data.structures.filter(
@@ -196,7 +238,13 @@ const NewPlan = (props: Props) => {
           errors={errors}
           setValue={setValue}
         />
-
+        <button
+          type="button"
+          onClick={() => setTogglemodal(!toggleModal)}
+          className="bg-primary text-white shadow-md w-[10%] rounded-md p-1 formChooseButton"
+        >
+          انتخاب گروهی سازه
+        </button>
         <PlanStructuresInfo
           page={"create"}
           mark={mark}
@@ -217,9 +265,17 @@ const NewPlan = (props: Props) => {
           discountFlags={discountFlags}
           toggleDiscountFlag={toggleDiscountFlag}
         />
-
-        <button className="primaryButton w-1/4 mx-auto">افزودن پلن</button>
+        <button type="submit" className="primaryButton w-1/4 mx-auto">
+          افزودن پلن
+        </button>
       </form>
+      {toggleModal && (
+        <ChoosePlanStructures
+          handleModal={() => setTogglemodal(!toggleModal)}
+          data={combinedStructures!}
+          setValue={setValue}
+        />
+      )}
     </div>
   );
 };
