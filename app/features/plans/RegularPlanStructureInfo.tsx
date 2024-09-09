@@ -123,37 +123,60 @@ const RegularPlanStructureInfo = (props: Props) => {
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
-            setValue(`structures.${fieldIndex}.duration.sellStart`, value.unix);
-          } else if (Array.isArray(value) && value.length > 0) {
-            const timestamps = value.map((date) => date.unix);
+            const normalizedUnix = moment
+              .unix(value.unix)
+              .startOf("day")
+              .unix();
             setValue(
               `structures.${fieldIndex}.duration.sellStart`,
-              timestamps[0]
+              normalizedUnix
+            );
+          } else if (Array.isArray(value) && value.length > 0) {
+            const normalizedUnix = moment
+              .unix(value[0].unix)
+              .startOf("day")
+              .unix();
+            setValue(
+              `structures.${fieldIndex}.duration.sellStart`,
+              normalizedUnix
             );
           } else {
+            const normalizedUnix = moment().startOf("day").unix();
             setValue(
               `structures.${fieldIndex}.duration.sellStart`,
-              new Date().getTime()
+              normalizedUnix
             );
           }
         };
 
         const handleEndDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
-            setValue(`structures.${fieldIndex}.duration.sellEnd`, value.unix);
-          } else if (Array.isArray(value) && value.length > 0) {
-            const timestamps = value.map((date) => date.unix);
+            const normalizedUnix = moment
+              .unix(value.unix)
+              .startOf("day")
+              .unix();
             setValue(
               `structures.${fieldIndex}.duration.sellEnd`,
-              timestamps[0]
+              normalizedUnix
+            );
+          } else if (Array.isArray(value) && value.length > 0) {
+            const normalizedUnix = moment
+              .unix(value[0].unix)
+              .startOf("day")
+              .unix();
+            setValue(
+              `structures.${fieldIndex}.duration.sellEnd`,
+              normalizedUnix
             );
           } else {
+            const normalizedUnix = moment().startOf("day").unix();
             setValue(
               `structures.${fieldIndex}.duration.sellEnd`,
-              new Date().getTime()
+              normalizedUnix
             );
           }
         };
+
         return (
           <>
             {selectedStructure && showStructureInfo && (

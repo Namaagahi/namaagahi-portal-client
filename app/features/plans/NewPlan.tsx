@@ -80,9 +80,6 @@ const NewPlan = (props: Props) => {
     name: "structures",
   });
 
-  console.log("structuresField", structuresField);
-  console.log("totalStructures", totalStructures);
-
   const [flags, setFlags] = useState<boolean[]>(
     structuresField.map(() => false)
   );
