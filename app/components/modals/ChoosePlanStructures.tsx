@@ -79,7 +79,7 @@ const ChoosePlanStructures = (props: Props) => {
                   performSearch(e.target.value);
                 }}
               />
-              <div className="mt-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[200px] overflow-y-auto">
+              <div className="mt-4 bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25  font-bold rounded-xl p-3 h-[200px] overflow-y-auto">
                 <ul>
                   {searchResults.length === 0
                     ? (finishFlag ? selectedIndices : data).map(
@@ -89,7 +89,7 @@ const ChoosePlanStructures = (props: Props) => {
                             <li
                               className={`mt-2 cursor-pointer transition-all ${
                                 isSelected
-                                  ? "text-green-600 bg-cyan-200"
+                                  ? "text-white bg-purple-300"
                                   : "hover:text-red-400"
                               }`}
                               key={index}
@@ -106,7 +106,7 @@ const ChoosePlanStructures = (props: Props) => {
                           <li
                             className={`mt-2 cursor-pointer transition-all ${
                               isSelected
-                                ? "text-green-600 bg-cyan-200"
+                                ? "text-white bg-purple-300"
                                 : "hover:text-red-400"
                             }`}
                             key={index}
@@ -121,7 +121,12 @@ const ChoosePlanStructures = (props: Props) => {
               <button
                 type="button"
                 onClick={handleFinish}
-                className="hover:bg-green-300 dark:hover:bg-green-300 bg-black dark:bg-white bg-opacity-10 dark:bg-opacity-10 hover:scale-110 mt-3 text-gray-400 font-semibold py-2 px-4 border border-gray-400 rounded shadow "
+                className={`hover:bg-fuchsia-800 dark:hover:bg-fuchsia-800 bg-fuchsia dark:bg-fuchsia-900 bg-opacity-50  mt-7 text-black font-semibold dark:text-white py-2 px-8 border border-gray-400 rounded shadow ${
+                  !selectedIndices.length
+                    ? "dark:bg-gray-500 bg-gray-500 hover:bg-gray-400 dark:hover:bg-gray-400"
+                    : ""
+                }`}
+                disabled={!selectedIndices.length}
               >
                 اتمام انتخاب
               </button>
