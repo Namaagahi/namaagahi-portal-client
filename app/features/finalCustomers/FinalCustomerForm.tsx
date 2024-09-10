@@ -75,7 +75,7 @@ const FinalCustomerForm = (props: Props) => {
     (state) => selectAllProjectCodes(state) as ProjectCodeObject[]
   );
 
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true); // I changed default value to true
   const [hasProjectCode, setHasProjectCode] = useState<boolean>(false);
   const [customerId, setCustomerId] = useState<string>("");
   const [projectCodeId, setProjectCodeId] = useState<string | null>(null);
@@ -296,14 +296,14 @@ const FinalCustomerForm = (props: Props) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <label htmlFor="chooseCustomer" className="dark:text-gray-200">
-              انتخاب از مشتریان قبلی
+              انتخاب از مشتریان قطعی
             </label>
-            <input
+            {/* <input
               type="checkbox"
               id="chooseCustomer"
               onChange={() => setIsDisabled(!isDisabled)}
               className="mt-1 p-3 w-4 h-4 text-blue-600 bg-gray-100 outline-none border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-            />
+            /> */}
             {isDisabled && (
               <select
                 className="formInput"
