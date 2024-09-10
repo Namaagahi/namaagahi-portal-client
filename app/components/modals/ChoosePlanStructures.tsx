@@ -1,6 +1,6 @@
 "use client";
 import { StructureObject } from "@/app/lib/interfaces";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 type Props = {
@@ -17,7 +17,7 @@ const ChoosePlanStructures = (props: Props) => {
   const [finishFlag, setFinishFlag] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<StructureObject[]>([]);
 
-  const toggleSelection = (item: StructureObject, index: number) => {
+  const toggleSelection = (item: StructureObject) => {
     const isSelected = selectedIndices.includes(item);
 
     if (isSelected) {
@@ -29,26 +29,34 @@ const ChoosePlanStructures = (props: Props) => {
 
   const performSearch = (value: string) => {
     const searchText = value.toLowerCase();
-    const filteredResults = (finishFlag ? selectedIndices : data).filter(
-      (item: StructureObject) => {
-        return (
-          item.name?.toLowerCase().includes(searchText) ||
-          item.location?.address.toLowerCase().includes(searchText) ||
-          item.location?.path.toLowerCase().includes(searchText)
-        );
-      }
-    );
+    const filteredResults = data.filter((item: StructureObject) => {
+      return (
+        item.name?.toLowerCase().includes(searchText) ||
+        item.location?.address.toLowerCase().includes(searchText) ||
+        item.location?.path.toLowerCase().includes(searchText)
+      );
+    });
     setSearchResults(filteredResults);
   };
 
   const handleFinish = () => {
     setFinishFlag(!finishFlag);
+    setSearchResults([]);
+    setSearchText("");
   };
 
   const handleConfirmSelection = () => {
     setValue("structures", selectedIndices);
     handleModal();
   };
+
+  useEffect(() => {
+    if (searchText) {
+      performSearch(searchText);
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchText, finishFlag]);
 
   return (
     <div className="modalContainer">
@@ -93,7 +101,7 @@ const ChoosePlanStructures = (props: Props) => {
                                   : "hover:text-red-400"
                               }`}
                               key={index}
-                              onClick={() => toggleSelection(item, index)}
+                              onClick={() => toggleSelection(item)}
                             >
                               {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
                             </li>
@@ -110,7 +118,7 @@ const ChoosePlanStructures = (props: Props) => {
                                 : "hover:text-red-400"
                             }`}
                             key={index}
-                            onClick={() => toggleSelection(item, index)}
+                            onClick={() => toggleSelection(item)}
                           >
                             {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
                           </li>
