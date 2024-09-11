@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
-import Accordion from "./Accordion";
+// import Accordion from "./Accordion";
 
 const SubMenu = ({ data }: any) => {
   const path = usePathname();
@@ -56,9 +56,8 @@ const SubMenu = ({ data }: any) => {
                   <p className="text-md">{menu.name}</p>
                 </li>
               </Link>
-            ) : (
-              <Accordion menu={menu} />
-            )}
+            ) : // <Accordion menu={menu} />
+            null}
           </>
         ))}
       </motion.ul>
