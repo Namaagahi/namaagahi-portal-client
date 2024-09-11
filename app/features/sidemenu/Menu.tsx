@@ -6,9 +6,11 @@ import Link from "next/link";
 import SubMenu from "./SubMenu";
 import {
   billboardFinancialList,
+  billboardPrint,
   billboardSellList,
   billboardSettingsList,
   projectList,
+  reports,
 } from "@/app/lib/constants";
 import useAuth from "@/app/hooks/useAuth";
 
@@ -109,6 +111,18 @@ const Menu = ({ menuItems }: Props) => {
 
           <div className="border-b border-slate-500 dark:border-slate-300 " />
           {billboardFinancialList.map((item: any) => (
+            <div key={item.name} style={path === item.path ? activeStyle : {}}>
+              <SubMenu data={item} />
+            </div>
+          ))}
+          <div className="border-b border-slate-500 dark:border-slate-300 " />
+          {reports.map((item: any) => (
+            <div key={item.name} style={path === item.path ? activeStyle : {}}>
+              <SubMenu data={item} />
+            </div>
+          ))}
+          <div className="border-b border-slate-500 dark:border-slate-300 " />
+          {billboardPrint.map((item: any) => (
             <div key={item.name} style={path === item.path ? activeStyle : {}}>
               <SubMenu data={item} />
             </div>

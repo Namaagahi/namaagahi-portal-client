@@ -8,9 +8,13 @@ import { SiBillboard, SiInstructure } from "react-icons/si";
 import { MenuItemsObj } from "./interfaces";
 import { HiUsers } from "react-icons/hi2";
 import { IoGrid } from "react-icons/io5";
+import { IoPrintSharp } from "react-icons/io5";
+
 import { BsFillBoxFill, BsFillPinMapFill } from "react-icons/bs";
 import { FaPersonCirclePlus } from "react-icons/fa6";
 import { RiComputerLine } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
+
 import { FaSellsy } from "react-icons/fa";
 import { FaFileArchive } from "react-icons/fa";
 import { BiCode } from "react-icons/bi";
@@ -218,20 +222,30 @@ export const billboardSettingsList = [
     icon: <MdPermMedia size={20} />,
     menus: [
       {
-        name: "تعریف باکس",
+        name: "باکس",
         icon: <BsFillBoxFill size={20} />,
         path: "/dashboard/billboard/boxes",
+        children: [
+          { name: "تعریف باکس", url: "/dashboard/billboard/boxes/createbox" },
+          { name: "باکس ها", url: "/dashboard/billboard/boxes" },
+          { name: "آرشیو", url: "/dashboard/billboard/boxes/archived" },
+        ],
       },
+      // {
+      //   name: "تعریف باکس",
+      //   icon: <BsFillBoxFill size={20} />,
+      //   path: "/dashboard/billboard/boxes",
+      // },
       {
         name: "تعریف سازه",
         icon: <SiInstructure size={20} />,
         path: "/dashboard/billboard/structures",
       },
-      {
-        name: "آرشیو",
-        icon: <FaFileArchive size={20} />,
-        path: "/dashboard/billboard/boxes/archived",
-      },
+      // {
+      //   name: "آرشیو",
+      //   icon: <FaFileArchive size={20} />,
+      //   path: "/dashboard/billboard/boxes/archived",
+      // },
     ],
   },
 ];
@@ -246,11 +260,7 @@ export const billboardSellList = [
         icon: <GiPackedPlanks size={20} />,
         path: "/dashboard/billboard/plans",
       },
-      {
-        name: "سازه های خالی",
-        icon: <SiInstructure size={20} />,
-        path: "/dashboard/billboard/structures/availables",
-      },
+
       {
         name: "پروژه",
         icon: <AiTwotoneProject size={20} />,
@@ -280,6 +290,28 @@ export const billboardFinancialList = [
         path: "/dashboard/billboard/contracts",
       },
     ],
+  },
+];
+
+export const reports = [
+  {
+    name: "گزارشات",
+    icon: <TbReportAnalytics size={20} />,
+    menus: [
+      {
+        name: "سازه های خالی",
+        icon: <SiInstructure size={20} />,
+        path: "/dashboard/billboard/structures/availables",
+      },
+    ],
+  },
+];
+
+export const billboardPrint = [
+  {
+    name: "چاپ و نصب",
+    icon: <IoPrintSharp size={20} />,
+    menus: [],
   },
 ];
 
