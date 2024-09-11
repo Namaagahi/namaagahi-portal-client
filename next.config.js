@@ -1,8 +1,13 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+const nextConfig = withBundleAnalyzer({
   reactStrictMode: false,
   env: {
-    SERVER: "http://portal.namaagahi.com:3500",
+    SERVER: process.env.SERVER || "http://portal.namaagahi.com:3500",
     // SERVER: "http://localhost:3500",
     TITLE: "پلتفرم اختصاصی نماآگهی",
   },
@@ -20,5 +25,5 @@ const nextConfig = {
       },
     ],
   },
-};
+});
 module.exports = nextConfig;
