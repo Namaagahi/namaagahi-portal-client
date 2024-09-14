@@ -2,6 +2,8 @@ import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
+import { usePathname } from "next/navigation";
+import { BiBorderRadius } from "react-icons/bi";
 
 interface IAccordionProps {
   menu: any;
@@ -9,6 +11,15 @@ interface IAccordionProps {
 
 const Accordion: FC<IAccordionProps> = ({ menu }) => {
   const [open, setOpen] = useState(false);
+
+  const path = usePathname();
+  const activeStyle = {
+    background: "#faa75c",
+    fontWeight: 700,
+    color: "black",
+    border: "#C91416",
+    borderRadius: 10,
+  };
 
   const handleOpen = () => setOpen(!open);
 
@@ -48,7 +59,8 @@ const Accordion: FC<IAccordionProps> = ({ menu }) => {
         {menu?.children?.map((x: any, index: number) => (
           <li
             key={index}
-            className="pt-0  mr-12 font-normal text-md text-amber-700 dark:text-orange-200 mb-3  cursor-pointer  hover:mr-14  transition-all"
+            className="p-1  pr-12 font-normal text-md text-amber-700 dark:text-orange-200 mb-3  cursor-pointer  hover:pr-14  transition-all"
+            style={path === x.url ? activeStyle : {}}
           >
             <Link href={x.url}>{x.name}</Link>
           </li>
