@@ -48,7 +48,7 @@ const Accordion: FC<IAccordionProps> = ({ menu }) => {
         {menu?.children?.map((x: any, index: number) => (
           <li
             key={index}
-            className="pt-0  mr-12 font-normal text-md text-orange-200 mb-3  cursor-pointer  hover:mr-14  transition-all"
+            className="pt-0  mr-12 font-normal text-md text-amber-700 dark:text-orange-200 mb-3  cursor-pointer  hover:mr-14  transition-all"
           >
             <Link href={x.url}>{x.name}</Link>
           </li>
