@@ -64,7 +64,7 @@ const ListItem = (props: Props) => {
           </div>
         </div>
 
-        <div className="lg:w-2/3 w-full dark:bg-slate-300 bg-white rounded-md p-3 my-10">
+        <div className="lg:w-6/7 w-full dark:bg-slate-300 bg-white rounded-md p-3 my-10">
           {Object.entries(titles).map(([key, val]: any) => (
             <div key={key} className="flex justify-between ">
               <p>{val && key}</p>
@@ -74,7 +74,7 @@ const ListItem = (props: Props) => {
                   {val === "owner"
                     ? "مزایده ای"
                     : val === "buyShort"
-                    ? "کوتاه مدت"
+                    ? "روز شمار"
                     : "بلند مدت"}
                 </p>
               ) : (

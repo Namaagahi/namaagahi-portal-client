@@ -97,7 +97,7 @@ const BoxComp = (props: Props) => {
           />
         )} */}
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
         {boxItemsContent}
       </div>
     </main>
