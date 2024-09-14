@@ -95,7 +95,10 @@ const Menu = ({ menuItems }: Props) => {
               <SubMenu data={item} />
             </div>
           ))}
-          {(user.isMaster || user.isAdmin || user.status === "پذیرشگر") && (
+          {(user.isMaster ||
+            user.isAdmin ||
+            user.status === "پذیرشگر" ||
+            user.isMediaManager) && (
             <>
               <div className="border-b border-slate-500 dark:border-slate-300 " />
               {billboardSellList.map((item: any) => (

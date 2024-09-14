@@ -161,7 +161,9 @@ const AllPlansTable = (props: any) => {
                   className="flex items-center justify-center gap-2"
                   onClick={() => setPlanId(row.id)}
                 >
-                  {isMaster && (page === "all" || page === "archieve") ? (
+                  {isMaster ||
+                  (isMediaManager &&
+                    (page === "all" || page === "archieve")) ? (
                     <>
                       <Link
                         href={`/dashboard/billboard/plans/editplan/${row.id}`}
