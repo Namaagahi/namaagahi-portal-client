@@ -118,7 +118,7 @@ const NewFinalCustomerForm = (props: Props) => {
       label: "شناسه / کد ملی",
       name: "nationalId",
       type: "number",
-      required: true,
+      required: contractType === "official" ? true : false,
       message: "شناسه / کد ملی الزامیست",
       errors: errors.nationalId?.message,
     },
