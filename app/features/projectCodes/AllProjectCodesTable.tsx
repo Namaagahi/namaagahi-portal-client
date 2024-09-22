@@ -74,7 +74,7 @@ const AllProjectCodesTable = (props: any) => {
             accessorKey: "year",
             accessorFn: (row) => row.year,
             id: "سال",
-            cell: (info) => info.getValue(),
+            cell: (info) => (info.getValue() == 300 ? 1403 : info.getValue()),
             header: () => <span>سال</span>,
           },
           {
