@@ -100,7 +100,9 @@ const FinalCustomerForm = (props: Props) => {
   useEffect(() => {
     if (isDisabled) {
       setValue("name", finalCustomer?.name);
-      setValue("nationalId", finalCustomer?.nationalId.toString());
+      if (finalCustomer && finalCustomer.nationalId) {
+        setValue("nationalId", finalCustomer.nationalId.toString());
+      }
     }
   }, [finalCustomer, isDisabled]);
 
