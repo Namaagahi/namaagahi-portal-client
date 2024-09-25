@@ -226,7 +226,7 @@ const MapNama: React.FC = () => {
           </button>
         </div>
       </form>
-      <BillboardMap
+      {/* <BillboardMap
         data={MapData}
         MapClickHandler={() => {
           useMapEvents({
@@ -238,7 +238,7 @@ const MapNama: React.FC = () => {
           return null;
         }}
         markerPosition={markerPosition}
-      />
+      /> */}
     </main>
   );
 };
