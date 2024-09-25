@@ -15,14 +15,14 @@ import PageTitle from "@/app/components/main/PageTitle";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 import {
   selectAllStructures,
   selectStructureById,
   useGetStructuresQuery,
 } from "@/app/apiSlices/structuresApiSlice";
-import BillboardMap from "@/app/features/map/BillboardMap";
+import dynamic from "next/dynamic";
 
 interface Coords {
   lat: number;
@@ -46,26 +46,50 @@ interface LeafIconProps {
   iconUrl: string;
 }
 
+// Dynamically import BillboardMap to avoid SSR issues with Leaflet and window
+const BillboardMap = dynamic(() => import("@/app/features/map/BillboardMap"), {
+  ssr: false,
+});
+
 const MapNama: React.FC = () => {
   const [coords, setCoords] = useState<Coords>({ lat: 0, lng: 0 });
   const [markerPosition, setMarkerPosition] = useState<L.LatLng | null>(null);
   const [structureId, setStructureId] = useState<string>("");
   const [MapData, setMapData] = useState<MapObject[]>([]);
 
-  console.log(MapData);
+  // Leaflet icons and map events are only available on the client
+  useEffect(() => {
+    if (typeof window === "undefined") return;
 
-  const [mapObject, setMapObject] = useState<MapObject>({
-    id: "",
-    way: "",
-    name: "",
-    address: "",
-    structure: "",
-    area: 0,
-    dimensions: "",
-    locationX: 0,
-    locationY: 0,
-    same: "",
-  });
+    // Leaflet-related initialization
+    const LeafIcon = (iconUrl: string): L.Icon => {
+      return new L.Icon({
+        iconUrl,
+        shadowUrl: "",
+        iconSize: [42, 42],
+        shadowSize: [50, 50],
+        iconAnchor: [38, 38],
+        shadowAnchor: [38, 38],
+        popupAnchor: [-20, -38],
+      });
+    };
+
+    const purpleIcon = LeafIcon("/images/Bill 1.png");
+    const yellowIcon = LeafIcon("/images/Bill 2.png");
+
+    // Function to handle map clicks
+    const handleMapClick = (e: L.LeafletMouseEvent) => {
+      setCoords({ lat: e.latlng.lat, lng: e.latlng.lng });
+      setMarkerPosition(e.latlng);
+    };
+
+    function MapClickHandler() {
+      useMapEvents({
+        click: handleMapClick,
+      });
+      return null;
+    }
+  }, []);
 
   useGetAllBoxesQuery(undefined, {
     refetchOnFocus: false,
@@ -87,33 +111,6 @@ const MapNama: React.FC = () => {
   const boxStr = boxes.map((box: any) =>
     box.structures.find((str: any) => str.structureId === structureId)
   );
-
-  const LeafIcon = (iconUrl: string): L.Icon => {
-    return new L.Icon({
-      iconUrl,
-      shadowUrl: "",
-      iconSize: [42, 42],
-      shadowSize: [50, 50],
-      iconAnchor: [38, 38],
-      shadowAnchor: [38, 38],
-      popupAnchor: [-20, -38],
-    });
-  };
-
-  const purpleIcon = LeafIcon("/images/Bill 1.png");
-  const yellowIcon = LeafIcon("/images/Bill 2.png");
-
-  const handleMapClick = (e: L.LeafletMouseEvent) => {
-    setCoords({ lat: e.latlng.lat, lng: e.latlng.lng });
-    setMarkerPosition(e.latlng);
-  };
-
-  function MapClickHandler() {
-    useMapEvents({
-      click: handleMapClick,
-    });
-    return null;
-  }
 
   return (
     <main className="min-h-screen">
@@ -218,7 +215,6 @@ const MapNama: React.FC = () => {
                   },
                 ]);
               } else {
-                // Handle the case where structure is undefined or incomplete
                 alert("Structure is not properly defined.");
               }
 
@@ -232,7 +228,15 @@ const MapNama: React.FC = () => {
       </form>
       <BillboardMap
         data={MapData}
-        MapClickHandler={MapClickHandler}
+        MapClickHandler={() => {
+          useMapEvents({
+            click: (e) => {
+              setCoords({ lat: e.latlng.lat, lng: e.latlng.lng });
+              setMarkerPosition(e.latlng);
+            },
+          });
+          return null;
+        }}
         markerPosition={markerPosition}
       />
     </main>

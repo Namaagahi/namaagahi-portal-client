@@ -1,9 +1,7 @@
 import { useEffect, useState, useRef, FC } from "react";
-import { MapContainer, TileLayer, Marker, useMap, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L, { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import classes from "./styles.module.css";
-import { GrPowerReset } from "react-icons/gr";
 
 const bounds: LatLngBoundsExpression = [
   [24.396308, 44.032249], // Southwest coordinates
@@ -17,13 +15,6 @@ const purpleIcon = new L.Icon({
   popupAnchor: [-20, -38],
 });
 
-const yellowIcon = new L.Icon({
-  iconUrl: "/images/Bill 2.png",
-  iconSize: [36, 38],
-  iconAnchor: [18, 38],
-  popupAnchor: [-20, -38],
-});
-
 const purpleStrawboardIcon = new L.Icon({
   iconUrl: "/images/Str 2.png",
   iconSize: [36, 38],
@@ -31,13 +22,7 @@ const purpleStrawboardIcon = new L.Icon({
   popupAnchor: [-20, -38],
 });
 
-const yellowStrawboardIcon = new L.Icon({
-  iconUrl: "/images/Str 1.png",
-  iconSize: [36, 38],
-  iconAnchor: [18, 38],
-  popupAnchor: [-20, -38],
-});
-
+// BillboardMap component props interface
 interface IBillboardMapProps {
   data: any;
   MapClickHandler: any;
@@ -46,17 +31,17 @@ interface IBillboardMapProps {
 
 const BillboardMap: FC<IBillboardMapProps> = ({
   data,
-  MapClickHandler,
   markerPosition,
+  MapClickHandler,
 }) => {
-  const [billboards, setBillboards] = useState([]);
+  const [billboards, setBillboards] = useState<JSX.Element[]>([]);
   const [ways, setWays] = useState<any[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedWay, setSelectedWay] = useState("همه");
   const [selectedStructure, setSelectedStructure] = useState("");
   const [code, setCode] = useState("");
   const [filter, setFilter] = useState("کد");
-  const mapRef = useRef(null);
+  const mapRef = useRef<any>(null); // Changed to 'any' for better reference typing
 
   useEffect(() => {
     // Initialize available ways based on the data
@@ -64,19 +49,12 @@ const BillboardMap: FC<IBillboardMapProps> = ({
     setWays(uniqueWays);
   }, [data, markerPosition]);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // Function to add billboards based on filters
-  const addBillboards = (info = {}) => {
+  const addBillboards = () => {
     const filteredData = data.filter((item: any) => {
       const matchesWay = selectedWay === "all" || item.way === selectedWay;
       const matchesCode = !code || item.id.includes(code);
       return matchesWay && matchesCode;
     });
-
-    console.log(data);
 
     const newBillboards = filteredData.map((item: any) => {
       const icon =
@@ -119,7 +97,7 @@ const BillboardMap: FC<IBillboardMapProps> = ({
     addBillboards();
   };
 
-  // Map controls (drag, bounds, etc.)
+  // Set map bounds and ensure it runs only on client
   useEffect(() => {
     const map: any = mapRef.current;
     if (map) {
