@@ -553,11 +553,7 @@ const PlanPdfDoc = (props: Props) => {
               }}
             >
               <Image
-                src={`/png/${
-                  strucuture.structureRecord.name.startsWith("B")
-                    ? strucuture.structureRecord.name
-                    : strucuture.structureRecord.name.slice(1)
-                }.png`}
+                src={`/png/${strucuture.structureRecord.name}.PNG`}
                 style={styles.backImage}
               />
               <View
