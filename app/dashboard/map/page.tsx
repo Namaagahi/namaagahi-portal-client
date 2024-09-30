@@ -9,7 +9,7 @@ import PageTitle from "@/app/components/main/PageTitle";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import L from "leaflet";
 import {
   selectAllStructures,
@@ -17,6 +17,21 @@ import {
   useGetStructuresQuery,
 } from "@/app/apiSlices/structuresApiSlice";
 import dynamic from "next/dynamic";
+import {
+  BoxObject,
+  CombinedStructure,
+  locationObject,
+  StructureObject,
+} from "@/app/lib/interfaces";
+import {
+  selectAllLocations,
+  useAddNewLocationMutation,
+  useGetLocationsQuery,
+} from "@/app/apiSlices/locationsApiSlice";
+import useAuth from "@/app/hooks/useAuth";
+import { useGetAllInitialCustomersQuery } from "@/app/apiSlices/initialCustomersApiSlice";
+import { FaTimes } from "react-icons/fa";
+import usePageTitle from "@/app/hooks/usePageTitle";
 
 interface Coords {
   lat: number;
@@ -45,7 +60,29 @@ const MapNama: React.FC = () => {
   const [coords, setCoords] = useState<Coords>({ lat: 0, lng: 0 });
   const [markerPosition, setMarkerPosition] = useState<L.LatLng | null>(null);
   const [structureId, setStructureId] = useState<string>("");
-  const [MapData, setMapData] = useState<MapObject[]>([]);
+  const [MapData, setMapData] = useState<locationObject[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
+  const { id } = useAuth();
+
+  usePageTitle("نقشه");
+
+  const { isLoading, isError } = useGetLocationsQuery(undefined, {
+    refetchOnFocus: true,
+    refetchOnMountOrArgChange: true,
+    refetchOnReconnect: true,
+  });
+
+  const allLocations: locationObject[] = useSelector(
+    (state) => selectAllLocations(state) as locationObject[]
+  );
+
+  const [addNewLocation, { isLoading: addLoading, isError: addError, error }] =
+    useAddNewLocationMutation();
+
+  useEffect(() => {
+    setMapData(allLocations);
+  }, [allLocations]);
 
   useGetAllBoxesQuery(undefined, {
     refetchOnFocus: false,
@@ -57,38 +94,106 @@ const MapNama: React.FC = () => {
     refetchOnMountOrArgChange: false,
   });
 
-  const boxes = useSelector((state: any) => selectAllBoxes(state)).filter(
-    (x: any) => !x.isArchived
+  useGetAllBoxesQuery(undefined);
+  useGetStructuresQuery(undefined);
+  useGetAllInitialCustomersQuery(undefined);
+
+  const allBoxes: BoxObject[] = useSelector(
+    (state) => selectAllBoxes(state) as BoxObject[]
   );
-  const structures = useSelector((state: any) => selectAllStructures(state));
+  const allStructures: StructureObject[] = useSelector(
+    (state) => selectAllStructures(state) as StructureObject[]
+  );
+  const allMyBoxes: BoxObject[] = allBoxes.filter((x) => !x.isArchived);
+  const inBoxStructures = allStructures.filter(
+    (structure: any) => structure.isChosen
+  );
+  const boxStructures = allMyBoxes.flatMap((box: any) => box.structures);
+  const inBoxStructuresLookup = inBoxStructures.reduce(
+    (acc: any, chosenStructure: any) => ({
+      ...acc,
+      [chosenStructure.id]: chosenStructure,
+    }),
+    {}
+  );
+
+  const combinedStructures: CombinedStructure[] = boxStructures
+    .map((boxStructure: CombinedStructure) => ({
+      ...boxStructure,
+      ...inBoxStructuresLookup[boxStructure.structureId],
+    }))
+    .filter((x) => x.isChosen)
+    .filter(
+      (value, index, self) => index === self.findIndex((t) => t.id === value.id)
+    );
+
   const structure = useSelector((state: any) =>
     selectStructureById(state, structureId)
   );
+
+  // Filter the structures based on the search term
+  const filteredStructures = combinedStructures.filter((structure) =>
+    structure.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSelect = (id: any) => {
+    setStructureId(id); // Set the selected structure ID
+    setSearchTerm("");
+    setShowDropdown(false); // Close the dropdown after selection
+  };
 
   return (
     <main className="min-h-screen">
       <PageTitle name="نقشه" />
       <form className="flex items-start justify-center gap-3 mb-6">
         <div className="flex flex-col items-start gap-3">
-          <label
-            htmlFor="typeName"
-            className="text-[#767676] text-center font-bold"
-          >
-            کد سامانه
-          </label>
-          <select
-            onChange={(e) => setStructureId(e.target.value)}
-            className="select select-bordered max-w-xs w-full px-6 py-3 rounded-xl h-16 bg-[#E6E6E6] outline-none text-black"
-          >
-            <option value={""} hidden>
-              انتخاب کنید
-            </option>
-            {structures.map((structure: any) => (
-              <option value={structure.id} key={structure.id} id="typeName">
-                {structure.name}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <label
+              htmlFor="typeName"
+              className="text-[#767676] text-center font-bold"
+            >
+              کد سامانه
+            </label>
+            {/* Input container with icon */}
+            <div className="relative w-full">
+              <input
+                id="typeName"
+                type="text"
+                value={structure && !searchTerm ? structure.name : searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                onFocus={() => setShowDropdown(true)} // Show dropdown when input is focused
+                placeholder={`${
+                  structure && !searchTerm ? structure.name : "جستجو..."
+                }`}
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
+              {/* Icon */}
+              <div
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-600 hover:scale-110 cursor-pointer"
+                onClick={() => setStructureId("")}
+              >
+                <FaTimes />
+              </div>
+            </div>
+
+            {showDropdown && (
+              <ul className="absolute z-20 w-full bg-black border border-gray-300 rounded-md max-h-96 overflow-y-auto">
+                {filteredStructures.length > 0 ? (
+                  filteredStructures.map((structure) => (
+                    <li
+                      key={structure.id}
+                      onClick={() => handleSelect(structure.id)}
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-800"
+                    >
+                      {structure.name}
+                    </li>
+                  ))
+                ) : (
+                  <li className="px-4 py-2">موردی یافت نشد</li>
+                )}
+              </ul>
+            )}
+          </div>
           <small className="text-xs text-rose-600"></small>
         </div>
 
@@ -138,7 +243,7 @@ const MapNama: React.FC = () => {
             className="primaryButton m-0 w-full"
             onClick={(e) => {
               e.preventDefault();
-              const boxStr = boxes
+              const boxStr = allBoxes
                 .map((box: any) =>
                   box.structures.find(
                     (str: any) => str.structureId === structureId
@@ -147,31 +252,42 @@ const MapNama: React.FC = () => {
                 .filter((y: any) => !!y);
 
               if (structure && structure.location && structure.name) {
-                setMapData((prevData: MapObject[]) => [
-                  ...prevData,
-                  {
-                    id: structureId,
-                    way: structure.location.path,
-                    name: structure.name,
-                    address: structure.location.address,
-                    structure: boxStr[0] ? boxStr[0].marks.name : "Undefined",
-                    area: boxStr[0]
-                      ? boxStr[0].marks.markOptions.length *
-                        boxStr[0].marks.markOptions.width
-                      : "Undefined",
-                    dimensions: boxStr[0]
-                      ? `${boxStr[0].marks.markOptions.length} * ${boxStr[0].marks.markOptions.width}`
-                      : "Undefined",
-                    locationX: coords.lat,
-                    locationY: coords.lng,
-                    same: "",
-                  },
-                ]);
+                // setMapData((prevData: MapObject[]) => [
+                //   ...prevData,
+                //   {
+                //     id: structureId,
+                //     way: structure.location.path,
+                //     name: structure.name,
+                //     address: structure.location.address,
+                //     structure: boxStr[0] ? boxStr[0].marks.name : "Undefined",
+                //     area: boxStr[0]
+                //       ? boxStr[0].marks.markOptions.length *
+                //         boxStr[0].marks.markOptions.width
+                //       : "Undefined",
+                //     dimensions: boxStr[0]
+                //       ? `${boxStr[0].marks.markOptions.length} * ${boxStr[0].marks.markOptions.width}`
+                //       : "Undefined",
+                //     locationX: coords.lat,
+                //     locationY: coords.lng,
+                //     same: "",
+                //   },
+                // ]);
+                addNewLocation({
+                  structureId: structureId,
+                  userId: id,
+                  locationX: coords.lat,
+                  locationY: coords.lng,
+                  same: "",
+                });
+                if (addLoading) toast.success("سازه با موفقیت به مپ اضافه شد");
+                else if (addError) {
+                  "status" in error! &&
+                    error.status === 409 &&
+                    toast.error("این سازه قبلا ثبت شده است");
+                }
               } else {
-                alert("Structure is not properly defined.");
+                toast.error("ابتدا سازه را انتخاب کنید");
               }
-
-              toast.success("سازه با موفقیت به مپ اضافه شد");
               setMarkerPosition(null);
             }}
           >

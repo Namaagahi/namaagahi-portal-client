@@ -252,6 +252,22 @@ export interface AssetObject {
   updatedAt?: string;
 }
 
+// LOCATIONS ===========================================================================
+export interface locationObject {
+  structureName?: string;
+  username?: string;
+  id?: string;
+  _id?: string;
+  userId: string;
+  structureId: string;
+  locationX: number;
+  locationY: number;
+  same: string;
+  selected: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // MENU & CUSTOM ERROR ===========================================================================
 export interface MenuItemsObj {
   name: string;

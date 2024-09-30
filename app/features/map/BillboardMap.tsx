@@ -1,12 +1,22 @@
 import { useEffect, useState, useRef, FC } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MdDelete } from "react-icons/md";
 import L, { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useDeleteLocationMutation } from "@/app/apiSlices/locationsApiSlice";
+import Image from "next/image";
 
 const bounds: LatLngBoundsExpression = [
   [24.396308, 44.032249], // Southwest coordinates
   [39.782079, 63.333271], // Northeast coordinates
 ];
+
+const locationIcon = new L.Icon({
+  iconUrl: "/images/maps-and-location.png",
+  iconSize: [36, 38],
+  iconAnchor: [18, 38],
+  popupAnchor: [-20, -38],
+});
 
 const purpleIcon = new L.Icon({
   iconUrl: "/images/Bill 1.png",
@@ -43,9 +53,16 @@ const BillboardMap: FC<IBillboardMapProps> = ({
   const [filter, setFilter] = useState("کد");
   const mapRef = useRef<any>(null); // Changed to 'any' for better reference typing
 
+  const [
+    deleteNewLocation,
+    { isLoading: deleteLoading, isError: deleteError },
+  ] = useDeleteLocationMutation();
+
   useEffect(() => {
     // Initialize available ways based on the data
-    const uniqueWays = [...new Set(data.map((item: any) => item.way))];
+    const uniqueWays = [
+      ...new Set(data.map((item: any) => item.structure.location.path)),
+    ];
     setWays(uniqueWays);
   }, [data, markerPosition]);
 
@@ -107,15 +124,16 @@ const BillboardMap: FC<IBillboardMapProps> = ({
       });
     }
   }, [mapRef]);
+  console.log(data);
 
   return (
     <div>
-      <div className="m-5 flex gap-8 items-center">
+      <div className="m-5 mb-10 flex gap-8 items-center">
         <div>
           <label htmlFor="structure-type">نوع سازه :</label>
           <select
             id="structure-type"
-            className="select select-bordered mx-2 max-w-xs w-40 px-2 py-3 rounded-xl h-16 bg-[#E6E6E6] outline-none text-black"
+            className="select select-bordered mx-2 max-w-xs w-40 px-2  rounded-lg h-11 bg-[#E6E6E6] outline-none text-black"
             onChange={handleWayChange}
           >
             <option value="همه">همه</option>
@@ -127,7 +145,7 @@ const BillboardMap: FC<IBillboardMapProps> = ({
           <label htmlFor="filter"> فیلتر بر اساس :</label>
           <select
             id="filter"
-            className="select select-bordered mx-2 max-w-xs w-40 px-2 py-3 rounded-xl h-16 bg-[#E6E6E6] outline-none text-black"
+            className="select select-bordered mx-2 max-w-xs w-40 px-2  rounded-lg h-11 bg-[#E6E6E6] outline-none text-black"
             onChange={handleFilterChange}
           >
             <option value="کد">کد</option>
@@ -139,7 +157,7 @@ const BillboardMap: FC<IBillboardMapProps> = ({
             <label htmlFor="filter">انتخاب مسیر :</label>
             <select
               id="filter"
-              className="select select-bordered mx-2 max-w-xs w-40 px-2 py-3 rounded-xl h-16 bg-[#E6E6E6] outline-none text-black"
+              className="select select-bordered mx-2 max-w-xs w-40 px-2  rounded-lg h-11 bg-[#E6E6E6] outline-none text-black"
               onChange={handleStructureChange}
             >
               <option value={""}>همه ی مسیر ها</option>
@@ -156,7 +174,7 @@ const BillboardMap: FC<IBillboardMapProps> = ({
             <label htmlFor="input"> کد :</label>
             <input
               id="input"
-              className="input input-bordered mx-2 max-w-xs w-60 px-2 py-3 rounded-xl h-16 bg-[#E6E6E6] outline-none text-black"
+              className="input input-bordered mx-2 max-w-xs w-60 px-2  rounded-lg h-11 bg-[#E6E6E6] outline-none text-black"
               onChange={handleCodeChange}
               placeholder="کد بیلبورد را وارد کنید"
             />
@@ -171,7 +189,7 @@ const BillboardMap: FC<IBillboardMapProps> = ({
         maxZoom={18}
         bounds={bounds}
         ref={mapRef}
-        className="leaflet-map"
+        className="leaflet-map z-10"
         style={{ height: "90vh", width: "100%" }}
       >
         <TileLayer
@@ -180,7 +198,7 @@ const BillboardMap: FC<IBillboardMapProps> = ({
         />
         {billboards}
         {markerPosition && (
-          <Marker position={markerPosition} icon={purpleIcon} />
+          <Marker position={markerPosition} icon={locationIcon} />
         )}
         <MapClickHandler />
         {data
@@ -188,27 +206,73 @@ const BillboardMap: FC<IBillboardMapProps> = ({
             selectedWay === "همه"
               ? item
               : selectedWay === "برایت بورد"
-              ? item.structure === "برایت بورد"
-              : item.structure !== "برایت بورد"
+              ? item.structure.name.startsWith("BR")
+              : !item.structure.name.startsWith("BR")
           )
           .filter((x: any) =>
-            selectedStructure === "" ? x : selectedStructure === x.way
+            selectedStructure === ""
+              ? x
+              : selectedStructure === x.structure.location.path
           )
-          .filter((x: any) => (code === "" ? x : x.name.includes(code)))
+          .filter((x: any) =>
+            code === "" ? x : x.structure.name.includes(code)
+          )
           .map((item: any) => {
-            const icon =
-              item.structure === "برایت بورد"
-                ? purpleStrawboardIcon
-                : purpleIcon;
+            const icon = item.structure.name.startsWith("BR")
+              ? purpleStrawboardIcon
+              : purpleIcon;
             return (
               <Marker
                 key={item.id}
                 position={[item.locationX, item.locationY]}
                 icon={icon}
               >
-                <Popup>
-                  <img src={`images/${item.id}.jpg`} alt={item.id} />
-                  <p>{item.address}</p>
+                <Popup className="flex-col">
+                  <Image
+                    width={300}
+                    height={300}
+                    style={{
+                      width: "400px",
+                      height: "14rem",
+                      borderRadius: "5px",
+                      marginTop: "0.6rem",
+                    }}
+                    src={`/png/${item.structure.name}.PNG`}
+                    alt={item.structure.name}
+                  />
+                  <p
+                    style={{
+                      maxWidth: "300px",
+                      fontSize: "1.3rem",
+                      textAlign: "center",
+                      color: "#4a4a49",
+                      fontWeight: "bold",
+                      margin: 0,
+                    }}
+                  >
+                    {item.structure.name}
+                  </p>
+                  <div className="flex-row justify-between">
+                    <p
+                      style={{
+                        minWidth: "300px",
+                        fontSize: "1.2rem",
+                        textAlign: "right",
+                        color: "#4a4a49",
+                        fontWeight: "bold",
+                        marginTop: 5,
+                        marginBottom: 0,
+                      }}
+                    >
+                      {item.structure.location.address}
+                    </p>
+                    <button
+                      className="text-gray-500 hover:text-red-600 hover:scale-110 text-2xl"
+                      onClick={() => deleteNewLocation({ id: item.id })}
+                    >
+                      <MdDelete />
+                    </button>
+                  </div>
                 </Popup>
               </Marker>
             );
