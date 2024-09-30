@@ -250,7 +250,10 @@ const PlanPdfDoc = (props: Props) => {
         style={[styles.body, { padding: 0 }]}
         orientation="landscape"
       >
-        <Image src="/images/Billboard.png" style={styles.backImage} />
+        <Image
+          src="/images/billboard-and-brightboard.png"
+          style={styles.backImage}
+        />
       </Page>
       <Page
         size={{ width: 720, height: 1280 }}
