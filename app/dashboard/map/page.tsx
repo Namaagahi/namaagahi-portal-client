@@ -170,20 +170,23 @@ const MapNama: React.FC = () => {
               {/* Icon */}
               <div
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-600 hover:scale-110 cursor-pointer"
-                onClick={() => setStructureId("")}
+                onClick={() => {
+                  setStructureId("");
+                  setShowDropdown(false);
+                }}
               >
                 <FaTimes />
               </div>
             </div>
 
             {showDropdown && (
-              <ul className="absolute z-20 w-full bg-black border border-gray-300 rounded-md max-h-96 overflow-y-auto">
+              <ul className="absolute z-20 w-full bg-white dark:bg-black border border-gray-300 rounded-md max-h-96 overflow-y-auto">
                 {filteredStructures.length > 0 ? (
                   filteredStructures.map((structure) => (
                     <li
                       key={structure.id}
                       onClick={() => handleSelect(structure.id)}
-                      className="px-4 py-2 cursor-pointer hover:bg-gray-800"
+                      className="px-4 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-800"
                     >
                       {structure.name}
                     </li>
