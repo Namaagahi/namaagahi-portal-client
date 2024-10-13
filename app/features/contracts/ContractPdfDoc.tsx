@@ -159,7 +159,7 @@ const ContractPdfDoc = (props: Props) => {
   return (
     <Document>
       <Page size="A4" style={styles.body} orientation="landscape">
-        <Text style={styles.title}>شناسه اجاره بیلبورد</Text>
+        <Text style={styles.title}>شناسه اجاره محیطی</Text>
         <View style={styles.headerContainer}>
           <div className="flex flex-col justify-center align-center">
             <Image src="/images/Logo.png" style={styles.image} />
@@ -354,12 +354,12 @@ const ContractPdfDoc = (props: Props) => {
                 <View style={styles.contentCell}>
                   <Text>نحوه پرداخت : ---</Text>
                 </View>
-                <View style={styles.contentCell}>
+                {/* <View style={styles.contentCell}>
                   <Text>نام و نوع قرارداد بازاریاب : ---</Text>
                 </View>
                 <View style={styles.contentCell}>
                   <Text>درصد/مبلغ بازاریاب : ---</Text>
-                </View>
+                </View> */}
                 <View style={styles.contentCell}>
                   <Text>مدت زمان رایگان : ---</Text>
                 </View>
