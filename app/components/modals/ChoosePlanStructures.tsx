@@ -7,15 +7,23 @@ type Props = {
   handleModal: () => void;
   data: StructureObject[];
   setValue: any;
+  getValues: any;
+  handleThisStructuresChange: any;
 };
 
 const ChoosePlanStructures = (props: Props) => {
-  const { handleModal, data, setValue } = props;
+  const { handleModal, data, setValue, getValues, handleThisStructuresChange } =
+    props;
 
   const [selectedIndices, setSelectedIndices] = useState<StructureObject[]>([]);
   const [searchText, setSearchText] = useState<string>("");
   const [finishFlag, setFinishFlag] = useState<boolean>(false);
   const [searchResults, setSearchResults] = useState<StructureObject[]>([]);
+  const [mainData, setMainData] = useState<StructureObject[]>([]);
+
+  useEffect(() => {
+    setMainData(data);
+  }, []);
 
   const toggleSelection = (item: StructureObject) => {
     const isSelected = selectedIndices.includes(item);
@@ -29,7 +37,7 @@ const ChoosePlanStructures = (props: Props) => {
 
   const performSearch = (value: string) => {
     const searchText = value.toLowerCase();
-    const filteredResults = data.filter((item: StructureObject) => {
+    const filteredResults = mainData.filter((item: StructureObject) => {
       return (
         item.name?.toLowerCase().includes(searchText) ||
         item.location?.address.toLowerCase().includes(searchText) ||
@@ -46,7 +54,16 @@ const ChoosePlanStructures = (props: Props) => {
   };
 
   const handleConfirmSelection = () => {
-    setValue("structures", selectedIndices);
+    const currentStructures = getValues("structures") || [];
+
+    const updatedStructures = currentStructures[0].structureId
+      ? [...currentStructures, ...selectedIndices]
+      : selectedIndices;
+
+    setValue("structures", updatedStructures);
+    updatedStructures.map((v, i) =>
+      handleThisStructuresChange(i, v.name ? v.name : v.structureRecord.name)
+    );
     handleModal();
   };
 
@@ -90,7 +107,7 @@ const ChoosePlanStructures = (props: Props) => {
               <div className="mt-4 bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25  font-bold rounded-xl p-3 h-[200px] overflow-y-auto">
                 <ul>
                   {searchResults.length === 0
-                    ? (finishFlag ? selectedIndices : data).map(
+                    ? (finishFlag ? selectedIndices : mainData).map(
                         (item, index) => {
                           const isSelected = selectedIndices.includes(item);
                           return (

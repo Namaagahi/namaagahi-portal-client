@@ -3,6 +3,7 @@ import { useGetAllBoxesQuery } from "@/app/apiSlices/boxesApiSlice";
 import Button from "@/app/components/main/Button";
 import PageTitle from "@/app/components/main/PageTitle";
 import SearchContainer from "@/app/components/main/SearchContainer";
+import useAuth from "@/app/hooks/useAuth";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,6 +24,7 @@ const BoxComp = (props: Props) => {
   const { page, archived } = props;
   const { push } = useRouter();
   const [boxes1, setBoxes1] = useState<any[]>([]);
+  const { username } = useAuth();
 
   const {
     data: boxes,
@@ -36,13 +38,22 @@ const BoxComp = (props: Props) => {
   });
   useEffect(() => {
     if (isSuccess && Array.isArray(boxes)) {
-      setBoxes1(boxes);
+      setBoxes1(
+        username === "amin.haddadi1995@gmail.com" || username === "soltani"
+          ? boxes
+          : boxes.filter((x) => x.mark.name !== "buyShort")
+      );
     } else {
       fetch(`${process.env.SERVER}/boxes`)
         .then((res) => res.json())
         .then((data) => {
           if (Array.isArray(data)) {
-            setBoxes1(data);
+            setBoxes1(
+              username === "amin.haddadi1995@gmail.com" ||
+                username === "soltani"
+                ? data
+                : data.filter((x) => x.mark.name !== "buyShort")
+            );
           } else {
             console.error("Expected an array but got:", data);
             setBoxes1([]);

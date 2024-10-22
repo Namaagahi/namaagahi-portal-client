@@ -211,7 +211,9 @@ const RegularPlanStructureInfo = (props: Props) => {
                     id="strChoose"
                     className="bg-black p-[4.5px] text-white rounded-md hover:text-black hover:bg-white transition-colors"
                   >
-                    {thisStructures[fieldIndex] || "انتخاب سازه"}
+                    {thisStructures && thisStructures[fieldIndex]
+                      ? thisStructures[fieldIndex]
+                      : "انتخاب سازه"}
                   </button>
                   {isStructureChoose[fieldIndex] && (
                     <ChooseStructureModal

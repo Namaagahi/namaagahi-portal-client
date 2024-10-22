@@ -28,6 +28,7 @@ import {
 } from "@/app/apiSlices/structuresApiSlice";
 import { useGetAllInitialCustomersQuery } from "@/app/apiSlices/initialCustomersApiSlice";
 import ChoosePlanStructures from "@/app/components/modals/ChoosePlanStructures";
+import OtherStructureModal from "./OtherStructureModal";
 
 type Props = {
   mark: string;
@@ -39,14 +40,19 @@ const NewPlan = (props: Props) => {
   const { push } = useRouter();
   const [isChanged, setIsChanged] = useState(false);
   const [toggleModal, setTogglemodal] = useState(false);
-  const [totalStructures, setTotalStructures] = useState([]);
+  const [othersToggle, setOthersToggle] = useState(false);
+  const [thisStructures, setThisStructures] = useState<string[]>([]);
 
   const [createNewPlan, { isSuccess, isError, error }] =
     useCreateNewPlanMutation();
 
-  useGetAllBoxesQuery(undefined, {
-    refetchOnFocus: false,
-    refetchOnMountOrArgChange: false,
+  // Use polling with refetch every 5 seconds
+  const { data: boxes } = useGetAllBoxesQuery(undefined, {
+    pollingInterval: 2000,
+  });
+
+  const { data: structures } = useGetStructuresQuery(undefined, {
+    pollingInterval: 2000,
   });
 
   const allBoxes: BoxObject[] = useSelector(
@@ -69,6 +75,7 @@ const NewPlan = (props: Props) => {
     formState: { errors },
     setValue,
     watch,
+    getValues,
   } = createPlanForm;
 
   const {
@@ -99,6 +106,13 @@ const NewPlan = (props: Props) => {
     });
   };
 
+  const handleThisStructuresChange = (index: number, val: string) =>
+    setThisStructures((prevState) => {
+      const updatedState = [...prevState];
+      updatedState[index] = val;
+      return updatedState;
+    });
+
   const toggleDiscountFlag = (index: number) => {
     setDiscountFlags((prevFlags) => {
       const newDiscountFlags = [...prevFlags];
@@ -115,19 +129,21 @@ const NewPlan = (props: Props) => {
     });
   };
 
-  useGetAllBoxesQuery(undefined);
-  useGetStructuresQuery(undefined);
   useGetAllInitialCustomersQuery(undefined);
 
+  // Combining logic for structures and boxes
   const allStructures: StructureObject[] = useSelector(
     (state) => selectAllStructures(state) as StructureObject[]
   );
-  const allMyBoxes: BoxObject[] = allBoxes.filter((x) => !x.isArchived);
-  const inBoxStructures = allStructures.filter(
+  const allMyBoxes: BoxObject[] = allBoxes?.filter((x) => !x.isArchived) || [];
+
+  const inBoxStructures = allStructures?.filter(
     (structure: any) => structure.isChosen
   );
+
   const boxStructures = allMyBoxes.flatMap((box: any) => box.structures);
-  const inBoxStructuresLookup = inBoxStructures.reduce(
+
+  const inBoxStructuresLookup = inBoxStructures?.reduce(
     (acc: any, chosenStructure: any) => ({
       ...acc,
       [chosenStructure.id]: chosenStructure,
@@ -138,7 +154,7 @@ const NewPlan = (props: Props) => {
   const combinedStructures: CombinedStructure[] = boxStructures
     .map((boxStructure: CombinedStructure) => ({
       ...boxStructure,
-      ...inBoxStructuresLookup[boxStructure.structureId],
+      ...inBoxStructuresLookup?.[boxStructure.structureId],
     }))
     .filter((x) => x.isChosen)
     .filter(
@@ -205,7 +221,7 @@ const NewPlan = (props: Props) => {
     push("/dashboard/billboard/plans");
   }
 
-  if (!allBoxes[0])
+  if (!allBoxes?.[0])
     return (
       <div className="flex flex-col justify-center items-center min-h-screen gap-3">
         <p className="text-xl">
@@ -235,13 +251,22 @@ const NewPlan = (props: Props) => {
           errors={errors}
           setValue={setValue}
         />
-        <button
-          type="button"
-          onClick={() => setTogglemodal(!toggleModal)}
-          className="bg-primary text-white shadow-md w-[10%] rounded-md p-1 formChooseButton"
-        >
-          انتخاب گروهی سازه
-        </button>
+        <div className="flex gap-4">
+          <button
+            type="button"
+            onClick={() => setTogglemodal(!toggleModal)}
+            className="bg-primary text-white shadow-md w-[10%] rounded-md p-1 formChooseButton"
+          >
+            انتخاب گروهی سازه
+          </button>
+          <button
+            type="button"
+            onClick={() => setOthersToggle(!othersToggle)}
+            className="bg-primary text-white shadow-md w-[10%] rounded-md p-1 formChooseButton"
+          >
+            سازه از دیگران
+          </button>
+        </div>
         <PlanStructuresInfo
           page={"create"}
           mark={mark}
@@ -261,6 +286,9 @@ const NewPlan = (props: Props) => {
           toggleFlag={toggleFlag}
           discountFlags={discountFlags}
           toggleDiscountFlag={toggleDiscountFlag}
+          thisStructures={thisStructures}
+          setThisStructures={setThisStructures}
+          handleThisStructuresChange={handleThisStructuresChange}
         />
         <button type="submit" className="primaryButton w-1/4 mx-auto">
           افزودن پلن
@@ -271,6 +299,19 @@ const NewPlan = (props: Props) => {
           handleModal={() => setTogglemodal(!toggleModal)}
           data={combinedStructures!}
           setValue={setValue}
+          getValues={getValues}
+          handleThisStructuresChange={handleThisStructuresChange}
+        />
+      )}
+      {othersToggle && (
+        <OtherStructureModal
+          handleModal={() => setOthersToggle(!othersToggle)}
+          thisStructures={thisStructures}
+          setThisStructures={setThisStructures}
+          handleThisStructuresChange={handleThisStructuresChange}
+          setValue={setValue}
+          getValues={getValues}
+          append={appendStructure}
         />
       )}
     </div>

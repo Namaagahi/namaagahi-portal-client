@@ -66,6 +66,9 @@ type Props = {
   toggleFlag: any;
   discountFlags: boolean[] | any;
   toggleDiscountFlag: any;
+  thisStructures: string[];
+  setThisStructures: any;
+  handleThisStructuresChange: any;
 };
 
 const PlanStructuresInfo = (props: Props) => {
@@ -92,13 +95,15 @@ const PlanStructuresInfo = (props: Props) => {
     toggleFlag,
     discountFlags,
     toggleDiscountFlag,
+    thisStructures,
+    setThisStructures,
+    handleThisStructuresChange,
   } = props;
 
   const [showStructureInfo, setShowStructureInfo] = useState<boolean>(false);
   const [isStructureChoose, setIsStructureChoose] = useState(
     Array(field.length).fill(false)
   );
-  const [thisStructures, setThisStructures] = useState<string[]>([]);
 
   const handleModalToggle = (fieldIndex: number) => {
     const updatedState = [...isStructureChoose];
@@ -141,13 +146,6 @@ const PlanStructuresInfo = (props: Props) => {
       (value, index, self) => index === self.findIndex((t) => t.id === value.id)
     );
 
-  const handleThisStructuresChange = (index: number, val: string) =>
-    setThisStructures((prevState) => {
-      const updatedState = [...prevState];
-      updatedState[index] = val;
-      return updatedState;
-    });
-
   function handleTextbox1Change(
     event: React.ChangeEvent<HTMLInputElement>,
     fieldIndex: number,
@@ -166,17 +164,17 @@ const PlanStructuresInfo = (props: Props) => {
     setValue(prop, formattedValue);
   }
 
-  useEffect(() => {
-    if (formVals && allStructures.length > 0) {
-      const updatedStructures = formVals.map((item: BoxStructure) => {
-        const structure = allStructures.find(
-          (str) => str.id === item.structureId
-        );
-        return structure ? structure.name : "انتخاب سازه";
-      });
-      setThisStructures(updatedStructures);
-    }
-  }, [formVals, allStructures]);
+  // useEffect(() => {
+  //   if (formVals && allStructures.length > 0) {
+  //     const updatedStructures = formVals.map((item: BoxStructure) => {
+  //       const structure = allStructures.find(
+  //         (str) => str.id === item.structureId
+  //       );
+  //       return structure ? structure.name : "انتخاب سازه";
+  //     });
+  //     setThisStructures(updatedStructures);
+  //   }
+  // }, [formVals, allStructures]);
 
   if ((page === "edit" && !plan) || !boxStructures[0] || !inBoxStructures[0])
     return <Loading />;

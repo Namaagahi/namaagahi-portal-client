@@ -37,14 +37,14 @@ const CreateBox = () => {
               مزایده ای
             </button>
 
-            <button
+            {/* <button
               onClick={() => setBoxMark("buyShort")}
               className={`${
                 boxMark === "buyShort" && "bg-primary text-white shadow-md"
               } formChooseButton w-full`}
             >
               روز شمار
-            </button>
+            </button> */}
 
             <button
               onClick={() => setBoxMark("buyLong")}
