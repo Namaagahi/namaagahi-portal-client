@@ -66,9 +66,9 @@ type Props = {
   toggleFlag: any;
   discountFlags: boolean[] | any;
   toggleDiscountFlag: any;
-  thisStructures: string[];
-  setThisStructures: any;
-  handleThisStructuresChange: any;
+  thisStructures?: string[];
+  setThisStructures?: any;
+  handleThisStructuresChange?: any;
 };
 
 const PlanStructuresInfo = (props: Props) => {
@@ -194,7 +194,7 @@ const PlanStructuresInfo = (props: Props) => {
       handleStructureInfoModal={handleStructureInfoModal}
       handleModalToggle={handleModalToggle}
       isStructureChoose={isStructureChoose}
-      thisStructures={thisStructures}
+      thisStructures={thisStructures!}
       handleThisStructuresChange={handleThisStructuresChange}
       plan={plan}
       errors={errors}
@@ -221,7 +221,7 @@ const PlanStructuresInfo = (props: Props) => {
       handleThisStructuresChange={handleThisStructuresChange}
       handleStructureInfoModal={handleStructureInfoModal}
       handleModalToggle={handleModalToggle}
-      thisStructures={thisStructures}
+      thisStructures={thisStructures!}
       isStructureChoose={isStructureChoose}
       page={page}
       plan={plan}
