@@ -29,6 +29,7 @@ import CalculatedDiscount from "./CalculatedDiscount";
 import DiscountedMonthlyFee from "./DiscountedMonthlyFee";
 import { AiFillMinusCircle, AiFillPlusCircle } from "react-icons/ai";
 import { planStructureFormValues } from "@/app/lib/constants";
+import useAuth from "@/app/hooks/useAuth";
 
 type Props = {
   flags: boolean[];
@@ -98,6 +99,7 @@ const RegularPlanStructureInfo = (props: Props) => {
     discountFlags,
     toggleDiscountFlag,
   } = props;
+  const { username } = useAuth();
 
   return (
     <div className="formContainer">
@@ -117,9 +119,10 @@ const RegularPlanStructureInfo = (props: Props) => {
         const selectedDiscount: string = watch(
           `structures.${fieldIndex}.discountFee`
         );
-        const selectedStructure = combinedStructures.find(
+        const selectedStructure = combinedStructures?.find(
           (str) => str.structureId === selectedStructureId
         );
+        console.log(selectedStructure);
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
@@ -218,7 +221,12 @@ const RegularPlanStructureInfo = (props: Props) => {
                   {isStructureChoose[fieldIndex] && (
                     <ChooseStructureModal
                       handleModal={() => handleModalToggle(fieldIndex)}
-                      data={combinedStructures!}
+                      data={
+                        username === "amin.haddadi1995@gmail.com" ||
+                        username === "soltani"
+                          ? combinedStructures!
+                          : combinedStructures.filter((x) => /\d$/.test(x.name))
+                      }
                       fieldIndex={fieldIndex}
                       setValue={setValue}
                       handleThisStructuresChange={handleThisStructuresChange}
@@ -229,7 +237,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                 </div>
 
                 <div className="flex flex-col gap-3 col-span-3 bg-white bg-opacity-40 p-2 rounded-md overflow-x-auto">
-                  {combinedStructures.map((structure) => {
+                  {combinedStructures?.map((structure) => {
                     if (structure.structureId === selectedStructureId)
                       return (
                         <SummaryBox
@@ -306,7 +314,7 @@ const RegularPlanStructureInfo = (props: Props) => {
                   </small>
                 </div>
 
-                {combinedStructures.map((structure) => {
+                {combinedStructures?.map((structure) => {
                   return (
                     structure.structureId === selectedStructureId && (
                       <MonthlyFeeInput

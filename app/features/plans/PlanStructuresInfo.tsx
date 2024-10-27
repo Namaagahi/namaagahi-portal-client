@@ -114,21 +114,32 @@ const PlanStructuresInfo = (props: Props) => {
   const handleStructureInfoModal = () =>
     setShowStructureInfo(!showStructureInfo);
 
-  useGetAllBoxesQuery(undefined);
-  useGetStructuresQuery(undefined);
   useGetAllInitialCustomersQuery(undefined);
+
+  const { data: boxes } = useGetAllBoxesQuery(undefined, {
+    pollingInterval: 2000,
+  });
+
+  const { data: structures } = useGetStructuresQuery(undefined, {
+    pollingInterval: 2000,
+  });
+
+  const allBoxes: BoxObject[] = useSelector(
+    (state) => selectAllBoxes(state) as BoxObject[]
+  );
 
   const allStructures: StructureObject[] = useSelector(
     (state) => selectAllStructures(state) as StructureObject[]
   );
-  const allBoxes: BoxObject[] = useSelector(
-    (state) => selectAllBoxes(state) as BoxObject[]
-  ).filter((x) => !x.isArchived);
-  const inBoxStructures = allStructures.filter(
+  const allMyBoxes: BoxObject[] = allBoxes?.filter((x) => !x.isArchived) || [];
+
+  const inBoxStructures = allStructures?.filter(
     (structure: any) => structure.isChosen
   );
-  const boxStructures = allBoxes.flatMap((box: any) => box.structures);
-  const inBoxStructuresLookup = inBoxStructures.reduce(
+
+  const boxStructures = allMyBoxes.flatMap((box: any) => box.structures);
+
+  const inBoxStructuresLookup = inBoxStructures?.reduce(
     (acc: any, chosenStructure: any) => ({
       ...acc,
       [chosenStructure.id]: chosenStructure,
@@ -139,7 +150,7 @@ const PlanStructuresInfo = (props: Props) => {
   const combinedStructures: CombinedStructure[] = boxStructures
     .map((boxStructure: CombinedStructure) => ({
       ...boxStructure,
-      ...inBoxStructuresLookup[boxStructure.structureId],
+      ...inBoxStructuresLookup?.[boxStructure.structureId],
     }))
     .filter((x) => x.isChosen)
     .filter(

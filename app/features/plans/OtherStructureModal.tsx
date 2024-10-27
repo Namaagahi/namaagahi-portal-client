@@ -33,22 +33,18 @@ import {
 
 interface IOtherStructureModalProps {
   handleModal: () => void;
-  thisStructures: string[];
-  setThisStructures: any;
-  handleThisStructuresChange: any;
+  handleThisStructuresChange?: any;
   setValue: any;
   getValues: any;
-  append: any;
+  page?: string;
 }
 
 const OtherStructureModal: FC<IOtherStructureModalProps> = ({
   handleModal,
-  thisStructures,
-  setThisStructures,
   handleThisStructuresChange,
   setValue,
   getValues,
-  append,
+  page,
 }) => {
   const [errMsg, setErrMsg] = useState<string | null>(null);
   const [box, setBox] = useState<null | BoxObject>(null);
@@ -100,6 +96,7 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
       location: {
         address: data.address || "Default Address", // Ensure you set the address
         path: data.path || "Default Path", // Ensure you set the path
+        district: data.district || "Default district",
       },
       userId: currentUserId, // Ensure userId is provided
       name: data.name,
@@ -139,6 +136,7 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
         name: "عرشه پل سواره رو",
       },
       monthlyBaseFee: convertToNumber(data.monthlyFee) || 0,
+      coWorkerCompany: data.coWorkerCompany,
     };
 
     const newBoxData = {
@@ -204,11 +202,15 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
 
       setValue("structures", updatedStructures);
 
+      toast.success(`سازه اضافه شد`);
+      if (page === "edit") {
+        handleModal();
+        return;
+      }
       handleThisStructuresChange(
         updatedStructures.length - 1,
         editBoxABC.newStructure.name
       );
-      toast.success(`سازه اضافه شد`);
     } catch (error) {
       toast.error(`سازه اضافه نشد`);
     }
@@ -229,7 +231,7 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
     {
       id: 2,
       label: "شرکت همکار ",
-      name: "co-workerCompany",
+      name: "coWorkerCompany",
       type: "text",
       required: false,
     },
