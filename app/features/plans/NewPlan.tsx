@@ -36,7 +36,7 @@ type Props = {
 
 const NewPlan = (props: Props) => {
   const { mark } = props;
-  const { id } = useAuth();
+  const { id, username } = useAuth();
   const { push } = useRouter();
   const [isChanged, setIsChanged] = useState(false);
   const [toggleModal, setTogglemodal] = useState(false);
@@ -297,7 +297,11 @@ const NewPlan = (props: Props) => {
       {toggleModal && (
         <ChoosePlanStructures
           handleModal={() => setTogglemodal(!toggleModal)}
-          data={combinedStructures!}
+          data={
+            username === "amin.haddadi1995@gmail.com" || username === "soltani"
+              ? combinedStructures!
+              : combinedStructures.filter((x) => /\d$/.test(x.name))
+          }
           setValue={setValue}
           getValues={getValues}
           handleThisStructuresChange={handleThisStructuresChange}
@@ -306,12 +310,9 @@ const NewPlan = (props: Props) => {
       {othersToggle && (
         <OtherStructureModal
           handleModal={() => setOthersToggle(!othersToggle)}
-          thisStructures={thisStructures}
-          setThisStructures={setThisStructures}
           handleThisStructuresChange={handleThisStructuresChange}
           setValue={setValue}
           getValues={getValues}
-          append={appendStructure}
         />
       )}
     </div>
