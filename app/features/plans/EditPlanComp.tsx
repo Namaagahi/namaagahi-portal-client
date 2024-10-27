@@ -17,12 +17,14 @@ import PlanBasicInfo from "./PlanBasicInfo";
 import useAuth from "@/app/hooks/useAuth";
 import Loading from "../loading/Loading";
 import { toast } from "react-toastify";
+import OtherStructureModal from "./OtherStructureModal";
 
 type Props = {
   plan: PlanObject;
 };
 
 const EditPlanComp = (props: Props) => {
+  const [othersToggle, setOthersToggle] = useState(false);
   const { plan } = props;
   const { id: currentUserId } = useAuth();
   const { push } = useRouter();
@@ -67,6 +69,7 @@ const EditPlanComp = (props: Props) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
     reset,
     watch,
   } = editPlanForm;
@@ -194,6 +197,13 @@ const EditPlanComp = (props: Props) => {
             mark={plan.mark.name}
             setValue={setValue}
           />
+          <button
+            type="button"
+            onClick={() => setOthersToggle(!othersToggle)}
+            className="bg-primary text-white shadow-md w-[10%] rounded-md p-1 formChooseButton"
+          >
+            سازه از دیگران
+          </button>
 
           <PlanStructuresInfo
             mark={plan.mark.name}
@@ -223,6 +233,14 @@ const EditPlanComp = (props: Props) => {
           <button className="primaryButton mx-auto w-1/4">ویرایش پلن</button>
         </form>
       </div>
+      {othersToggle && (
+        <OtherStructureModal
+          handleModal={() => setOthersToggle(!othersToggle)}
+          setValue={setValue}
+          getValues={getValues}
+          page={"edit"}
+        />
+      )}
     </main>
   );
 };
