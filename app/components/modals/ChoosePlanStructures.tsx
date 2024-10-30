@@ -1,11 +1,29 @@
 "use client";
-import { StructureObject } from "@/app/lib/interfaces";
+import {
+  selectAllPlans,
+  useGetAllPlansQuery,
+} from "@/app/apiSlices/plansApiSlice";
+import {
+  CombinedStructure,
+  PlanObject,
+  StructureObject,
+} from "@/app/lib/interfaces";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import DatePicker from "react-multi-date-picker";
+import { useSelector } from "react-redux";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import DateObject from "react-date-object";
+import { calculateAvailableDates } from "@/app/utilities/calculateAvailableDates";
+import {
+  selectAllStructures,
+  useGetStructuresQuery,
+} from "@/app/apiSlices/structuresApiSlice";
 
 type Props = {
   handleModal: () => void;
-  data: StructureObject[];
+  data: CombinedStructure[];
   setValue: any;
   getValues: any;
   handleThisStructuresChange: any;
@@ -15,17 +33,53 @@ const ChoosePlanStructures = (props: Props) => {
   const { handleModal, data, setValue, getValues, handleThisStructuresChange } =
     props;
 
-  const [selectedIndices, setSelectedIndices] = useState<StructureObject[]>([]);
+  const [selectedIndices, setSelectedIndices] = useState<CombinedStructure[]>(
+    []
+  );
   const [searchText, setSearchText] = useState<string>("");
   const [finishFlag, setFinishFlag] = useState<boolean>(false);
-  const [searchResults, setSearchResults] = useState<StructureObject[]>([]);
-  const [mainData, setMainData] = useState<StructureObject[]>([]);
+  const [empty, setEmpty] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<CombinedStructure[]>([]);
+  const [mainData, setMainData] = useState<CombinedStructure[]>([]);
+  const [startDate, setStartDate] = useState<number>(
+    new Date().getTime() / 1000
+  );
+  const [endDate, setEndDate] = useState<number>(new Date().getTime() / 1000);
 
+  const { isLoading, isError } = useGetAllPlansQuery(undefined, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false,
+  });
+
+  const allPlans: PlanObject[] = useSelector(
+    (state) => selectAllPlans(state) as PlanObject[]
+  );
+
+  useGetStructuresQuery(undefined, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false,
+  });
+  const allStructures: StructureObject[] = useSelector(
+    (state) => selectAllStructures(state) as StructureObject[]
+  );
+
+  const handleEmpty = () => {
+    const availableStructures = calculateAvailableDates(
+      allStructures,
+      allPlans,
+      data,
+      startDate,
+      endDate
+    );
+    setMainData(
+      empty ? data.filter((x) => availableStructures.has(x.name)) : data
+    );
+  };
   useEffect(() => {
-    setMainData(data);
-  }, []);
+    handleEmpty();
+  }, [empty]);
 
-  const toggleSelection = (item: StructureObject) => {
+  const toggleSelection = (item: CombinedStructure) => {
     const isSelected = selectedIndices.includes(item);
 
     if (isSelected) {
@@ -37,7 +91,7 @@ const ChoosePlanStructures = (props: Props) => {
 
   const performSearch = (value: string) => {
     const searchText = value.toLowerCase();
-    const filteredResults = mainData.filter((item: StructureObject) => {
+    const filteredResults = mainData.filter((item: CombinedStructure) => {
       return (
         item.name?.toLowerCase().includes(searchText) ||
         item.location?.address.toLowerCase().includes(searchText) ||
@@ -94,16 +148,64 @@ const ChoosePlanStructures = (props: Props) => {
 
           <div className="flex flex-col py-12">
             <div className="py-7 border-[1px] border-x-transparent border-y-[#FA9E93]">
-              <input
-                type="text"
-                placeholder="جستجو"
-                className="formInput2"
-                value={searchText}
-                onChange={(e) => {
-                  setSearchText(e.target.value);
-                  performSearch(e.target.value);
-                }}
-              />
+              <div className="flex flex-row items-center">
+                <input
+                  type="text"
+                  placeholder="جستجو"
+                  className="formInput2 ml-8"
+                  value={searchText}
+                  onChange={(e) => {
+                    setSearchText(e.target.value);
+                    performSearch(e.target.value);
+                  }}
+                />
+                <div className="flex items-center gap-3 w-1/3">
+                  <label
+                    htmlFor="startDate"
+                    className="text-[#767676] font-bold"
+                  >
+                    شروع:
+                  </label>
+
+                  <DatePicker
+                    inputClass="formInput text-black bg-gray-200 w-2/3"
+                    format="YYYY-MM-DD"
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
+                    onChange={(e: DateObject) => setStartDate(e.unix)}
+                  />
+                </div>
+                <div className="flex items-center gap-3 w-1/3">
+                  <label htmlFor="endDate" className="text-[#767676] font-bold">
+                    پایان:
+                  </label>
+
+                  <DatePicker
+                    inputClass="formInput text-black bg-gray-200 w-2/3"
+                    format="YYYY-MM-DD"
+                    calendar={persian}
+                    locale={persian_fa}
+                    calendarPosition="bottom-right"
+                    onChange={(e: DateObject) => setEndDate(e.unix)}
+                  />
+                </div>
+              </div>
+              <div className="flex flex-row justify-between items-center mt-7">
+                <button
+                  type="button"
+                  onClick={() => setEmpty(!empty)}
+                  className={`hover:bg-fuchsia-800 dark:hover:bg-fuchsia-800 bg-fuchsia dark:bg-fuchsia-900 bg-opacity-50 text-black font-semibold dark:text-white py-2 px-14 border border-gray-400 rounded shadow ${
+                    empty
+                      ? "dark:bg-gray-500 bg-gray-500 hover:bg-gray-400 dark:hover:bg-gray-400"
+                      : ""
+                  }`}
+                >
+                  سازه های خالی
+                </button>
+                <h3 className="py-2 px-3"> {mainData.length}</h3>
+              </div>
+
               <div className="mt-4 bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25  font-bold rounded-xl p-3 h-[200px] overflow-y-auto">
                 <ul>
                   {searchResults.length === 0
