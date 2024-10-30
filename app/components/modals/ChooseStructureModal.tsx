@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 
 type Props = {
   handleModal: () => void;
-  data: CombinedStructure[];
+  data: CombinedStructure[] | any[];
   fieldIndex: number;
   setValue: any;
   handleThisStructuresChange: (index: number, val: string) => void;
