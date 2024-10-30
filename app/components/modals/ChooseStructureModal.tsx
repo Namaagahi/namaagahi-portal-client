@@ -214,8 +214,16 @@ const ChooseStructureModal = (props: Props) => {
               </div>
               <div className="mt-4 bg-cyan-100 text-gray-700 font-bold rounded-xl p-3 h-[200px] overflow-y-auto">
                 <ul>
-                  {searchResults.length === 0
-                    ? mainData.map((item, index) => {
+                  {searchResults.length === 0 ? (
+                    mainData.length === 0 ? (
+                      <li
+                        className="mt-2 cursor-pointer hover:text-red-700 transition-all"
+                        key={1}
+                      >
+                        سازه ای وجود ندارد
+                      </li>
+                    ) : (
+                      mainData.map((item, index) => {
                         return (
                           <li
                             className="mt-2 cursor-pointer hover:text-red-700 transition-all"
@@ -226,15 +234,25 @@ const ChooseStructureModal = (props: Props) => {
                           </li>
                         );
                       })
-                    : searchResults.map((item, index) => (
-                        <li
-                          className="mt-2 cursor-pointer hover:text-red-700 transition-all"
-                          key={index}
-                          onClick={() => handleSelectResult(item)}
-                        >
-                          {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
-                        </li>
-                      ))}
+                    )
+                  ) : searchResults.length === 0 ? (
+                    <li
+                      className="mt-2 cursor-pointer hover:text-red-700 transition-all"
+                      key={1}
+                    >
+                      سازه ای وجود ندارد
+                    </li>
+                  ) : (
+                    searchResults.map((item, index) => (
+                      <li
+                        className="mt-2 cursor-pointer hover:text-red-700 transition-all"
+                        key={index}
+                        onClick={() => handleSelectResult(item)}
+                      >
+                        {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
               <div className="flex gap-2 items-center">

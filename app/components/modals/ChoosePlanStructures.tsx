@@ -215,8 +215,16 @@ const ChoosePlanStructures = (props: Props) => {
 
               <div className="mt-4 bg-gray-400 dark:bg-white dark:bg-opacity-25 bg-opacity-25  font-bold rounded-xl p-3 h-[200px] overflow-y-auto">
                 <ul>
-                  {searchResults.length === 0
-                    ? (finishFlag ? selectedIndices : mainData).map(
+                  {searchResults.length === 0 ? (
+                    mainData.length === 0 ? (
+                      <li
+                        className="mt-2 cursor-pointer hover:text-red-700 transition-all"
+                        key={1}
+                      >
+                        سازه ای وجود ندارد
+                      </li>
+                    ) : (
+                      (finishFlag ? selectedIndices : mainData).map(
                         (item, index) => {
                           const isSelected = selectedIndices.includes(item);
                           return (
@@ -234,22 +242,25 @@ const ChoosePlanStructures = (props: Props) => {
                           );
                         }
                       )
-                    : searchResults.map((item, index) => {
-                        const isSelected = selectedIndices.includes(item);
-                        return (
-                          <li
-                            className={`mt-2 cursor-pointer transition-all ${
-                              isSelected
-                                ? "text-white bg-purple-300"
-                                : "hover:text-red-400"
-                            }`}
-                            key={index}
-                            onClick={() => toggleSelection(item)}
-                          >
-                            {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
-                          </li>
-                        );
-                      })}
+                    )
+                  ) : (
+                    searchResults.map((item, index) => {
+                      const isSelected = selectedIndices.includes(item);
+                      return (
+                        <li
+                          className={`mt-2 cursor-pointer transition-all ${
+                            isSelected
+                              ? "text-white bg-purple-300"
+                              : "hover:text-red-400"
+                          }`}
+                          key={index}
+                          onClick={() => toggleSelection(item)}
+                        >
+                          {`${item?.name} - ${item.location?.address} - ${item.location?.path}`}
+                        </li>
+                      );
+                    })
+                  )}
                 </ul>
               </div>
               <button
