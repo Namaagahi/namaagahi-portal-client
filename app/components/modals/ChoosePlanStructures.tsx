@@ -72,7 +72,14 @@ const ChoosePlanStructures = (props: Props) => {
       endDate
     );
     setMainData(
-      empty ? data.filter((x) => availableStructures.has(x.name)) : data
+      empty
+        ? data.filter((x) =>
+            Array.from(availableStructures.entries())
+              .filter(([key, value]) => value.availableRanges.length)
+              .map(([key, value]) => key)
+              .includes(x.name)
+          )
+        : data
     );
   };
   useEffect(() => {
