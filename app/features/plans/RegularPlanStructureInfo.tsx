@@ -122,7 +122,6 @@ const RegularPlanStructureInfo = (props: Props) => {
         const selectedStructure = combinedStructures?.find(
           (str) => str.structureId === selectedStructureId
         );
-        console.log(selectedStructure);
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
@@ -262,11 +261,12 @@ const RegularPlanStructureInfo = (props: Props) => {
                     format="YYYY-MM-DD"
                     value={
                       page === "edit" &&
-                      fieldIndex + 1 <= plan.structures.length
+                      fieldIndex + 1 <= plan.structures.length &&
+                      item.duration.sellStart
                         ? moment
                             .unix(item.duration.sellStart)
                             .format("jYYYY-jMM-jDD")
-                        : undefined
+                        : ""
                     }
                     calendar={persian}
                     locale={persian_fa}
@@ -294,7 +294,8 @@ const RegularPlanStructureInfo = (props: Props) => {
                     format="YYYY-MM-DD"
                     value={
                       page === "edit" &&
-                      fieldIndex + 1 <= plan.structures.length
+                      fieldIndex + 1 <= plan.structures.length &&
+                      item.duration.sellEnd
                         ? moment
                             .unix(item.duration.sellEnd)
                             .format("jYYYY-jMM-jDD")
