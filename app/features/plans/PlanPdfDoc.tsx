@@ -19,6 +19,8 @@ type Props = {
   afterDiscount: boolean;
   duration: boolean;
   endDate: boolean;
+  images: boolean;
+  schedule: boolean;
   number: number;
 };
 
@@ -31,6 +33,8 @@ const PlanPdfDoc = (props: Props) => {
     number,
     duration,
     endDate,
+    images,
+    schedule,
   } = props;
 
   Font.register({
@@ -262,121 +266,173 @@ const PlanPdfDoc = (props: Props) => {
       >
         <Image src="/images/about.png" style={styles.backImage} />
       </Page>
-      {chunkedStructures.map((chunk, chunkIndex) => (
-        <Page
-          key={chunkIndex}
-          size={{ width: 720, height: 1280 }}
-          style={[styles.body, { padding: 0 }]}
-          orientation="landscape"
-        >
-          <View
-            style={{
-              position: "relative",
-              width: "100%",
-              height: "100%",
-            }}
+      {schedule &&
+        chunkedStructures.map((chunk, chunkIndex) => (
+          <Page
+            key={chunkIndex}
+            size={{ width: 720, height: 1280 }}
+            style={[styles.body, { padding: 0 }]}
+            orientation="landscape"
           >
-            <Image src="/images/Back-Black.png" style={styles.backImage} />
             <View
               style={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-                paddingHorizontal: 55,
-                paddingVertical: 40,
+                position: "relative",
+                width: "100%",
+                height: "100%",
               }}
             >
-              <View style={styles.headerContainer}>
-                <Image src="/images/logo-En-V1.png" style={styles.image} />
-                <Text style={styles.subtitle}>
-                  {moment(Date.now()).format("jYYYY/jM/jD")}تاریخ :
-                </Text>
-              </View>
-
-              <View style={styles.subHeaderContainer}>
-                <Text style={styles.smallText} fixed>
-                  {`نام برند: ${plan.brand} `}
-                </Text>
-
-                <Text style={styles.smallText} fixed>
-                  {`نام مشتری: ${customer.name} `}
-                </Text>
-              </View>
-
-              <View style={styles.table}>
-                <View style={styles.tableRow}>
-                  {columnsHeader.map((heading, colIndex) => (
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: heading.width,
-                          backgroundColor: "black",
-                          borderColor: fontColor,
-                        },
-                      ]}
-                      key={colIndex}
-                    >
-                      <Text
-                        style={[
-                          styles.tableCell,
-                          { color: fontColor, fontSize: 11 },
-                        ]}
-                      >
-                        {heading.content}
-                      </Text>
-                    </View>
-                  ))}
+              <Image src="/images/Back-Black.png" style={styles.backImage} />
+              <View
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  paddingHorizontal: 55,
+                  paddingVertical: 40,
+                }}
+              >
+                <View style={styles.headerContainer}>
+                  <Image src="/images/logo-En-V1.png" style={styles.image} />
+                  <Text style={styles.subtitle}>
+                    {moment(Date.now()).format("jYYYY/jM/jD")}تاریخ :
+                  </Text>
                 </View>
 
-                {chunk.map((structure: any, structureIndex: number) => (
-                  <View style={styles.tableRow} key={structureIndex}>
-                    {totalCheck && (
+                <View style={styles.subHeaderContainer}>
+                  <Text style={styles.smallText} fixed>
+                    {`نام برند: ${plan.brand} `}
+                  </Text>
+
+                  <Text style={styles.smallText} fixed>
+                    {`نام مشتری: ${customer.name} `}
+                  </Text>
+                </View>
+
+                <View style={styles.table}>
+                  <View style={styles.tableRow}>
+                    {columnsHeader.map((heading, colIndex) => (
                       <View
                         style={[
                           styles.tableCol,
                           {
-                            width: `${totalCheck ? `${10}%` : "0%"}`,
+                            width: heading.width,
+                            backgroundColor: "black",
+                            borderColor: fontColor,
+                          },
+                        ]}
+                        key={colIndex}
+                      >
+                        <Text
+                          style={[
+                            styles.tableCell,
+                            { color: fontColor, fontSize: 11 },
+                          ]}
+                        >
+                          {heading.content}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+
+                  {chunk.map((structure: any, structureIndex: number) => (
+                    <View style={styles.tableRow} key={structureIndex}>
+                      {totalCheck && (
+                        <View
+                          style={[
+                            styles.tableCol,
+                            {
+                              width: `${totalCheck ? `${10}%` : "0%"}`,
+                            },
+                          ]}
+                        >
+                          <Text style={styles.tableCell}>
+                            {formatNumber(structure.totalPeriodCost, ",")}
+                          </Text>
+                        </View>
+                      )}
+
+                      {afterDiscount && (
+                        <View
+                          style={[
+                            styles.tableCol,
+                            {
+                              width: `${
+                                afterDiscount ? `${11 - number}%` : "0%"
+                              }`,
+                            },
+                          ]}
+                        >
+                          <Text style={styles.tableCell}>
+                            {formatNumber(
+                              structure.monthlyFeeWithDiscount,
+                              ","
+                            )}
+                          </Text>
+                        </View>
+                      )}
+
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${10 - number}%`,
                           },
                         ]}
                       >
                         <Text style={styles.tableCell}>
-                          {formatNumber(structure.totalPeriodCost, ",")}
+                          {formatNumber(structure.monthlyFee, ",")}
                         </Text>
                       </View>
-                    )}
 
-                    {afterDiscount && (
+                      {duration && (
+                        <View
+                          style={[
+                            styles.tableCol,
+                            {
+                              width: `${6 - number}%`,
+                            },
+                          ]}
+                        >
+                          <Text style={styles.tableCell}>
+                            {structure.duration.diff}
+                          </Text>
+                        </View>
+                      )}
+
+                      {endDate && (
+                        <View
+                          style={[
+                            styles.tableCol,
+                            {
+                              width: `${9 - number}%`,
+                            },
+                          ]}
+                        >
+                          <Text style={styles.tableCell}>
+                            {moment
+                              .unix(structure.duration.sellEnd)
+                              .format("jYYYY-jMM-jDD")}
+                          </Text>
+                        </View>
+                      )}
+
                       <View
                         style={[
                           styles.tableCol,
                           {
                             width: `${
-                              afterDiscount ? `${11 - number}%` : "0%"
-                            }`,
+                              9 - number + (endDate ? 0 : 9 - number)
+                            }%`,
                           },
                         ]}
                       >
                         <Text style={styles.tableCell}>
-                          {formatNumber(structure.monthlyFeeWithDiscount, ",")}
+                          {moment
+                            .unix(structure.duration.sellStart)
+                            .format("jYYYY-jMM-jDD")}
                         </Text>
                       </View>
-                    )}
 
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${10 - number}%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {formatNumber(structure.monthlyFee, ",")}
-                      </Text>
-                    </View>
-
-                    {duration && (
                       <View
                         style={[
                           styles.tableCol,
@@ -386,152 +442,161 @@ const PlanPdfDoc = (props: Props) => {
                         ]}
                       >
                         <Text style={styles.tableCell}>
-                          {structure.duration.diff}
+                          {structure.structureRecord.marks.markOptions.docSize}
                         </Text>
                       </View>
-                    )}
 
-                    {endDate && (
                       <View
                         style={[
                           styles.tableCol,
                           {
-                            width: `${9 - number}%`,
+                            width: `${8 - number}%`,
                           },
                         ]}
                       >
                         <Text style={styles.tableCell}>
-                          {moment
-                            .unix(structure.duration.sellEnd)
-                            .format("jYYYY-jMM-jDD")}
+                          {structure.structureRecord.marks.name}
                         </Text>
                       </View>
+
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${
+                              34 - number + (duration ? 0 : 6 - number)
+                            }%`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {formatAddress(
+                            structure.structureRecord.location.address
+                          )}
+                        </Text>
+                      </View>
+
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${8 - number}%`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {formatAddress(
+                            structure.structureRecord.location.path
+                          )}
+                        </Text>
+                      </View>
+
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${6 - number}%`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {structure.structureRecord.name}
+                        </Text>
+                      </View>
+
+                      <View
+                        style={[
+                          styles.tableCol,
+                          {
+                            width: `${!totalCheck && !afterDiscount ? 4 : 3}%`,
+                          },
+                        ]}
+                      >
+                        <Text style={styles.tableCell}>
+                          {chunkIndex *
+                            (totalCheck && afterDiscount ? 24 : 23) +
+                            structureIndex +
+                            1}
+                        </Text>
+                      </View>
+                    </View>
+                  ))}
+
+                  {/* Footer row for totals */}
+                  {totalCheck &&
+                    chunkIndex === chunkedStructures.length - 1 && (
+                      <View style={styles.tableRow}>
+                        <View style={[styles.tableCol, { width: "10%" }]}>
+                          <Text style={styles.tableCell}>
+                            {formatNumber(
+                              plan.structures.reduce(
+                                (sum: number, structure: any) =>
+                                  sum + structure.totalPeriodCost,
+                                0
+                              ),
+                              ","
+                            )}
+                          </Text>
+                        </View>
+
+                        <View style={[styles.tableCol, { width: "92%" }]}>
+                          <Text style={styles.tableCell}>جمع</Text>
+                        </View>
+                      </View>
                     )}
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${9 - number + (endDate ? 0 : 9 - number)}%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {moment
-                          .unix(structure.duration.sellStart)
-                          .format("jYYYY-jMM-jDD")}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${6 - number}%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {structure.structureRecord.marks.markOptions.docSize}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${8 - number}%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {structure.structureRecord.marks.name}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${
-                            34 - number + (duration ? 0 : 6 - number)
-                          }%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {formatAddress(
-                          structure.structureRecord.location.address
-                        )}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${8 - number}%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {formatAddress(structure.structureRecord.location.path)}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        {
-                          width: `${6 - number}%`,
-                        },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {structure.structureRecord.name}
-                      </Text>
-                    </View>
-
-                    <View
-                      style={[
-                        styles.tableCol,
-                        { width: `${!totalCheck && !afterDiscount ? 4 : 3}%` },
-                      ]}
-                    >
-                      <Text style={styles.tableCell}>
-                        {chunkIndex * (totalCheck && afterDiscount ? 24 : 23) +
-                          structureIndex +
-                          1}
-                      </Text>
-                    </View>
-                  </View>
-                ))}
-
-                {/* Footer row for totals */}
-                {totalCheck && chunkIndex === chunkedStructures.length - 1 && (
-                  <View style={styles.tableRow}>
-                    <View style={[styles.tableCol, { width: "10%" }]}>
-                      <Text style={styles.tableCell}>
-                        {formatNumber(
-                          plan.structures.reduce(
-                            (sum: number, structure: any) =>
-                              sum + structure.totalPeriodCost,
-                            0
-                          ),
-                          ","
-                        )}
-                      </Text>
-                    </View>
-
-                    <View style={[styles.tableCol, { width: "92%" }]}>
-                      <Text style={styles.tableCell}>جمع</Text>
-                    </View>
-                  </View>
-                )}
+                </View>
               </View>
             </View>
-          </View>
 
+            <Text
+              style={styles.pageNumber}
+              render={({ pageNumber, totalPages }) =>
+                `${pageNumber} / ${totalPages}`
+              }
+              fixed
+            />
+          </Page>
+        ))}
+      {images && (
+        <Page
+          size={{ width: 720, height: 1280 }}
+          style={{ padding: 0 }}
+          orientation="landscape"
+        >
+          {plan.structures.map((strucuture: any, structureIndex: number) => {
+            return (
+              <View
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <Image
+                  src={`/png/${strucuture.structureRecord.name}.PNG`}
+                  style={styles.backImage}
+                />
+                <View
+                  style={{
+                    position: "absolute",
+                    bottom: 127,
+                    right: 44,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontFamily: "Arial",
+                      color: "white",
+                      fontSize: 20,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {formatNumber(strucuture.monthlyFee, ",")}
+                  </Text>
+                </View>
+              </View>
+            );
+          })}
           <Text
             style={styles.pageNumber}
             render={({ pageNumber, totalPages }) =>
@@ -540,54 +605,7 @@ const PlanPdfDoc = (props: Props) => {
             fixed
           />
         </Page>
-      ))}
-      <Page
-        size={{ width: 720, height: 1280 }}
-        style={{ padding: 0 }}
-        orientation="landscape"
-      >
-        {plan.structures.map((strucuture: any, structureIndex: number) => {
-          return (
-            <View
-              style={{
-                position: "relative",
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <Image
-                src={`/png/${strucuture.structureRecord.name}.PNG`}
-                style={styles.backImage}
-              />
-              <View
-                style={{
-                  position: "absolute",
-                  bottom: 127,
-                  right: 44,
-                }}
-              >
-                <Text
-                  style={{
-                    fontFamily: "Arial",
-                    color: "white",
-                    fontSize: 20,
-                    fontWeight: "bold",
-                  }}
-                >
-                  {formatNumber(strucuture.monthlyFee, ",")}
-                </Text>
-              </View>
-            </View>
-          );
-        })}
-        <Text
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) =>
-            `${pageNumber} / ${totalPages}`
-          }
-          fixed
-        />
-      </Page>
+      )}
       <Page
         size={{ width: 720, height: 1280 }}
         style={[styles.body, { padding: 0 }]}
