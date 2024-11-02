@@ -67,6 +67,7 @@ type Props = {
     | UseFieldArrayAppend<AddPlanForm, "structures">;
   discountFlags: boolean[];
   toggleDiscountFlag: any;
+  allPlans?: any;
 };
 
 const RegularPlanStructureInfo = (props: Props) => {
@@ -98,6 +99,7 @@ const RegularPlanStructureInfo = (props: Props) => {
     appendStructure,
     discountFlags,
     toggleDiscountFlag,
+    allPlans,
   } = props;
   const { username } = useAuth();
 
@@ -122,6 +124,11 @@ const RegularPlanStructureInfo = (props: Props) => {
         const selectedStructure = combinedStructures?.find(
           (str) => str.structureId === selectedStructureId
         );
+        const inPlan = allPlans?.find((item: any) =>
+          item.structures.some(
+            (structure: any) => structure.structureId === selectedStructureId
+          )
+        )?.planId;
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
@@ -478,6 +485,13 @@ const RegularPlanStructureInfo = (props: Props) => {
                   />
                 )}
               </div>
+              {inPlan && (
+                <div
+                  className={`cursor-pointer m-3 text-red-500 hover:text-red-700 transition-all`}
+                >
+                  موجود در پلن{inPlan}
+                </div>
+              )}
               <AiFillMinusCircle
                 className={`${
                   fieldIndex === 0 ? "hidden" : "block"

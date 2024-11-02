@@ -36,6 +36,10 @@ import { useSelector } from "react-redux";
 import Loading from "../loading/Loading";
 import RegularPlanStructureInfo from "./RegularPlanStructureInfo";
 import PackagePlanStructureInfo from "./PackagePlanStructureInfo";
+import {
+  selectAllPlans,
+  useGetAllPlansQuery,
+} from "@/app/apiSlices/plansApiSlice";
 
 type Props = {
   page: string;
@@ -68,7 +72,7 @@ type Props = {
   toggleDiscountFlag: any;
   thisStructures?: string[];
   setThisStructures?: any;
-  handleThisStructuresChange?: any;
+  handleThisStructuresChange: any;
 };
 
 const PlanStructuresInfo = (props: Props) => {
@@ -113,6 +117,15 @@ const PlanStructuresInfo = (props: Props) => {
 
   const handleStructureInfoModal = () =>
     setShowStructureInfo(!showStructureInfo);
+
+  const { isLoading, isError } = useGetAllPlansQuery(undefined, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false,
+  });
+
+  const allPlans: PlanObject[] = useSelector(
+    (state) => selectAllPlans(state) as PlanObject[]
+  );
 
   useGetAllInitialCustomersQuery(undefined);
 
@@ -191,6 +204,7 @@ const PlanStructuresInfo = (props: Props) => {
     return <Loading />;
   return mark === "regular" ? (
     <RegularPlanStructureInfo
+      allPlans={allPlans}
       flags={flags}
       toggleFlag={toggleFlag}
       setDiscountType={setDiscountType}

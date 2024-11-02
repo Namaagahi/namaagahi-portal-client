@@ -25,6 +25,8 @@ type Props = {
 
 const EditPlanComp = (props: Props) => {
   const [othersToggle, setOthersToggle] = useState(false);
+  const [thisStructures, setThisStructures] = useState<string[]>([]);
+
   const { plan } = props;
   const { id: currentUserId } = useAuth();
   const { push } = useRouter();
@@ -35,6 +37,13 @@ const EditPlanComp = (props: Props) => {
   });
 
   const [updatePlan, { isSuccess, isError, error }] = useUpdatePlanMutation();
+
+  const handleThisStructuresChange = (index: number, val: string) =>
+    setThisStructures((prevState) => {
+      const updatedState = [...prevState];
+      updatedState[index] = val;
+      return updatedState;
+    });
 
   const planStructures: any = plan?.structures.map((structure: any) => ({
     discountFee: structure?.discountFee,
@@ -222,6 +231,8 @@ const EditPlanComp = (props: Props) => {
             register={register}
             formVals={formVals}
             chosenStructures={chosenStructures}
+            setThisStructures={setThisStructures}
+            handleThisStructuresChange={handleThisStructuresChange}
             setChosenStructures={setChosenStructures}
             isChanged={isChanged}
             flags={flags}
