@@ -223,6 +223,18 @@ const FinalCustomers = () => {
             header: () => <span>تلفن</span>,
           },
           {
+            accessorFn: (row) => row.identityCode,
+            id: "شناسه",
+            cell: (info) => {
+              return (
+                <p className={`${!info.getValue() && "text-red-500"}`}>
+                  {!info.getValue() ? "تعیین نشده" : info.getValue()}
+                </p>
+              );
+            },
+            header: () => <span>شناسه</span>,
+          },
+          {
             id: "عملیات",
             header: () => <span>عملیات</span>,
             cell: (info) => {
