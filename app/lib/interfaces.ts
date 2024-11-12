@@ -503,6 +503,7 @@ export interface FinalCustomerObject {
   createdAt: string;
   updatedAt: string;
   username?: string;
+  identityCode: string;
 }
 
 export interface AddFinalCustomerForm {
@@ -520,6 +521,7 @@ export interface AddFinalCustomerForm {
   address: string;
   postalCode: string;
   phone: string;
+  identityCode: string;
 }
 
 export interface EditFinalCustomerForm {
@@ -537,6 +539,7 @@ export interface EditFinalCustomerForm {
   address: string;
   postalCode: number;
   phone: number;
+  identityCode: string;
   planIds: string[];
 }
 
