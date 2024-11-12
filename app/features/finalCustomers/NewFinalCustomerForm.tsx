@@ -45,6 +45,7 @@ const NewFinalCustomerForm = (props: Props) => {
       name: prop?.name || "",
       nationalId: "",
       ecoCode: "",
+      identityCode: "",
       regNum: "",
       address: "",
       postalCode: "",
@@ -81,6 +82,7 @@ const NewFinalCustomerForm = (props: Props) => {
       ecoCode: parseFloat(data.ecoCode),
       regNum: parseFloat(data.regNum),
       address: data.address,
+      identityCode: data.identityCode,
       postalCode: parseFloat(data.postalCode),
       phone: parseFloat(data.phone),
       planIds: [],
@@ -163,6 +165,15 @@ const NewFinalCustomerForm = (props: Props) => {
       type: "number",
       required: false,
       errors: undefined,
+    },
+    {
+      id: 7,
+      label: "شناسه",
+      name: "identityCode",
+      type: "text",
+      required: true,
+      message: "شناسه مشتری الزامی است",
+      errors: errors.identityCode?.message,
     },
   ];
 
