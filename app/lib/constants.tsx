@@ -203,7 +203,7 @@ export const projectList = [
         path: "/dashboard/billboard/initial-customers",
       },
       {
-        name: "کد پروژه",
+        name: "شناسه کار",
         path: "/dashboard/project-codes",
         icon: <BiCode size={20} />,
       },

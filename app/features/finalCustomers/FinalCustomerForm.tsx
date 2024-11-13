@@ -335,35 +335,35 @@ const FinalCustomerForm = (props: Props) => {
                     !projectCodeId
                       ? "primaryButton hover:text-black hover:dark:text-buttonHover"
                       : "dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all"
-                  }  cursor-pointer`}
+                  }  cursor-pointer w-48`}
                   onClick={handleNewProjectCodeModal}
                 >
                   {plan.proposalCode
-                    ? "کد پروژه جدید با کد پروپوزال"
-                    : "کد پروژه جدید"}
+                    ? "تبدیل کد پروپوزال به کار"
+                    : "شناسه کار جدید"}
                 </p>
                 <p
                   className={`${
                     !projectCodeId
                       ? "primaryButton hover:text-black hover:dark:text-buttonHover"
                       : "dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all"
-                  } cursor-pointer`}
+                  } cursor-pointer w-48`}
                   onClick={handleChooseProjectCodeModal}
                 >
-                  {"تخصیص کد پروژه"}
+                  {"تخصیص شناسه کار"}
                 </p>
               </div>
             ) : (
-              <>
+              <div className="flex items-center gap-4">
                 <p
                   className={`${
                     !projectCodeId
                       ? "primaryButton hover:text-black hover:dark:text-buttonHover"
-                      : "dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all"
-                  } cursor-pointer`}
+                      : "dark:text-gray-200 hover:font-bold hover:dark:text-buttonHover transition-all text-center border-2 border-[#faa75c] rounded-[6px] p-1"
+                  } cursor-pointer w-48`}
                   onClick={() => handleProjectCodeId("")}
                 >
-                  {"پاک کردن کد پروژه"}
+                  {"پاک کردن شناسه کار"}
                 </p>
 
                 <Status
@@ -375,8 +375,10 @@ const FinalCustomerForm = (props: Props) => {
                   }
                   bgColor="#faa75c"
                   textColor="#132b00"
+                  w="168px"
+                  size="14px"
                 />
-              </>
+              </div>
             )}
             {hasProjectCode && (
               <ChooseProjectCodeModal
@@ -386,6 +388,32 @@ const FinalCustomerForm = (props: Props) => {
                 handleProjectCodeId={handleProjectCodeId}
               />
             )}
+          </div>
+        </div>
+        <div className="flex justify-end mt-[-19px]">
+          <div className="flex gap-4">
+            <button
+              className={`primaryButton ${
+                customerId
+                  ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
+                  : "bg-gray-500 hover:bg-gray-500"
+              }   w-48`}
+              disabled={!customerId}
+              onClick={() => console.log("first")}
+            >
+              {"ایجاد کد پروژه"}
+            </button>
+            <button
+              className={`primaryButton ${
+                customerId
+                  ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
+                  : "bg-gray-500 hover:bg-gray-500"
+              }   w-48`}
+              disabled={!customerId}
+              onClick={() => console.log("second")}
+            >
+              {"تخصیص کد پروژه"}
+            </button>
           </div>
         </div>
 
@@ -437,11 +465,11 @@ const FinalCustomerForm = (props: Props) => {
 
         <button
           className={`primaryButton w-1/4 mx-auto ${
-            !customerId
+            !customerId || !projectCodeId
               ? "bg-gray-500 hover:bg-gray-500"
               : " hover:text-black hover:dark:text-buttonHover"
           }`}
-          disabled={!customerId}
+          disabled={!customerId || !projectCodeId}
         >
           ثبت مشتری نهایی و تایید پلن
         </button>
