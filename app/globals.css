@@ -51,7 +51,7 @@
     @apply  text-[#737373] dark:text-white rounded-md outline-none mt-1 bg-transparent border-[1px] border-[#808080] text-center text-xs
   }
   .primaryButton {
-    @apply bg-buttonHover text-black rounded-md p-2 font-bold border-buttonHover border-[2px] transition-all hover:bg-transparent hover:text-buttonHover hover:scale-110
+    @apply bg-buttonHover text-black rounded-md p-2 font-bold border-buttonHover border-[2px] transition-all hover:bg-transparent hover:text-buttonHover hover:scale-110 text-center
   }
   .createButton {
     @apply w-[150px] m-4 p-1 rounded-md from-rose-400 via-fuchsia-500 to-indigo-500 bg-gradient-to-r
