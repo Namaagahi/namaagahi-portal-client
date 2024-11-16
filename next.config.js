@@ -7,8 +7,8 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 const nextConfig = withBundleAnalyzer({
   reactStrictMode: false,
   env: {
-    SERVER: process.env.SERVER || "http://portal.namaagahi.com:3500",
-    // SERVER: "http://localhost:3500",
+    // SERVER: process.env.SERVER || "http://portal.namaagahi.com:3500",
+    SERVER: "http://localhost:3500",
     TITLE: "پلتفرم اختصاصی نماآگهی",
   },
   images: {

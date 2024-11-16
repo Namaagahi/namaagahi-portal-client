@@ -7,10 +7,12 @@ import {
 import {
   AddFinalCustomerForm,
   FinalCustomerObject,
+  GeneralProjectCodeObject,
   PlanObject,
   ProjectCodeObject,
 } from "@/app/lib/interfaces";
 import { useUpdatePlanMutation } from "@/app/apiSlices/plansApiSlice";
+import { IoMdAdd } from "react-icons/io";
 import { newFinalCustomerDefaultValues } from "@/app/lib/constants";
 import CustomInput from "@/app/components/inputs/CustomInput";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -31,6 +33,11 @@ import ChooseProjectCodeModal from "@/app/components/modals/ChooseProjectCodeMod
 import Status from "@/app/components/main/Status";
 import Button from "@/app/components/main/Button";
 import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal";
+import {
+  selectAllGeneralProjectCodes,
+  useCreateNewGeneralProjectCodeMutation,
+  useGetAllGeneralProjectCodesQuery,
+} from "@/app/apiSlices/generalCodesApiSlice";
 
 type Props = {
   plan: PlanObject;
@@ -43,6 +50,21 @@ const FinalCustomerForm = (props: Props) => {
 
   const [createNewFinalCustomer, { isSuccess, isError, error }] =
     useCreateNewFinalCustomerMutation();
+
+  const [
+    createNewGeneralProjectCode,
+    {
+      isLoading: loadGeneral,
+      isSuccess: successGeneral,
+      isError: isErrorGeneral,
+      error: errorGeneral,
+    },
+  ] = useCreateNewGeneralProjectCodeMutation();
+
+  useGetAllGeneralProjectCodesQuery(undefined, {
+    refetchOnFocus: false,
+    refetchOnMountOrArgChange: false,
+  });
 
   const [
     updateFinalCustomer,
@@ -74,14 +96,21 @@ const FinalCustomerForm = (props: Props) => {
   const allProjectCodes: ProjectCodeObject[] = useSelector(
     (state) => selectAllProjectCodes(state) as ProjectCodeObject[]
   );
+  const allGeneralCodes: GeneralProjectCodeObject[] = useSelector(
+    (state) => selectAllGeneralProjectCodes(state) as GeneralProjectCodeObject[]
+  );
 
   const [isDisabled, setIsDisabled] = useState<boolean>(true); // I changed default value to true
   const [hasProjectCode, setHasProjectCode] = useState<boolean>(false);
   const [customerId, setCustomerId] = useState<string>("");
+  const [year, setYear] = useState<string>("");
   const [projectCodeId, setProjectCodeId] = useState<string | null>(null);
   const [contractType, setContractType] = useState("official");
   const [customerType, setCustomerType] = useState("legal");
   const [isNewProjectCode, setIsNewProjectCode] = useState<boolean>(false);
+  const [generalCodes, setGeneralCodes] = useState<string>("");
+
+  const allYears = ["1402", "1403", "1404", "1405"];
 
   const finalCustomer = allFinalCustomers.find(
     (finalCustomer: FinalCustomerObject) =>
@@ -95,6 +124,16 @@ const FinalCustomerForm = (props: Props) => {
     } else {
       setProjectCodeId(null);
     }
+  };
+
+  const handleGeneralCodeCreate = async () => {
+    await createNewGeneralProjectCode({
+      userId: id,
+      year: year,
+      identityCode: finalCustomer?.identityCode,
+    });
+    successGeneral && toast.success("کد پروژه جدید ایجاد شد");
+    isErrorGeneral && toast.error("کد پروژه جدید ایجاد نشد");
   };
 
   useEffect(() => {
@@ -284,6 +323,7 @@ const FinalCustomerForm = (props: Props) => {
       errors: undefined,
     },
   ];
+  console.log(allGeneralCodes);
 
   if (isLoading || projectCodesLoading) return <Loading />;
   return (
@@ -391,29 +431,58 @@ const FinalCustomerForm = (props: Props) => {
           </div>
         </div>
         <div className="flex justify-end mt-[-19px]">
-          <div className="flex gap-4">
-            <button
-              className={`primaryButton ${
-                customerId
-                  ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
-                  : "bg-gray-500 hover:bg-gray-500"
-              }   w-48`}
+          <div className="flex gap-4 items-center">
+            <label htmlFor="chooseYear" className="dark:text-gray-200">
+              ایجاد پروژه جدید :
+            </label>
+            <div className="flex gap-1 w-48">
+              <select
+                id="chooseYear"
+                className="formInput w-full"
+                onChange={(e) => setYear(e.target.value)}
+                disabled={!customerId}
+              >
+                <option value="سال" hidden>
+                  سال
+                </option>
+                {allYears.map((year, index) => {
+                  return (
+                    <option key={index} value={year} className="text-black">
+                      {year}
+                    </option>
+                  );
+                })}
+              </select>
+              <button
+                type="button"
+                className={`primaryButton ${
+                  year
+                    ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
+                    : "bg-gray-500 hover:bg-gray-500"
+                } rounded-full`}
+                onClick={handleGeneralCodeCreate}
+                disabled={!year || !customerId}
+              >
+                <IoMdAdd />
+              </button>
+            </div>
+
+            <select
+              className="formInput w-48"
+              onChange={(e) => setYear(e.target.value)}
               disabled={!customerId}
-              onClick={() => console.log("first")}
             >
-              {"ایجاد کد پروژه"}
-            </button>
-            <button
-              className={`primaryButton ${
-                customerId
-                  ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
-                  : "bg-gray-500 hover:bg-gray-500"
-              }   w-48`}
-              disabled={!customerId}
-              onClick={() => console.log("second")}
-            >
-              {"تخصیص کد پروژه"}
-            </button>
+              <option value="انتخاب کد پروژه" hidden>
+                انتخاب کد پروژه
+              </option>
+              {allGeneralCodes.map((item, index) => {
+                return (
+                  <option key={index} value={item?.code} className="text-black">
+                    {item?.code}
+                  </option>
+                );
+              })}
+            </select>
           </div>
         </div>
 

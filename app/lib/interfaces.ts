@@ -591,6 +591,19 @@ export interface EditProjectCodeForm {
   desc: string;
 }
 
+// GeneralProjectCode ===========================================================================
+export interface GeneralProjectCodeObject {
+  _id: string;
+  id?: string;
+  code: string;
+  userId: string;
+  year: number;
+  identityCode: string;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: string;
+}
+
 // CHATROOM ===========================================================================
 export interface ChatroomObject {
   _id?: string;
