@@ -217,6 +217,7 @@ const FinalCustomerForm = (props: Props) => {
         finalCustomerId: data.finalCustomerId,
         projectCodeId: projectCodeId,
         proposalCode: plan.proposalCode,
+        generalProjectCode: selectedOption,
         brand: plan.brand,
         status: "done",
         structures: plan.structures,
@@ -249,6 +250,7 @@ const FinalCustomerForm = (props: Props) => {
         postalCode: finalCustomer?.postalCode,
         planId: plan._id,
         planIds: [...finalCustomer?.planIds, plan._id],
+        identityCode: finalCustomer?.identityCode,
       });
 
       const abc4 = await updatePlan({
@@ -260,6 +262,8 @@ const FinalCustomerForm = (props: Props) => {
         initialCustomerId: plan.initialCustomerId,
         finalCustomerId: finalCustomer?.finalCustomerId,
         proposalCode: plan.proposalCode,
+        generalProjectCode: selectedOption,
+        selectedOption: selectedOption,
         projectCodeId: projectCodeId,
         brand: plan.brand,
         status: "done",
@@ -336,7 +340,6 @@ const FinalCustomerForm = (props: Props) => {
       errors: undefined,
     },
   ];
-  console.log(allGeneralCodes);
 
   if (isLoading || projectCodesLoading) return <Loading />;
   return (
@@ -578,11 +581,11 @@ const FinalCustomerForm = (props: Props) => {
 
         <button
           className={`primaryButton w-1/4 mx-auto ${
-            !customerId || !projectCodeId
+            !customerId || !projectCodeId || !selectedOption
               ? "bg-gray-500 hover:bg-gray-500"
               : " hover:text-black hover:dark:text-buttonHover"
           }`}
-          disabled={!customerId || !projectCodeId}
+          disabled={!customerId || !projectCodeId || !selectedOption}
         >
           ثبت مشتری نهایی و تایید پلن
         </button>
