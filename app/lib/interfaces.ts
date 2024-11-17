@@ -323,6 +323,7 @@ export interface PlanObject {
     name: string;
   };
   proposalCode: string;
+  generalProjectCode: string;
   userId: string;
   username?: string;
   initialCustomerId: string;
