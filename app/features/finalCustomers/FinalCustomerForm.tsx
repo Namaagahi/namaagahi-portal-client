@@ -22,6 +22,7 @@ import useAuth from "@/app/hooks/useAuth";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import Agents from "./Agents";
+import { MdDeleteOutline } from "react-icons/md";
 import FinalCustomerTypes from "./FinalCustomerTypes";
 import FinalCustomerInfo from "./FinalCustomerInfo";
 import {
@@ -36,6 +37,7 @@ import CreateUpdateModal from "@/app/components/modals/CreateUpdateModal";
 import {
   selectAllGeneralProjectCodes,
   useCreateNewGeneralProjectCodeMutation,
+  useDeleteGeneralProjectCodeMutation,
   useGetAllGeneralProjectCodesQuery,
 } from "@/app/apiSlices/generalCodesApiSlice";
 
@@ -60,6 +62,16 @@ const FinalCustomerForm = (props: Props) => {
       error: errorGeneral,
     },
   ] = useCreateNewGeneralProjectCodeMutation();
+
+  const [
+    deleteGeneralProjectCode,
+    {
+      isLoading: loadGeneralDelete,
+      isSuccess: successGeneralDelete,
+      isError: isErrorGeneralDelete,
+      error: errorGeneralDelete,
+    },
+  ] = useDeleteGeneralProjectCodeMutation();
 
   useGetAllGeneralProjectCodesQuery(undefined, {
     refetchOnFocus: false,
@@ -104,11 +116,12 @@ const FinalCustomerForm = (props: Props) => {
   const [hasProjectCode, setHasProjectCode] = useState<boolean>(false);
   const [customerId, setCustomerId] = useState<string>("");
   const [year, setYear] = useState<string>("");
+  const [selectedOption, setSelectedOption] = useState<string>("");
   const [projectCodeId, setProjectCodeId] = useState<string | null>(null);
   const [contractType, setContractType] = useState("official");
   const [customerType, setCustomerType] = useState("legal");
   const [isNewProjectCode, setIsNewProjectCode] = useState<boolean>(false);
-  const [generalCodes, setGeneralCodes] = useState<string>("");
+  const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
 
   const allYears = ["1402", "1403", "1404", "1405"];
 
@@ -438,7 +451,7 @@ const FinalCustomerForm = (props: Props) => {
             <div className="flex gap-1 w-48">
               <select
                 id="chooseYear"
-                className="formInput w-full"
+                className={`formInput w-full ${!customerId && "bg-gray-400"}`}
                 onChange={(e) => setYear(e.target.value)}
                 disabled={!customerId}
               >
@@ -458,7 +471,7 @@ const FinalCustomerForm = (props: Props) => {
                 className={`primaryButton ${
                   year
                     ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
-                    : "bg-gray-500 hover:bg-gray-500"
+                    : "bg-gray-400 hover:bg-gray-500"
                 } rounded-full`}
                 onClick={handleGeneralCodeCreate}
                 disabled={!year || !customerId}
@@ -467,22 +480,53 @@ const FinalCustomerForm = (props: Props) => {
               </button>
             </div>
 
-            <select
-              className="formInput w-48"
-              onChange={(e) => setYear(e.target.value)}
-              disabled={!customerId}
-            >
-              <option value="انتخاب کد پروژه" hidden>
-                انتخاب کد پروژه
-              </option>
-              {allGeneralCodes.map((item, index) => {
-                return (
-                  <option key={index} value={item?.code} className="text-black">
-                    {item?.code}
-                  </option>
-                );
-              })}
-            </select>
+            <div className="relative w-48">
+              <button
+                type="button"
+                className={`formInput w-full ${
+                  customerId
+                    ? "hover:text-black hover:dark:text-buttonHover cursor-pointer"
+                    : "!bg-gray-400 text-black cursor-not-allowed"
+                }`}
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                disabled={!customerId}
+              >
+                {selectedOption || "انتخاب کد پروژه"}
+              </button>
+              {dropdownOpen && (
+                <div className="absolute w-full bg-white mt-1 border rounded shadow">
+                  {allGeneralCodes.map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex justify-between items-center px-2 py-1 hover:bg-gray-100"
+                    >
+                      <span
+                        onClick={() => {
+                          setSelectedOption(item?.code);
+                          setDropdownOpen(false);
+                        }}
+                        className="cursor-pointer p-1 rounded flex-1 hover:bg-orange-100"
+                      >
+                        {item?.code}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          await deleteGeneralProjectCode({ id: item._id });
+                          successGeneralDelete &&
+                            toast.success("کد پروژه با موفقیت حذف شد");
+                          isErrorGeneralDelete &&
+                            toast.error("کد پروژه حذف نشد");
+                        }}
+                        className="hover:text-red-500"
+                      >
+                        <MdDeleteOutline />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
