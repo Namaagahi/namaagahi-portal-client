@@ -169,6 +169,9 @@ const NewPlan = (props: Props) => {
     const newData = {
       ...data,
       proposalCode: data.proposalCode ? data.proposalCode.toString() : "",
+      generalProjectCode: data.generalProjectCode
+        ? data.generalProjectCode.toString()
+        : "",
       structures: data.structures.map(
         (structure: StructurePlanObject, index: number) => ({
           ...structure,
@@ -197,6 +200,7 @@ const NewPlan = (props: Props) => {
       projectCodeId: null,
       brand: newData.brand,
       proposalCode: newData.proposalCode,
+      generalProjectCode: newData.generalProjectCode,
       structures: newData.structures,
       totalPackagePrice:
         mark === "package" ? convertToNumber(newData.totalPackagePrice) : null,
