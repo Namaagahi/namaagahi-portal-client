@@ -129,6 +129,9 @@ const EditPlanComp = (props: Props) => {
     const newData = {
       ...data,
       proposalCode: data.proposalCode ? data.proposalCode.toString() : "",
+      generalProjectCode: data.generalProjectCode
+        ? data.generalProjectCode.toString()
+        : "",
       structures: data.structures.map(
         (structure: StructurePlanObject, index: number) => ({
           ...structure,
@@ -154,6 +157,7 @@ const EditPlanComp = (props: Props) => {
       initialCustomerId: newData.initialCustomerId,
       brand: newData.brand,
       proposalCode: newData.proposalCode,
+      generalProjectCode: newData.generalProjectCode,
       userDefinedMonthlyFeeWithDiscount: !discountFlags[0],
       status: "suggested",
       structures: newData.structures,
