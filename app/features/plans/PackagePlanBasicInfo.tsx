@@ -35,6 +35,7 @@ const PackagePlanBasicInfo = (props: Props) => {
         : "";
     setValue(prop, formattedValue);
   }
+  const type = [{ name: "شهرستان" }, { name: "تهران" }];
 
   return (
     <div className="formContainer">
@@ -60,6 +61,14 @@ const PackagePlanBasicInfo = (props: Props) => {
             message="نام برند را وارد کنید"
             type={"text"}
             className="formInput"
+          />
+          <SelectInput
+            control={control}
+            name={"type"}
+            label={"نوع"}
+            errors={errors.type?.message}
+            required={true}
+            options={type}
           />
           <CustomInput
             control={control}

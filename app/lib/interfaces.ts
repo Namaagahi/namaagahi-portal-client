@@ -330,6 +330,7 @@ export interface PlanObject {
   finalCustomerId: string;
   projectCodeId: string;
   brand: string;
+  type: string;
   status?: string;
   userDefinedMonthlyFeeWithDiscount: boolean;
   structures: StructurePlanObject[];
@@ -400,6 +401,7 @@ export interface AddPlanForm {
   initialCustomerId: string;
   mark: string;
   brand: string;
+  type: string;
   proposalCode: string;
   status: string;
   structures: {
@@ -423,6 +425,7 @@ export interface EditPlanForm {
   mark: string;
   proposalCode: string;
   brand: string;
+  type: string;
   status: string;
   structures: {
     structureId: string;

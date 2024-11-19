@@ -18,6 +18,7 @@ type Props = {
 
 const RegularPlanBasicInfo = (props: Props) => {
   const { control, allInitialCustomers, errors, plan } = props;
+  const type = [{ name: "شهرستان" }, { name: "تهران" }];
 
   return (
     <div className="formContainer">
@@ -43,6 +44,14 @@ const RegularPlanBasicInfo = (props: Props) => {
             message="نام برند را وارد کنید"
             type={"text"}
             className="formInput"
+          />
+          <SelectInput
+            control={control}
+            name={"type"}
+            label={"نوع"}
+            errors={errors.type?.message}
+            required={true}
+            options={type}
           />
           <CustomInput
             control={control}

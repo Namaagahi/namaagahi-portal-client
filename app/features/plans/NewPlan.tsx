@@ -199,6 +199,7 @@ const NewPlan = (props: Props) => {
       userDefinedMonthlyFeeWithDiscount: !discountFlags[0],
       projectCodeId: null,
       brand: newData.brand,
+      type: newData.type,
       proposalCode: newData.proposalCode,
       generalProjectCode: newData.generalProjectCode,
       structures: newData.structures,

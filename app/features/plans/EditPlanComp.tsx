@@ -66,6 +66,7 @@ const EditPlanComp = (props: Props) => {
     defaultValues: {
       initialCustomerId: plan?.initialCustomerId,
       brand: plan?.brand,
+      type: plan?.type,
       structures: JSON.parse(JSON.stringify(plan?.structures)),
       totalPackagePrice: plan?.totalPackagePrice,
     },
@@ -156,6 +157,7 @@ const EditPlanComp = (props: Props) => {
       username: plan.username,
       initialCustomerId: newData.initialCustomerId,
       brand: newData.brand,
+      type: newData.type,
       proposalCode: newData.proposalCode,
       generalProjectCode: newData.generalProjectCode,
       userDefinedMonthlyFeeWithDiscount: !discountFlags[0],
