@@ -18,7 +18,7 @@ type Props = {
 
 const RegularPlanBasicInfo = (props: Props) => {
   const { control, allInitialCustomers, errors, plan } = props;
-  const type = [{ name: "شهرستان" }, { name: "تهران" }];
+  const type = [{ name: "تهران" }, { name: "شهرستان" }];
 
   return (
     <div className="formContainer">

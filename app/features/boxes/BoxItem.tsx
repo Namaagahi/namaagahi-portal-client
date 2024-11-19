@@ -35,7 +35,7 @@ const BoxItem = ({ boxId, index, page }: Props) => {
   const titles = {
     "نام باکس": box.name,
     "نوع باکس": box.mark.name,
-    "کد پروژه": box.mark.markOptions?.projectNumber,
+    "شناسه کار": box.mark.markOptions?.projectNumber,
     برند: box.mark.markOptions?.brand,
   };
 

@@ -91,7 +91,9 @@ const ChooseProjectCodeModal = (props: Props) => {
       <div className="confirmModalContentContainer">
         <div className="confirmModalContent">
           <div className="flex justify-between items-center">
-            <p className="md:text-2xl text-xl font-bold">{"انتخاب کد پروژه"}</p>
+            <p className="md:text-2xl text-xl font-bold">
+              {"انتخاب شناسه کار"}
+            </p>
 
             <AiOutlineClose
               className="cursor-pointer text-xl hover:text-2xl transition-all"
@@ -104,7 +106,7 @@ const ChooseProjectCodeModal = (props: Props) => {
               <div className="flex items-center justify-between">
                 <input
                   type="text"
-                  placeholder="جستجوی کد پروژه"
+                  placeholder="جستجوی شناسه کار"
                   className="formInput2"
                   value={searchText}
                   onChange={(e) => {
@@ -163,7 +165,7 @@ const ChooseProjectCodeModal = (props: Props) => {
                 handleModal();
               }}
             >
-              {"پاک کردن کد پروژه"}
+              {"پاک کردن شناسه کار"}
             </p>
             <div className="flex flex-col justify-between gap-3">
               {selectedItem && (

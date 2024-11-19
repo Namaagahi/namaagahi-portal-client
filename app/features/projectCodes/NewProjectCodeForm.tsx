@@ -92,12 +92,12 @@ const NewProjectCodeForm = (props: Props) => {
     if (isError) {
       "status" in error! &&
         error.status === 409 &&
-        toast.error("این  کد پروژه قبلا ثبت شده است");
+        toast.error("این  شناسه کار قبلا ثبت شده است");
       "status" in error! &&
         error.status === 400 &&
         toast.error("فیلدهای مورد نیاز را تکمیل کنید");
     }
-    toast.success(`کد پروژه جدید با موفقیت ساخته شد.`);
+    toast.success(`شناسه کار جدید با موفقیت ساخته شد.`);
     handleModal();
   };
 
@@ -155,7 +155,7 @@ const NewProjectCodeForm = (props: Props) => {
     <div className="py-5 px-8 w-full text-black dark:text-white">
       <form className="flex flex-col" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-between items-center mb-5">
-          <p className="md:text-2xl text-xl font-bold">ایجاد کد پروژه</p>
+          <p className="md:text-2xl text-xl font-bold">ایجاد شناسه کار</p>
 
           <AiOutlineClose
             className="cursor-pointer text-xl hover:text-2xl transition-all"

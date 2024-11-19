@@ -35,7 +35,7 @@ const PackagePlanBasicInfo = (props: Props) => {
         : "";
     setValue(prop, formattedValue);
   }
-  const type = [{ name: "شهرستان" }, { name: "تهران" }];
+  const type = [{ name: "تهران" }, { name: "شهرستان" }];
 
   return (
     <div className="formContainer">
