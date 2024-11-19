@@ -76,7 +76,8 @@ export const calculateAvailableDates = (
   }
 
   const mainCombinedStructures = combinedStructures.filter(
-    (x) => x.duration.startDate <= startDate && x.duration.endDate >= endDate
+    (x) =>
+      x?.duration?.startDate <= startDate && x?.duration?.endDate >= endDate
   );
   for (const structure1 of mainCombinedStructures) {
     const structureName = structure1?.name;
