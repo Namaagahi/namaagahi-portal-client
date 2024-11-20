@@ -1,35 +1,18 @@
 "use client";
 import { FC, useEffect, useState } from "react";
-import {
-  useCreateNewInitialCustomerMutation,
-  useGetAllInitialCustomersQuery,
-} from "../../apiSlices/initialCustomersApiSlice";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { AiOutlineClose } from "react-icons/ai";
 import useAuth from "@/app/hooks/useAuth";
-import { useSelector } from "react-redux";
-import {
-  BoxObject,
-  CombinedStructure,
-  EditInitialCustomerForm,
-  StructureObject,
-} from "@/app/lib/interfaces";
+import { BoxObject, CombinedStructure } from "@/app/lib/interfaces";
 import Loading from "../loading/Loading";
 import CustomInput from "@/app/components/inputs/CustomInput";
 import { useForm } from "react-hook-form";
 import { convertToNumber } from "@/app/utilities/convertToNumber";
 import {
-  selectAllBoxes,
   useCreateStructureAndUpdateBoxMutation,
-  useGetAllBoxesQuery,
   useGetBoxByIdQuery,
-  useUpdateBoxMutation,
 } from "@/app/apiSlices/boxesApiSlice";
-import {
-  selectAllStructures,
-  useGetStructuresQuery,
-} from "@/app/apiSlices/structuresApiSlice";
 
 interface IOtherStructureModalProps {
   handleModal: () => void;
@@ -66,7 +49,7 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
     { isSuccess: updateSuccess, isError: updateIsError, error: updateError },
   ] = useCreateStructureAndUpdateBoxMutation();
 
-  const createInitialCustomerForm = useForm<EditInitialCustomerForm>({});
+  const createInitialCustomerForm = useForm<any>({});
 
   const {
     control,
@@ -247,14 +230,18 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
       label: "مساحت",
       name: "area",
       type: "number",
-      required: false,
+      message: " مساحت را وارد کنید",
+      required: true,
+      errors: errors.area?.message,
     },
     {
       id: 5,
       label: "تعرفه نهایی سازه",
       name: "monthlyFee",
       type: "number",
-      required: false,
+      message: " تعرفه نهایی سازه را وارد کنید",
+      required: true,
+      errors: errors.monthlyFee?.message,
     },
     {
       id: 6,
@@ -268,15 +255,18 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
       label: "منطقه",
       name: "district",
       type: "text",
-      required: false,
+      message: " منطقه را وارد کنید",
+      required: true,
+      errors: errors.district?.message,
     },
     {
       id: 8,
       label: "مسیر",
       name: "path",
       type: "text",
-      required: false,
-      errors: undefined,
+      message: " مسیر را وارد کنید",
+      required: true,
+      errors: errors.path?.message,
     },
   ];
 
