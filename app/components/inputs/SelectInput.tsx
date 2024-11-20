@@ -45,7 +45,7 @@ const SelectInput = (props: SelectInputProps) => {
             disabled={disabled}
             className="formInput p-[4.5px] dark:text-black bg-slate-200"
           >
-            <option value="" disabled hidden>
+            <option value="" disabled hidden selected>
               انتخاب
             </option>
 
