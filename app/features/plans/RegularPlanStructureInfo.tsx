@@ -494,7 +494,7 @@ const RegularPlanStructureInfo = (props: Props) => {
               )}
               <AiFillMinusCircle
                 className={`${
-                  fieldIndex === 0 ? "hidden" : "block"
+                  fieldIndex === 0 && field.length < 2 ? "hidden" : "block"
                 } cursor-pointer text-2xl hover:text-red-700 transition-all`}
                 onClick={() => removeStructure(fieldIndex)}
               />
