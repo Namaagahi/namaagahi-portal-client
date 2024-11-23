@@ -124,11 +124,22 @@ const RegularPlanStructureInfo = (props: Props) => {
         const selectedStructure = combinedStructures?.find(
           (str) => str.structureId === selectedStructureId
         );
-        const inPlan = allPlans?.find((item: any) =>
-          item.structures.some(
-            (structure: any) => structure.structureId === selectedStructureId
+        const inPlan = allPlans
+          ?.filter((item: any) =>
+            item.structures.some(
+              (structure: any) => structure.structureId === selectedStructureId
+            )
           )
-        )?.planId;
+          ?.map((item: any) => {
+            const matchingStructure = item.structures.find(
+              (structure: any) => structure.structureId === selectedStructureId
+            );
+
+            return {
+              planId: item.planId,
+              duration: matchingStructure?.duration,
+            };
+          });
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
@@ -267,9 +278,14 @@ const RegularPlanStructureInfo = (props: Props) => {
                     inputClass="formInput w-3/4"
                     format="YYYY-MM-DD"
                     value={
-                      page === "edit" &&
-                      fieldIndex + 1 <= plan.structures.length &&
-                      item.duration.sellStart
+                      page === "edit"
+                        ? fieldIndex + 1 <= plan.structures.length &&
+                          item.duration.sellStart
+                          ? moment
+                              .unix(item.duration.sellStart)
+                              .format("jYYYY-jMM-jDD")
+                          : ""
+                        : item?.duration?.sellStart
                         ? moment
                             .unix(item.duration.sellStart)
                             .format("jYYYY-jMM-jDD")
@@ -300,13 +316,18 @@ const RegularPlanStructureInfo = (props: Props) => {
                     inputClass="formInput w-3/4"
                     format="YYYY-MM-DD"
                     value={
-                      page === "edit" &&
-                      fieldIndex + 1 <= plan.structures.length &&
-                      item.duration.sellEnd
+                      page === "edit"
+                        ? fieldIndex + 1 <= plan.structures.length &&
+                          item.duration.sellEnd
+                          ? moment
+                              .unix(item.duration.sellEnd)
+                              .format("jYYYY-jMM-jDD")
+                          : ""
+                        : item?.duration?.sellEnd
                         ? moment
                             .unix(item.duration.sellEnd)
                             .format("jYYYY-jMM-jDD")
-                        : undefined
+                        : ""
                     }
                     calendar={persian}
                     locale={persian_fa}
@@ -485,13 +506,30 @@ const RegularPlanStructureInfo = (props: Props) => {
                   />
                 )}
               </div>
-              {inPlan && (
-                <div
-                  className={`cursor-pointer m-3 text-red-500 hover:text-red-700 transition-all`}
-                >
-                  موجود در پلن{inPlan}
-                </div>
-              )}
+              {inPlan.length &&
+                item?.duration?.sellEnd &&
+                item?.duration?.sellStart &&
+                inPlan
+                  .filter(
+                    (y: any) =>
+                      moment
+                        .unix(y.duration.sellStart)
+                        .format("jYYYY-jMM-jDD") <=
+                        moment
+                          .unix(item?.duration?.sellEnd)
+                          .format("jYYYY-jMM-jDD") &&
+                      moment.unix(y.duration.sellEnd).format("jYYYY-jMM-jDD") >=
+                        moment
+                          .unix(item?.duration?.sellStart)
+                          .format("jYYYY-jMM-jDD")
+                  )
+                  .map((x: any) => (
+                    <div
+                      className={`cursor-pointer m-3 text-red-500 hover:text-red-700 transition-all`}
+                    >
+                      موجود در پلن{x.planId}
+                    </div>
+                  ))}
               <AiFillMinusCircle
                 className={`${
                   fieldIndex === 0 && field.length < 2 ? "hidden" : "block"
