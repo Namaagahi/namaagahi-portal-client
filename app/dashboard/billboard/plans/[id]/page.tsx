@@ -89,6 +89,8 @@ const SinglePlan = () => {
       finalCustomerId: "",
       proposalCode: plan.proposalCode,
       projectCodeId: null,
+      generalProjectCode: "",
+      type: plan?.type,
       totalPackagePrice: plan.totalPackagePrice,
     });
 
