@@ -101,7 +101,30 @@ const RegularPlanStructureInfo = (props: Props) => {
     toggleDiscountFlag,
     allPlans,
   } = props;
+
   const { username } = useAuth();
+  const [startDate, setStartDate] = useState<number[]>(
+    field.map((x) => x?.duration?.sellStart)
+  );
+  const [endDate, setEndDate] = useState<number[]>(
+    field.map((x) => x?.duration?.sellEnd)
+  );
+
+  const setStartDates = (index: number, type: number) => {
+    setStartDate((prevTypes) => {
+      const newTypes = [...prevTypes];
+      newTypes[index] = type;
+      return newTypes;
+    });
+  };
+
+  const setEndDates = (index: number, type: number) => {
+    setEndDate((prevTypes) => {
+      const newTypes = [...prevTypes];
+      newTypes[index] = type;
+      return newTypes;
+    });
+  };
 
   return (
     <div className="formContainer">
@@ -140,6 +163,7 @@ const RegularPlanStructureInfo = (props: Props) => {
               duration: matchingStructure?.duration,
             };
           });
+        console.log(inPlan);
 
         const handleStartDate = (value: DateObject | DateObject[] | null) => {
           if (value instanceof DateObject) {
@@ -151,6 +175,7 @@ const RegularPlanStructureInfo = (props: Props) => {
               `structures.${fieldIndex}.duration.sellStart`,
               normalizedUnix
             );
+            setStartDates(fieldIndex, normalizedUnix);
           } else if (Array.isArray(value) && value.length > 0) {
             const normalizedUnix = moment
               .unix(value[0].unix)
@@ -160,12 +185,14 @@ const RegularPlanStructureInfo = (props: Props) => {
               `structures.${fieldIndex}.duration.sellStart`,
               normalizedUnix
             );
+            setStartDates(fieldIndex, normalizedUnix);
           } else {
             const normalizedUnix = moment().startOf("day").unix();
             setValue(
               `structures.${fieldIndex}.duration.sellStart`,
               normalizedUnix
             );
+            setStartDates(fieldIndex, normalizedUnix);
           }
         };
 
@@ -179,6 +206,7 @@ const RegularPlanStructureInfo = (props: Props) => {
               `structures.${fieldIndex}.duration.sellEnd`,
               normalizedUnix
             );
+            setEndDates(fieldIndex, normalizedUnix);
           } else if (Array.isArray(value) && value.length > 0) {
             const normalizedUnix = moment
               .unix(value[0].unix)
@@ -188,12 +216,14 @@ const RegularPlanStructureInfo = (props: Props) => {
               `structures.${fieldIndex}.duration.sellEnd`,
               normalizedUnix
             );
+            setEndDates(fieldIndex, normalizedUnix);
           } else {
             const normalizedUnix = moment().startOf("day").unix();
             setValue(
               `structures.${fieldIndex}.duration.sellEnd`,
               normalizedUnix
             );
+            setEndDates(fieldIndex, normalizedUnix);
           }
         };
 
@@ -285,9 +315,9 @@ const RegularPlanStructureInfo = (props: Props) => {
                               .unix(item.duration.sellStart)
                               .format("jYYYY-jMM-jDD")
                           : ""
-                        : item?.duration?.sellStart
+                        : startDate[fieldIndex]
                         ? moment
-                            .unix(item.duration.sellStart)
+                            .unix(startDate[fieldIndex])
                             .format("jYYYY-jMM-jDD")
                         : ""
                     }
@@ -323,9 +353,9 @@ const RegularPlanStructureInfo = (props: Props) => {
                               .unix(item.duration.sellEnd)
                               .format("jYYYY-jMM-jDD")
                           : ""
-                        : item?.duration?.sellEnd
+                        : endDate[fieldIndex]
                         ? moment
-                            .unix(item.duration.sellEnd)
+                            .unix(endDate[fieldIndex])
                             .format("jYYYY-jMM-jDD")
                         : ""
                     }
@@ -507,22 +537,23 @@ const RegularPlanStructureInfo = (props: Props) => {
                 )}
               </div>
               {inPlan.length &&
-                item?.duration?.sellEnd &&
-                item?.duration?.sellStart &&
+                startDate[fieldIndex] &&
+                endDate[fieldIndex] &&
                 inPlan
-                  .filter(
+                  ?.filter(
                     (y: any) =>
                       moment
                         .unix(y.duration.sellStart)
                         .format("jYYYY-jMM-jDD") <=
                         moment
-                          .unix(item?.duration?.sellEnd)
-                          .format("jYYYY-jMM-jDD") &&
+                          .unix(endDate[fieldIndex])
+                          ?.format("jYYYY-jMM-jDD") &&
                       moment.unix(y.duration.sellEnd).format("jYYYY-jMM-jDD") >=
                         moment
-                          .unix(item?.duration?.sellStart)
-                          .format("jYYYY-jMM-jDD")
+                          .unix(startDate[fieldIndex])
+                          ?.format("jYYYY-jMM-jDD")
                   )
+                  .filter((d: any) => d.planId !== plan?.planId)
                   .map((x: any) => (
                     <div
                       className={`cursor-pointer m-3 text-red-500 hover:text-red-700 transition-all`}
