@@ -243,12 +243,10 @@ const TableComponent = (props: Props) => {
                     {headerGroup.headers.map((header) => {
                       return (
                         <th
-                          {...{
-                            key: header.id,
-                            colSpan: header.colSpan,
-                            style: {
-                              width: header.getSize(),
-                            },
+                          key={header.id}
+                          colSpan={header.colSpan}
+                          style={{
+                            width: header.getSize(),
                           }}
                         >
                           {header.isPlaceholder ? null : (
@@ -315,11 +313,9 @@ const TableComponent = (props: Props) => {
                     {row.getVisibleCells().map((cell) => {
                       return (
                         <td
-                          {...{
-                            key: cell.id,
-                            style: {
-                              width: cell.column.getSize(),
-                            },
+                          key={cell.id}
+                          style={{
+                            width: cell.column.getSize(),
                           }}
                           className="py-2 px-2"
                           onClick={() => handleChangeRowColor(row.id)}

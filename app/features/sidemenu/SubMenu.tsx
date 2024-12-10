@@ -1,5 +1,5 @@
 "use client";
-import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import { useState } from "react";
@@ -44,10 +44,10 @@ const SubMenu = ({ data }: any) => {
         }
         className="flex flex-col gap-1 pr-4 w-full overflow-hidden"
       >
-        {data.menus?.map((menu: any) => (
-          <>
+        {data.menus?.map((menu: any, index: number) => (
+          <div key={menu.path || menu.name || index}>
             {!menu.children ? (
-              <Link href={menu.path} key={menu.name}>
+              <Link href={menu.path}>
                 <li
                   className="flex items-center justify-start gap-4 p-3 cursor-pointer hover:text-buttonHover hover:mr-2 rounded-2xl transition-all"
                   style={path === menu.path ? activeStyle : {}}
@@ -57,9 +57,9 @@ const SubMenu = ({ data }: any) => {
                 </li>
               </Link>
             ) : (
-              <Accordion menu={menu} />
+              <Accordion key={menu.name || index} menu={menu} />
             )}
-          </>
+          </div>
         ))}
       </motion.ul>
     </>
