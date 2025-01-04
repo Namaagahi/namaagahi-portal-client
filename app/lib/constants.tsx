@@ -208,7 +208,7 @@ export const projectList = [
         icon: <BiCode size={20} />,
       },
       {
-        name: "مشتریان قطعی",
+        name: "مشتریان",
         icon: <IoIosPeople size={20} />,
         path: "/dashboard/billboard/final-customers",
       },
