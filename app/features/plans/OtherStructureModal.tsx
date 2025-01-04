@@ -79,7 +79,7 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
       location: {
         address: data.address || "Default Address", // Ensure you set the address
         path: data.path || "Default Path", // Ensure you set the path
-        district: data.district || "Default district",
+        district: "1",
       },
       userId: currentUserId, // Ensure userId is provided
       name: data.name,
@@ -252,15 +252,6 @@ const OtherStructureModal: FC<IOtherStructureModalProps> = ({
     },
     {
       id: 7,
-      label: "منطقه",
-      name: "district",
-      type: "text",
-      message: " منطقه را وارد کنید",
-      required: true,
-      errors: errors.district?.message,
-    },
-    {
-      id: 8,
       label: "مسیر",
       name: "path",
       type: "text",
